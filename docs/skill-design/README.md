@@ -1,6 +1,6 @@
 # DDD skill-set design
 
-**Status: design phase.** This document set defines a future, portable DDD skill set. It does not contain executable skill files or a skill directory. The first release is intended to produce repository documentation under `docs/ddd/` and a concise chat summary; it must not edit product code.
+**Status: first executable MVP.** `ddd-discover` is implemented as the first portable skill slice; the remaining orchestrator and focused stages are still unimplemented. The MVP produces repository documentation under `docs/ddd/` and a concise chat summary; it must not edit product code.
 
 ## Design goals
 
@@ -24,4 +24,7 @@ This design does not choose a programming language, framework, deployment platfo
 
 ## First-release boundary
 
-A future implementation may create or update only the agreed modeling documents under `docs/ddd/`, preserving existing content and marking uncertainty. The `ddd` orchestrator owns routing/state only and passes exact stage names plus request/result bundles through the portable transition protocol; it never duplicates focused-stage work. A host that cannot activate a named stage returns the exact manual invocation and unchanged bundle. It must stop for material user decisions, missing evidence, conflicts, or unsafe file changes. Product source, tests, deployment configuration, and runtime behavior are outside this release.
+The `ddd-discover` MVP creates or updates only the discovery-owned modeling documents under `docs/ddd/`, preserving existing content and marking uncertainty. The future `ddd` orchestrator owns routing/state only and passes exact stage names plus request/result bundles through the portable transition protocol; it never duplicates focused-stage work. A host that cannot activate a named stage returns the exact manual invocation and unchanged bundle. It must stop for material user decisions, missing evidence, conflicts, or unsafe file changes. Product source, tests, deployment configuration, and runtime behavior are outside this release.
+
+- [Implemented MVP portability notes](portability.md)
+- [Implemented skill package](../../skills/ddd-discover/SKILL.md)
