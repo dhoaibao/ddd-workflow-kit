@@ -2,7 +2,7 @@
 
 ## Current status
 
-The repository has reviewed, committed focused MVP packages for `ddd-discover`, `ddd-strategic`, `ddd-tactical`, and `ddd-adoption`. The remaining executable stages are `ddd-review` and the routing-only `ddd` orchestrator. This roadmap plans those stages without creating their packages or claiming that they are implemented.
+The repository has reviewed, committed focused MVP packages for `ddd-discover`, `ddd-strategic`, `ddd-tactical`, `ddd-adoption`, and `ddd-review`. The only remaining executable stage is the routing-only `ddd` orchestrator. This roadmap plans that stage without creating its package or claiming that it is implemented.
 
 The roadmap is grounded in the [skill routing design](../skill-design/skills-and-routing.md), [workflow rules](../skill-design/workflows.md), [artifact contracts](../skill-design/artifact-contracts.md), [quality gates](../skill-design/quality-gates.md), and [portability notes](../skill-design/portability.md).
 
@@ -26,13 +26,13 @@ The [adoption plan](active/ddd-adoption.md) is implemented at [`skills/ddd-adopt
 
 **Exit criteria:** package validation, evaluation review, safe-update checks, and independent review pass; no migration or product-code edits occur. Phase 1 implementation and package checks are complete; live transition evaluation remains part of phase 4.
 
-### 2. Implement `ddd-review`
+### 2. Implement `ddd-review` — completed
 
-Use the [review plan](active/ddd-review.md). It must own `review.md`, apply fit/provenance/lifecycle/schema/vocabulary/strategic-to-tactical/adoption/cross-artifact gates, preserve disputed facts, and route stale work backward without silently repairing it.
+The [review plan](active/ddd-review.md) is implemented at [`skills/ddd-review/`](../../skills/ddd-review/SKILL.md). It owns `review.md`, applies fit/provenance/lifecycle/schema/vocabulary/strategic-to-tactical/adoption/cross-artifact gates, preserves disputed facts, and routes stale work backward without silently repairing it.
 
 **Dependencies:** the review scope and artifacts are identifiable; adoption implementation is not required for review cases that explicitly cover missing or partial adoption artifacts.
 
-**Exit criteria:** package validation, evaluation review, safe-update checks, and independent review pass; readiness is documented readiness only, never implementation approval.
+**Exit criteria:** package validation, evaluation review, safe-update checks, and independent review pass; readiness is documented readiness only, never implementation approval. Phase 2 implementation and package checks are complete; live transition evaluation remains part of phase 4.
 
 ### 3. Implement `ddd` last
 

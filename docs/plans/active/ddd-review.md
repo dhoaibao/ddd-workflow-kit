@@ -2,7 +2,7 @@
 
 ## Current status
 
-`ddd-review` is unimplemented. The design assigns it ownership of cross-artifact findings and `docs/ddd/review.md`; it validates documentation readiness but never silently repairs disputed facts or approves implementation.
+`ddd-review` is implemented at `skills/ddd-review/`. This document remains the design and acceptance reference for cross-artifact findings and `docs/ddd/review.md`; the package validates documentation readiness but never silently repairs disputed facts or approves implementation.
 
 ## Purpose and boundaries
 
@@ -21,9 +21,9 @@ Require identifiable review scope, requested acceptance criteria, and the availa
 
 If scope is not identifiable, stop with a bounded request. If an artifact is absent, report it; do not infer its contents.
 
-## Proposed portable package
+## Implemented portable package
 
-Create only after approval and implementation planning:
+The phase-2 implementation contains:
 
 - `skills/ddd-review/SKILL.md` — portable review instructions and result contract;
 - `skills/ddd-review/references/review-method.md` — gate application, finding classification, stale routing, and evidence rules;
@@ -103,4 +103,4 @@ Also run one-H1/rendered-local-link checks, package isolation, semantic finding-
 
 ## Non-goals
 
-This phase does not implement `ddd-review`, create a package, edit target-project artifacts, repair disputed facts, implement adoption or orchestration, approve product changes, or claim live host/model validation.
+The phase-2 implementation creates the portable `ddd-review` package but does not edit target-project artifacts, repair disputed facts, implement orchestration, approve product changes, or claim live host/model validation.

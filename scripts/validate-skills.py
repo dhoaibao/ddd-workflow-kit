@@ -33,11 +33,13 @@ STRATEGIC_ASSETS = {
 }
 TACTICAL_ASSETS = {"context-model-template.md"}
 ADOPTION_ASSETS = {"adoption-plan-template.md"}
+REVIEW_ASSETS = {"review-template.md"}
 PACKAGE_REQUIREMENTS = {
     "ddd-discover": {"assets": DISCOVERY_ASSETS, "minimum_evals": 6},
     "ddd-strategic": {"assets": STRATEGIC_ASSETS, "minimum_evals": 7},
     "ddd-tactical": {"assets": TACTICAL_ASSETS, "minimum_evals": 11},
     "ddd-adoption": {"assets": ADOPTION_ASSETS, "minimum_evals": 10},
+    "ddd-review": {"assets": REVIEW_ASSETS, "minimum_evals": 10},
 }
 TACTICAL_PREREQUISITE_STOP_CASES = {"missing-strategic-prerequisites", "select-one-context"}
 ADOPTION_CASE_CATEGORIES = {
@@ -61,6 +63,24 @@ ADOPTION_TEMPLATE_MARKERS = (
     "Dependencies/prerequisites", "Acceptance signal", "Ownership, dependencies, and decision points",
     "Brownfield baseline and safety", "Data, integration, privacy, and operational risks",
     "Rollback, recovery, or containment", "Forbidden actions", "`ddd-review`",
+)
+REVIEW_CASE_CATEGORIES = {
+    "fit", "provenance", "lifecycle/schema", "vocabulary", "strategic-to-tactical",
+    "adoption safety", "cross-artifact conflict/stale routing", "missing artifact", "ready", "docs-only",
+}
+REVIEW_SCOPE_FIELDS = {"review_scope", "requested_artifacts", "available_artifacts", "evidence", "acceptance_criteria", "allowed_paths", "return_to"}
+REVIEW_COMPLETE_FIELDS = REVIEW_SCOPE_FIELDS | {"artifact_summaries", "gate_results", "findings"}
+REVIEW_ARTIFACT_FIELDS = {"path", "status", "validation", "owner", "provenance"}
+REVIEW_FINDING_FIELDS = {"severity", "evidence", "provenance", "owner", "action", "status", "affected_artifact", "earliest_stage"}
+REVIEW_SEVERITIES = {"info", "follow-up", "blocked", "invalidated"}
+REVIEW_FINDING_STATUSES = {"open", "routed", "accepted", "resolved"}
+REVIEW_EARLIEST_STAGES = {"ddd-discover", "ddd-strategic", "ddd-tactical", "ddd-adoption", "ddd-review"}
+REVIEW_GATE_NAMES = {"fit", "provenance", "lifecycle_schema", "vocabulary", "strategic_tactical", "adoption_safety", "cross_artifact"}
+REVIEW_GATE_STATUSES = {"pass", "follow-up", "blocked", "not-applicable"}
+REVIEW_TEMPLATE_MARKERS = (
+    "`review`", "Review scope and objective", "Artifact inventory and validation summary",
+    "DDD fit and quality-gate results", "Findings by severity", "Stale and conflicting artifacts",
+    "Chat summary", "documentation readiness", "implementation, deployment, migration",
 )
 TACTICAL_REQUIRED_INPUT_FIELDS = {
     "purpose", "outcome", "vocabulary", "commands", "scenarios", "relationships",
@@ -312,6 +332,104 @@ def validate_adoption_contract(skill_root: Path) -> None:
         fail(f"{template}: adoption plan must constrain the owned target artifact to docs/ddd/adoption-plan.md")
 
 
+def validate_review_eval_inputs(skill_root: Path, cases: list[dict]) -> None:
+    if skill_root.name != "ddd-review":
+        return
+    categories = {case.get("category") for case in cases}
+    missing_categories = sorted(REVIEW_CASE_CATEGORIES - categories)
+    if missing_categories:
+        fail(f"{skill_root / 'evals' / 'evals.json'}: missing review evaluation categories: {', '.join(missing_categories)}")
+    for case in cases:
+        category = case.get("category")
+        payload = case["input"]
+        if not isinstance(category, str) or not category.strip():
+            fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} must name a review category")
+        missing_scope = sorted(REVIEW_SCOPE_FIELDS - payload.keys())
+        if missing_scope:
+            fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} missing review scope fields: {', '.join(missing_scope)}")
+        if not isinstance(payload["review_scope"], str) or not payload["review_scope"].strip():
+            fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} review_scope must be nonempty")
+        for field in ("requested_artifacts", "available_artifacts", "evidence", "acceptance_criteria", "allowed_paths"):
+            values = payload[field]
+            if not isinstance(values, list) or not all(isinstance(item, str) and item.strip() for item in values):
+                fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} field {field} must be a string list")
+        if payload["allowed_paths"] != ["docs/ddd/review.md"]:
+            fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} allowed_paths must contain only docs/ddd/review.md")
+        if payload.get("entry_status") not in {"complete", "incomplete"}:
+            fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} entry_status must be complete or incomplete")
+        if payload["entry_status"] == "complete":
+            missing = sorted(REVIEW_COMPLETE_FIELDS - payload.keys())
+            if missing:
+                fail(f"{skill_root / 'evals' / 'evals.json'}: complete case {case['id']} missing review fields: {', '.join(missing)}")
+            summaries = payload["artifact_summaries"]
+            if not isinstance(summaries, list) or not summaries:
+                fail(f"{skill_root / 'evals' / 'evals.json'}: complete case {case['id']} must include artifact_summaries")
+            for summary in summaries:
+                if not isinstance(summary, dict):
+                    fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} artifact summary must be an object")
+                missing_summary = sorted(REVIEW_ARTIFACT_FIELDS - summary.keys())
+                if missing_summary:
+                    fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} artifact summary missing: {', '.join(missing_summary)}")
+                if not all(isinstance(summary[field], str) and summary[field].strip() for field in REVIEW_ARTIFACT_FIELDS):
+                    fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} artifact summary fields must be nonempty strings")
+            gates = payload["gate_results"]
+            if not isinstance(gates, dict) or set(gates) != REVIEW_GATE_NAMES:
+                fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} gate_results must contain exactly the review gate names")
+            if not all(gates[name] in REVIEW_GATE_STATUSES for name in REVIEW_GATE_NAMES):
+                fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} gate_results contain an invalid status")
+        else:
+            missing_fields = payload.get("missing_fields")
+            if not isinstance(missing_fields, list) or not missing_fields or not all(isinstance(item, str) and item.strip() for item in missing_fields):
+                fail(f"{skill_root / 'evals' / 'evals.json'}: incomplete case {case['id']} must name missing_fields")
+        findings = payload.get("findings", [])
+        if not isinstance(findings, list):
+            fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} findings must be a list")
+        for finding in findings:
+            if not isinstance(finding, dict):
+                fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} finding must be an object")
+            missing_finding = sorted(REVIEW_FINDING_FIELDS - finding.keys())
+            if missing_finding:
+                fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} finding missing: {', '.join(missing_finding)}")
+            for field in REVIEW_FINDING_FIELDS - {"severity", "status", "earliest_stage"}:
+                if not isinstance(finding[field], str) or not finding[field].strip():
+                    fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} finding field {field} must be nonempty")
+            if finding["severity"] not in REVIEW_SEVERITIES:
+                fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} finding has invalid severity")
+            if finding["status"] not in REVIEW_FINDING_STATUSES:
+                fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} finding has invalid status")
+            if finding["earliest_stage"] not in REVIEW_EARLIEST_STAGES:
+                fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} finding has invalid earliest stage")
+    ready_cases = [case for case in cases if case.get("category") == "ready"]
+    if len(ready_cases) != 1:
+        fail(f"{skill_root / 'evals' / 'evals.json'}: expected exactly one ready case")
+    ready = ready_cases[0]
+    if ready["input"].get("entry_status") != "complete" or ready["input"].get("findings") != []:
+        fail(f"{skill_root / 'evals' / 'evals.json'}: ready case must have complete entry fields and no findings")
+    if not all(ready["input"]["gate_results"][name] == "pass" for name in REVIEW_GATE_NAMES):
+        fail(f"{skill_root / 'evals' / 'evals.json'}: ready case must pass every review gate")
+    stale_cases = [case for case in cases if case.get("category") == "cross-artifact conflict/stale routing"]
+    if len(stale_cases) != 1 or not isinstance(stale_cases[0]["input"].get("stale_routing"), dict):
+        fail(f"{skill_root / 'evals' / 'evals.json'}: stale-routing case must include stale_routing")
+    stale = stale_cases[0]["input"]["stale_routing"]
+    required_stale = {"affected_artifacts", "earliest_stage", "owner", "action", "evidence", "revisit_trigger"}
+    if required_stale - stale.keys() or stale["earliest_stage"] not in REVIEW_EARLIEST_STAGES or not isinstance(stale["affected_artifacts"], list) or not stale["affected_artifacts"]:
+        fail(f"{skill_root / 'evals' / 'evals.json'}: stale-routing case has incomplete earliest-stage routing")
+
+
+def validate_review_contract(skill_root: Path) -> None:
+    if skill_root.name != "ddd-review":
+        return
+    template = skill_root / "assets" / "review-template.md"
+    text = template.read_text(encoding="utf-8")
+    missing = [marker for marker in REVIEW_TEMPLATE_MARKERS if marker not in text]
+    if missing:
+        fail(f"{template}: review contract markers missing: {', '.join(missing)}")
+    if "docs/ddd/review.md" not in text:
+        fail(f"{template}: review must constrain the owned target artifact to docs/ddd/review.md")
+    if "Severity | Evidence | Provenance | Owner | Action | Status | Affected artifact | Earliest stage" not in text:
+        fail(f"{template}: finding table must expose the complete finding schema")
+
+
 def validate_tactical_contract(skill_root: Path) -> None:
     template = skill_root / "assets" / "context-model-template.md"
     if skill_root.name != "ddd-tactical" or not template.is_file():
@@ -356,6 +474,12 @@ def main() -> int:
             adoption_payload = json.loads(adoption_eval_path.read_text(encoding="utf-8"))
             validate_adoption_eval_inputs(adoption_root, adoption_payload["cases"])
             validate_adoption_contract(adoption_root)
+        review_eval_path = SKILLS_ROOT / "ddd-review" / "evals" / "evals.json"
+        if review_eval_path.is_file():
+            review_root = SKILLS_ROOT / "ddd-review"
+            review_payload = json.loads(review_eval_path.read_text(encoding="utf-8"))
+            validate_review_eval_inputs(review_root, review_payload["cases"])
+            validate_review_contract(review_root)
         validate_forbidden_runtime_references()
     except ValidationError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
