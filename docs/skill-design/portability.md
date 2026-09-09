@@ -4,13 +4,13 @@ This document records portability decisions for the executable focused slices. E
 
 ## Package contract
 
-Each executable package, currently `skills/ddd-discover/`, `skills/ddd-strategic/`, and `skills/ddd-tactical/`, has a required root `SKILL.md`, optional `references/` and `assets/` directories, and a package-local evaluation file under `evals/`. The skill name is lowercase, uses letters, numbers, and hyphens, and matches its directory name. Its description states both what the skill does and when to use it.
+Each executable package, currently `skills/ddd-discover/`, `skills/ddd-strategic/`, `skills/ddd-tactical/`, and `skills/ddd-adoption/`, has a required root `SKILL.md`, optional `references/` and `assets/` directories, and a package-local evaluation file under `evals/`. The skill name is lowercase, uses letters, numbers, and hyphens, and matches its directory name. Its description states both what the skill does and when to use it.
 
 The skill instructions do not depend on a particular host, command runner, language framework, model vendor, or activation mechanism. Relative links resolve from the package root. Reference documents remain one level below `references/` so a host can discover them without recursive package conventions.
 
 ## Activation and transitions
 
-A host may activate `ddd-discover`, `ddd-strategic`, or `ddd-tactical` directly when its trigger matches. Each skill receives a user goal or stage request, target scope, evidence boundary, permitted paths, and existing artifact context. It returns repository artifact changes plus a portable result bundle containing:
+A host may activate `ddd-discover`, `ddd-strategic`, `ddd-tactical`, or `ddd-adoption` directly when its trigger matches. Each skill receives a user goal or stage request, target scope, evidence boundary, permitted paths, and existing artifact context. It returns repository artifact changes plus a portable result bundle containing:
 
 - `stage`: the exact package name;
 - `status`: a stage-specific bounded result such as `complete`, `partial`, `blocked`, `not-fit-conflict`, or `strategic-conflict`;
@@ -27,7 +27,8 @@ The focused slices create or update only their owned strategic, tactical, or dis
 
 - discovery owns `assessment.md`, `domain-vision.md`, and initial language sections;
 - strategic owns `domain-map.md`, `context-map.md`, `contexts/<safe-slug>.md`, and strategic language/vision sections;
-- tactical owns `models/<validated-context-slug>.md` plus additive tactical sections in the selected context and language documents.
+- tactical owns `models/<validated-context-slug>.md` plus additive tactical sections in the selected context and language documents;
+- adoption owns `adoption-plan.md` and only its adoption-owned sections.
 
 Each preserves existing files, uses additive owned sections, records provenance and validation state, and asks before destructive or ambiguous updates. Tactical work does not alter context maps or strategic boundaries; boundary conflicts return to strategic design. No focused slice edits product source, tests, configuration, generated output, schemas, or deployment files.
 

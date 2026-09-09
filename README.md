@@ -8,7 +8,8 @@ This repository is a research and documentation workspace for building a reusabl
 - [ddd-discover skill](skills/ddd-discover/SKILL.md)
 - [ddd-strategic skill](skills/ddd-strategic/SKILL.md)
 - [ddd-tactical skill](skills/ddd-tactical/SKILL.md)
+- [ddd-adoption skill](skills/ddd-adoption/SKILL.md)
 - [Glossary](docs/foundation/glossary.md)
 - [References](docs/foundation/references.md)
 
-**The executable discovery, strategic, and tactical slices are included; implementation plans for the orchestrator, adoption, and review stages are documented, but those stages remain unimplemented.**
+**The executable discovery, strategic, tactical, and adoption slices are included; implementation plans for the orchestrator and review stages are documented, but those stages remain unimplemented.**

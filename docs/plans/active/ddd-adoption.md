@@ -2,7 +2,7 @@
 
 ## Current status
 
-`ddd-adoption` is unimplemented. The design assigns it ownership of practical sequencing after a bounded, evidence-backed modeling slice. The existing `ddd-discover`, `ddd-strategic`, and `ddd-tactical` packages may provide inputs, but this plan does not alter them.
+`ddd-adoption` is implemented at `skills/ddd-adoption/`. This document remains the design and acceptance reference for practical sequencing after a bounded, evidence-backed modeling slice. The existing `ddd-discover`, `ddd-strategic`, and `ddd-tactical` packages provide inputs, but the adoption package does not alter them.
 
 ## Purpose and boundaries
 
@@ -101,4 +101,4 @@ Also run the repository Markdown check for one H1 and resolving rendered local l
 
 ## Non-goals
 
-This phase does not implement `ddd-adoption`, create a package, edit `docs/ddd/`, execute a migration, edit product code, choose frameworks/databases/deployment, implement `ddd-review`, or implement `ddd`.
+The phase-1 implementation creates the portable `ddd-adoption` package but does not edit `docs/ddd/`, execute a migration, edit product code, choose frameworks/databases/deployment, implement `ddd-review`, or implement `ddd`.

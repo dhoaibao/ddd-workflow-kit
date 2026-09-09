@@ -32,12 +32,36 @@ STRATEGIC_ASSETS = {
     "ubiquitous-language-template.md",
 }
 TACTICAL_ASSETS = {"context-model-template.md"}
+ADOPTION_ASSETS = {"adoption-plan-template.md"}
 PACKAGE_REQUIREMENTS = {
     "ddd-discover": {"assets": DISCOVERY_ASSETS, "minimum_evals": 6},
     "ddd-strategic": {"assets": STRATEGIC_ASSETS, "minimum_evals": 7},
     "ddd-tactical": {"assets": TACTICAL_ASSETS, "minimum_evals": 11},
+    "ddd-adoption": {"assets": ADOPTION_ASSETS, "minimum_evals": 10},
 }
 TACTICAL_PREREQUISITE_STOP_CASES = {"missing-strategic-prerequisites", "select-one-context"}
+ADOPTION_CASE_CATEGORIES = {
+    "greenfield slice", "brownfield baseline", "missing rollback", "ownership gap",
+    "unsafe migration", "claim conflict", "partial modeling", "existing artifact",
+    "docs-only boundary", "review handoff",
+}
+ADOPTION_COMPLETE_FIELDS = {
+    "mode", "outcome", "first_slice", "artifacts", "evidence", "assumptions",
+    "open_questions", "owners", "dependencies", "allowed_paths", "return_to",
+}
+ADOPTION_NONEMPTY_LIST_FIELDS = {
+    "artifacts", "evidence", "assumptions", "open_questions", "owners", "dependencies", "allowed_paths",
+}
+ADOPTION_BROWNFIELD_FIELDS = {
+    "baseline", "seam", "characterization", "compatibility", "observability",
+    "data_reconciliation", "rollback_containment",
+}
+ADOPTION_TEMPLATE_MARKERS = (
+    "`adoption-plan`", "Mode and outcome", "First slice and ordered increments",
+    "Dependencies/prerequisites", "Acceptance signal", "Ownership, dependencies, and decision points",
+    "Brownfield baseline and safety", "Data, integration, privacy, and operational risks",
+    "Rollback, recovery, or containment", "Forbidden actions", "`ddd-review`",
+)
 TACTICAL_REQUIRED_INPUT_FIELDS = {
     "purpose", "outcome", "vocabulary", "commands", "scenarios", "relationships",
     "decision_owner", "evidence", "provenance", "assumptions", "open_questions",
@@ -224,6 +248,70 @@ def validate_tactical_eval_inputs(skill_root: Path, cases: list[dict]) -> None:
             fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} artifact_ownership must name model, context, and language owners")
 
 
+def validate_adoption_eval_inputs(skill_root: Path, cases: list[dict]) -> None:
+    if skill_root.name != "ddd-adoption":
+        return
+    categories = {case.get("category") for case in cases}
+    missing_categories = sorted(ADOPTION_CASE_CATEGORIES - categories)
+    if missing_categories:
+        fail(f"{skill_root / 'evals' / 'evals.json'}: missing adoption evaluation categories: {', '.join(missing_categories)}")
+    for case in cases:
+        category = case.get("category")
+        payload = case["input"]
+        if not isinstance(category, str) or not category.strip():
+            fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} must name an adoption category")
+        entry_status = payload.get("entry_status")
+        if entry_status not in {"complete", "incomplete"}:
+            fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} entry_status must be complete or incomplete")
+        if entry_status == "complete":
+            missing = sorted(ADOPTION_COMPLETE_FIELDS - payload.keys())
+            if missing:
+                fail(f"{skill_root / 'evals' / 'evals.json'}: complete case {case['id']} missing entry fields: {', '.join(missing)}")
+            if payload["mode"] not in {"greenfield", "brownfield"}:
+                fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} mode must be greenfield or brownfield")
+            for field in sorted(ADOPTION_NONEMPTY_LIST_FIELDS):
+                values = payload[field]
+                if not isinstance(values, list) or not values or not all(isinstance(item, str) and item.strip() for item in values):
+                    fail(f"{skill_root / 'evals' / 'evals.json'}: complete case {case['id']} field {field} must be a nonempty string list")
+            if payload["allowed_paths"] != ["docs/ddd/adoption-plan.md"]:
+                fail(f"{skill_root / 'evals' / 'evals.json'}: complete case {case['id']} allowed_paths must contain only docs/ddd/adoption-plan.md")
+            if payload["return_to"] not in {"ddd-tactical", "ddd-adoption"}:
+                fail(f"{skill_root / 'evals' / 'evals.json'}: complete case {case['id']} return_to must identify the prior stage or ddd-adoption")
+            if payload["mode"] == "brownfield":
+                brownfield = payload.get("brownfield")
+                if not isinstance(brownfield, dict):
+                    fail(f"{skill_root / 'evals' / 'evals.json'}: complete brownfield case {case['id']} must include brownfield safety fields")
+                missing_brownfield = sorted(ADOPTION_BROWNFIELD_FIELDS - brownfield.keys())
+                if missing_brownfield:
+                    fail(f"{skill_root / 'evals' / 'evals.json'}: brownfield case {case['id']} missing safety fields: {', '.join(missing_brownfield)}")
+                if not all(isinstance(brownfield[field], str) and brownfield[field].strip() for field in ADOPTION_BROWNFIELD_FIELDS):
+                    fail(f"{skill_root / 'evals' / 'evals.json'}: brownfield case {case['id']} safety fields must be nonempty strings")
+        else:
+            missing_fields = payload.get("missing_fields")
+            if not isinstance(missing_fields, list) or not missing_fields or not all(isinstance(item, str) and item.strip() for item in missing_fields):
+                fail(f"{skill_root / 'evals' / 'evals.json'}: incomplete case {case['id']} must name missing_fields")
+    review_cases = [case for case in cases if case.get("category") == "review handoff"]
+    if len(review_cases) != 1:
+        fail(f"{skill_root / 'evals' / 'evals.json'}: expected exactly one review handoff case")
+    review = review_cases[0]
+    if review["input"].get("entry_status") != "complete":
+        fail(f"{skill_root / 'evals' / 'evals.json'}: review handoff case must have complete entry fields")
+    if not any("exactly one" in outcome.lower() and "ddd-review" in outcome for outcome in review["expected_outcomes"]):
+        fail(f"{skill_root / 'evals' / 'evals.json'}: review handoff case must require exactly one ddd-review request")
+
+
+def validate_adoption_contract(skill_root: Path) -> None:
+    if skill_root.name != "ddd-adoption":
+        return
+    template = skill_root / "assets" / "adoption-plan-template.md"
+    text = template.read_text(encoding="utf-8")
+    missing = [marker for marker in ADOPTION_TEMPLATE_MARKERS if marker not in text]
+    if missing:
+        fail(f"{template}: adoption contract markers missing: {', '.join(missing)}")
+    if "docs/ddd/adoption-plan.md" not in text:
+        fail(f"{template}: adoption plan must constrain the owned target artifact to docs/ddd/adoption-plan.md")
+
+
 def validate_tactical_contract(skill_root: Path) -> None:
     template = skill_root / "assets" / "context-model-template.md"
     if skill_root.name != "ddd-tactical" or not template.is_file():
@@ -262,6 +350,12 @@ def main() -> int:
             tactical_payload = json.loads(tactical_eval_path.read_text(encoding="utf-8"))
             validate_tactical_eval_inputs(tactical_root, tactical_payload["cases"])
             validate_tactical_contract(tactical_root)
+        adoption_eval_path = SKILLS_ROOT / "ddd-adoption" / "evals" / "evals.json"
+        if adoption_eval_path.is_file():
+            adoption_root = SKILLS_ROOT / "ddd-adoption"
+            adoption_payload = json.loads(adoption_eval_path.read_text(encoding="utf-8"))
+            validate_adoption_eval_inputs(adoption_root, adoption_payload["cases"])
+            validate_adoption_contract(adoption_root)
         validate_forbidden_runtime_references()
     except ValidationError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)

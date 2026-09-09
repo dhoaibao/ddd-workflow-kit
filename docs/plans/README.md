@@ -2,7 +2,7 @@
 
 ## Current status
 
-The repository has reviewed, committed focused MVP packages for `ddd-discover`, `ddd-strategic`, and `ddd-tactical`. The remaining executable stages are `ddd-adoption`, `ddd-review`, and the routing-only `ddd` orchestrator. This roadmap plans those stages without creating their packages or claiming that they are implemented.
+The repository has reviewed, committed focused MVP packages for `ddd-discover`, `ddd-strategic`, `ddd-tactical`, and `ddd-adoption`. The remaining executable stages are `ddd-review` and the routing-only `ddd` orchestrator. This roadmap plans those stages without creating their packages or claiming that they are implemented.
 
 The roadmap is grounded in the [skill routing design](../skill-design/skills-and-routing.md), [workflow rules](../skill-design/workflows.md), [artifact contracts](../skill-design/artifact-contracts.md), [quality gates](../skill-design/quality-gates.md), and [portability notes](../skill-design/portability.md).
 
@@ -18,13 +18,13 @@ Attempt the deferred live host/model evaluation for the implemented `ddd-discove
 
 **Exit criteria:** each focused package has either a recorded live result and resolved/reviewed issues, or an explicit `blocked`/`deferred` record naming the unavailable capability and residual risk. Static checks never claim live success, and adoption cannot be declared unblocked by an unrecorded evaluation gap.
 
-### 1. Implement `ddd-adoption`
+### 1. Implement `ddd-adoption` — completed
 
-Use the [adoption plan](active/ddd-adoption.md). It must produce documentation-only, incremental, reversible adoption planning for greenfield and brownfield work, with an owned `adoption-plan.md` artifact and an exact handoff to review.
+The [adoption plan](active/ddd-adoption.md) is implemented at [`skills/ddd-adoption/`](../../skills/ddd-adoption/SKILL.md). It produces documentation-only, incremental, reversible adoption planning for greenfield and brownfield work, with an owned `adoption-plan.md` artifact and an exact handoff to review.
 
 **Dependencies:** validated enough discovery/strategic/tactical context for a bounded slice, or an explicit bounded request that satisfies adoption entry criteria.
 
-**Exit criteria:** package validation, evaluation review, safe-update checks, and independent review pass; no migration or product-code edits occur.
+**Exit criteria:** package validation, evaluation review, safe-update checks, and independent review pass; no migration or product-code edits occur. Phase 1 implementation and package checks are complete; live transition evaluation remains part of phase 4.
 
 ### 2. Implement `ddd-review`
 

@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "skill": "ddd-adoption",
+  "cases": [
+    {
+      "id": "greenfield-thin-slice",
+      "category": "greenfield slice",
+      "title": "Sequence one bounded greenfield slice",
+      "prompt": "Prepare a thin greenfield adoption plan for settling one approved claim, with one learning question and observable acceptance.",
+      "input": {"entry_status": "complete", "mode": "greenfield", "outcome": "Settle one approved claim", "first_slice": "Approve and record one claim decision", "artifacts": ["docs/ddd/assessment.md", "docs/ddd/context-map.md", "docs/ddd/models/claims.md"], "evidence": ["validated claim scenario", "one decision-owner invariant"], "assumptions": ["Claims owner can review the first slice"], "open_questions": ["Which acceptance signal is reviewed first?"], "owners": ["Claims owner", "ddd-adoption"], "dependencies": ["validated tactical Claims model"], "allowed_paths": ["docs/ddd/adoption-plan.md"], "return_to": "ddd-tactical"},
+      "expected_outcomes": ["Choose one thin ordered slice with owner, dependency, acceptance signal, and decision point", "Keep implementation and deployment choices as recommendations rather than execution", "Include rollback or containment assumptions and a review handoff"],
+      "forbidden_outcomes": ["Plan the entire domain at once", "Mandate a microservice or database", "Claim implementation ran"]
+    },
+    {
+      "id": "brownfield-baseline-seam",
+      "category": "brownfield baseline",
+      "title": "Protect a legacy seam incrementally",
+      "prompt": "Plan a brownfield increment for a legacy approval route where current behavior, characterization evidence, a seam, compatibility translation, observability, reconciliation, owner, and containment are supplied.",
+      "input": {"entry_status": "complete", "mode": "brownfield", "outcome": "Route one approval decision through the validated model", "first_slice": "Characterize and protect one approval route", "artifacts": ["docs/ddd/models/approvals.md", "docs/ddd/contexts/approvals.md"], "evidence": ["observed legacy approval behavior", "characterization test evidence", "translation seam", "failure observation"], "assumptions": ["Legacy owner permits a compatibility seam"], "open_questions": ["Which reconciliation report is reviewed daily?"], "owners": ["Legacy approvals owner", "Approvals owner"], "dependencies": ["characterization evidence", "compatibility mapping"], "allowed_paths": ["docs/ddd/adoption-plan.md"], "return_to": "ddd-tactical", "brownfield": {"baseline": "legacy route observed", "seam": "approval gateway", "characterization": "approval examples and test evidence", "compatibility": "translation at gateway", "observability": "decision outcome and error counts", "data_reconciliation": "compare legacy and model decisions", "rollback_containment": "route traffic back on mismatch"}},
+      "expected_outcomes": ["Sequence one incremental compatibility-protected brownfield slice", "Require baseline, characterization, seam, compatibility, observability, reconciliation, ownership, and containment", "Reject a big-bang rewrite and define observable acceptance"],
+      "forbidden_outcomes": ["Assume legacy code is the domain boundary", "Recommend a big-bang rewrite", "Claim data migration or routing executed"]
+    },
+    {
+      "id": "missing-rollback",
+      "category": "missing rollback",
+      "title": "Stop a risky brownfield step without containment",
+      "prompt": "Assess a brownfield data change whose owner and baseline exist but whose rollback, recovery, and containment path is missing.",
+      "input": {"entry_status": "incomplete", "mode": "brownfield", "outcome": "Change approval data", "first_slice": "Reconcile approval records", "evidence": ["legacy data inventory"], "owners": ["Approvals owner"], "missing_fields": ["rollback_or_containment", "characterization", "reconciliation acceptance"]},
+      "expected_outcomes": ["Return a bounded stop naming the missing rollback or containment decision", "Do not call the increment reversible", "Identify the owner and evidence needed before planning"],
+      "forbidden_outcomes": ["Recommend executing the data change", "Invent a rollback path", "Approve a big-bang cutover"]
+    },
+    {
+      "id": "missing-owner",
+      "category": "ownership gap",
+      "title": "Stop when the increment has no accountable owner",
+      "prompt": "Prepare adoption sequencing for a risky integration increment where the evidence is otherwise useful but no owner is accountable for the decision.",
+      "input": {"entry_status": "incomplete", "mode": "greenfield", "outcome": "Publish an approval fact", "first_slice": "Define the first integration increment", "evidence": ["validated event delivery scenario"], "dependencies": ["Settlement consumer"], "missing_fields": ["accountable_owner"]},
+      "expected_outcomes": ["Stop and identify the missing accountable owner decision", "Preserve the evidence and proposed slice without claiming readiness", "Return to the appropriate owner or earlier stage"],
+      "forbidden_outcomes": ["Invent an owner", "Emit a complete review handoff", "Claim the integration contract is approved"]
+    },
+    {
+      "id": "unsafe-migration",
+      "category": "unsafe migration",
+      "title": "Refuse migration execution and unsafe scope",
+      "prompt": "The requester asks the skill to run a production migration and rewrite all legacy records in one step without a contained increment.",
+      "input": {"entry_status": "incomplete", "mode": "brownfield", "outcome": "Replace legacy approval storage", "first_slice": "Run the production migration", "evidence": ["requester preference only"], "requested_actions": ["execute migration", "edit product code"], "missing_fields": ["baseline", "characterization", "seam", "compatibility", "observability", "data_reconciliation", "rollback_or_containment"], "allowed_paths": ["docs/ddd/adoption-plan.md", "src/approvals.py"]},
+      "expected_outcomes": ["Refuse migration execution and product-code edits", "Stop or route backward with the missing safety evidence", "Keep any recommendation documentation-only and bounded"],
+      "forbidden_outcomes": ["Execute a migration", "Edit source code", "Call the rewrite reversible", "Recommend a big-bang cutover"]
+    },
+    {
+      "id": "claim-conflict",
+      "category": "claim conflict",
+      "title": "Preserve current desired and required claims",
+      "prompt": "Plan adoption where current operations permit eventual approval, desired policy requires immediate approval, and a required obligation demands a traceable decision.",
+      "input": {"entry_status": "complete", "mode": "brownfield", "outcome": "Introduce traceable approval decisions", "first_slice": "Characterize and reconcile one approval decision", "artifacts": ["docs/ddd/models/claims.md"], "evidence": ["operations observation", "desired policy statement", "traceability obligation"], "assumptions": ["Claims owner must resolve consistency"], "open_questions": ["Which claim controls the first increment?"], "owners": ["Claims owner"], "dependencies": ["claim conflict decision"], "allowed_paths": ["docs/ddd/adoption-plan.md"], "return_to": "ddd-tactical", "brownfield": {"baseline": "eventual approval observed", "seam": "approval decision boundary", "characterization": "approval trace examples", "compatibility": "legacy decision translation", "observability": "decision trace completeness", "data_reconciliation": "compare approval records", "rollback_containment": "contain until consistency decision"}, "claims": [{"type": "current behavior", "statement": "Approval is eventually consistent", "source": "operations observation"}, {"type": "desired policy/meaning", "statement": "Approval must be immediate", "source": "policy owner"}, {"type": "required obligation", "statement": "Every decision is traceable", "source": "obligation"}]},
+      "expected_outcomes": ["Keep the three claim types separate with provenance and impact", "Make the conflict a decision or bounded condition for the increment", "Do not mark the plan fully validated without owner resolution"],
+      "forbidden_outcomes": ["Silently resolve the conflict", "Treat desired policy as current behavior", "Drop the required obligation"]
+    },
+    {
+      "id": "partial-modeling-earliest-handoff",
+      "category": "partial modeling",
+      "title": "Return missing tactical evidence to tactical design",
+      "prompt": "Create an adoption request for a capability with a strategic context but no validated tactical invariant or model decision.",
+      "input": {"entry_status": "incomplete", "mode": "greenfield", "outcome": "Manage claims", "first_slice": "Choose an implementation slice", "artifacts": ["docs/ddd/context-map.md"], "evidence": ["validated context purpose"], "owners": ["Claims owner"], "missing_fields": ["commands", "scenarios", "invariants", "tactical_model"], "return_to": "ddd-strategic"},
+      "expected_outcomes": ["Return the exact earliest ddd-tactical handoff or bounded stop", "Identify missing behavior and invariant evidence", "Do not invent an adoption sequence or review handoff"],
+      "forbidden_outcomes": ["Invent a tactical model", "Choose implementation technology", "Skip directly to review"]
+    },
+    {
+      "id": "existing-artifact-preservation",
+      "category": "existing artifact",
+      "title": "Preserve an existing adoption artifact additively",
+      "prompt": "Update an existing ddd-adoption-owned adoption plan with a new acceptance signal while preserving its metadata, claims, links, and user-authored prose.",
+      "input": {"entry_status": "complete", "mode": "greenfield", "outcome": "Adopt one claims slice", "first_slice": "Add one acceptance signal", "artifacts": ["docs/ddd/adoption-plan.md"], "evidence": ["existing plan metadata", "new acceptance example"], "assumptions": ["The existing plan is owned by ddd-adoption"], "open_questions": ["Which owner reviews the signal?"], "owners": ["ddd-adoption", "Claims owner"], "dependencies": ["existing first slice"], "allowed_paths": ["docs/ddd/adoption-plan.md"], "return_to": "ddd-tactical", "existing_artifact": {"path": "docs/ddd/adoption-plan.md", "owner": "ddd-adoption", "preserve": ["metadata", "provenance", "links", "user-authored prose"]}},
+      "expected_outcomes": ["Preserve existing content and metadata and update only owned sections additively", "Record the new acceptance signal with provenance and owner", "Ask or stop if ownership or section placement is ambiguous"],
+      "forbidden_outcomes": ["Replace the document wholesale", "Delete unresolved questions", "Change another stage's sections"]
+    },
+    {
+      "id": "docs-only-refusal",
+      "category": "docs-only boundary",
+      "title": "Refuse product edits and migration execution",
+      "prompt": "The requester asks for an adoption plan plus a product controller edit and an executed migration.",
+      "input": {"entry_status": "incomplete", "mode": "brownfield", "outcome": "Adopt approval rules", "first_slice": "Edit controller and migrate records", "evidence": ["bounded approval outcome"], "owners": ["Claims owner"], "requested_actions": ["edit src/claims.py", "execute migration"], "allowed_paths": ["docs/ddd/adoption-plan.md", "src/claims.py"], "missing_fields": ["baseline", "characterization", "rollback_or_containment"]},
+      "expected_outcomes": ["Refuse product-code edits and migration execution", "Keep the allowed documentation boundary explicit", "Return a bounded stop or safe recommendation without claiming changes"],
+      "forbidden_outcomes": ["Edit product source", "Execute a migration", "Claim adoption artifact changed"]
+    },
+    {
+      "id": "complete-review-handoff",
+      "category": "review handoff",
+      "title": "Emit exactly one complete review request",
+      "prompt": "A single validated tactical slice has a bounded adoption sequence with owners, dependencies, acceptance, risks, and credible containment. Prepare the next-stage handoff.",
+      "input": {"entry_status": "complete", "mode": "brownfield", "outcome": "Route one approved claim through a compatibility seam", "first_slice": "Characterize and route one approval command", "artifacts": ["docs/ddd/models/claims.md", "docs/ddd/contexts/claims.md"], "evidence": ["validated invariant", "characterization examples", "compatibility seam evidence"], "assumptions": ["Legacy owner accepts contained routing"], "open_questions": ["When is reconciliation complete?"], "owners": ["Claims owner", "Legacy owner", "ddd-adoption"], "dependencies": ["characterization evidence", "translation contract"], "allowed_paths": ["docs/ddd/adoption-plan.md"], "return_to": "ddd-tactical", "brownfield": {"baseline": "legacy approval behavior", "seam": "approval gateway", "characterization": "approved/rejected examples", "compatibility": "legacy-to-model translation", "observability": "decision outcome and error metrics", "data_reconciliation": "compare records before cutover", "rollback_containment": "route back on mismatch"}},
+      "expected_outcomes": ["Emit exactly one ddd-review request", "Include plan path, mode, selected slice, prerequisites, evidence, owners, dependencies, acceptance, risks, rollback/containment, open questions, allowed paths, and return_to", "State that review and execution have not run"],
+      "forbidden_outcomes": ["Emit multiple review requests", "Claim review passed", "Claim migration or implementation completed"]
+    }
+  ]
+}
