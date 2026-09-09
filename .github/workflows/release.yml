@@ -1,0 +1,38 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+env:
+  VERSION_FILE: VERSION
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Check tag matches VERSION
+        run: test "$GITHUB_REF_NAME" = "v$(awk 'NF {print $1; exit}' "$VERSION_FILE")"
+      - name: Check shell syntax
+        run: bash -n install.sh scripts/build-release.sh scripts/test-installer.sh
+      - name: Validate repository
+        run: python3 scripts/validate-skills.py
+      - name: Run installer integration tests
+        run: bash scripts/test-installer.sh
+      - name: Build skills-only bundle
+        run: bash scripts/build-release.sh dist
+      - name: Publish release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          dist/ddd-workflow-kit.tar.gz
+          dist/ddd-workflow-kit.tar.gz.sha256
+          --title "DDD Workflow Kit $GITHUB_REF_NAME"
+          --generate-notes

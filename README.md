@@ -27,6 +27,38 @@ Each stage can also be invoked directly when its entry criteria and evidence are
 - **Documentation-only operation:** the suite does not edit product source, tests, schemas, configuration, generated output, deployment files, migrations, or runtime behavior.
 - **Review scope:** a `ready` review means documentation readiness for the stated scope only. It is not implementation, deployment, migration, data-cutover, or release approval.
 
+## Install with curl
+
+The first-phase installer supports Linux and macOS with Bash 3.2 or newer. It installs a versioned shared cache at `~/.ddd-workflow-kit/skills` and creates symlinks in the selected agent skill directory; it does not clone this repository or modify shell profiles.
+
+Interactive installation (prompts through `/dev/tty`):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/dhoaibao/ddd-workflow-kit/main/install.sh | bash
+```
+
+For automation, provide one or more agents and a scope. The supported agent names are `claude`, `codex`, `opencode`, `antigravity`, and `pi`:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/dhoaibao/ddd-workflow-kit/main/install.sh | \\
+  bash -s -- --agent claude,codex --global
+curl -fsSL https://raw.githubusercontent.com/dhoaibao/ddd-workflow-kit/main/install.sh | \\
+  bash -s -- --agent pi --project "/path/to/project"
+# Omit the project argument to use the current directory.
+curl -fsSL https://raw.githubusercontent.com/dhoaibao/ddd-workflow-kit/main/install.sh | \\
+  bash -s -- --agent pi --project
+```
+
+`--path /some/skills-directory` registers one explicit destination. `--project` defaults to the current directory when its path is omitted. Existing unmanaged files and repointed symlinks are never overwritten. Every release archive is checksum-verified before extraction.
+
+After installation, use the local manager to refresh every registered global, project, or explicit destination:
+
+```bash
+~/.ddd-workflow-kit/bin/ddd-workflow-kit update
+```
+
+The manager also accepts `install` for a new selection. Release assets are stable names: `ddd-workflow-kit.tar.gz` and `ddd-workflow-kit.tar.gz.sha256`.
+
 ## Use a package
 
 Read or copy the package directory according to the host's skill-loading mechanism. Start with its `SKILL.md`; package-local references and assets use relative links and are intended to travel with that package. Invoke the canonical `ddd` orchestrator for a broad workflow request, or invoke a focused package directly when its entry criteria are already met. Do not assume an installation command, host integration, or compatibility guarantee that the host does not provide.
