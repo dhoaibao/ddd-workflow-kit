@@ -1,0 +1,154 @@
+STATUS
+
+`complete`
+
+RESULT
+
+A bounded brownfield adoption sequence is qualified for the next stage.
+
+- **Mode:** brownfield
+- **Target outcome:** Route one approved claim through a compatibility seam.
+- **Selected first slice:** Characterize and route one approval command.
+- **Plan artifact:** `docs/ddd/adoption-plan.md` would be the sole adoption-owned artifact, but no file was written in this text-only evaluation.
+- **Sequence:**
+  1. Confirm the approval gateway seam and preserve the legacy approval baseline.
+  2. Use approved/rejected examples to characterize current behavior before routing.
+  3. Confirm the validated invariant and the legacy-to-model translation contract.
+  4. Route one approval command through the compatibility seam.
+  5. Observe decision outcomes and errors, compare records before cutover, and route back to legacy on mismatch.
+  6. Review reconciliation completion and decide whether the bounded slice is acceptable for further adoption.
+- **Owners:** Claims owner, Legacy owner, and `ddd-adoption`.
+- **Dependencies:** Characterization evidence and the translation contract.
+- **Acceptance signals:** Characterized approved/rejected behavior remains consistent; decision outcome and error metrics show no unexplained regression; records compare successfully before cutover; mismatches trigger containment.
+- **Risks:** Legacy/target semantic mismatch, incomplete reconciliation, integration or routing errors, and unclear reconciliation completion criteria.
+- **Containment:** Route back through the legacy path on mismatch. This is containment for the selected route and does not establish reversibility of a broader data cutover.
+- **Forbidden outcomes explicitly avoided:** No migration, cutover, product-code or test change, configuration/schema/deployment change, runtime execution, framework or topology mandate, big-bang rewrite, or claim that review or adoption execution has already occurred. No artifact change is claimed.
+
+EVIDENCE
+
+- **Fact/current behavior:** The brownfield baseline is legacy approval behavior. Source: supplied case input. Owner: Legacy owner. Scenario: existing approval decisions. Impact: defines the behavior that must be preserved during the first route.
+- **Fact/characterization evidence:** Approved/rejected examples exist. Source: supplied case input. Owner: Claims owner and Legacy owner. Scenario: approval command behavior. Impact: supports pre-change characterization.
+- **Fact/compatibility evidence:** The approval gateway is the seam, with a legacy-to-model translation. Source: supplied case input. Owner: Claims owner and Legacy owner. Scenario: routing one approval command. Impact: constrains the compatibility increment.
+- **Required obligation:** Preserve the validated invariant while routing the selected command. Source: supplied case input. Owner: Claims owner. Scenario: routed approval decision. Impact: acceptance criterion for the slice.
+- **Proposal:** Route one approval command through the compatibility seam after characterization. Source: adoption plan recommendation based on the bounded input. Owner: Claims owner and Legacy owner. Validation: pending `ddd-review`.
+- **Proposal:** Compare records before cutover and monitor decision outcomes and errors. Source: supplied case input. Owner: Claims owner and Legacy owner. Validation: pending review.
+- **Assumption:** The Legacy owner accepts contained routing. Source: supplied case input. Owner: Legacy owner. Validation: must remain confirmed before execution.
+- **Open evidence gap:** The condition for declaring reconciliation complete is not yet defined.
+
+HANDOFF_OR_STOP
+
+`ddd-review`
+
+```json
+{
+  "plan_path": "docs/ddd/adoption-plan.md",
+  "mode": "brownfield",
+  "selected_slice": "Characterize and route one approval command",
+  "outcome": "Route one approved claim through a compatibility seam",
+  "prerequisites": [
+    "Validated invariant",
+    "Approved/rejected characterization examples",
+    "Approval gateway seam evidence",
+    "Legacy-to-model translation contract",
+    "Legacy owner acceptance of contained routing"
+  ],
+  "evidence": [
+    {
+      "claim_type": "current_behavior",
+      "claim": "Legacy approval behavior is the baseline",
+      "source": "case input",
+      "owner": "Legacy owner",
+      "scenario": "Existing approval decisions"
+    },
+    {
+      "claim_type": "fact",
+      "claim": "Approved/rejected characterization examples are available",
+      "source": "case input",
+      "owner": "Claims owner and Legacy owner",
+      "scenario": "Approval command behavior"
+    },
+    {
+      "claim_type": "fact",
+      "claim": "The approval gateway is a compatibility seam with legacy-to-model translation",
+      "source": "case input",
+      "owner": "Claims owner and Legacy owner",
+      "scenario": "Routing one approval command"
+    },
+    {
+      "claim_type": "required_obligation",
+      "claim": "The validated invariant must remain satisfied",
+      "source": "case input",
+      "owner": "Claims owner",
+      "scenario": "Routed approval decision"
+    }
+  ],
+  "dependencies": [
+    "Characterization evidence",
+    "Translation contract"
+  ],
+  "owners": [
+    "Claims owner",
+    "Legacy owner",
+    "ddd-adoption"
+  ],
+  "acceptance_signals": [
+    "Approved/rejected behavior remains consistent with the characterized baseline",
+    "Decision outcome and error metrics show no unexplained regression",
+    "Records are compared before cutover",
+    "A mismatch routes the request back to the legacy path"
+  ],
+  "risks": [
+    "Legacy-to-model semantic mismatch",
+    "Incomplete or disputed reconciliation",
+    "Routing or integration failure",
+    "Unclear definition of reconciliation completion"
+  ],
+  "rollback_containment": {
+    "mechanism": "Route back to the legacy path on mismatch",
+    "scope": "One approval command through the approval gateway",
+    "limits": "Does not establish reversibility for a broader data cutover"
+  },
+  "open_questions": [
+    "When is reconciliation complete?"
+  ],
+  "allowed_paths": [
+    "docs/ddd/adoption-plan.md"
+  ],
+  "return_to": "ddd-tactical"
+}
+```
+
+Review has not run; this is only the portable handoff request.
+
+CHANGED_ARTIFACTS
+
+```json
+[]
+```
+
+No artifact was read or written, and no change to `docs/ddd/adoption-plan.md` is claimed.
+
+INVALIDATED_STAGES
+
+```json
+[]
+```
+
+No adoption constraint invalidates the supplied tactical modeling assumptions. The unresolved reconciliation-completion question remains an adoption review question, not a reason to silently infer a decision.
+
+OPEN_QUESTIONS
+
+- When is reconciliation complete?
+- Who records and approves the reconciliation-completion decision before any broader routing increment?
+- What exact mismatch threshold or condition triggers containment?
+
+BOUNDARY_CHECKS
+
+- Documentation-only adoption planning was respected.
+- The only permitted target artifact is `docs/ddd/adoption-plan.md`; no file operation was performed.
+- No product source, tests, configuration, schemas, generated output, deployment files, or runtime behavior were changed.
+- Current behavior, required invariant, proposals, and assumptions were kept distinct.
+- Brownfield prerequisites—baseline, characterization, seam, compatibility, observability, data reconciliation, ownership, and containment—were represented.
+- No big-bang migration or unsupported reversibility claim was proposed.
+- Exactly one next-stage `ddd-review` handoff was returned.
+

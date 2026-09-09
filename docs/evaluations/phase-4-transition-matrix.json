@@ -1,0 +1,1230 @@
+{
+  "schema_version": 1,
+  "kind": "phase-4-transition-matrix",
+  "generated_from": "ddd-routing-v1 package contracts and ddd/evals/evals.json fixtures",
+  "canonical_stage_order": [
+    "ddd-discover",
+    "ddd-strategic",
+    "ddd-tactical",
+    "ddd-adoption",
+    "ddd-review"
+  ],
+  "preserved_fields": [
+    "evidence",
+    "claims",
+    "provenance",
+    "assumptions",
+    "open_questions",
+    "artifacts",
+    "allowed_paths"
+  ],
+  "artifact_record_schema": {
+    "required_fields": [
+      "path",
+      "lifecycle",
+      "validation",
+      "availability"
+    ],
+    "lifecycles": [
+      "draft",
+      "active",
+      "superseded",
+      "archived",
+      "none"
+    ],
+    "validations": [
+      "unvalidated",
+      "partially-validated",
+      "validated",
+      "stale",
+      "not-applicable"
+    ],
+    "availabilities": [
+      "available",
+      "missing",
+      "partial",
+      "out-of-scope",
+      "none"
+    ]
+  },
+  "fixtures": [
+    {
+      "id": "direct-tactical-invocation",
+      "category": "focused direct invocation",
+      "request": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-tactical",
+        "objective": "model Claims approval",
+        "scope": "Claims approval",
+        "artifacts": [
+          {
+            "path": "docs/ddd/models/claims.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "entry_validated": true,
+      "expected": {
+        "stage": "ddd-tactical",
+        "restart_stage": false,
+        "modeling_by_orchestrator": false
+      }
+    },
+    {
+      "id": "discover-to-strategic",
+      "category": "discover→strategic",
+      "request": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-discover",
+        "objective": "map approval contexts",
+        "scope": "approval slice",
+        "artifacts": [
+          {
+            "path": "docs/ddd/assessment.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "result": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-discover",
+        "status": "complete",
+        "changed_artifacts": [],
+        "findings": [],
+        "handoff": {
+          "version": "ddd-routing-v1",
+          "stage": "ddd-strategic",
+          "objective": "map approval contexts next",
+          "scope": "approval slice",
+          "artifacts": [
+            {
+              "path": "docs/ddd/assessment.md",
+              "lifecycle": "active",
+              "validation": "validated",
+              "availability": "available"
+            }
+          ],
+          "evidence": [
+            "validated transition evidence"
+          ],
+          "claims": [
+            "fact: bounded transition fixture"
+          ],
+          "provenance": [
+            "phase-4 transition fixture"
+          ],
+          "assumptions": [
+            "owner confirmation remains explicit"
+          ],
+          "open_questions": [
+            "next-stage acceptance"
+          ],
+          "allowed_paths": [
+            "docs/ddd/"
+          ],
+          "return_to": "ddd"
+        },
+        "stop": "none",
+        "invalidated_stages": [],
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "next_request": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-strategic",
+        "objective": "map approval contexts next",
+        "scope": "approval slice",
+        "artifacts": [
+          {
+            "path": "docs/ddd/assessment.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "preserved_fields": [
+        "evidence",
+        "claims",
+        "provenance",
+        "assumptions",
+        "open_questions",
+        "artifacts",
+        "allowed_paths"
+      ],
+      "preservation_assertions": {
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "artifacts": [
+          {
+            "path": "docs/ddd/assessment.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ]
+      },
+      "expected": {
+        "next_stage": "ddd-strategic",
+        "one_request": true,
+        "preserve_fields": [
+          "evidence",
+          "claims",
+          "provenance",
+          "assumptions",
+          "open_questions",
+          "artifacts",
+          "allowed_paths"
+        ]
+      }
+    },
+    {
+      "id": "strategic-to-tactical",
+      "category": "strategic→tactical",
+      "request": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-strategic",
+        "objective": "model Claims approval",
+        "scope": "Claims context",
+        "artifacts": [
+          {
+            "path": "docs/ddd/context-map.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "result": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-strategic",
+        "status": "complete",
+        "changed_artifacts": [],
+        "findings": [],
+        "handoff": {
+          "version": "ddd-routing-v1",
+          "stage": "ddd-tactical",
+          "objective": "model Claims approval next",
+          "scope": "Claims context",
+          "artifacts": [
+            {
+              "path": "docs/ddd/context-map.md",
+              "lifecycle": "active",
+              "validation": "validated",
+              "availability": "available"
+            }
+          ],
+          "evidence": [
+            "validated transition evidence"
+          ],
+          "claims": [
+            "fact: bounded transition fixture"
+          ],
+          "provenance": [
+            "phase-4 transition fixture"
+          ],
+          "assumptions": [
+            "owner confirmation remains explicit"
+          ],
+          "open_questions": [
+            "next-stage acceptance"
+          ],
+          "allowed_paths": [
+            "docs/ddd/"
+          ],
+          "return_to": "ddd"
+        },
+        "stop": "none",
+        "invalidated_stages": [],
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "next_request": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-tactical",
+        "objective": "model Claims approval next",
+        "scope": "Claims context",
+        "artifacts": [
+          {
+            "path": "docs/ddd/context-map.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "preserved_fields": [
+        "evidence",
+        "claims",
+        "provenance",
+        "assumptions",
+        "open_questions",
+        "artifacts",
+        "allowed_paths"
+      ],
+      "preservation_assertions": {
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "artifacts": [
+          {
+            "path": "docs/ddd/context-map.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ]
+      },
+      "expected": {
+        "next_stage": "ddd-tactical",
+        "one_request": true,
+        "preserve_fields": [
+          "evidence",
+          "claims",
+          "provenance",
+          "assumptions",
+          "open_questions",
+          "artifacts",
+          "allowed_paths"
+        ]
+      }
+    },
+    {
+      "id": "tactical-to-adoption",
+      "category": "tactical→adoption",
+      "request": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-tactical",
+        "objective": "plan one approval increment",
+        "scope": "Claims approval",
+        "artifacts": [
+          {
+            "path": "docs/ddd/models/claims.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "result": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-tactical",
+        "status": "complete",
+        "changed_artifacts": [],
+        "findings": [],
+        "handoff": {
+          "version": "ddd-routing-v1",
+          "stage": "ddd-adoption",
+          "objective": "plan one approval increment next",
+          "scope": "Claims approval",
+          "artifacts": [
+            {
+              "path": "docs/ddd/models/claims.md",
+              "lifecycle": "active",
+              "validation": "validated",
+              "availability": "available"
+            }
+          ],
+          "evidence": [
+            "validated transition evidence"
+          ],
+          "claims": [
+            "fact: bounded transition fixture"
+          ],
+          "provenance": [
+            "phase-4 transition fixture"
+          ],
+          "assumptions": [
+            "owner confirmation remains explicit"
+          ],
+          "open_questions": [
+            "next-stage acceptance"
+          ],
+          "allowed_paths": [
+            "docs/ddd/"
+          ],
+          "return_to": "ddd"
+        },
+        "stop": "none",
+        "invalidated_stages": [],
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "next_request": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-adoption",
+        "objective": "plan one approval increment next",
+        "scope": "Claims approval",
+        "artifacts": [
+          {
+            "path": "docs/ddd/models/claims.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "preserved_fields": [
+        "evidence",
+        "claims",
+        "provenance",
+        "assumptions",
+        "open_questions",
+        "artifacts",
+        "allowed_paths"
+      ],
+      "preservation_assertions": {
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "artifacts": [
+          {
+            "path": "docs/ddd/models/claims.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ]
+      },
+      "expected": {
+        "next_stage": "ddd-adoption",
+        "one_request": true,
+        "preserve_fields": [
+          "evidence",
+          "claims",
+          "provenance",
+          "assumptions",
+          "open_questions",
+          "artifacts",
+          "allowed_paths"
+        ]
+      }
+    },
+    {
+      "id": "adoption-to-review",
+      "category": "adoption→review",
+      "request": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-adoption",
+        "objective": "review one bounded adoption plan",
+        "scope": "Claims approval",
+        "artifacts": [
+          {
+            "path": "docs/ddd/adoption-plan.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "result": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-adoption",
+        "status": "complete",
+        "changed_artifacts": [],
+        "findings": [],
+        "handoff": {
+          "version": "ddd-routing-v1",
+          "stage": "ddd-review",
+          "objective": "review one bounded adoption plan next",
+          "scope": "Claims approval",
+          "artifacts": [
+            {
+              "path": "docs/ddd/adoption-plan.md",
+              "lifecycle": "active",
+              "validation": "validated",
+              "availability": "available"
+            }
+          ],
+          "evidence": [
+            "validated transition evidence"
+          ],
+          "claims": [
+            "fact: bounded transition fixture"
+          ],
+          "provenance": [
+            "phase-4 transition fixture"
+          ],
+          "assumptions": [
+            "owner confirmation remains explicit"
+          ],
+          "open_questions": [
+            "next-stage acceptance"
+          ],
+          "allowed_paths": [
+            "docs/ddd/"
+          ],
+          "return_to": "ddd"
+        },
+        "stop": "none",
+        "invalidated_stages": [],
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "next_request": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-review",
+        "objective": "review one bounded adoption plan next",
+        "scope": "Claims approval",
+        "artifacts": [
+          {
+            "path": "docs/ddd/adoption-plan.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "preserved_fields": [
+        "evidence",
+        "claims",
+        "provenance",
+        "assumptions",
+        "open_questions",
+        "artifacts",
+        "allowed_paths"
+      ],
+      "preservation_assertions": {
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "artifacts": [
+          {
+            "path": "docs/ddd/adoption-plan.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ]
+      },
+      "expected": {
+        "next_stage": "ddd-review",
+        "one_request": true,
+        "preserve_fields": [
+          "evidence",
+          "claims",
+          "provenance",
+          "assumptions",
+          "open_questions",
+          "artifacts",
+          "allowed_paths"
+        ]
+      }
+    },
+    {
+      "id": "review-ready-terminal",
+      "category": "review-ready terminal result",
+      "request": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-review",
+        "objective": "review Claims documentation readiness",
+        "scope": "Claims approval",
+        "artifacts": [
+          {
+            "path": "docs/ddd/adoption-plan.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "result": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-review",
+        "status": "ready",
+        "changed_artifacts": [],
+        "findings": [],
+        "handoff": "none",
+        "stop": "none",
+        "invalidated_stages": [],
+        "evidence": [
+          "validated transition fixture"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "terminal": true,
+      "expected": {
+        "status": "ready",
+        "handoff": "none",
+        "documentation_only": true,
+        "implementation_approval": false
+      }
+    },
+    {
+      "id": "non-fit-stop",
+      "category": "non-fit stop",
+      "request": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-discover",
+        "objective": "assess simple lookup",
+        "scope": "lookup workflow",
+        "artifacts": [
+          {
+            "path": "docs/ddd/assessment.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "result": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-discover",
+        "status": "not-fit-conflict",
+        "changed_artifacts": [],
+        "findings": [],
+        "handoff": "none",
+        "stop": "none",
+        "invalidated_stages": [],
+        "evidence": [
+          "validated transition fixture"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "expected": {
+        "status": "not-fit-conflict",
+        "handoff": "none",
+        "later_stages_invoked": false
+      }
+    },
+    {
+      "id": "malformed-result-stop",
+      "category": "malformed result stop",
+      "request": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-strategic",
+        "objective": "map contexts",
+        "scope": "approval slice",
+        "artifacts": [
+          {
+            "path": "docs/ddd/assessment.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "result": {
+        "stage": "ddd-strategic",
+        "status": "complete"
+      },
+      "result_valid": false,
+      "malformed_fields": [
+        "version",
+        "changed_artifacts",
+        "findings",
+        "handoff_or_stop",
+        "evidence",
+        "claims",
+        "provenance",
+        "allowed_paths"
+      ],
+      "expected": {
+        "status": "protocol-error",
+        "repair": false
+      }
+    },
+    {
+      "id": "manual-fallback-identity",
+      "category": "manual fallback request identity",
+      "request": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-strategic",
+        "objective": "validate Billing boundary",
+        "scope": "Billing context",
+        "artifacts": [
+          {
+            "path": "docs/ddd/assessment.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "returned_request": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-strategic",
+        "objective": "validate Billing boundary",
+        "scope": "Billing context",
+        "artifacts": [
+          {
+            "path": "docs/ddd/assessment.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "evidence": [
+          "validated transition evidence"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "manual_stage": "ddd-strategic",
+      "exact_identity": true,
+      "expected": {
+        "unchanged": true,
+        "stage": "ddd-strategic",
+        "ran": false
+      },
+      "request_serialized": "{\"allowed_paths\":[\"docs/ddd/\"],\"artifacts\":[{\"availability\":\"available\",\"lifecycle\":\"active\",\"path\":\"docs/ddd/assessment.md\",\"validation\":\"validated\"}],\"assumptions\":[\"owner confirmation remains explicit\"],\"claims\":[\"fact: bounded transition fixture\"],\"evidence\":[\"validated transition evidence\"],\"objective\":\"validate Billing boundary\",\"open_questions\":[\"next-stage acceptance\"],\"provenance\":[\"phase-4 transition fixture\"],\"return_to\":\"ddd\",\"scope\":\"Billing context\",\"stage\":\"ddd-strategic\",\"version\":\"ddd-routing-v1\"}",
+      "returned_request_serialized": "{\"allowed_paths\":[\"docs/ddd/\"],\"artifacts\":[{\"availability\":\"available\",\"lifecycle\":\"active\",\"path\":\"docs/ddd/assessment.md\",\"validation\":\"validated\"}],\"assumptions\":[\"owner confirmation remains explicit\"],\"claims\":[\"fact: bounded transition fixture\"],\"evidence\":[\"validated transition evidence\"],\"objective\":\"validate Billing boundary\",\"open_questions\":[\"next-stage acceptance\"],\"provenance\":[\"phase-4 transition fixture\"],\"return_to\":\"ddd\",\"scope\":\"Billing context\",\"stage\":\"ddd-strategic\",\"version\":\"ddd-routing-v1\"}",
+      "serialization_sha256": "6b763f1b582b43da84568bf39787e58378843e34f167f85fb273d5c442d271c9"
+    },
+    {
+      "id": "review-invalidation-earliest",
+      "category": "review invalidation to earliest affected stage",
+      "request": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-review",
+        "objective": "review changed Claims boundary",
+        "scope": "Claims approval",
+        "artifacts": [
+          {
+            "path": "docs/ddd/models/claims.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          },
+          {
+            "path": "docs/ddd/adoption-plan.md",
+            "lifecycle": "active",
+            "validation": "validated",
+            "availability": "available"
+          }
+        ],
+        "evidence": [
+          "boundary changed after downstream modeling"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "result": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-review",
+        "status": "invalidated",
+        "changed_artifacts": [],
+        "findings": [],
+        "handoff": "none",
+        "stop": "none",
+        "invalidated_stages": [
+          "ddd-strategic",
+          "ddd-tactical",
+          "ddd-adoption"
+        ],
+        "evidence": [
+          "strategic boundary changed"
+        ],
+        "claims": [
+          "fact: downstream assumptions are stale"
+        ],
+        "provenance": [
+          "strategic owner"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "new boundary"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "next_request": {
+        "version": "ddd-routing-v1",
+        "stage": "ddd-strategic",
+        "objective": "revalidate Claims boundary",
+        "scope": "Claims approval",
+        "artifacts": [
+          {
+            "path": "docs/ddd/models/claims.md",
+            "lifecycle": "active",
+            "validation": "stale",
+            "availability": "available"
+          },
+          {
+            "path": "docs/ddd/adoption-plan.md",
+            "lifecycle": "active",
+            "validation": "stale",
+            "availability": "available"
+          }
+        ],
+        "evidence": [
+          "strategic boundary changed"
+        ],
+        "claims": [
+          "fact: bounded transition fixture"
+        ],
+        "provenance": [
+          "phase-4 transition fixture"
+        ],
+        "assumptions": [
+          "owner confirmation remains explicit"
+        ],
+        "open_questions": [
+          "next-stage acceptance"
+        ],
+        "allowed_paths": [
+          "docs/ddd/"
+        ],
+        "return_to": "ddd"
+      },
+      "earliest_invalidated_stage": "ddd-strategic",
+      "stale_artifacts": [
+        "docs/ddd/models/claims.md",
+        "docs/ddd/adoption-plan.md"
+      ],
+      "preserved_lifecycle": true,
+      "expected": {
+        "next_stage": "ddd-strategic",
+        "invalidated_stages": [
+          "ddd-strategic",
+          "ddd-tactical",
+          "ddd-adoption"
+        ],
+        "validation": "stale",
+        "lifecycle_preserved": true
+      }
+    }
+  ]
+}

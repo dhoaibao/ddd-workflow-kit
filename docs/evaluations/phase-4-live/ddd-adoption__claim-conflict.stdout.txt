@@ -1,0 +1,217 @@
+STATUS
+
+`blocked`
+
+RESULT
+
+Stage: `ddd-adoption`
+
+Mode: `brownfield`
+
+Target outcome: Introduce traceable approval decisions.
+
+Selected first slice: Characterize and reconcile one approval decision.
+
+The adoption plan cannot be completed because the first increment depends on an unresolved material claim conflict:
+
+- **Current behavior:** Operations observe that approval is eventually consistent.
+- **Desired policy/meaning:** The policy owner requires immediate approval.
+- **Required obligation:** Every decision must be traceable.
+
+These claims are preserved separately and are not treated as interchangeable. The required traceability obligation applies regardless of whether approval remains eventual or becomes immediate, but the conflict between current behavior and desired policy affects compatibility, acceptance criteria, data reconciliation, observability, and containment.
+
+The supplied brownfield prerequisites are present: baseline, characterization evidence, approval decision seam, legacy decision translation, data reconciliation, decision-trace observability, and containment. However, adoption cannot select a valid first-increment contract until the Claims owner resolves which timing claim controls the first increment and how the required traceability obligation applies during transition.
+
+No migration, behavior change, compatibility implementation, data cutover, or runtime execution is proposed or performed. No adoption plan is marked active or complete.
+
+Portable result:
+
+```json
+{
+  "stage": "ddd-adoption",
+  "status": "blocked",
+  "scope": {
+    "mode": "brownfield",
+    "target_outcome": "Introduce traceable approval decisions",
+    "selected_slice": "Characterize and reconcile one approval decision"
+  },
+  "changed_artifacts": [],
+  "evidence": [
+    {
+      "claim_type": "current behavior",
+      "source": "operations observation",
+      "statement": "Approval is eventually consistent",
+      "owner": "Operations",
+      "scenario": "Existing approval flow",
+      "impact": "Defines the observed baseline and constrains compatibility and rollback assumptions",
+      "validation": "Provided as operations evidence"
+    },
+    {
+      "claim_type": "desired policy/meaning",
+      "source": "policy owner",
+      "statement": "Approval must be immediate",
+      "owner": "Policy owner",
+      "scenario": "Target approval behavior",
+      "impact": "Requires a decision about whether and when immediate approval becomes an acceptance obligation",
+      "validation": "Provided as a desired policy statement; consistency with current behavior is unresolved"
+    },
+    {
+      "claim_type": "required obligation",
+      "source": "obligation",
+      "statement": "Every decision is traceable",
+      "owner": "Claims owner",
+      "scenario": "All approval decisions, including transitional behavior",
+      "impact": "Requires complete decision trace evidence independent of approval timing",
+      "validation": "Provided as a traceability obligation"
+    }
+  ],
+  "assumptions": [
+    "Claims owner must resolve consistency"
+  ],
+  "risks": [
+    "Changing approval timing before resolving the claim conflict could violate current operational expectations or the desired policy.",
+    "A translation boundary may preserve legacy eventual behavior while failing to satisfy an unconfirmed immediate-approval contract.",
+    "Incomplete decision traces could violate the required obligation.",
+    "Data reconciliation criteria cannot be finalized until the controlling approval-timing claim is known."
+  ],
+  "dependencies": [
+    "claim conflict decision"
+  ],
+  "owners": [
+    "Claims owner"
+  ],
+  "acceptance_signals": [
+    "One approval decision can be characterized against the agreed timing rule.",
+    "The decision record is traceable from initiation through final outcome.",
+    "Reconciled legacy and target records have an agreed interpretation.",
+    "Containment is available if consistency or trace completeness cannot be demonstrated."
+  ],
+  "open_questions": [
+    "Which claim controls the first increment?",
+    "Does immediate approval apply to the first brownfield slice, or is eventual consistency an explicitly accepted transitional behavior?",
+    "What trace fields and retention rules satisfy the required obligation?",
+    "Who approves the compatibility and containment criteria?"
+  ],
+  "plan": {
+    "increments": [],
+    "decision_points": [
+      "Claims owner resolves the conflict between observed eventual consistency and required immediate approval.",
+      "Claims owner confirms the traceability obligation and transitional acceptance criteria.",
+      "Only then select the characterization and reconciliation increment."
+    ],
+    "data_notes": [
+      "Compare approval records only after the controlling timing rule and reconciliation semantics are agreed."
+    ],
+    "integration_notes": [
+      "Legacy decision translation remains a proposal, not an approved compatibility contract."
+    ],
+    "privacy_notes": [
+      "No additional privacy facts were supplied; privacy requirements must be confirmed before implementation planning."
+    ],
+    "rollback_containment": "Contain the approval decision boundary until consistency and trace completeness criteria are resolved and evidenced."
+  },
+  "handoff": {
+    "type": "bounded_stop",
+    "reason": "Material claim conflict blocks a qualified adoption sequence.",
+    "next_stage": "ddd-tactical",
+    "request": {
+      "mode": "brownfield",
+      "outcome": "Resolve the approval timing and traceability decision needed for adoption",
+      "selected_slice": "Characterize and reconcile one approval decision",
+      "conflict": [
+        "Current operations observe eventual consistency.",
+        "Desired policy requires immediate approval.",
+        "A required obligation demands a traceable decision."
+      ],
+      "owner": "Claims owner",
+      "return_to": "ddd-tactical"
+    }
+  },
+  "invalidated_stages": [
+    "ddd-adoption"
+  ]
+}
+```
+
+The expected bounded adoption sequence is therefore not emitted as a complete plan, and no `ddd-review` request is issued.
+
+Expected outcomes satisfied:
+
+- Preserves current, desired, and required claims separately.
+- Records source, owner, scenario, impact, and validation state.
+- Identifies the unresolved claim decision as a blocker.
+- Retains the supplied brownfield baseline, seam, characterization, compatibility, reconciliation, observability, and containment evidence.
+- Stops before selecting an unsafe behavior change or declaring the plan complete.
+- Routes the modeling/claim decision to `ddd-tactical`, the supplied `return_to` stage.
+
+Forbidden outcomes avoided:
+
+- No silent resolution of the conflict.
+- No conversion of desired policy into current behavior.
+- No conversion of current behavior into the desired model.
+- No big-bang migration or data cutover.
+- No claim that migration, review, implementation, or artifact editing occurred.
+- No claim that `docs/ddd/adoption-plan.md` was changed.
+- No product-code, test, configuration, schema, generated-output, deployment, or runtime changes.
+
+EVIDENCE
+
+- Current behavior: operations observation — “Approval is eventually consistent.”
+- Desired policy/meaning: policy owner — “Approval must be immediate.”
+- Required obligation: obligation source — “Every decision is traceable.”
+- Brownfield baseline: eventual approval observed.
+- Characterization: approval trace examples.
+- Seam: approval decision boundary.
+- Compatibility assumption: legacy decision translation.
+- Data reconciliation: compare approval records.
+- Observability: decision trace completeness.
+- Rollback/containment: contain until consistency decision.
+- Evidence status: sufficient to identify the conflict and boundary, insufficient to qualify a complete adoption sequence.
+
+HANDOFF_OR_STOP
+
+Bounded stop with earliest-owner handoff to `ddd-tactical`.
+
+Required decision: the Claims owner must resolve which approval-timing claim controls the first increment and define how the traceability obligation applies during transition.
+
+`ddd-review` is not requested because the plan is not complete and bounded for review.
+
+CHANGED_ARTIFACTS
+
+```json
+[]
+```
+
+No artifact was read, written, updated, or claimed to have changed. The permitted adoption artifact remains:
+
+`docs/ddd/adoption-plan.md`
+
+The supplied artifact:
+
+`docs/ddd/models/claims.md`
+
+is outside the adoption-owned write boundary and was not modified.
+
+INVALIDATED_STAGES
+
+- `ddd-adoption`: blocked pending resolution of the approval-timing and traceability claim conflict.
+- No further stage is invalidated beyond the adoption planning decision; the tactical claim/model decision remains the earliest required handoff.
+
+OPEN_QUESTIONS
+
+- Which claim controls the first increment?
+- Does immediate approval apply immediately to the first brownfield slice?
+- Is eventual consistency an accepted transitional behavior, and who authorizes it?
+- What constitutes a traceable decision?
+- What data reconciliation result is acceptable when legacy approval is eventual?
+- What compatibility and containment criteria must be met before behavior changes?
+
+BOUNDARY_CHECKS
+
+- Text-only evaluation honored.
+- No tools used.
+- No files read or written.
+- Only the adoption artifact path was considered as adoption-owned.
+- No product source, tests, configuration, schemas, generated output, deployment files, or runtime behavior were edited or proposed for execution.
+- No migration or review was executed.
+- No artifact change is claimed.

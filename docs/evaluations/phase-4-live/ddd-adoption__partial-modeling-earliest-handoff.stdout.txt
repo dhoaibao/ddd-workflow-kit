@@ -1,0 +1,88 @@
+## STATUS
+
+`blocked` — adoption planning cannot proceed because the first slice lacks validated tactical evidence.
+
+## RESULT
+
+No adoption plan was created or updated. The provided evidence validates only the strategic context purpose, not the commands, scenarios, invariants, or tactical model needed to define a bounded implementation-ready adoption slice.
+
+The earliest stage that owns the gap is `ddd-tactical`, not `ddd-adoption` or `ddd-strategic`.
+
+- Mode: `greenfield`
+- Desired outcome: Manage claims
+- Proposed first slice: Choose an implementation slice
+- Strategic evidence: Validated context purpose
+- Missing prerequisites: Commands, scenarios, invariants, and tactical model decisions
+- Owners provided: Claims owner
+- No implementation, migration, boundary protection, or deployment sequence is proposed.
+- No product code, tests, configuration, schema, generated output, deployment files, or runtime behavior was changed.
+- No adoption artifact is claimed to have been changed.
+- No `ddd-review` request is emitted because the adoption plan is not bounded or qualified.
+
+## EVIDENCE
+
+| Claim | Type | Source | Owner | Scenario | Impact | Validation |
+|---|---|---|---|---|---|---|
+| The capability has a validated strategic context purpose. | Fact / current validated evidence | `docs/ddd/context-map.md`; supplied evidence | Claims owner | Claims capability context | Supports strategic framing only | Validated |
+| The intended first slice is to choose an implementation slice. | Proposal / desired outcome | Case input | Claims owner | Initial greenfield adoption | Cannot be bounded without tactical decisions | Unvalidated |
+| Commands, scenarios, invariants, and tactical model decisions are absent. | Fact about supplied entry state | Case input `missing_fields` | Claims owner / tactical owner not explicitly named | Any proposed claims slice | Blocks adoption sequencing and acceptance definition | Validated as an input gap |
+| A tactical invariant or model decision can be inferred from the strategic context. | Not established | None | Not established | Not established | Must not be inferred | Unvalidated |
+
+## HANDOFF_OR_STOP
+
+Hand off exactly to `ddd-tactical`:
+
+```text
+stage: ddd-tactical
+status: blocked
+reason: Adoption entry is incomplete. The strategic context purpose is validated, but no tactical invariant or model decision is validated.
+scope:
+  mode: greenfield
+  outcome: Manage claims
+  proposed_first_slice: Choose an implementation slice
+required_inputs:
+  - commands
+  - scenarios
+  - invariants
+  - tactical_model
+evidence:
+  - claim: Validated context purpose
+    source: docs/ddd/context-map.md
+    owner: Claims owner
+    validation: validated
+return_to: ddd-strategic
+```
+
+The tactical stage must establish the missing commands, scenarios, invariants, and tactical model decisions before adoption planning can select and sequence a bounded slice.
+
+## CHANGED_ARTIFACTS
+
+`[]`
+
+No files were read, written, or claimed as changed.
+
+## INVALIDATED_STAGES
+
+`["ddd-adoption"]`
+
+Adoption planning assumptions are not qualified because the tactical model is incomplete. No previously validated strategic evidence is invalidated.
+
+## OPEN_QUESTIONS
+
+1. Which claim-related commands and scenarios define the first bounded capability slice?
+2. What invariants must hold for those scenarios?
+3. Which tactical model decisions represent those invariants?
+4. Who is the accountable tactical/domain owner for validating those decisions?
+5. After tactical validation, what specific learning or delivery outcome should be selected instead of the broad phrase “choose an implementation slice”?
+6. Does `return_to: ddd-strategic` indicate an intended strategic clarification, or should the completed tactical handoff return directly to adoption?
+
+## BOUNDARY_CHECKS
+
+- No adoption plan was authored or updated.
+- No implementation slice was selected.
+- No migration or runtime change was executed.
+- No framework, database, service split, deployment topology, or other architecture was mandated.
+- No current behavior, target invariant, or tactical model was invented.
+- The strategic context was not overwritten by missing tactical evidence.
+- The request was routed to the earliest stage owning the gap: `ddd-tactical`.
+- `ddd-review` was not requested because the plan is incomplete and unqualified.

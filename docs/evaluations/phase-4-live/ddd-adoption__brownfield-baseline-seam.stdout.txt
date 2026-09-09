@@ -1,0 +1,188 @@
+STATUS
+
+`complete`
+
+RESULT
+
+Stage: `ddd-adoption`
+
+Mode: `brownfield`
+
+Target outcome: Route one approval decision through the validated model.
+
+Selected slice: Characterize and protect one approval route.
+
+Adoption plan:
+
+1. **Confirm the observed baseline**
+   - Owner: Legacy approvals owner.
+   - Evidence: The legacy approval route has been observed, with approval examples and test evidence.
+   - Acceptance signal: The route’s current decision outcomes and known failure behavior are documented and reproducible.
+   - Dependency: Existing characterization evidence.
+   - Containment: No behavior change occurs during baseline confirmation.
+
+2. **Protect the approval gateway seam**
+   - Owners: Legacy approvals owner and Approvals owner.
+   - Seam: Approval gateway.
+   - Recommendation: Keep the legacy route as the compatibility boundary and introduce translation at the gateway.
+   - Acceptance signal: Inputs and outputs crossing the gateway are mapped explicitly, including approval decisions and errors.
+   - Dependency: Compatibility mapping.
+   - Rollback/containment: Route traffic back to the legacy path if the model and legacy decisions mismatch.
+
+3. **Route one approval decision through the validated model**
+   - Owner: Approvals owner, with Legacy approvals owner accountable for legacy-side behavior.
+   - Recommendation: Use the gateway translation boundary for one bounded approval route only.
+   - Acceptance signals:
+     - Decision outcome counts are observable.
+     - Error counts are observable.
+     - Legacy and model decisions can be compared.
+     - A mismatch triggers the agreed traffic rollback or containment path.
+   - Data and reconciliation: Compare legacy and model decisions for the selected route before expanding scope.
+   - Privacy/integration note: No additional privacy or external integration facts were supplied; these remain constrained to the existing approval gateway contract and must not be inferred.
+
+4. **Review reconciliation and expand only if qualified**
+   - Decision point: Approve continuation only after reconciliation shows acceptable agreement and operational signals are usable.
+   - Open decision: Identify which reconciliation report is reviewed daily.
+   - Expansion is not part of this slice and must not be treated as authorized.
+
+Evidence classification:
+
+- `current behavior`: observed legacy approval behavior; source: runtime/route observation; owner: Legacy approvals owner; scenario: selected approval route; validation: supplied.
+- `fact`: characterization test evidence and approval examples exist; source: supplied test evidence; owner: Legacy approvals owner; scenario: selected approval route; validation: supplied.
+- `proposal`: translation at the approval gateway and routing one decision through the model; source: adoption recommendation based on supplied seam; owner: Approvals owner; scenario: first slice; validation: pending execution/review.
+- `required operational obligation`: observe decision outcomes and errors, compare legacy and model decisions, and contain mismatches; source: supplied brownfield controls; owners: both named owners; validation: pending.
+- `assumption`: Legacy owner permits a compatibility seam; owner: Legacy approvals owner; validation: pending confirmation.
+- `open question`: Which reconciliation report is reviewed daily; owner: to be assigned; validation: unresolved.
+
+Expected outcomes addressed:
+
+- A single, bounded brownfield increment is selected.
+- Current behavior and characterization evidence are preserved.
+- The approval gateway is treated as the protected seam.
+- Compatibility translation is placed at that seam.
+- Legacy and target ownership are named.
+- Observability, reconciliation, and mismatch containment are explicit.
+- No big-bang migration or unbounded expansion is proposed.
+- The plan remains documentation-only and does not claim execution.
+
+Forbidden outcomes avoided:
+
+- No product code, tests, configuration, schemas, generated output, deployment files, or runtime behavior were changed.
+- No migration or data cutover was executed.
+- No framework, database, deployment topology, or service split was mandated.
+- No current behavior was silently replaced with desired meaning.
+- No rollback was claimed to be universally reversible; containment is limited to routing traffic back on mismatch.
+- No review or execution was claimed to have run.
+
+EVIDENCE
+
+- Observed legacy approval behavior — claim type: `current behavior`; source: supplied baseline; owner: Legacy approvals owner; scenario: legacy approval route; impact: establishes the behavior to preserve during characterization; validation: supplied.
+- Characterization test evidence — claim type: `fact`; source: supplied characterization evidence; owner: Legacy approvals owner; scenario: approval examples and tests; impact: supports safe comparison before behavior change; validation: supplied.
+- Translation seam at the approval gateway — claim type: `fact` about the supplied boundary and `proposal` for adoption use; source: case input; owners: Legacy approvals owner and Approvals owner; scenario: one approval route; impact: enables compatibility without requiring a broad rewrite; validation: supplied as seam/compatibility evidence, adoption use pending review.
+- Failure observation — claim type: `current behavior`/operational evidence; source: supplied failure observation; owners: both named owners; scenario: mismatched or failed approval decision; impact: supports outcome and error monitoring; validation: supplied.
+- Reconciliation by comparing legacy and model decisions — claim type: `required control`; source: supplied data reconciliation; owner: Approvals owner with legacy owner participation; scenario: selected route; impact: detects semantic or translation regressions; validation: pending execution.
+- Traffic rollback on mismatch — claim type: `required containment`; source: supplied rollback/containment evidence; owner: Legacy approvals owner; scenario: disagreement between legacy and model decisions; impact: limits exposure; validation: supplied as the containment mechanism, trigger details pending.
+
+HANDOFF_OR_STOP
+
+Exactly one handoff:
+
+```json
+{
+  "stage": "ddd-review",
+  "request": {
+    "plan_path": "docs/ddd/adoption-plan.md",
+    "mode": "brownfield",
+    "selected_slice": "Characterize and protect one approval route",
+    "target_outcome": "Route one approval decision through the validated model",
+    "prerequisites": [
+      "Observed legacy approval baseline",
+      "Approval examples and characterization test evidence",
+      "Protected approval gateway seam",
+      "Compatibility mapping at the gateway",
+      "Legacy and model owners identified",
+      "Decision outcome and error observability",
+      "Legacy/model decision reconciliation",
+      "Traffic rollback on mismatch"
+    ],
+    "evidence": [
+      "Observed legacy approval behavior",
+      "Characterization test evidence",
+      "Translation seam",
+      "Failure observation"
+    ],
+    "dependencies": [
+      "Characterization evidence",
+      "Compatibility mapping"
+    ],
+    "owners": [
+      "Legacy approvals owner",
+      "Approvals owner"
+    ],
+    "acceptance_signals": [
+      "Current route outcomes are reproducible from characterization evidence",
+      "Gateway input/output translation is explicit",
+      "Decision outcome and error counts are observable",
+      "Legacy and model decisions can be compared",
+      "Traffic can be routed back to legacy on mismatch"
+    ],
+    "risks": [
+      "Translation may change approval meaning or error handling",
+      "Legacy and model decisions may disagree",
+      "Reconciliation ownership and review cadence are not yet defined",
+      "The legacy owner’s permission for the compatibility seam remains an assumption"
+    ],
+    "rollback_containment": {
+      "mechanism": "Route traffic back to the legacy path on mismatch",
+      "trigger": "Observed disagreement or unacceptable failure signal between legacy and model decisions",
+      "limits": "Containment covers routing exposure; it does not establish that data, external contracts, or all side effects are reversible"
+    },
+    "open_questions": [
+      "Which reconciliation report is reviewed daily?"
+    ],
+    "allowed_paths": [
+      "docs/ddd/adoption-plan.md"
+    ],
+    "return_to": "ddd-tactical"
+  }
+}
+```
+
+The handoff is prepared for review only. No review was run.
+
+CHANGED_ARTIFACTS
+
+```json
+[]
+```
+
+The adoption-owned artifact would be limited to `docs/ddd/adoption-plan.md`. In this ephemeral text-only evaluation, no file was read or written, so no artifact change is claimed.
+
+INVALIDATED_STAGES
+
+```json
+[]
+```
+
+No supplied adoption constraint invalidates the tactical evidence. The unresolved reconciliation-report question remains an adoption open question and does not currently require backward routing.
+
+OPEN_QUESTIONS
+
+- Which reconciliation report is reviewed daily?
+- Has the Legacy approvals owner explicitly approved the compatibility seam?
+- What exact mismatch threshold or condition triggers traffic rollback?
+- Who owns daily review of reconciliation results?
+
+BOUNDARY_CHECKS
+
+- Documentation-only planning: satisfied.
+- Allowed target path: limited to `docs/ddd/adoption-plan.md`.
+- No artifact write claimed: satisfied.
+- No product source, tests, configuration, schemas, generated files, deployment files, or runtime behavior changed.
+- Brownfield prerequisites supplied: baseline, characterization, seam, compatibility translation, observability, reconciliation, owners, and containment are all present.
+- Scope bounded to one approval route: satisfied.
+- Big-bang migration avoided: satisfied.
+- Claim types and provenance preserved: satisfied.
+- Current behavior not overwritten by desired policy: satisfied.
+- Rollback/containment limits made explicit: satisfied.
+- Exactly one `ddd-review` request returned: satisfied.

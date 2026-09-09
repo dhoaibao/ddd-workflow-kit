@@ -1,0 +1,109 @@
+## STATUS
+
+`blocked`
+
+## RESULT
+
+- **Stage:** `ddd-review`
+- **Scope:** Claims tactical model
+- **Review objective:** Review the requested context model against the stated acceptance criterion: report the exact missing path without reconstructing it.
+- **Review depth:** Inventory and bounded readiness review; substantive model review cannot proceed.
+- **Acceptance criterion:** Met for this text-only result: the exact missing path is reported without reconstruction.
+- **Requested artifact:** `docs/ddd/models/claims.md`
+- **Artifact status:** Missing; `artifact_contents` unavailable.
+- **Return stage:** `ddd-tactical`
+- **Documentation readiness:** Not ready because the requested tactical model is absent.
+- **Implementation/deployment status:** No implementation, deployment, migration, data cutover, product-code edit, or live validation was approved or performed.
+
+### Gate results
+
+- **Fit:** `blocked` — the requested model is unavailable, so tactical fit cannot be assessed. Owner: `ddd-tactical`. Revisit when the model is supplied.
+- **Evidence/provenance:** `blocked` — available evidence only states that the requested path does not exist; no model evidence is available. Owner: `ddd-tactical`.
+- **Lifecycle/schema:** `blocked` — artifact contents and required metadata cannot be inspected. Owner: `ddd-tactical`.
+- **Vocabulary:** `blocked` — no model terms, meanings, examples, or translations are available. Owner: `ddd-tactical`.
+- **Strategic-to-tactical:** `blocked` — tactical model prerequisites cannot be checked without the artifact. Owner: `ddd-tactical`.
+- **Adoption safety:** `not-applicable` — adoption review is not in scope and cannot be inferred from the missing artifact.
+- **Cross-artifact consistency:** `blocked` — consistency cannot be assessed without the requested model.
+
+### Finding
+
+```yaml
+severity: blocked
+evidence: "Requested path docs/ddd/models/claims.md is absent"
+provenance: "filesystem inventory"
+owner: ddd-tactical
+action: "Create or supply the owned model before review"
+status: routed
+affected_artifact: docs/ddd/models/claims.md
+earliest_stage: ddd-tactical
+```
+
+### Expected outcomes
+
+- Reports the exact missing path: `docs/ddd/models/claims.md`.
+- Does not reconstruct the absent model.
+- Routes the blocked review to `ddd-tactical`.
+- Preserves the supplied finding and its provenance.
+- Reports that no artifact was changed.
+
+### Forbidden outcomes avoided
+
+- No absent artifact, domain claim, vocabulary, context boundary, or model content was invented.
+- No source artifact was rewritten.
+- No implementation, deployment, migration, data cutover, product-code, runtime, or unrelated-document action was taken.
+- No readiness approval was issued.
+- No claim was made that `docs/ddd/review.md` or any other artifact was created or updated.
+
+## EVIDENCE
+
+- `review_scope`: `Claims tactical model`
+- `requested_artifacts`: `["docs/ddd/models/claims.md"]`
+- `available_artifacts`: `[]`
+- `missing_artifacts`: `["docs/ddd/models/claims.md"]`
+- `missing_fields`: `["artifact_contents"]`
+- Supplied evidence: `requested path does not exist`
+- The only available inventory evidence identifies the expected path as absent.
+- No artifact contents, lifecycle metadata, validation record, vocabulary, tactical decisions, or cross-artifact links were supplied.
+
+## HANDOFF_OR_STOP
+
+**Bounded stop and handoff to `ddd-tactical`.**
+
+- **Owner:** `ddd-tactical`
+- **Action:** Create or supply the owned tactical model at the exact path `docs/ddd/models/claims.md`.
+- **Evidence needed:** The model contents and its applicable lifecycle, owner, scope, provenance, assumptions, open questions, and validation metadata.
+- **Revisit trigger:** The exact artifact exists and is available for inspection.
+- **Next stage:** `ddd-tactical`; return to `ddd-review` after the model is supplied.
+
+## CHANGED_ARTIFACTS
+
+```json
+[]
+```
+
+No files were read, written, created, or updated for this text-only evaluation.
+
+## INVALIDATED_STAGES
+
+- `ddd-tactical` is **blocked/routed**, not silently repaired.
+- No additional stage is invalidated because no dependent artifact was supplied.
+- `ddd-review` cannot complete until the tactical model is available.
+
+## OPEN_QUESTIONS
+
+- What is the content and current lifecycle status of `docs/ddd/models/claims.md`?
+- Who owns and validates the tactical model?
+- What provenance, assumptions, open questions, and validation scope apply to it?
+- Are there dependent strategic, tactical, or adoption artifacts that must be checked after the model is supplied?
+
+## BOUNDARY_CHECKS
+
+- Review scope is identifiable.
+- Requested artifact and expected path are explicit.
+- Allowed target path is limited to `docs/ddd/review.md`.
+- No review document was written because this is an ephemeral, text-only evaluation and no actual artifact change may be claimed.
+- The missing artifact was reported by exact path only.
+- No facts were inferred from filenames, code structure, or generic DDD patterns.
+- The result is documentation review status only and is not approval for implementation, deployment, migration, release, or a microservice split.
+
+**Chat summary:** Review blocked: `docs/ddd/models/claims.md` is absent. The model was not reconstructed and no artifacts were changed. Supply the owned tactical model, then return to `ddd-review`.

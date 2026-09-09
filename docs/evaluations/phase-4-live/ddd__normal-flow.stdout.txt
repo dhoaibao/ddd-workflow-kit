@@ -1,0 +1,95 @@
+STATUS
+
+`partial` — manual fallback. The focused stage `ddd-discover` did not run.
+
+RESULT
+
+- Portable routing result version: `ddd-routing-v1`
+- Current stage: `ddd-discover`
+- Objective: `assess approval domain`
+- Scope: `approval slice`
+- Return target: `ddd`
+- Consumed stage result: none
+- Route progression: none; no transition occurred.
+- The request is preserved exactly and returned unchanged.
+- Expected outcomes satisfied:
+  - The broad bounded request remains at the first focused stage.
+  - Routing is one stage at a time.
+  - No discovery, strategic, tactical, adoption, or review work was performed by the orchestrator.
+  - Evidence, claims, provenance, assumptions, open questions, artifacts, allowed paths, and return target were preserved.
+  - No artifact was changed.
+- Forbidden outcomes avoided:
+  - No stage behavior was emulated.
+  - No facts, claims, evidence, decisions, or paths were invented or rewritten.
+  - No additional stage requests were emitted.
+  - No implementation, deployment, migration, or validation approval was claimed.
+  - No focused artifact or unrelated document was edited.
+
+EVIDENCE
+
+Preserved unchanged:
+
+```json
+{
+  "evidence": ["requester outcome"],
+  "claims": ["desired-policy: traceable approval"],
+  "provenance": ["requester statement"]
+}
+```
+
+BOUNDARY CHECKS
+
+- Request version is `ddd-routing-v1`.
+- Stage is valid: `ddd-discover`.
+- Objective and scope are identifiable.
+- Artifacts are explicitly absent: `[]`.
+- Allowed path is preserved: `["docs/ddd/"]`.
+- No normalization, defaulting, reordering, or repair was performed.
+- The exact manual stage name is `ddd-discover`.
+- `ddd-discover` did not run.
+
+HANDOFF_OR_STOP
+
+Manual fallback handoff: invoke `ddd-discover` manually with the exact unchanged request below.
+
+```json
+{
+  "allowed_paths": ["docs/ddd/"],
+  "artifacts": [],
+  "assumptions": [],
+  "claims": ["desired-policy: traceable approval"],
+  "evidence": ["requester outcome"],
+  "objective": "assess approval domain",
+  "open_questions": ["who validates policy"],
+  "provenance": ["requester statement"],
+  "return_to": "ddd",
+  "scope": "approval slice",
+  "stage": "ddd-discover",
+  "version": "ddd-routing-v1"
+}
+```
+
+CHANGED_ARTIFACTS
+
+`[]`
+
+No artifact or index path was changed.
+
+INVALIDATED_STAGES
+
+`[]`
+
+OPEN_QUESTIONS
+
+Preserved unchanged:
+
+```json
+["who validates policy"]
+```
+
+BOUNDARY_CHECKS
+
+- The later stages `ddd-strategic`, `ddd-tactical`, `ddd-adoption`, and `ddd-review` were not activated.
+- No transition to those stages is claimed.
+- The supplied route sequence is acknowledged, but routing cannot advance without a valid `ddd-discover` result.
+- The request remains the sole emitted request, satisfying the one-at-a-time requirement.

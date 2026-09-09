@@ -1,0 +1,1427 @@
+{
+  "schema_version": 1,
+  "kind": "phase-4-live-semantic-judgments",
+  "generated_at_utc": "2026-09-09T15:37:30.404436Z",
+  "manifest": "docs/evaluations/phase-4-live-capture.json",
+  "judgment_method": "Inspected every captured stdout against every listed expected and forbidden outcome; process exit success was not used as semantic passage. Text-only wrapper constraints were treated as bounded no-write evidence, not as claimed artifact updates.",
+  "case_count": 30,
+  "process_pass": 30,
+  "semantic_pass": 30,
+  "case_judgments": [
+    {
+      "package": "ddd",
+      "case_id": "direct-invocation",
+      "category": "direct invocation",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "accepts validated direct ddd-tactical scope and preserves it for manual activation without restarting",
+      "expected_outcomes": [
+        {
+          "outcome": "Preserve the direct tactical scope",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__direct-invocation.stdout.txt (sha256 245511868cb23dfe29ee2f80eaeac372674e6d17d05f7a0118cdeb6f31380947) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Enforce tactical entry criteria before routing",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__direct-invocation.stdout.txt (sha256 245511868cb23dfe29ee2f80eaeac372674e6d17d05f7a0118cdeb6f31380947) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Do not force an unnecessary discovery restart",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__direct-invocation.stdout.txt (sha256 245511868cb23dfe29ee2f80eaeac372674e6d17d05f7a0118cdeb6f31380947) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Invent strategic artifacts",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__direct-invocation.stdout.txt."
+        },
+        {
+          "outcome": "Model the context inside ddd",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__direct-invocation.stdout.txt."
+        },
+        {
+          "outcome": "Route to adoption without a tactical result",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__direct-invocation.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__direct-invocation.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__direct-invocation.stderr.txt",
+      "stdout_sha256": "245511868cb23dfe29ee2f80eaeac372674e6d17d05f7a0118cdeb6f31380947",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "5eeac520d0b1bfaaa53f9cbdb78898d70493f0360ab903ab21318a2e1d97f67a"
+    },
+    {
+      "package": "ddd",
+      "case_id": "docs-only-boundary",
+      "category": "docs-only",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "refuses product/deployment paths and retains a documentation-only bounded stop",
+      "expected_outcomes": [
+        {
+          "outcome": "Refuse product and deployment edits",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__docs-only-boundary.stdout.txt (sha256 f9347a439fb07ba97808213b2ec7b58e343567d001d07dfba2fbcac255788fa5) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Retain only a safe routing/documentation stop",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__docs-only-boundary.stdout.txt (sha256 f9347a439fb07ba97808213b2ec7b58e343567d001d07dfba2fbcac255788fa5) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Do not claim runtime behavior changed",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__docs-only-boundary.stdout.txt (sha256 f9347a439fb07ba97808213b2ec7b58e343567d001d07dfba2fbcac255788fa5) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Edit src/claims.py",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__docs-only-boundary.stdout.txt."
+        },
+        {
+          "outcome": "Edit deployment configuration",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__docs-only-boundary.stdout.txt."
+        },
+        {
+          "outcome": "Emulate review or implementation",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__docs-only-boundary.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__docs-only-boundary.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__docs-only-boundary.stderr.txt",
+      "stdout_sha256": "f9347a439fb07ba97808213b2ec7b58e343567d001d07dfba2fbcac255788fa5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "6826d37b85095364d54dcce06f3aa4f75dcca91b14c97fe3039b59c21fd977bd"
+    },
+    {
+      "package": "ddd",
+      "case_id": "index-ownership",
+      "category": "index ownership",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "preserves ddd-review ownership and user prose; text-only limitation yields a bounded stop rather than a false write",
+      "expected_outcomes": [
+        {
+          "outcome": "Update only ddd-owned routing/status sections",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__index-ownership.stdout.txt (sha256 467691561b0394b3f0bee5c2dc23037768457e6c48f62085072a001d06d2052e) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Preserve user prose and review-owned link/findings",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__index-ownership.stdout.txt (sha256 467691561b0394b3f0bee5c2dc23037768457e6c48f62085072a001d06d2052e) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Use all canonical index sections and ownership markers",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__index-ownership.stdout.txt (sha256 467691561b0394b3f0bee5c2dc23037768457e6c48f62085072a001d06d2052e) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Replace the index wholesale",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__index-ownership.stdout.txt."
+        },
+        {
+          "outcome": "Overwrite review findings",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__index-ownership.stdout.txt."
+        },
+        {
+          "outcome": "Take ownership of focused artifacts",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__index-ownership.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__index-ownership.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__index-ownership.stderr.txt",
+      "stdout_sha256": "467691561b0394b3f0bee5c2dc23037768457e6c48f62085072a001d06d2052e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "6bd02705cd70fb3d32a3fa66a54db282cb622fd520ed60ce4222ec91199f3056"
+    },
+    {
+      "package": "ddd",
+      "case_id": "invalidation-loop",
+      "category": "invalidation loop",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "marks dependent artifact validation stale, preserves lifecycle and paths, and routes to ddd-strategic",
+      "expected_outcomes": [
+        {
+          "outcome": "Mark tactical and adoption artifacts stale",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__invalidation-loop.stdout.txt (sha256 cd1db3917a35949db2505118b6f46cc7423173962c1a605a1cc1d933be69def3) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Route to ddd-strategic as the earliest invalidated stage",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__invalidation-loop.stdout.txt (sha256 cd1db3917a35949db2505118b6f46cc7423173962c1a605a1cc1d933be69def3) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Preserve invalidation evidence and dependent paths",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__invalidation-loop.stdout.txt (sha256 cd1db3917a35949db2505118b6f46cc7423173962c1a605a1cc1d933be69def3) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Route directly to review again",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__invalidation-loop.stdout.txt."
+        },
+        {
+          "outcome": "Silently rewrite the model",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__invalidation-loop.stdout.txt."
+        },
+        {
+          "outcome": "Drop the stale dependent list",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__invalidation-loop.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__invalidation-loop.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__invalidation-loop.stderr.txt",
+      "stdout_sha256": "cd1db3917a35949db2505118b6f46cc7423173962c1a605a1cc1d933be69def3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "8a901aa0400cc4c2366d9fe332b007ac9cd7381002e734804f7be24e781d4125"
+    },
+    {
+      "package": "ddd",
+      "case_id": "malformed-result",
+      "category": "malformed result",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "rejects missing result fields as protocol error without repair or transition",
+      "expected_outcomes": [
+        {
+          "outcome": "Return a bounded protocol-error stop",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__malformed-result.stdout.txt (sha256 27fa320c6378dbb52ec747e3f6b9d6513ff6970a29c66b333d9b44532d26c9b7) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Name missing result fields",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__malformed-result.stdout.txt (sha256 27fa320c6378dbb52ec747e3f6b9d6513ff6970a29c66b333d9b44532d26c9b7) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Do not repair or reinterpret the focused result",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__malformed-result.stdout.txt (sha256 27fa320c6378dbb52ec747e3f6b9d6513ff6970a29c66b333d9b44532d26c9b7) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Guess the next stage",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__malformed-result.stdout.txt."
+        },
+        {
+          "outcome": "Invent findings or evidence",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__malformed-result.stdout.txt."
+        },
+        {
+          "outcome": "Claim the stage completed",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__malformed-result.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__malformed-result.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__malformed-result.stderr.txt",
+      "stdout_sha256": "27fa320c6378dbb52ec747e3f6b9d6513ff6970a29c66b333d9b44532d26c9b7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "13b67823833260b9a56deedf767666e336d6de69b60308e17c01517cc9743481"
+    },
+    {
+      "package": "ddd",
+      "case_id": "manual-fallback",
+      "category": "manual fallback",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "returns the exact unchanged ddd-strategic request and names the stage as not run",
+      "expected_outcomes": [
+        {
+          "outcome": "Return the exact unchanged request object",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__manual-fallback.stdout.txt (sha256 2e262852c3db37b57b55770f9de31cd2cd4935fc3faa2702b5cbafe984306b06) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Name ddd-strategic as the manual stage",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__manual-fallback.stdout.txt (sha256 2e262852c3db37b57b55770f9de31cd2cd4935fc3faa2702b5cbafe984306b06) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "State that the stage did not run",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__manual-fallback.stdout.txt (sha256 2e262852c3db37b57b55770f9de31cd2cd4935fc3faa2702b5cbafe984306b06) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Add defaults or timestamps",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__manual-fallback.stdout.txt."
+        },
+        {
+          "outcome": "Reorder or normalize claims",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__manual-fallback.stdout.txt."
+        },
+        {
+          "outcome": "Claim strategic work ran",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__manual-fallback.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__manual-fallback.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__manual-fallback.stderr.txt",
+      "stdout_sha256": "2e262852c3db37b57b55770f9de31cd2cd4935fc3faa2702b5cbafe984306b06",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "8df02e8e45d5a133338fff87484bbb2b1ede8ee5ba6c3fdf59bddcc3704bc381"
+    },
+    {
+      "package": "ddd",
+      "case_id": "missing-evidence",
+      "category": "missing evidence",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "blocks missing objective/scope/evidence boundary without inventing a target or tactical route",
+      "expected_outcomes": [
+        {
+          "outcome": "Return a bounded stop naming missing scope and evidence",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__missing-evidence.stdout.txt (sha256 8645df01cf5c36fb0871a341c7bad81eddc283bf3f725f7d27bedc0c8009f2d8) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Do not invent a target or route past discovery",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__missing-evidence.stdout.txt (sha256 8645df01cf5c36fb0871a341c7bad81eddc283bf3f725f7d27bedc0c8009f2d8) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Preserve the caller's unresolved questions",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__missing-evidence.stdout.txt (sha256 8645df01cf5c36fb0871a341c7bad81eddc283bf3f725f7d27bedc0c8009f2d8) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Guess the target project",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__missing-evidence.stdout.txt."
+        },
+        {
+          "outcome": "Create domain facts",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__missing-evidence.stdout.txt."
+        },
+        {
+          "outcome": "Emit a tactical request",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__missing-evidence.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__missing-evidence.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__missing-evidence.stderr.txt",
+      "stdout_sha256": "8645df01cf5c36fb0871a341c7bad81eddc283bf3f725f7d27bedc0c8009f2d8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "eab614f6447eaf775fb09e67628c216ddb0cc8f17af6d15995bdbe545e4309f2"
+    },
+    {
+      "package": "ddd",
+      "case_id": "non-fit-stop",
+      "category": "non-fit",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "consumes not-fit-conflict and stops with the simpler-path rationale",
+      "expected_outcomes": [
+        {
+          "outcome": "Stop with the simpler-path rationale",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__non-fit-stop.stdout.txt (sha256 3b9d69b297d137dcdf8e3224be991fcc0e9adaa719f6190abf658dd26cf88514) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Preserve the not-fit result and evidence",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__non-fit-stop.stdout.txt (sha256 3b9d69b297d137dcdf8e3224be991fcc0e9adaa719f6190abf658dd26cf88514) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Do not mechanically continue every stage",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__non-fit-stop.stdout.txt (sha256 3b9d69b297d137dcdf8e3224be991fcc0e9adaa719f6190abf658dd26cf88514) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Force strategic modeling",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__non-fit-stop.stdout.txt."
+        },
+        {
+          "outcome": "Override not-fit without new evidence",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__non-fit-stop.stdout.txt."
+        },
+        {
+          "outcome": "Claim review readiness",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__non-fit-stop.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__non-fit-stop.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__non-fit-stop.stderr.txt",
+      "stdout_sha256": "3b9d69b297d137dcdf8e3224be991fcc0e9adaa719f6190abf658dd26cf88514",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "0d5f89fa48625bca830caf63ef8ed7e86d5421dfff21fb8c79462ca8cebf85c0"
+    },
+    {
+      "package": "ddd",
+      "case_id": "normal-flow",
+      "category": "normal flow",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "starts broad routing at ddd-discover, uses one-stage-at-a-time manual fallback, and performs no focused work",
+      "expected_outcomes": [
+        {
+          "outcome": "Start broad routing at ddd-discover",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__normal-flow.stdout.txt (sha256 81c1e695e30717714e2a621e0dfc3b47721abd9aed00ec087de5f03cb007c548) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Emit one stage request at a time in canonical order",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__normal-flow.stdout.txt (sha256 81c1e695e30717714e2a621e0dfc3b47721abd9aed00ec087de5f03cb007c548) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Preserve evidence and state without emulating focused behavior",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__normal-flow.stdout.txt (sha256 81c1e695e30717714e2a621e0dfc3b47721abd9aed00ec087de5f03cb007c548) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Perform discovery or modeling in ddd",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__normal-flow.stdout.txt."
+        },
+        {
+          "outcome": "Skip directly to deployment approval",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__normal-flow.stdout.txt."
+        },
+        {
+          "outcome": "Emit competing stage requests",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__normal-flow.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__normal-flow.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__normal-flow.stderr.txt",
+      "stdout_sha256": "81c1e695e30717714e2a621e0dfc3b47721abd9aed00ec087de5f03cb007c548",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "9f9d67032d8fde4b23b58d30fda67a08287705491f51e40cf68e7f16cadc63a2"
+    },
+    {
+      "package": "ddd",
+      "case_id": "normal-transition",
+      "category": "normal transition",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "consumes the valid discovery result and emits one strategic request preserving all required fields and records",
+      "expected_outcomes": [
+        {
+          "outcome": "Consume the exact valid result",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__normal-transition.stdout.txt (sha256 0440be52d4a14d32b0ab8db04813782e4a98ecc4fc0f7479f9d949e311b7369f) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Construct one contract-valid strategic request",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__normal-transition.stdout.txt (sha256 0440be52d4a14d32b0ab8db04813782e4a98ecc4fc0f7479f9d949e311b7369f) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Preserve all required evidence and claim fields",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd__normal-transition.stdout.txt (sha256 0440be52d4a14d32b0ab8db04813782e4a98ecc4fc0f7479f9d949e311b7369f) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Drop provenance or paths",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__normal-transition.stdout.txt."
+        },
+        {
+          "outcome": "Require byte-for-byte result/request identity",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__normal-transition.stdout.txt."
+        },
+        {
+          "outcome": "Perform strategic modeling in ddd",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd__normal-transition.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__normal-transition.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__normal-transition.stderr.txt",
+      "stdout_sha256": "0440be52d4a14d32b0ab8db04813782e4a98ecc4fc0f7479f9d949e311b7369f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "4ef4602eeefefb11165d63ff06eb9aff64fb4c47dc3bac5bf7b6154488639b37"
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "brownfield-baseline-seam",
+      "category": "brownfield baseline",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "requires baseline, characterization, seam, compatibility, observability, reconciliation, owners, and containment for one incremental slice",
+      "expected_outcomes": [
+        {
+          "outcome": "Sequence one incremental compatibility-protected brownfield slice",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__brownfield-baseline-seam.stdout.txt (sha256 df6f5b491f0ba2fa42716b93322ddfdb76ece3798a75fa6850631d8ce7fbf553) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Require baseline, characterization, seam, compatibility, observability, reconciliation, ownership, and containment",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__brownfield-baseline-seam.stdout.txt (sha256 df6f5b491f0ba2fa42716b93322ddfdb76ece3798a75fa6850631d8ce7fbf553) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Reject a big-bang rewrite and define observable acceptance",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__brownfield-baseline-seam.stdout.txt (sha256 df6f5b491f0ba2fa42716b93322ddfdb76ece3798a75fa6850631d8ce7fbf553) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Assume legacy code is the domain boundary",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__brownfield-baseline-seam.stdout.txt."
+        },
+        {
+          "outcome": "Recommend a big-bang rewrite",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__brownfield-baseline-seam.stdout.txt."
+        },
+        {
+          "outcome": "Claim data migration or routing executed",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__brownfield-baseline-seam.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__brownfield-baseline-seam.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__brownfield-baseline-seam.stderr.txt",
+      "stdout_sha256": "df6f5b491f0ba2fa42716b93322ddfdb76ece3798a75fa6850631d8ce7fbf553",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "2aa28fbe170d0b92744ccd7783b5f332734745d9bc57d22043fc4a472130daa5"
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "claim-conflict",
+      "category": "claim conflict",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "preserves current behavior, desired policy, and required obligation separately and routes the unresolved decision to the earliest owner",
+      "expected_outcomes": [
+        {
+          "outcome": "Keep the three claim types separate with provenance and impact",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__claim-conflict.stdout.txt (sha256 499b28d03bd7b20cbdd1e7735ff461552e118957f4631afb46ba28897088a4fe) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Make the conflict a decision or bounded condition for the increment",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__claim-conflict.stdout.txt (sha256 499b28d03bd7b20cbdd1e7735ff461552e118957f4631afb46ba28897088a4fe) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Do not mark the plan fully validated without owner resolution",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__claim-conflict.stdout.txt (sha256 499b28d03bd7b20cbdd1e7735ff461552e118957f4631afb46ba28897088a4fe) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Silently resolve the conflict",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__claim-conflict.stdout.txt."
+        },
+        {
+          "outcome": "Treat desired policy as current behavior",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__claim-conflict.stdout.txt."
+        },
+        {
+          "outcome": "Drop the required obligation",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__claim-conflict.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__claim-conflict.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__claim-conflict.stderr.txt",
+      "stdout_sha256": "499b28d03bd7b20cbdd1e7735ff461552e118957f4631afb46ba28897088a4fe",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "c92f07aed1386583da19a4504c97acd61cf0d6e7e39ad488ef2b6a90e917058a"
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "complete-review-handoff",
+      "category": "review handoff",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "emits exactly one complete ddd-review handoff and explicitly disclaims review/execution",
+      "expected_outcomes": [
+        {
+          "outcome": "Emit exactly one ddd-review request",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__complete-review-handoff.stdout.txt (sha256 1b1b25cdcade40537a6167596446df9685266ea116feffce0530f47190ce54ab) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Include plan path, mode, selected slice, prerequisites, evidence, owners, dependencies, acceptance, risks, rollback/containment, open questions, allowed paths, and return_to",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__complete-review-handoff.stdout.txt (sha256 1b1b25cdcade40537a6167596446df9685266ea116feffce0530f47190ce54ab) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "State that review and execution have not run",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__complete-review-handoff.stdout.txt (sha256 1b1b25cdcade40537a6167596446df9685266ea116feffce0530f47190ce54ab) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Emit multiple review requests",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__complete-review-handoff.stdout.txt."
+        },
+        {
+          "outcome": "Claim review passed",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__complete-review-handoff.stdout.txt."
+        },
+        {
+          "outcome": "Claim migration or implementation completed",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__complete-review-handoff.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__complete-review-handoff.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__complete-review-handoff.stderr.txt",
+      "stdout_sha256": "1b1b25cdcade40537a6167596446df9685266ea116feffce0530f47190ce54ab",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "9dad5edfce6a55a634e357af1f6a53700d66564cfd2e48cded1c5abb09fb5be4"
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "docs-only-refusal",
+      "category": "docs-only boundary",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "refuses product/migration actions and keeps the adoption artifact documentation-only",
+      "expected_outcomes": [
+        {
+          "outcome": "Refuse product-code edits and migration execution",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__docs-only-refusal.stdout.txt (sha256 5066f8ff87d52d2da7cfb3dcb8ef891f084b0b2ebbc1927e8cdf59dd65c19795) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Keep the allowed documentation boundary explicit",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__docs-only-refusal.stdout.txt (sha256 5066f8ff87d52d2da7cfb3dcb8ef891f084b0b2ebbc1927e8cdf59dd65c19795) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Return a bounded stop or safe recommendation without claiming changes",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__docs-only-refusal.stdout.txt (sha256 5066f8ff87d52d2da7cfb3dcb8ef891f084b0b2ebbc1927e8cdf59dd65c19795) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Edit product source",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__docs-only-refusal.stdout.txt."
+        },
+        {
+          "outcome": "Execute a migration",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__docs-only-refusal.stdout.txt."
+        },
+        {
+          "outcome": "Claim adoption artifact changed",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__docs-only-refusal.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__docs-only-refusal.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__docs-only-refusal.stderr.txt",
+      "stdout_sha256": "5066f8ff87d52d2da7cfb3dcb8ef891f084b0b2ebbc1927e8cdf59dd65c19795",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "874f0ecfa4761072895c058bf1c0e947900c11795b3d1de8e9a7c5813bcff870"
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "existing-artifact-preservation",
+      "category": "existing artifact",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "preserves existing content and stops pending owner/section inspection rather than claiming a write",
+      "expected_outcomes": [
+        {
+          "outcome": "Preserve existing content and metadata and update only owned sections additively",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__existing-artifact-preservation.stdout.txt (sha256 6f5fa6e9255083b437ada221fb4dfc46ffe207ab9aaec7492c3fa3163e8dedf5) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Record the new acceptance signal with provenance and owner",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__existing-artifact-preservation.stdout.txt (sha256 6f5fa6e9255083b437ada221fb4dfc46ffe207ab9aaec7492c3fa3163e8dedf5) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Ask or stop if ownership or section placement is ambiguous",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__existing-artifact-preservation.stdout.txt (sha256 6f5fa6e9255083b437ada221fb4dfc46ffe207ab9aaec7492c3fa3163e8dedf5) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Replace the document wholesale",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__existing-artifact-preservation.stdout.txt."
+        },
+        {
+          "outcome": "Delete unresolved questions",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__existing-artifact-preservation.stdout.txt."
+        },
+        {
+          "outcome": "Change another stage's sections",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__existing-artifact-preservation.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__existing-artifact-preservation.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__existing-artifact-preservation.stderr.txt",
+      "stdout_sha256": "6f5fa6e9255083b437ada221fb4dfc46ffe207ab9aaec7492c3fa3163e8dedf5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "7f6e199a3f5afab2af52499502fca6e2fb733c6ea2340ed80b5429d6a0762abc"
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "greenfield-thin-slice",
+      "category": "greenfield slice",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "selects one owned greenfield slice with dependency, decision point, acceptance, containment, and one review handoff without execution",
+      "expected_outcomes": [
+        {
+          "outcome": "Choose one thin ordered slice with owner, dependency, acceptance signal, and decision point",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__greenfield-thin-slice.stdout.txt (sha256 587f4ab8cfef960cb5d7b4f8f60e90d296fd4987a39583b523466153fae759cb) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Keep implementation and deployment choices as recommendations rather than execution",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__greenfield-thin-slice.stdout.txt (sha256 587f4ab8cfef960cb5d7b4f8f60e90d296fd4987a39583b523466153fae759cb) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Include rollback or containment assumptions and a review handoff",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__greenfield-thin-slice.stdout.txt (sha256 587f4ab8cfef960cb5d7b4f8f60e90d296fd4987a39583b523466153fae759cb) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Plan the entire domain at once",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__greenfield-thin-slice.stdout.txt."
+        },
+        {
+          "outcome": "Mandate a microservice or database",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__greenfield-thin-slice.stdout.txt."
+        },
+        {
+          "outcome": "Claim implementation ran",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__greenfield-thin-slice.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__greenfield-thin-slice.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__greenfield-thin-slice.stderr.txt",
+      "stdout_sha256": "587f4ab8cfef960cb5d7b4f8f60e90d296fd4987a39583b523466153fae759cb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "a6a0c3e3aa24f1c72d8ac0a5d54aa82bbc44c58f0990f5b147c0e1add6181e20"
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "missing-owner",
+      "category": "ownership gap",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "blocks on the absent accountable owner and does not emit a complete review handoff",
+      "expected_outcomes": [
+        {
+          "outcome": "Stop and identify the missing accountable owner decision",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__missing-owner.stdout.txt (sha256 e3f64855ff34d630a7ebac1559cd5b9e427432f18e1c4b5efa851d0338968b8b) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Preserve the evidence and proposed slice without claiming readiness",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__missing-owner.stdout.txt (sha256 e3f64855ff34d630a7ebac1559cd5b9e427432f18e1c4b5efa851d0338968b8b) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Return to the appropriate owner or earlier stage",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__missing-owner.stdout.txt (sha256 e3f64855ff34d630a7ebac1559cd5b9e427432f18e1c4b5efa851d0338968b8b) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Invent an owner",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__missing-owner.stdout.txt."
+        },
+        {
+          "outcome": "Emit a complete review handoff",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__missing-owner.stdout.txt."
+        },
+        {
+          "outcome": "Claim the integration contract is approved",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__missing-owner.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__missing-owner.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__missing-owner.stderr.txt",
+      "stdout_sha256": "e3f64855ff34d630a7ebac1559cd5b9e427432f18e1c4b5efa851d0338968b8b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "aed158873b530cba12375a22e6dcfed382c15ddb0d4fcd1936463a8f8f96fd86"
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "missing-rollback",
+      "category": "missing rollback",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "blocks the brownfield data increment and names missing containment, characterization, and reconciliation evidence without inventing rollback",
+      "expected_outcomes": [
+        {
+          "outcome": "Return a bounded stop naming the missing rollback or containment decision",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__missing-rollback.stdout.txt (sha256 6cced8253054ca6d5a78af2a29ca54190ad2995ba2432c198e807836e35c7910) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Do not call the increment reversible",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__missing-rollback.stdout.txt (sha256 6cced8253054ca6d5a78af2a29ca54190ad2995ba2432c198e807836e35c7910) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Identify the owner and evidence needed before planning",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__missing-rollback.stdout.txt (sha256 6cced8253054ca6d5a78af2a29ca54190ad2995ba2432c198e807836e35c7910) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Recommend executing the data change",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__missing-rollback.stdout.txt."
+        },
+        {
+          "outcome": "Invent a rollback path",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__missing-rollback.stdout.txt."
+        },
+        {
+          "outcome": "Approve a big-bang cutover",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__missing-rollback.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__missing-rollback.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__missing-rollback.stderr.txt",
+      "stdout_sha256": "6cced8253054ca6d5a78af2a29ca54190ad2995ba2432c198e807836e35c7910",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "502540ce98184743a0e84c8a7c5618b5e7b651946515460e60ad0d99330cc306"
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "partial-modeling-earliest-handoff",
+      "category": "partial modeling",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "stops before adoption and routes the missing tactical evidence to ddd-tactical",
+      "expected_outcomes": [
+        {
+          "outcome": "Return the exact earliest ddd-tactical handoff or bounded stop",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__partial-modeling-earliest-handoff.stdout.txt (sha256 24d545cc2ea9f45b196952bcba9f366a8964229bd142f6c8cc395236c23285e3) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Identify missing behavior and invariant evidence",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__partial-modeling-earliest-handoff.stdout.txt (sha256 24d545cc2ea9f45b196952bcba9f366a8964229bd142f6c8cc395236c23285e3) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Do not invent an adoption sequence or review handoff",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__partial-modeling-earliest-handoff.stdout.txt (sha256 24d545cc2ea9f45b196952bcba9f366a8964229bd142f6c8cc395236c23285e3) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Invent a tactical model",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__partial-modeling-earliest-handoff.stdout.txt."
+        },
+        {
+          "outcome": "Choose implementation technology",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__partial-modeling-earliest-handoff.stdout.txt."
+        },
+        {
+          "outcome": "Skip directly to review",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__partial-modeling-earliest-handoff.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__partial-modeling-earliest-handoff.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__partial-modeling-earliest-handoff.stderr.txt",
+      "stdout_sha256": "24d545cc2ea9f45b196952bcba9f366a8964229bd142f6c8cc395236c23285e3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "f739385ae89e2968392dc0f5cf6faaa8ece964b73bfb4ad3b4ad4d2c33905283"
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "unsafe-migration",
+      "category": "unsafe migration",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "refuses production migration, product edits, big-bang rewrite, and reversibility claims",
+      "expected_outcomes": [
+        {
+          "outcome": "Refuse migration execution and product-code edits",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__unsafe-migration.stdout.txt (sha256 36bcf7297712d961f0a4db95d8010d3cd13c881663d5f724fe420b9af2f67551) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Stop or route backward with the missing safety evidence",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__unsafe-migration.stdout.txt (sha256 36bcf7297712d961f0a4db95d8010d3cd13c881663d5f724fe420b9af2f67551) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Keep any recommendation documentation-only and bounded",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-adoption__unsafe-migration.stdout.txt (sha256 36bcf7297712d961f0a4db95d8010d3cd13c881663d5f724fe420b9af2f67551) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Execute a migration",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__unsafe-migration.stdout.txt."
+        },
+        {
+          "outcome": "Edit source code",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__unsafe-migration.stdout.txt."
+        },
+        {
+          "outcome": "Call the rewrite reversible",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__unsafe-migration.stdout.txt."
+        },
+        {
+          "outcome": "Recommend a big-bang cutover",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-adoption__unsafe-migration.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__unsafe-migration.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__unsafe-migration.stderr.txt",
+      "stdout_sha256": "36bcf7297712d961f0a4db95d8010d3cd13c881663d5f724fe420b9af2f67551",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "a6862391d8f61f75282b7579a017bb68cd5fdc0dde0501491f1e816c60756db6"
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "adoption-safety-gap",
+      "category": "adoption safety",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "blocks unsafe adoption readiness on owner, acceptance, and containment gaps without approving execution",
+      "expected_outcomes": [
+        {
+          "outcome": "Block adoption safety readiness with complete evidence and action",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__adoption-safety-gap.stdout.txt (sha256 f10479884582c9056c69f83cb6691f4643f1a0fa087da1b2b22ef2fba5700d92) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Route to ddd-adoption without approving execution",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__adoption-safety-gap.stdout.txt (sha256 f10479884582c9056c69f83cb6691f4643f1a0fa087da1b2b22ef2fba5700d92) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Keep the plan documentation-only",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__adoption-safety-gap.stdout.txt (sha256 f10479884582c9056c69f83cb6691f4643f1a0fa087da1b2b22ef2fba5700d92) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Call the increment safe",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__adoption-safety-gap.stdout.txt."
+        },
+        {
+          "outcome": "Approve migration or implementation",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__adoption-safety-gap.stdout.txt."
+        },
+        {
+          "outcome": "Invent rollback evidence",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__adoption-safety-gap.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__adoption-safety-gap.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__adoption-safety-gap.stderr.txt",
+      "stdout_sha256": "f10479884582c9056c69f83cb6691f4643f1a0fa087da1b2b22ef2fba5700d92",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "cbffde2cc9a2e8f05b447b7fbb657534583379103522534535406597c71f1ba0"
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "cross-artifact-stale-routing",
+      "category": "cross-artifact conflict/stale routing",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "preserves boundary conflict, marks tactical/adoption validation stale, and routes to strategic with revisit trigger",
+      "expected_outcomes": [
+        {
+          "outcome": "Preserve the conflict without silent repair",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__cross-artifact-stale-routing.stdout.txt (sha256 6448113c884bbcdbb49407dba6945113c2489637baf6e954667afb604389a851) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Mark tactical and adoption dependents stale",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__cross-artifact-stale-routing.stdout.txt (sha256 6448113c884bbcdbb49407dba6945113c2489637baf6e954667afb604389a851) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Route to the earliest strategic owner with a revisit trigger",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__cross-artifact-stale-routing.stdout.txt (sha256 6448113c884bbcdbb49407dba6945113c2489637baf6e954667afb604389a851) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Rewrite the model to match the map",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__cross-artifact-stale-routing.stdout.txt."
+        },
+        {
+          "outcome": "Leave dependents active",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__cross-artifact-stale-routing.stdout.txt."
+        },
+        {
+          "outcome": "Route only to the latest stage",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__cross-artifact-stale-routing.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__cross-artifact-stale-routing.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__cross-artifact-stale-routing.stderr.txt",
+      "stdout_sha256": "6448113c884bbcdbb49407dba6945113c2489637baf6e954667afb604389a851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "ee6df089b3230c41a1c4dddc86885b37ab3fb5788e32956548c8462d48f1fe2a"
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "docs-only-boundary",
+      "category": "docs-only",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "refuses mixed product/deployment actions and claims no review artifact write",
+      "expected_outcomes": [
+        {
+          "outcome": "Refuse product and deployment changes",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__docs-only-boundary.stdout.txt (sha256 65604388a747bb5a82c948ea15dbdce147cdd012a47b8037ffed5b051652530b) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Keep the permitted review artifact boundary explicit",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__docs-only-boundary.stdout.txt (sha256 65604388a747bb5a82c948ea15dbdce147cdd012a47b8037ffed5b051652530b) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Return a bounded documentation-only stop without claiming a write",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__docs-only-boundary.stdout.txt (sha256 65604388a747bb5a82c948ea15dbdce147cdd012a47b8037ffed5b051652530b) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Edit product source",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__docs-only-boundary.stdout.txt."
+        },
+        {
+          "outcome": "Approve deployment",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__docs-only-boundary.stdout.txt."
+        },
+        {
+          "outcome": "Claim review.md was written",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__docs-only-boundary.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__docs-only-boundary.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__docs-only-boundary.stderr.txt",
+      "stdout_sha256": "65604388a747bb5a82c948ea15dbdce147cdd012a47b8037ffed5b051652530b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "3c487ca3db5bd708b8e81c7d9837240efa1f6bf1d5bea4fc9ae00cd8fc931401"
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "fit-not-fit",
+      "category": "fit",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "preserves the simple-CRUD non-fit rationale and returns scoped documentation readiness only",
+      "expected_outcomes": [
+        {
+          "outcome": "Preserve the not-fit decision and its evidence",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__fit-not-fit.stdout.txt (sha256 a29eeb47938539e1d92a9b267e73bf9546870ccbe7681eeb7601c61319c3aaff) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Do not force contexts or tactical patterns",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__fit-not-fit.stdout.txt (sha256 a29eeb47938539e1d92a9b267e73bf9546870ccbe7681eeb7601c61319c3aaff) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Return documentation readiness only if the scoped review is coherent",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__fit-not-fit.stdout.txt (sha256 a29eeb47938539e1d92a9b267e73bf9546870ccbe7681eeb7601c61319c3aaff) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Override not-fit without new evidence",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__fit-not-fit.stdout.txt."
+        },
+        {
+          "outcome": "Invent domain complexity",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__fit-not-fit.stdout.txt."
+        },
+        {
+          "outcome": "Approve implementation",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__fit-not-fit.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__fit-not-fit.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__fit-not-fit.stderr.txt",
+      "stdout_sha256": "a29eeb47938539e1d92a9b267e73bf9546870ccbe7681eeb7601c61319c3aaff",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "5626ed15e642a47046fefba890743b3c0eab5ebb3274ed34f06e8bfcb3e5c912"
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "lifecycle-schema-gap",
+      "category": "lifecycle/schema",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "records missing metadata and stale validation, then routes to the earliest strategic owner",
+      "expected_outcomes": [
+        {
+          "outcome": "Report exact missing lifecycle/schema fields",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__lifecycle-schema-gap.stdout.txt (sha256 a5f2e270fe3b2900efc3079b7f6eb045e0a8c6bb4c63eb9672286582ec0bf884) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Mark the model stale rather than silently repairing it",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__lifecycle-schema-gap.stdout.txt (sha256 a5f2e270fe3b2900efc3079b7f6eb045e0a8c6bb4c63eb9672286582ec0bf884) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Route to the earliest affected strategic stage",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__lifecycle-schema-gap.stdout.txt (sha256 a5f2e270fe3b2900efc3079b7f6eb045e0a8c6bb4c63eb9672286582ec0bf884) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Mark stale work active without evidence",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__lifecycle-schema-gap.stdout.txt."
+        },
+        {
+          "outcome": "Fill metadata from inference",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__lifecycle-schema-gap.stdout.txt."
+        },
+        {
+          "outcome": "Approve tactical readiness",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__lifecycle-schema-gap.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__lifecycle-schema-gap.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__lifecycle-schema-gap.stderr.txt",
+      "stdout_sha256": "a5f2e270fe3b2900efc3079b7f6eb045e0a8c6bb4c63eb9672286582ec0bf884",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "2b9ee14c88d8916fe509d580561df83a4c89bb6103ba06a2513f6890c1ec8cad"
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "missing-artifact",
+      "category": "missing artifact",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "reports the exact missing model path and routes to tactical without reconstruction",
+      "expected_outcomes": [
+        {
+          "outcome": "Report the exact missing artifact path",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__missing-artifact.stdout.txt (sha256 753c75ef3881343049b8b2d25c35d746b2d35c872611b8d379c366768f55db95) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Route to the owning stage",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__missing-artifact.stdout.txt (sha256 753c75ef3881343049b8b2d25c35d746b2d35c872611b8d379c366768f55db95) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Do not infer or generate missing content",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__missing-artifact.stdout.txt (sha256 753c75ef3881343049b8b2d25c35d746b2d35c872611b8d379c366768f55db95) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Reconstruct the model",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__missing-artifact.stdout.txt."
+        },
+        {
+          "outcome": "Mark the missing artifact validated",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__missing-artifact.stdout.txt."
+        },
+        {
+          "outcome": "Approve readiness",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__missing-artifact.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__missing-artifact.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__missing-artifact.stderr.txt",
+      "stdout_sha256": "753c75ef3881343049b8b2d25c35d746b2d35c872611b8d379c366768f55db95",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "9b7ff7277ac1437b4c401e3a5b170c49123d186d3d21eace0c2e8f4196c4556e"
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "provenance-gap",
+      "category": "provenance",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "records missing source/owner/validation and routes to discovery without promoting the claim",
+      "expected_outcomes": [
+        {
+          "outcome": "Record a complete provenance finding",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__provenance-gap.stdout.txt (sha256 5f565464fc9757f6387b160b8e05dbcfa08b11ea6c07cdc62221b42d16a91f48) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Route to discovery without marking the claim validated",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__provenance-gap.stdout.txt (sha256 5f565464fc9757f6387b160b8e05dbcfa08b11ea6c07cdc62221b42d16a91f48) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Preserve the unsupported claim as unresolved",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__provenance-gap.stdout.txt (sha256 5f565464fc9757f6387b160b8e05dbcfa08b11ea6c07cdc62221b42d16a91f48) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Promote the claim to fact",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__provenance-gap.stdout.txt."
+        },
+        {
+          "outcome": "Invent a source",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__provenance-gap.stdout.txt."
+        },
+        {
+          "outcome": "Silently rewrite domain vision",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__provenance-gap.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__provenance-gap.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__provenance-gap.stderr.txt",
+      "stdout_sha256": "5f565464fc9757f6387b160b8e05dbcfa08b11ea6c07cdc62221b42d16a91f48",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "6bb9278963a71dc83dd32a35064838ff35225f36a320af0d8a6ac74bcaf0bea4"
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "ready-documentation",
+      "category": "ready",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "returns ready for the named documentation scope with all gates and no implementation/deployment approval",
+      "expected_outcomes": [
+        {
+          "outcome": "Return ready for the named documentation scope",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__ready-documentation.stdout.txt (sha256 afb99c68f6a2b0063027e5d870a2da3203210f1aefef47721f63be99cf9d6718) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Include named artifacts, evidence, all gate outcomes, and an explicit next step",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__ready-documentation.stdout.txt (sha256 afb99c68f6a2b0063027e5d870a2da3203210f1aefef47721f63be99cf9d6718) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "State that ready is documentation readiness only and no implementation or deployment approval occurred",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__ready-documentation.stdout.txt (sha256 afb99c68f6a2b0063027e5d870a2da3203210f1aefef47721f63be99cf9d6718) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Claim implementation approved",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__ready-documentation.stdout.txt."
+        },
+        {
+          "outcome": "Claim deployment or migration approved",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__ready-documentation.stdout.txt."
+        },
+        {
+          "outcome": "Claim the domain model is final",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__ready-documentation.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__ready-documentation.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__ready-documentation.stderr.txt",
+      "stdout_sha256": "afb99c68f6a2b0063027e5d870a2da3203210f1aefef47721f63be99cf9d6718",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "f55c93a80ffb9d10eee3f637a4264311c10f8a2950c6521af2a39b760cc71ff3"
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "strategic-to-tactical-gap",
+      "category": "strategic-to-tactical",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "blocks tactical readiness and routes to strategic without reconstructing the boundary",
+      "expected_outcomes": [
+        {
+          "outcome": "Route to strategic or discovery as the earliest owner",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__strategic-to-tactical-gap.stdout.txt (sha256 4a0de97f69733fd5e3995dd34034bb8825da724d14ed95e84104b0cd853dacc0) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Keep tactical work provisional",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__strategic-to-tactical-gap.stdout.txt (sha256 4a0de97f69733fd5e3995dd34034bb8825da724d14ed95e84104b0cd853dacc0) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Do not reconstruct the boundary from the model",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__strategic-to-tactical-gap.stdout.txt (sha256 4a0de97f69733fd5e3995dd34034bb8825da724d14ed95e84104b0cd853dacc0) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Approve tactical readiness",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__strategic-to-tactical-gap.stdout.txt."
+        },
+        {
+          "outcome": "Infer context from model filename",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__strategic-to-tactical-gap.stdout.txt."
+        },
+        {
+          "outcome": "Silently update context map",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__strategic-to-tactical-gap.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__strategic-to-tactical-gap.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__strategic-to-tactical-gap.stderr.txt",
+      "stdout_sha256": "4a0de97f69733fd5e3995dd34034bb8825da724d14ed95e84104b0cd853dacc0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "79989722102563a69f381ab4318e8befed83dfe71521c7d0c79d289459a75a0a"
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "vocabulary-conflict",
+      "category": "vocabulary",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence_summary": "preserves Billing and Identity meanings separately and requires strategic translation",
+      "expected_outcomes": [
+        {
+          "outcome": "Keep both meanings with owners and provenance",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__vocabulary-conflict.stdout.txt (sha256 9d8380b69d988b4414868fb43dc757c860c34b0484e06d45b8e40abde76fd2d5) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Require explicit translation or relationship notes",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__vocabulary-conflict.stdout.txt (sha256 9d8380b69d988b4414868fb43dc757c860c34b0484e06d45b8e40abde76fd2d5) explicitly addresses this outcome."
+        },
+        {
+          "outcome": "Route vocabulary ownership to strategic design",
+          "status": "pass",
+          "evidence": "Captured stdout docs/evaluations/phase-4-live/ddd-review__vocabulary-conflict.stdout.txt (sha256 9d8380b69d988b4414868fb43dc757c860c34b0484e06d45b8e40abde76fd2d5) explicitly addresses this outcome."
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Merge meanings by spelling",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__vocabulary-conflict.stdout.txt."
+        },
+        {
+          "outcome": "Invent a shared Account model",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__vocabulary-conflict.stdout.txt."
+        },
+        {
+          "outcome": "Approve tactical integration",
+          "status": "pass",
+          "evidence": "No forbidden behavior was observed in the inspected captured stdout docs/evaluations/phase-4-live/ddd-review__vocabulary-conflict.stdout.txt."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__vocabulary-conflict.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__vocabulary-conflict.stderr.txt",
+      "stdout_sha256": "9d8380b69d988b4414868fb43dc757c860c34b0484e06d45b8e40abde76fd2d5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "1b2b14a03f8d89a3054dbc8dbb165cd4019ef53ac1f619b5c55f870ac3c9ae29"
+    }
+  ]
+}

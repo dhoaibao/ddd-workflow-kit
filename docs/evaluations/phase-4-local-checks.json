@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "kind": "phase-4-local-checks",
+  "generated_at_utc": "2026-09-09T15:52:40.110541Z",
+  "checks": {
+    "validator": {
+      "command": "python3 scripts/validate-skills.py",
+      "status": "pass"
+    },
+    "all_eval_json_parse": {
+      "status": "pass"
+    },
+    "transition_fixture_validation": {
+      "status": "pass",
+      "fixture_count": 10,
+      "exact_result_to_handoff_preservation": true,
+      "request_artifact_preservation_when_unchanged": true,
+      "manual_serialized_identity": true,
+      "lifecycle_preservation": true
+    },
+    "live_capture_integrity": {
+      "status": "pass",
+      "case_count": 30,
+      "all_exit_status_zero": true
+    },
+    "semantic_judgments": {
+      "status": "pass",
+      "case_count": 30,
+      "all_expected_and_forbidden_judged": true
+    },
+    "phase_0_hash_carry_forward": {
+      "status": "pass",
+      "packages": [
+        {
+          "package": "ddd-discover",
+          "skill": true,
+          "evals": true
+        },
+        {
+          "package": "ddd-strategic",
+          "skill": true,
+          "evals": true
+        },
+        {
+          "package": "ddd-tactical",
+          "skill": true,
+          "evals": true
+        }
+      ],
+      "all_29_semantic_results_carried": true
+    },
+    "h1_rendered_links_package_isolation": {
+      "status": "pass"
+    },
+    "runtime_vendor_machine_probe": {
+      "status": "pass"
+    },
+    "docs_only_and_ownership_scope": {
+      "status": "pass"
+    },
+    "phase_0_evidence_preservation": {
+      "status": "pass"
+    },
+    "skills_ref": {
+      "status": "deferred",
+      "executable": "unavailable",
+      "python_module": "unavailable",
+      "install_attempted": false
+    },
+    "authored_candidate_diff_check": {
+      "command": "git diff --cached --check -- . ':(exclude)docs/evaluations/phase-4-live/*.stdout.txt' ':(exclude)docs/evaluations/phase-4-live/*.stderr.txt'",
+      "status": "pass",
+      "findings_outside_raw_captures": 0
+    },
+    "full_staged_diff_check": {
+      "command": "git diff --cached --check",
+      "status": "intentional_raw_capture_findings",
+      "exit_status": 2,
+      "finding_count": 28,
+      "affected_paths": [
+        "docs/evaluations/phase-4-live/ddd-adoption__complete-review-handoff.stdout.txt",
+        "docs/evaluations/phase-4-live/ddd-adoption__unsafe-migration.stdout.txt",
+        "docs/evaluations/phase-4-live/ddd-review__adoption-safety-gap.stdout.txt",
+        "docs/evaluations/phase-4-live/ddd-review__cross-artifact-stale-routing.stdout.txt",
+        "docs/evaluations/phase-4-live/ddd-review__ready-documentation.stdout.txt",
+        "docs/evaluations/phase-4-live/ddd-review__strategic-to-tactical-gap.stdout.txt",
+        "docs/evaluations/phase-4-live/ddd-review__vocabulary-conflict.stdout.txt",
+        "docs/evaluations/phase-4-live/ddd__index-ownership.stdout.txt"
+      ],
+      "explanation": "Captured model stdout bytes are preserved exactly for provenance and hash integrity; findings are limited to raw phase-4 stdout captures and are not authored-document whitespace."
+    }
+  },
+  "identity": {
+    "head": "6e382cc69bda96793e3883306d099cc07434e724",
+    "origin_main": "a17d35982c3a6f31aacf6634faba6a67c6e1366b",
+    "status": " M README.md\n M docs/plans/README.md\n M scripts/validate-skills.py\n?? docs/evaluations/phase-4-candidate-fingerprint.json\n?? docs/evaluations/phase-4-live-capture.json\n?? docs/evaluations/phase-4-live-semantic-judgments.json\n?? docs/evaluations/phase-4-live/\n?? docs/evaluations/phase-4-local-checks.json\n?? docs/evaluations/phase-4-report.json\n?? docs/evaluations/phase-4-transition-matrix.json\n"
+  },
+  "raw_capture_whitespace_exception": true
+}

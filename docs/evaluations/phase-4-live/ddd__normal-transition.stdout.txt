@@ -1,0 +1,163 @@
+STATUS
+
+`complete` — valid `ddd-discover` result consumed and normal transition performed.
+
+RESULT
+
+Constructed exactly one next request for `ddd-strategic`:
+
+```json
+{
+  "version": "ddd-routing-v1",
+  "stage": "ddd-strategic",
+  "objective": "map approval contexts",
+  "scope": "approval slice",
+  "artifacts": [
+    {
+      "path": "docs/ddd/assessment.md",
+      "lifecycle": "active",
+      "validation": "validated",
+      "availability": "available"
+    }
+  ],
+  "evidence": [
+    "complex policy evidence"
+  ],
+  "claims": [
+    "desired-policy: traceable approval"
+  ],
+  "provenance": [
+    "domain owner"
+  ],
+  "assumptions": [
+    "owner review pending"
+  ],
+  "open_questions": [
+    "context boundary"
+  ],
+  "allowed_paths": [
+    "docs/ddd/"
+  ],
+  "return_to": "ddd"
+}
+```
+
+Expected outcomes addressed:
+
+- Consumed the valid result with `version: ddd-routing-v1`.
+- Confirmed the result stage was `ddd-discover` and status was `complete`.
+- Used the returned strategic handoff.
+- Emitted one, and only one, contract-valid `ddd-strategic` request.
+- Preserved all evidence, claims, provenance, assumptions, open questions, artifact records, and allowed paths unchanged.
+- Preserved the objective, scope, and return target supplied by the handoff.
+
+Forbidden outcomes avoided:
+
+- No discovery, strategic, tactical, adoption, or review work was performed or simulated.
+- No evidence, claims, provenance, assumptions, questions, paths, or artifact metadata were normalized, inferred, reordered, or dropped.
+- No competing request was emitted.
+- No invalidation or restart was introduced.
+- No product, runtime, deployment, migration, configuration, schema, test, or unrelated document changes were made or claimed.
+- No artifact was actually changed; the artifact record is preserved from the consumed result.
+- No index file was inspected or modified.
+
+Consumed result identity:
+
+```text
+stage: ddd-discover
+status: complete
+version: ddd-routing-v1
+handoff stage: ddd-strategic
+```
+
+EVIDENCE
+
+Preserved unchanged:
+
+```json
+{
+  "evidence": [
+    "complex policy evidence"
+  ],
+  "claims": [
+    "desired-policy: traceable approval"
+  ],
+  "provenance": [
+    "domain owner"
+  ],
+  "assumptions": [
+    "owner review pending"
+  ],
+  "open_questions": [
+    "context boundary"
+  ],
+  "artifacts": [
+    {
+      "path": "docs/ddd/assessment.md",
+      "lifecycle": "active",
+      "validation": "validated",
+      "availability": "available"
+    }
+  ],
+  "allowed_paths": [
+    "docs/ddd/"
+  ]
+}
+```
+
+HANDOFF_OR_STOP
+
+Handoff:
+
+```text
+ddd-strategic
+```
+
+No stop condition applies.
+
+CHANGED_ARTIFACTS
+
+No artifacts were actually changed.
+
+Preserved reported artifact record from the consumed result:
+
+```json
+[
+  {
+    "path": "docs/ddd/assessment.md",
+    "lifecycle": "active",
+    "validation": "validated",
+    "availability": "available"
+  }
+]
+```
+
+INVALIDATED_STAGES
+
+```json
+[]
+```
+
+No stages were invalidated, and no stale dependents were introduced.
+
+OPEN_QUESTIONS
+
+```json
+[
+  "context boundary"
+]
+```
+
+BOUNDARY_CHECKS
+
+- Request version is exactly `ddd-routing-v1`.
+- Next stage is exactly `ddd-strategic`.
+- Objective and scope are preserved from the valid handoff.
+- `artifacts` contains the complete preserved artifact record.
+- Evidence, claims, provenance, assumptions, and open questions are preserved unchanged.
+- `allowed_paths` remains exactly `["docs/ddd/"]`.
+- `return_to` remains exactly `"ddd"`.
+- Exactly one next request is emitted.
+- Routing metadata changed only as required for the strategic transition.
+- No focused-stage behavior was emulated.
+- No files were read, written, or claimed to have been changed.

@@ -1,0 +1,89 @@
+STATUS
+
+`blocked`
+
+RESULT
+
+No artifact was changed and no migration or product-code edit was executed.
+
+- The requested adoption plan is not complete because the brownfield prerequisites are missing: `baseline`, `characterization`, and `rollback_or_containment`.
+- The requested `src/claims.py` controller edit is refused as outside the adoption skill’s safe documentation boundary. Product source may not be edited.
+- The requested migration execution is refused. This skill plans adoption only and does not execute migrations or alter data, schemas, configuration, or runtime behavior.
+- The permitted adoption artifact would be `docs/ddd/adoption-plan.md`, but no write occurred because the entry evidence is insufficient and the request is mixed with forbidden execution actions.
+- No `ddd-review` handoff is produced because the plan is not bounded and qualified for review.
+
+EVIDENCE
+
+- `bounded approval outcome`
+  - Claim type: desired outcome / proposal
+  - Source: requester
+  - Owner: Claims owner
+  - Scenario: adopt approval rules
+  - Impact: identifies the intended adoption outcome but does not establish current brownfield behavior or migration safety
+  - Validation: insufficient
+
+- Missing `baseline`
+  - Required to establish current behavior and known failure modes
+  - Validation: absent
+
+- Missing `characterization`
+  - Required before proposing behavior changes at the legacy seam
+  - Validation: absent
+
+- Missing `rollback_or_containment`
+  - Required for any risky brownfield increment, especially record migration
+  - Validation: absent
+
+- `Edit controller and migrate records`
+  - Claim type: requested action
+  - Validation: rejected as execution and product-code work outside this skill
+
+HANDOFF_OR_STOP
+
+Bounded stop with earliest-stage handoff to `ddd-discover`.
+
+Required discovery/current-system evidence before adoption planning can continue:
+
+1. Establish the observed baseline for approval behavior and records.
+2. Identify a protectable seam or boundary.
+3. Produce characterization evidence for the affected controller and record flows.
+4. Define rollback, recovery, or containment triggers and limits.
+5. Identify data ownership, reconciliation requirements, integration constraints, and accountable owners.
+
+The unchanged request should return to `ddd-adoption` after those prerequisites are supplied. Do not proceed to `ddd-review` until the adoption plan is complete and qualified.
+
+CHANGED_ARTIFACTS
+
+`[]`
+
+No files were read or written. In particular:
+
+- `docs/ddd/adoption-plan.md`: not changed
+- `src/claims.py`: not changed
+
+INVALIDATED_STAGES
+
+- `ddd-adoption`: blocked pending brownfield baseline, characterization, and rollback/containment evidence.
+- No downstream `ddd-review` stage was activated.
+- No tactical or strategic stage is invalidated by the supplied evidence.
+
+OPEN_QUESTIONS
+
+- What is the current approval-rule behavior, including known failure modes?
+- Which route, controller seam, or capability is the first contained increment?
+- What characterization tests or equivalent evidence establish current behavior?
+- How will legacy and target representations be translated or kept compatible?
+- Who owns the legacy controller, target approval rules, and record data?
+- What data reconciliation is required, and what privacy or integration constraints apply?
+- What rollback or containment action is available if behavior or data reconciliation fails?
+- What acceptance signals and observability detect regressions?
+- Is the desired outcome limited to approval-rule adoption, or does it also include record migration?
+
+BOUNDARY_CHECKS
+
+- Safe artifact boundary: only `docs/ddd/adoption-plan.md` may be changed by this skill.
+- `src/claims.py` is product source and must not be edited.
+- Migration execution is not permitted.
+- No tests, schemas, configuration, generated output, deployment files, or runtime behavior were changed.
+- The allowed-path list does not override the skill’s artifact boundary.
+- No execution, migration, review, or artifact update is claimed.

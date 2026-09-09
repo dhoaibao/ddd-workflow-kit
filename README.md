@@ -9,7 +9,9 @@ This repository is a research and documentation workspace for building a reusabl
 - [ddd-strategic skill](skills/ddd-strategic/SKILL.md)
 - [ddd-tactical skill](skills/ddd-tactical/SKILL.md)
 - [ddd-adoption skill](skills/ddd-adoption/SKILL.md)
+- [ddd-review skill](skills/ddd-review/SKILL.md)
+- [ddd routing orchestrator](skills/ddd/SKILL.md)
 - [Glossary](docs/foundation/glossary.md)
 - [References](docs/foundation/references.md)
 
-**All six executable slices—discovery, strategic, tactical, adoption, review, and routing-only orchestration—are included; phase 4 covers full-suite transition evaluation.**
+**All six executable slices—discovery, strategic, tactical, adoption, review, and routing-only orchestration—are included. Phase 4 full-suite transition evaluation is captured in [`docs/evaluations/phase-4-report.json`](docs/evaluations/phase-4-report.json); `skills-ref` remains deferred because it is unavailable.**

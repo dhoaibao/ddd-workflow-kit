@@ -1,0 +1,135 @@
+## STATUS
+
+`protocol-error` — the focused-stage result is malformed and cannot be consumed.
+
+## RESULT
+
+- Received result identity: `stage = ddd-strategic`, `status = complete`.
+- The result is rejected because it omits required fields:
+  - `version`
+  - `changed_artifacts`
+  - `findings`
+  - `handoff` or `stop`
+  - `evidence`
+  - `claims`
+  - `provenance`
+  - `allowed_paths`
+- The malformed result is not repaired, normalized, or reinterpreted.
+- No focused-stage completion is accepted.
+- No stage transition occurred.
+- The original request is preserved unchanged for manual recovery:
+
+```json
+{
+  "version": "ddd-routing-v1",
+  "stage": "ddd-strategic",
+  "objective": "map contexts",
+  "scope": "approval slice",
+  "artifacts": [],
+  "evidence": ["fit evidence"],
+  "claims": [],
+  "provenance": ["discovery"],
+  "assumptions": [],
+  "open_questions": [],
+  "allowed_paths": ["docs/ddd/"],
+  "return_to": "ddd"
+}
+```
+
+- Expected outcomes satisfied:
+  - malformed focused-stage result rejected;
+  - protocol finding identifies the malformed fields;
+  - routing stops at the current stage;
+  - no artifact is changed;
+  - evidence and routing boundaries are preserved;
+  - no stage is simulated.
+- Forbidden outcomes avoided:
+  - no missing field was filled in;
+  - no result status was treated as valid;
+  - no handoff was invented;
+  - no stage was silently retried or advanced;
+  - no claims, provenance, paths, or artifacts were altered;
+  - no implementation, deployment, migration, or live-validation approval was claimed.
+
+## EVIDENCE
+
+Protocol finding:
+
+```json
+{
+  "type": "protocol-error",
+  "message": "Malformed focused-stage result: required version, changed_artifacts, findings, handoff/stop decision, evidence, claims, provenance, and allowed_paths are missing.",
+  "source": "ddd-strategic result",
+  "validation": "failed"
+}
+```
+
+Preserved request evidence:
+
+```json
+["fit evidence"]
+```
+
+## HANDOFF_OR_STOP
+
+```json
+{
+  "handoff": "none",
+  "stop": {
+    "reason": "malformed focused-stage result",
+    "owner": "ddd",
+    "missing": [
+      "version",
+      "changed_artifacts",
+      "findings",
+      "handoff_or_stop",
+      "evidence",
+      "claims",
+      "provenance",
+      "allowed_paths"
+    ],
+    "next_action": "request a versioned complete result from ddd-strategic"
+  }
+}
+```
+
+The exact manual stage is `ddd-strategic`. It did not produce a consumable result.
+
+## CHANGED_ARTIFACTS
+
+```json
+[]
+```
+
+No artifact was changed or claimed to have changed.
+
+## INVALIDATED_STAGES
+
+```json
+[]
+```
+
+No invalidation was supplied by the malformed result, so no invalidation routing is performed.
+
+## OPEN_QUESTIONS
+
+```json
+[
+  {
+    "question": "When will ddd-strategic return a complete versioned result satisfying the result contract?",
+    "owner": "ddd"
+  }
+]
+```
+
+## BOUNDARY_CHECKS
+
+- Current stage: `ddd-strategic`.
+- Return target: `ddd`.
+- Allowed paths preserved: `["docs/ddd/"]`.
+- Request version preserved: `ddd-routing-v1`.
+- Objective and scope preserved: `"map contexts"` / `"approval slice"`.
+- No files were read or written.
+- No index or focused artifact was edited.
+- No discovery, strategic, tactical, adoption, or review work was emulated.
+- No transition is claimed.

@@ -1,0 +1,96 @@
+STATUS
+
+`manual-fallback` — the direct `ddd-tactical` entry conditions are validated, but the named stage did not run.
+
+RESULT
+
+- Accepted the direct start at `ddd-tactical`.
+- Confirmed the supplied entry status is `complete`.
+- Confirmed the request identifies one context (`Claims`), validated language, a validated context boundary, and validated relationship evidence.
+- Returned the exact request object unchanged for manual `ddd-tactical` activation.
+- No tactical modeling was performed.
+- No artifact was changed.
+- No implementation, deployment, migration, or live-validation approval is claimed.
+- No strategic or discovery restart was performed.
+- No fields, claims, evidence, provenance, paths, ordering, or values were normalized, inferred, repaired, or altered.
+
+Exact manual stage: `ddd-tactical`. It did not run.
+
+EVIDENCE
+
+- `direct_entry_validated: true`
+- `entry_status: complete`
+- Evidence:
+  - `validated context boundary`
+  - `validated language`
+- Claim:
+  - `fact: one decision owner`
+- Provenance:
+  - `strategic owner review`
+- Selected context: `Claims`
+
+HANDOFF_OR_STOP
+
+Handoff: manual activation of `ddd-tactical` using the unchanged request below.
+
+```json
+{
+  "allowed_paths": [
+    "docs/ddd/models/claims.md"
+  ],
+  "artifacts": [
+    {
+      "availability": "available",
+      "lifecycle": "active",
+      "path": "docs/ddd/context-map.md",
+      "validation": "validated"
+    }
+  ],
+  "assumptions": [],
+  "claims": [
+    "fact: one decision owner"
+  ],
+  "evidence": [
+    "validated context boundary",
+    "validated language"
+  ],
+  "objective": "model one Claims slice",
+  "open_questions": [],
+  "provenance": [
+    "strategic owner review"
+  ],
+  "return_to": "ddd",
+  "scope": "Claims approval",
+  "stage": "ddd-tactical",
+  "version": "ddd-routing-v1"
+}
+```
+
+CHANGED_ARTIFACTS
+
+`[]`
+
+No artifact was changed or claimed to have changed.
+
+INVALIDATED_STAGES
+
+`[]`
+
+No stages were invalidated, and no stale dependents were introduced.
+
+OPEN_QUESTIONS
+
+`[]`
+
+BOUNDARY_CHECKS
+
+- Request version is `ddd-routing-v1`.
+- Stage is exactly `ddd-tactical`.
+- Objective and scope are present and bounded.
+- Exactly one selected context is supplied: `Claims`.
+- Language and context-boundary evidence are explicitly validated.
+- Relationship evidence is represented by the validated direct-entry status and supplied strategic-owner provenance.
+- Allowed path is preserved exactly: `docs/ddd/models/claims.md`.
+- Artifact path and all artifact metadata are preserved exactly.
+- Manual fallback returned the request unchanged.
+- No focused-stage result was fabricated or consumed.

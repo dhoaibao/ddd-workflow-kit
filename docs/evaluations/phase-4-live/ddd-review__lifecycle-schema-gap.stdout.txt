@@ -1,0 +1,93 @@
+STATUS
+
+`invalidated`
+
+RESULT
+
+- **Stage:** `ddd-review`
+- **Scope:** Claims tactical model; review depth is lifecycle/schema and cross-artifact readiness, with strategic-to-tactical impact.
+- **Acceptance criteria:** Met as findings:
+  - Missing `owner` metadata identified.
+  - Missing `open_questions` metadata identified.
+  - Validation status identified as stale after a boundary change.
+- **Overall result:** The review is invalidated for the stated scope because the boundary changed after the model update, making the model’s validation stale. The tactical model cannot be treated as current until the boundary is revalidated and the tactical metadata is refreshed.
+- **Gate outcomes:**
+  - Fit: `pass`
+  - Evidence/provenance: `pass`
+  - Lifecycle/schema: `blocked`
+  - Vocabulary: `follow-up`
+  - Strategic-to-tactical: `blocked`
+  - Adoption safety: `follow-up`
+  - Cross-artifact consistency: `blocked`
+- **Required findings:**
+  1. `blocked` — `docs/ddd/models/claims.md` is missing required `owner` and `open_questions` fields. Provenance for the observed gap is the supplied artifact inspection; accountable owner is `ddd-tactical`; action is to add or supply the missing metadata under the tactical artifact contract. Status: `open`. Earliest stage: `ddd-tactical`.
+  2. `invalidated` — The model’s validation is stale because the boundary changed after the model update. Provenance: `context-map change record` / `boundary decision record`; owner: `ddd-strategic`; action: revalidate the boundary, then refresh the tactical owner and open questions. Status: `routed`. Earliest stage: `ddd-strategic`.
+- This result is **not documentation-ready**. It does not approve implementation, deployment, migration, data cutover, product-code edits, or a microservice split.
+- No absent facts, owner, open questions, or boundary meaning were reconstructed. No source artifact was silently repaired.
+
+EVIDENCE
+
+- Requested and available artifact: `docs/ddd/models/claims.md`.
+- Artifact summary:
+  - Status: `active`
+  - Owner: `missing`
+  - Provenance: `boundary decision record`
+  - Validation: `stale`
+- Direct evidence:
+  - `owner and open_questions fields are absent`
+  - `boundary changed after model update`
+- The supplied gate results independently identify:
+  - `lifecycle_schema: blocked`
+  - `strategic_tactical: blocked`
+  - `cross_artifact: blocked`
+  - `adoption_safety: follow-up`
+  - `vocabulary: follow-up`
+- The boundary change is a source decision affecting the model’s validity; therefore the model and dependent tactical assumptions must remain stale until strategic revalidation occurs.
+
+HANDOFF_OR_STOP
+
+Stop review progression pending this ordered handoff:
+
+1. **`ddd-strategic`** — Revalidate the changed boundary using the context-map change record and boundary decision record. Confirm the resulting context identity, purpose, ownership, language, and boundary.
+2. **`ddd-tactical`** — After strategic revalidation, refresh `docs/ddd/models/claims.md`, including `owner` and `open_questions`, and rerun tactical validation.
+3. **`ddd-review`** — Reassess lifecycle/schema, strategic-to-tactical, and cross-artifact gates after the updated artifact and validation evidence are available.
+
+Revisit trigger: a recorded strategic boundary revalidation followed by a refreshed, validated tactical model.
+
+CHANGED_ARTIFACTS
+
+`[]`
+
+No artifact was written or changed. The permitted path `docs/ddd/review.md` was not modified because this is an ephemeral, text-only evaluation and no file operation is claimed.
+
+INVALIDATED_STAGES
+
+- **Affected artifact:** `docs/ddd/models/claims.md`
+- **Earliest invalidated stage:** `ddd-strategic`
+- **Owner:** `ddd-strategic`
+- **Evidence:** Boundary changed after model update; model validation is stale.
+- **Action:** Revalidate the boundary, then refresh tactical owner and open questions.
+- **Revisit trigger:** Strategic boundary revalidation is recorded and the tactical model is updated and validated.
+- **Dependent stage:** `ddd-tactical` is blocked until the strategic result is available.
+- **Review stage:** `ddd-review` must rerun the blocked gates afterward.
+
+OPEN_QUESTIONS
+
+- What is the validated result of the boundary change?
+- Who is the accountable owner of the claims context/model?
+- What tactical open questions remain after boundary revalidation?
+- Which tactical claims, relationships, invariants, or integrations are affected by the boundary change?
+- What validation evidence and date establish that `docs/ddd/models/claims.md` is current?
+- Which dependent artifacts, if any, are stale beyond the requested model path?
+
+BOUNDARY_CHECKS
+
+- **Scope identifiable:** Yes — `Claims tactical model`.
+- **Requested artifact identified:** Yes — `docs/ddd/models/claims.md`.
+- **Permitted write path:** `docs/ddd/review.md` only; no write performed.
+- **Missing metadata:** `owner` and `open_questions`.
+- **Lifecycle status:** Artifact is marked `active`, but its validation is `stale`; active status does not establish current validity.
+- **Boundary consistency:** Not satisfied; the boundary changed after the model update.
+- **Strategic-to-tactical readiness:** Blocked pending strategic boundary revalidation.
+- **Cross-artifact consistency:** Blocked because the model depends on a changed boundary.
+- **Implementation/deployment authority:** Not granted; no implementation, deployment, migration, live validation, or product-code action was performed or approved.

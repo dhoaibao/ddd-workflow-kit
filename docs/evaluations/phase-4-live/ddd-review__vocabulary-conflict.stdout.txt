@@ -1,0 +1,130 @@
+## STATUS
+
+**blocked**
+
+## RESULT
+
+**Stage:** `ddd-review`  
+**Scope:** Review the term **Account** across Billing and Identity.  
+**Objective:** Preserve both definitions and require explicit translation between contexts.  
+**Review depth:** Vocabulary and cross-artifact consistency, with strategic-to-tactical prerequisite checking.  
+**Acceptance criterion:** Preserve definitions and require translation.  
+**Return stage:** `ddd-strategic`
+
+The review is blocked because the vocabulary gate is blocked: Billing uses **Account** for a payer relationship, while Identity uses **Account** for a login identity. These are distinct context-specific meanings and must not be merged or treated as one shared definition.
+
+Gate outcomes:
+
+- **Fit:** `pass`
+- **Evidence/provenance:** `pass`; evidence is supplied by Billing and Identity owners, though artifact validation is only partially complete.
+- **Lifecycle/schema:** `pass`
+- **Vocabulary:** `blocked`; distinct meanings lack a recorded translation and confirmed relationship handling.
+- **Strategic-to-tactical:** `follow-up`; context relationship direction and translation responsibility require confirmation.
+- **Adoption safety:** `not-applicable`
+- **Cross-artifact consistency:** `follow-up`; the ubiquitous-language and context-map artifacts require aligned treatment of the conflict.
+
+Finding:
+
+```yaml
+severity: follow-up
+evidence: "Account has distinct payer and login meanings"
+provenance: "Billing and Identity owner statements"
+owner: ddd-strategic
+action: "Record translations between Billing's payer relationship and Identity's login identity, and confirm relationship direction"
+status: routed
+affected_artifact: docs/ddd/ubiquitous-language.md
+earliest_stage: ddd-strategic
+```
+
+Expected outcomes addressed:
+
+- The Billing and Identity definitions are preserved as separate meanings.
+- The conflict is not silently merged or resolved by review.
+- A translation is required between the two context-specific terms.
+- Relationship direction must be confirmed in the context map.
+- The issue is routed to `ddd-strategic`, the earliest responsible stage.
+- The review remains blocked until the required strategic clarification is recorded and re-reviewed.
+
+Forbidden outcomes avoided:
+
+- No source artifact was rewritten.
+- No definition was invented or replaced.
+- No assumption was made that the two meanings are equivalent.
+- No implementation, product-code, schema, migration, deployment, or data-cutover action was taken or approved.
+- No bounded context was inferred to be a service.
+- No artifact change is claimed.
+
+## EVIDENCE
+
+Available artifacts:
+
+- `docs/ddd/ubiquitous-language.md`
+  - Owner: `ddd-strategic`
+  - Provenance: `Billing and Identity owners`
+  - Status: `active`
+  - Validation: `partially-validated`
+- `docs/ddd/context-map.md`
+  - Owner: `ddd-strategic`
+  - Provenance: `relationship notes`
+  - Status: `active`
+  - Validation: `partially-validated`
+
+Observed evidence:
+
+- Two owners define **Account** differently.
+- Billing meaning: payer relationship.
+- Identity meaning: login identity.
+- The requested acceptance criterion explicitly requires preserving definitions and requiring translation.
+- The vocabulary gate is `blocked`.
+- The cross-artifact and strategic-to-tactical gates are `follow-up`.
+
+## HANDOFF_OR_STOP
+
+**Handoff to `ddd-strategic`.**
+
+Required next action:
+
+1. Record separate Billing and Identity definitions for **Account**.
+2. Add an explicit translation between the two meanings, or document the distinct terms used at the boundary.
+3. Confirm the relationship direction and ownership in `docs/ddd/context-map.md`.
+4. Provide updated provenance and validation evidence.
+5. Return to `ddd-review` for re-evaluation.
+
+Revisit trigger: the strategic artifacts contain an owner-confirmed translation and relationship direction, with validation status updated beyond the current partial validation.
+
+## CHANGED_ARTIFACTS
+
+```yaml
+changed_artifacts: []
+```
+
+No files were read or written, and no artifact change is claimed. The permitted path remains `docs/ddd/review.md`, but no write occurred in this text-only evaluation.
+
+## INVALIDATED_STAGES
+
+No stage is declared invalidated. The conflict is **routed**, not silently repaired:
+
+- **Affected stage:** `ddd-strategic`
+- **Reason:** context-specific vocabulary and relationship direction require clarification.
+- **Affected artifacts:**  
+  - `docs/ddd/ubiquitous-language.md`
+  - `docs/ddd/context-map.md`
+- **Owner:** `ddd-strategic`
+- **Evidence request:** owner-confirmed definitions, translation, and relationship direction.
+- **Revisit trigger:** completed strategic clarification followed by another `ddd-review`.
+
+## OPEN_QUESTIONS
+
+- What explicit translation maps Billing’s payer relationship to Identity’s login identity?
+- Is the translation directional, and which context owns the integration boundary?
+- Should one or both contexts use a more specific term to avoid ambiguity at the boundary?
+- Have both owners validated the definitions, translation, and context-map relationship?
+
+## BOUNDARY_CHECKS
+
+- This is a documentation-readiness review only.
+- `blocked` does not authorize implementation, deployment, migration, release, data cutover, or product-code changes.
+- No source, tactical, adoption, schema, configuration, or runtime artifact was modified.
+- No artifact was reconstructed from absent content.
+- The review does not approve merging the two meanings or treating Billing and Identity as one model.
+- The next stage is `ddd-strategic`; after clarification, return to `ddd-review`.

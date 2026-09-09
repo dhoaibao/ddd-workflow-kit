@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "kind": "phase-4-evaluation-report",
+  "phase": "4",
+  "phase_status": "complete_for_candidate_review",
+  "generated_at_utc": "2026-09-09T15:52:40.110952Z",
+  "goal": "Full-suite transition and currentness evaluation for all implemented DDD packages.",
+  "baseline": {
+    "branch": "main",
+    "head": "6e382cc69bda96793e3883306d099cc07434e724",
+    "head_tree": "44896267608d3e88b0838aa50e1b7199efd6fee6",
+    "origin_main": "a17d35982c3a6f31aacf6634faba6a67c6e1366b",
+    "ahead_behind": "0\t5",
+    "initial_worktree_status": "clean",
+    "current_worktree_status": " M README.md\n M docs/plans/README.md\n M scripts/validate-skills.py\n?? docs/evaluations/phase-4-candidate-fingerprint.json\n?? docs/evaluations/phase-4-live-capture.json\n?? docs/evaluations/phase-4-live-semantic-judgments.json\n?? docs/evaluations/phase-4-live/\n?? docs/evaluations/phase-4-local-checks.json\n?? docs/evaluations/phase-4-report.json\n?? docs/evaluations/phase-4-transition-matrix.json\n",
+    "origin_main_was_not_fetched": true
+  },
+  "availability": {
+    "pi_version": "0.85.1",
+    "provider": "openai",
+    "model": "gpt-5.6-luna",
+    "skills_ref": {
+      "status": "unavailable_deferred",
+      "executable": "not found",
+      "python_module": "not found",
+      "install_attempted": false
+    },
+    "credentials_or_secret_values_read": false
+  },
+  "phase_0_carry_forward": {
+    "source_report": "docs/evaluations/phase-0-report.json",
+    "rule": "carry forward only when both SKILL.md and evals/evals.json hashes match phase-0 recorded package hashes; no phase-0 rerun performed",
+    "packages": [
+      {
+        "package": "ddd-discover",
+        "skill_sha256": "f2536ece9ef2897fa8c19e1582e0229af5590151241e723d42eca1a79cfdc73d",
+        "evaluation_sha256": "a95a8a97e7cc219cb5630e07fe7d9a8dc057e3d100eef01933a4e7024e1f4ea9",
+        "matches_phase_0_skill": true,
+        "matches_phase_0_evaluation": true,
+        "phase_0_semantic_cases_carried": 6
+      },
+      {
+        "package": "ddd-strategic",
+        "skill_sha256": "4c155e95cc1c3b95850d6c94922caf8559467065daee256948019485bf4ae08b",
+        "evaluation_sha256": "3d9dd598b0b31ed9fc3d3e2c812ee09c53143ca1a14ae06eb56db3e93c906bd8",
+        "matches_phase_0_skill": true,
+        "matches_phase_0_evaluation": true,
+        "phase_0_semantic_cases_carried": 9
+      },
+      {
+        "package": "ddd-tactical",
+        "skill_sha256": "21abc3043c27fd575858584c7d9b7925b330d631fef99b6f60ceabb29230235e",
+        "evaluation_sha256": "1bc2860bd6d36d2788ab6261ffbe1b24b5de7341bd33c400065b8a84e678cbdc",
+        "matches_phase_0_skill": true,
+        "matches_phase_0_evaluation": true,
+        "phase_0_semantic_cases_carried": 14
+      }
+    ],
+    "all_29_semantic_results_carried": true
+  },
+  "live_evaluation": {
+    "manifest": "docs/evaluations/phase-4-live-capture.json",
+    "semantic_judgments": "docs/evaluations/phase-4-live-semantic-judgments.json",
+    "packages": {
+      "ddd-adoption": 10,
+      "ddd-review": 10,
+      "ddd": 10
+    },
+    "cases_total": 30,
+    "process_pass": 30,
+    "semantic_pass": 30,
+    "command_recipe": [
+      "pi",
+      "--print",
+      "--mode",
+      "text",
+      "--provider",
+      "<PI_PROVIDER>",
+      "--model",
+      "<PI_MODEL>",
+      "--no-tools",
+      "--no-extensions",
+      "--no-skills",
+      "--no-prompt-templates",
+      "--no-context-files",
+      "--no-session",
+      "--no-themes",
+      "--thinking",
+      "off",
+      "--system-prompt",
+      "<contents of package SKILL.md>",
+      "--",
+      "<deterministic case prompt>"
+    ],
+    "constraints": [
+      "ephemeral pi --print subject sessions",
+      "no tools",
+      "no extensions",
+      "no discovered skills",
+      "no prompt templates",
+      "no context files",
+      "no session persistence",
+      "no themes",
+      "thinking off",
+      "bounded concurrency max_workers=3"
+    ],
+    "judgment_method": "Inspected every captured stdout against every listed expected and forbidden outcome; process exit success was not used as semantic passage. Text-only wrapper constraints were treated as bounded no-write evidence, not as claimed artifact updates."
+  },
+  "transition_matrix": {
+    "path": "docs/evaluations/phase-4-transition-matrix.json",
+    "categories": 10,
+    "validator_entrypoint": "python3 scripts/validate-skills.py",
+    "coverage": [
+      "focused direct invocation",
+      "discover→strategic",
+      "strategic→tactical",
+      "tactical→adoption",
+      "adoption→review",
+      "review-ready terminal result",
+      "non-fit stop",
+      "malformed result stop",
+      "manual fallback request identity",
+      "review invalidation to earliest affected stage"
+    ],
+    "proofs": [
+      "exact artifact-record schema and allowed values",
+      "normal-transition result-to-handoff-to-next exact preservation for evidence/claims/provenance/assumptions/open_questions/allowed_paths",
+      "unchanged request artifact-record preservation",
+      "manual fallback canonical serialized byte identity and SHA-256",
+      "canonical invalidation ordering",
+      "lifecycle preservation with validation stale"
+    ]
+  },
+  "local_checks": {
+    "path": "docs/evaluations/phase-4-local-checks.json",
+    "status": "pass_with_intentional_raw_capture_exception",
+    "checks": [
+      "validator",
+      "all eval JSON parse",
+      "transition fixture validation",
+      "live capture integrity",
+      "semantic judgments 30/30",
+      "phase-0 hash carry-forward",
+      "H1/rendered links/package isolation",
+      "runtime/vendor/machine probe",
+      "docs-only and ownership scope",
+      "phase-0 evidence preservation",
+      "authored candidate staged diff check"
+    ],
+    "raw_capture_whitespace_exception": {
+      "full_staged_diff_check_exit_status": 2,
+      "finding_count": 28,
+      "affected_paths": [
+        "docs/evaluations/phase-4-live/ddd-adoption__complete-review-handoff.stdout.txt",
+        "docs/evaluations/phase-4-live/ddd-adoption__unsafe-migration.stdout.txt",
+        "docs/evaluations/phase-4-live/ddd-review__adoption-safety-gap.stdout.txt",
+        "docs/evaluations/phase-4-live/ddd-review__cross-artifact-stale-routing.stdout.txt",
+        "docs/evaluations/phase-4-live/ddd-review__ready-documentation.stdout.txt",
+        "docs/evaluations/phase-4-live/ddd-review__strategic-to-tactical-gap.stdout.txt",
+        "docs/evaluations/phase-4-live/ddd-review__vocabulary-conflict.stdout.txt",
+        "docs/evaluations/phase-4-live/ddd__index-ownership.stdout.txt"
+      ],
+      "outside_raw_capture_findings": 0,
+      "policy": "preserve exact raw model outputs and hashes; do not normalize"
+    }
+  },
+  "documentation_currentness": {
+    "status": "updated",
+    "paths": [
+      "README.md",
+      "docs/plans/README.md"
+    ],
+    "claims": [
+      "all six executable slices are included",
+      "phase 4 complete for candidate review",
+      "skills-ref unavailable/deferred",
+      "ready means documentation readiness only; no deployment/runtime approval"
+    ]
+  },
+  "boundary_and_scope": {
+    "allowed_paths": [
+      "docs/evaluations/phase-4-*",
+      "README.md",
+      "docs/plans/README.md",
+      "scripts/validate-skills.py"
+    ],
+    "product_or_target_project_edits": false,
+    "phase_0_evidence_byte_preserved": true,
+    "unrelated_changes": false
+  },
+  "residual_risks": [
+    "skills-ref remains unavailable and was not installed",
+    "live semantic results are model-dependent and may vary on future hosts/models",
+    "static validation does not prove compatibility with every host",
+    "target-project artifact materialization was not exercised; live sessions were text-only and claimed no writes",
+    "no implementation, deployment, migration, or runtime approval is implied",
+    "Raw phase-4 model stdout captures intentionally retain 28 Markdown trailing-space/blank-at-EOF findings; authored candidate paths pass staged diff check, and raw bytes are preserved for provenance."
+  ],
+  "verdict": "candidate frozen after final local checks with documented raw-capture whitespace exception; independent b-review required before commit",
+  "candidate": {
+    "base": "6e382cc69bda96793e3883306d099cc07434e724",
+    "fingerprint_manifest": "docs/evaluations/phase-4-candidate-fingerprint.json",
+    "status": "frozen_pending_independent_b_review",
+    "commit_allowed": false
+  }
+}

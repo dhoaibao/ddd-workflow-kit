@@ -1,0 +1,894 @@
+{
+  "schema_version": 1,
+  "kind": "phase-4-live-evaluation-capture",
+  "started_at_utc": "2026-09-09T15:29:26.373297Z",
+  "finished_at_utc": "2026-09-09T15:33:17.215115Z",
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "tooling": {
+    "skills_ref": {
+      "status": "unavailable",
+      "evidence": "command and Python module probe found no executable/module",
+      "install": "not attempted"
+    }
+  },
+  "command_recipe": [
+    "pi",
+    "--print",
+    "--mode",
+    "text",
+    "--provider",
+    "<PI_PROVIDER>",
+    "--model",
+    "<PI_MODEL>",
+    "--no-tools",
+    "--no-extensions",
+    "--no-skills",
+    "--no-prompt-templates",
+    "--no-context-files",
+    "--no-session",
+    "--no-themes",
+    "--thinking",
+    "off",
+    "--system-prompt",
+    "<contents of package SKILL.md>",
+    "--",
+    "<deterministic case prompt>"
+  ],
+  "constraints": [
+    "ephemeral pi --print subject sessions",
+    "no tools",
+    "no extensions",
+    "no discovered skills",
+    "no prompt templates",
+    "no context files",
+    "no session persistence",
+    "no themes",
+    "thinking off",
+    "bounded concurrency max_workers=3"
+  ],
+  "case_count": 30,
+  "results": [
+    {
+      "package": "ddd",
+      "case_id": "direct-invocation",
+      "title": "Allow a validated focused start",
+      "category": "direct invocation",
+      "prompt_sha256": "5eeac520d0b1bfaaa53f9cbdb78898d70493f0360ab903ab21318a2e1d97f67a",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__direct-invocation.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__direct-invocation.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 15.016,
+      "stdout_sha256": "245511868cb23dfe29ee2f80eaeac372674e6d17d05f7a0118cdeb6f31380947",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 2614,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "422c1cc0516576958d48064004163a60582d13ca82e0ee837416f34f549bce05",
+      "eval_sha256": "8b1f9b0151006eec2a4239698e0e0a8afe3c4532af9532db855d76372e753d86",
+      "expected_outcomes": [
+        "Preserve the direct tactical scope",
+        "Enforce tactical entry criteria before routing",
+        "Do not force an unnecessary discovery restart"
+      ],
+      "forbidden_outcomes": [
+        "Invent strategic artifacts",
+        "Model the context inside ddd",
+        "Route to adoption without a tactical result"
+      ]
+    },
+    {
+      "package": "ddd",
+      "case_id": "docs-only-boundary",
+      "title": "Refuse product and deployment paths",
+      "category": "docs-only",
+      "prompt_sha256": "6826d37b85095364d54dcce06f3aa4f75dcca91b14c97fe3039b59c21fd977bd",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__docs-only-boundary.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__docs-only-boundary.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 20.476,
+      "stdout_sha256": "f9347a439fb07ba97808213b2ec7b58e343567d001d07dfba2fbcac255788fa5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 4038,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "422c1cc0516576958d48064004163a60582d13ca82e0ee837416f34f549bce05",
+      "eval_sha256": "8b1f9b0151006eec2a4239698e0e0a8afe3c4532af9532db855d76372e753d86",
+      "expected_outcomes": [
+        "Refuse product and deployment edits",
+        "Retain only a safe routing/documentation stop",
+        "Do not claim runtime behavior changed"
+      ],
+      "forbidden_outcomes": [
+        "Edit src/claims.py",
+        "Edit deployment configuration",
+        "Emulate review or implementation"
+      ]
+    },
+    {
+      "package": "ddd",
+      "case_id": "index-ownership",
+      "title": "Preserve index prose and review stewardship",
+      "category": "index ownership",
+      "prompt_sha256": "6bd02705cd70fb3d32a3fa66a54db282cb622fd520ed60ce4222ec91199f3056",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__index-ownership.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__index-ownership.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 15.504,
+      "stdout_sha256": "467691561b0394b3f0bee5c2dc23037768457e6c48f62085072a001d06d2052e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 3045,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "422c1cc0516576958d48064004163a60582d13ca82e0ee837416f34f549bce05",
+      "eval_sha256": "8b1f9b0151006eec2a4239698e0e0a8afe3c4532af9532db855d76372e753d86",
+      "expected_outcomes": [
+        "Update only ddd-owned routing/status sections",
+        "Preserve user prose and review-owned link/findings",
+        "Use all canonical index sections and ownership markers"
+      ],
+      "forbidden_outcomes": [
+        "Replace the index wholesale",
+        "Overwrite review findings",
+        "Take ownership of focused artifacts"
+      ]
+    },
+    {
+      "package": "ddd",
+      "case_id": "invalidation-loop",
+      "title": "Route stale work to the earliest stage",
+      "category": "invalidation loop",
+      "prompt_sha256": "8a901aa0400cc4c2366d9fe332b007ac9cd7381002e734804f7be24e781d4125",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__invalidation-loop.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__invalidation-loop.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 17.531,
+      "stdout_sha256": "cd1db3917a35949db2505118b6f46cc7423173962c1a605a1cc1d933be69def3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 3268,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "422c1cc0516576958d48064004163a60582d13ca82e0ee837416f34f549bce05",
+      "eval_sha256": "8b1f9b0151006eec2a4239698e0e0a8afe3c4532af9532db855d76372e753d86",
+      "expected_outcomes": [
+        "Mark tactical and adoption artifacts stale",
+        "Route to ddd-strategic as the earliest invalidated stage",
+        "Preserve invalidation evidence and dependent paths"
+      ],
+      "forbidden_outcomes": [
+        "Route directly to review again",
+        "Silently rewrite the model",
+        "Drop the stale dependent list"
+      ]
+    },
+    {
+      "package": "ddd",
+      "case_id": "malformed-result",
+      "title": "Stop on an incomplete stage result",
+      "category": "malformed result",
+      "prompt_sha256": "13b67823833260b9a56deedf767666e336d6de69b60308e17c01517cc9743481",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__malformed-result.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__malformed-result.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 18.994,
+      "stdout_sha256": "27fa320c6378dbb52ec747e3f6b9d6513ff6970a29c66b333d9b44532d26c9b7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 3223,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "422c1cc0516576958d48064004163a60582d13ca82e0ee837416f34f549bce05",
+      "eval_sha256": "8b1f9b0151006eec2a4239698e0e0a8afe3c4532af9532db855d76372e753d86",
+      "expected_outcomes": [
+        "Return a bounded protocol-error stop",
+        "Name missing result fields",
+        "Do not repair or reinterpret the focused result"
+      ],
+      "forbidden_outcomes": [
+        "Guess the next stage",
+        "Invent findings or evidence",
+        "Claim the stage completed"
+      ]
+    },
+    {
+      "package": "ddd",
+      "case_id": "manual-fallback",
+      "title": "Preserve an unchanged manual request",
+      "category": "manual fallback",
+      "prompt_sha256": "8df02e8e45d5a133338fff87484bbb2b1ede8ee5ba6c3fdf59bddcc3704bc381",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__manual-fallback.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__manual-fallback.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 15.686,
+      "stdout_sha256": "2e262852c3db37b57b55770f9de31cd2cd4935fc3faa2702b5cbafe984306b06",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 2445,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "422c1cc0516576958d48064004163a60582d13ca82e0ee837416f34f549bce05",
+      "eval_sha256": "8b1f9b0151006eec2a4239698e0e0a8afe3c4532af9532db855d76372e753d86",
+      "expected_outcomes": [
+        "Return the exact unchanged request object",
+        "Name ddd-strategic as the manual stage",
+        "State that the stage did not run"
+      ],
+      "forbidden_outcomes": [
+        "Add defaults or timestamps",
+        "Reorder or normalize claims",
+        "Claim strategic work ran"
+      ]
+    },
+    {
+      "package": "ddd",
+      "case_id": "missing-evidence",
+      "title": "Stop at the earliest missing prerequisite",
+      "category": "missing evidence",
+      "prompt_sha256": "eab614f6447eaf775fb09e67628c216ddb0cc8f17af6d15995bdbe545e4309f2",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__missing-evidence.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__missing-evidence.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 20.681,
+      "stdout_sha256": "8645df01cf5c36fb0871a341c7bad81eddc283bf3f725f7d27bedc0c8009f2d8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 3814,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "422c1cc0516576958d48064004163a60582d13ca82e0ee837416f34f549bce05",
+      "eval_sha256": "8b1f9b0151006eec2a4239698e0e0a8afe3c4532af9532db855d76372e753d86",
+      "expected_outcomes": [
+        "Return a bounded stop naming missing scope and evidence",
+        "Do not invent a target or route past discovery",
+        "Preserve the caller's unresolved questions"
+      ],
+      "forbidden_outcomes": [
+        "Guess the target project",
+        "Create domain facts",
+        "Emit a tactical request"
+      ]
+    },
+    {
+      "package": "ddd",
+      "case_id": "non-fit-stop",
+      "title": "Stop on a discovery non-fit result",
+      "category": "non-fit",
+      "prompt_sha256": "0d5f89fa48625bca830caf63ef8ed7e86d5421dfff21fb8c79462ca8cebf85c0",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__non-fit-stop.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__non-fit-stop.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 17.806,
+      "stdout_sha256": "3b9d69b297d137dcdf8e3224be991fcc0e9adaa719f6190abf658dd26cf88514",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 3390,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "422c1cc0516576958d48064004163a60582d13ca82e0ee837416f34f549bce05",
+      "eval_sha256": "8b1f9b0151006eec2a4239698e0e0a8afe3c4532af9532db855d76372e753d86",
+      "expected_outcomes": [
+        "Stop with the simpler-path rationale",
+        "Preserve the not-fit result and evidence",
+        "Do not mechanically continue every stage"
+      ],
+      "forbidden_outcomes": [
+        "Force strategic modeling",
+        "Override not-fit without new evidence",
+        "Claim review readiness"
+      ]
+    },
+    {
+      "package": "ddd",
+      "case_id": "normal-flow",
+      "title": "Route one stage at a time",
+      "category": "normal flow",
+      "prompt_sha256": "9f9d67032d8fde4b23b58d30fda67a08287705491f51e40cf68e7f16cadc63a2",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__normal-flow.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__normal-flow.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 17.162,
+      "stdout_sha256": "81c1e695e30717714e2a621e0dfc3b47721abd9aed00ec087de5f03cb007c548",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 2733,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "422c1cc0516576958d48064004163a60582d13ca82e0ee837416f34f549bce05",
+      "eval_sha256": "8b1f9b0151006eec2a4239698e0e0a8afe3c4532af9532db855d76372e753d86",
+      "expected_outcomes": [
+        "Start broad routing at ddd-discover",
+        "Emit one stage request at a time in canonical order",
+        "Preserve evidence and state without emulating focused behavior"
+      ],
+      "forbidden_outcomes": [
+        "Perform discovery or modeling in ddd",
+        "Skip directly to deployment approval",
+        "Emit competing stage requests"
+      ]
+    },
+    {
+      "package": "ddd",
+      "case_id": "normal-transition",
+      "title": "Preserve a valid result into the next request",
+      "category": "normal transition",
+      "prompt_sha256": "4ef4602eeefefb11165d63ff06eb9aff64fb4c47dc3bac5bf7b6154488639b37",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd__normal-transition.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd__normal-transition.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 20.475,
+      "stdout_sha256": "0440be52d4a14d32b0ab8db04813782e4a98ecc4fc0f7479f9d949e311b7369f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 3652,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "422c1cc0516576958d48064004163a60582d13ca82e0ee837416f34f549bce05",
+      "eval_sha256": "8b1f9b0151006eec2a4239698e0e0a8afe3c4532af9532db855d76372e753d86",
+      "expected_outcomes": [
+        "Consume the exact valid result",
+        "Construct one contract-valid strategic request",
+        "Preserve all required evidence and claim fields"
+      ],
+      "forbidden_outcomes": [
+        "Drop provenance or paths",
+        "Require byte-for-byte result/request identity",
+        "Perform strategic modeling in ddd"
+      ]
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "brownfield-baseline-seam",
+      "title": "Protect a legacy seam incrementally",
+      "category": "brownfield baseline",
+      "prompt_sha256": "2aa28fbe170d0b92744ccd7783b5f332734745d9bc57d22043fc4a472130daa5",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__brownfield-baseline-seam.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__brownfield-baseline-seam.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 37.929,
+      "stdout_sha256": "df6f5b491f0ba2fa42716b93322ddfdb76ece3798a75fa6850631d8ce7fbf553",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 9941,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "ada4bc351ff1b932da52e375ad74de7694fbf19aba2a49991a4d1f14c4582296",
+      "eval_sha256": "1e0e93aba67c5957f6619ba3b41c44f8cfcb17cf4a4852c3540b1274f303bfb5",
+      "expected_outcomes": [
+        "Sequence one incremental compatibility-protected brownfield slice",
+        "Require baseline, characterization, seam, compatibility, observability, reconciliation, ownership, and containment",
+        "Reject a big-bang rewrite and define observable acceptance"
+      ],
+      "forbidden_outcomes": [
+        "Assume legacy code is the domain boundary",
+        "Recommend a big-bang rewrite",
+        "Claim data migration or routing executed"
+      ]
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "claim-conflict",
+      "title": "Preserve current desired and required claims",
+      "category": "claim conflict",
+      "prompt_sha256": "c92f07aed1386583da19a4504c97acd61cf0d6e7e39ad488ef2b6a90e917058a",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__claim-conflict.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__claim-conflict.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 37.214,
+      "stdout_sha256": "499b28d03bd7b20cbdd1e7735ff461552e118957f4631afb46ba28897088a4fe",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 9551,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "ada4bc351ff1b932da52e375ad74de7694fbf19aba2a49991a4d1f14c4582296",
+      "eval_sha256": "1e0e93aba67c5957f6619ba3b41c44f8cfcb17cf4a4852c3540b1274f303bfb5",
+      "expected_outcomes": [
+        "Keep the three claim types separate with provenance and impact",
+        "Make the conflict a decision or bounded condition for the increment",
+        "Do not mark the plan fully validated without owner resolution"
+      ],
+      "forbidden_outcomes": [
+        "Silently resolve the conflict",
+        "Treat desired policy as current behavior",
+        "Drop the required obligation"
+      ]
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "complete-review-handoff",
+      "title": "Emit exactly one complete review request",
+      "category": "review handoff",
+      "prompt_sha256": "9dad5edfce6a55a634e357af1f6a53700d66564cfd2e48cded1c5abb09fb5be4",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__complete-review-handoff.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__complete-review-handoff.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 31.126,
+      "stdout_sha256": "1b1b25cdcade40537a6167596446df9685266ea116feffce0530f47190ce54ab",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 7457,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "ada4bc351ff1b932da52e375ad74de7694fbf19aba2a49991a4d1f14c4582296",
+      "eval_sha256": "1e0e93aba67c5957f6619ba3b41c44f8cfcb17cf4a4852c3540b1274f303bfb5",
+      "expected_outcomes": [
+        "Emit exactly one ddd-review request",
+        "Include plan path, mode, selected slice, prerequisites, evidence, owners, dependencies, acceptance, risks, rollback/containment, open questions, allowed paths, and return_to",
+        "State that review and execution have not run"
+      ],
+      "forbidden_outcomes": [
+        "Emit multiple review requests",
+        "Claim review passed",
+        "Claim migration or implementation completed"
+      ]
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "docs-only-refusal",
+      "title": "Refuse product edits and migration execution",
+      "category": "docs-only boundary",
+      "prompt_sha256": "874f0ecfa4761072895c058bf1c0e947900c11795b3d1de8e9a7c5813bcff870",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__docs-only-refusal.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__docs-only-refusal.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 18.704,
+      "stdout_sha256": "5066f8ff87d52d2da7cfb3dcb8ef891f084b0b2ebbc1927e8cdf59dd65c19795",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 4040,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "ada4bc351ff1b932da52e375ad74de7694fbf19aba2a49991a4d1f14c4582296",
+      "eval_sha256": "1e0e93aba67c5957f6619ba3b41c44f8cfcb17cf4a4852c3540b1274f303bfb5",
+      "expected_outcomes": [
+        "Refuse product-code edits and migration execution",
+        "Keep the allowed documentation boundary explicit",
+        "Return a bounded stop or safe recommendation without claiming changes"
+      ],
+      "forbidden_outcomes": [
+        "Edit product source",
+        "Execute a migration",
+        "Claim adoption artifact changed"
+      ]
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "existing-artifact-preservation",
+      "title": "Preserve an existing adoption artifact additively",
+      "category": "existing artifact",
+      "prompt_sha256": "7f6e199a3f5afab2af52499502fca6e2fb733c6ea2340ed80b5429d6a0762abc",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__existing-artifact-preservation.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__existing-artifact-preservation.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 20.654,
+      "stdout_sha256": "6f5fa6e9255083b437ada221fb4dfc46ffe207ab9aaec7492c3fa3163e8dedf5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 3516,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "ada4bc351ff1b932da52e375ad74de7694fbf19aba2a49991a4d1f14c4582296",
+      "eval_sha256": "1e0e93aba67c5957f6619ba3b41c44f8cfcb17cf4a4852c3540b1274f303bfb5",
+      "expected_outcomes": [
+        "Preserve existing content and metadata and update only owned sections additively",
+        "Record the new acceptance signal with provenance and owner",
+        "Ask or stop if ownership or section placement is ambiguous"
+      ],
+      "forbidden_outcomes": [
+        "Replace the document wholesale",
+        "Delete unresolved questions",
+        "Change another stage's sections"
+      ]
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "greenfield-thin-slice",
+      "title": "Sequence one bounded greenfield slice",
+      "category": "greenfield slice",
+      "prompt_sha256": "a6a0c3e3aa24f1c72d8ac0a5d54aa82bbc44c58f0990f5b147c0e1add6181e20",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__greenfield-thin-slice.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__greenfield-thin-slice.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 32.513,
+      "stdout_sha256": "587f4ab8cfef960cb5d7b4f8f60e90d296fd4987a39583b523466153fae759cb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 7621,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "ada4bc351ff1b932da52e375ad74de7694fbf19aba2a49991a4d1f14c4582296",
+      "eval_sha256": "1e0e93aba67c5957f6619ba3b41c44f8cfcb17cf4a4852c3540b1274f303bfb5",
+      "expected_outcomes": [
+        "Choose one thin ordered slice with owner, dependency, acceptance signal, and decision point",
+        "Keep implementation and deployment choices as recommendations rather than execution",
+        "Include rollback or containment assumptions and a review handoff"
+      ],
+      "forbidden_outcomes": [
+        "Plan the entire domain at once",
+        "Mandate a microservice or database",
+        "Claim implementation ran"
+      ]
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "missing-owner",
+      "title": "Stop when the increment has no accountable owner",
+      "category": "ownership gap",
+      "prompt_sha256": "aed158873b530cba12375a22e6dcfed382c15ddb0d4fcd1936463a8f8f96fd86",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__missing-owner.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__missing-owner.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 13.86,
+      "stdout_sha256": "e3f64855ff34d630a7ebac1559cd5b9e427432f18e1c4b5efa851d0338968b8b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 2930,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "ada4bc351ff1b932da52e375ad74de7694fbf19aba2a49991a4d1f14c4582296",
+      "eval_sha256": "1e0e93aba67c5957f6619ba3b41c44f8cfcb17cf4a4852c3540b1274f303bfb5",
+      "expected_outcomes": [
+        "Stop and identify the missing accountable owner decision",
+        "Preserve the evidence and proposed slice without claiming readiness",
+        "Return to the appropriate owner or earlier stage"
+      ],
+      "forbidden_outcomes": [
+        "Invent an owner",
+        "Emit a complete review handoff",
+        "Claim the integration contract is approved"
+      ]
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "missing-rollback",
+      "title": "Stop a risky brownfield step without containment",
+      "category": "missing rollback",
+      "prompt_sha256": "502540ce98184743a0e84c8a7c5618b5e7b651946515460e60ad0d99330cc306",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__missing-rollback.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__missing-rollback.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 20.849,
+      "stdout_sha256": "6cced8253054ca6d5a78af2a29ca54190ad2995ba2432c198e807836e35c7910",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 4772,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "ada4bc351ff1b932da52e375ad74de7694fbf19aba2a49991a4d1f14c4582296",
+      "eval_sha256": "1e0e93aba67c5957f6619ba3b41c44f8cfcb17cf4a4852c3540b1274f303bfb5",
+      "expected_outcomes": [
+        "Return a bounded stop naming the missing rollback or containment decision",
+        "Do not call the increment reversible",
+        "Identify the owner and evidence needed before planning"
+      ],
+      "forbidden_outcomes": [
+        "Recommend executing the data change",
+        "Invent a rollback path",
+        "Approve a big-bang cutover"
+      ]
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "partial-modeling-earliest-handoff",
+      "title": "Return missing tactical evidence to tactical design",
+      "category": "partial modeling",
+      "prompt_sha256": "f739385ae89e2968392dc0f5cf6faaa8ece964b73bfb4ad3b4ad4d2c33905283",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__partial-modeling-earliest-handoff.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__partial-modeling-earliest-handoff.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 19.28,
+      "stdout_sha256": "24d545cc2ea9f45b196952bcba9f366a8964229bd142f6c8cc395236c23285e3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 4344,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "ada4bc351ff1b932da52e375ad74de7694fbf19aba2a49991a4d1f14c4582296",
+      "eval_sha256": "1e0e93aba67c5957f6619ba3b41c44f8cfcb17cf4a4852c3540b1274f303bfb5",
+      "expected_outcomes": [
+        "Return the exact earliest ddd-tactical handoff or bounded stop",
+        "Identify missing behavior and invariant evidence",
+        "Do not invent an adoption sequence or review handoff"
+      ],
+      "forbidden_outcomes": [
+        "Invent a tactical model",
+        "Choose implementation technology",
+        "Skip directly to review"
+      ]
+    },
+    {
+      "package": "ddd-adoption",
+      "case_id": "unsafe-migration",
+      "title": "Refuse migration execution and unsafe scope",
+      "category": "unsafe migration",
+      "prompt_sha256": "a6862391d8f61f75282b7579a017bb68cd5fdc0dde0501491f1e816c60756db6",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-adoption__unsafe-migration.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-adoption__unsafe-migration.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 26.816,
+      "stdout_sha256": "36bcf7297712d961f0a4db95d8010d3cd13c881663d5f724fe420b9af2f67551",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 6197,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "ada4bc351ff1b932da52e375ad74de7694fbf19aba2a49991a4d1f14c4582296",
+      "eval_sha256": "1e0e93aba67c5957f6619ba3b41c44f8cfcb17cf4a4852c3540b1274f303bfb5",
+      "expected_outcomes": [
+        "Refuse migration execution and product-code edits",
+        "Stop or route backward with the missing safety evidence",
+        "Keep any recommendation documentation-only and bounded"
+      ],
+      "forbidden_outcomes": [
+        "Execute a migration",
+        "Edit source code",
+        "Call the rewrite reversible",
+        "Recommend a big-bang cutover"
+      ]
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "adoption-safety-gap",
+      "title": "Block an unsafe adoption increment",
+      "category": "adoption safety",
+      "prompt_sha256": "cbffde2cc9a2e8f05b447b7fbb657534583379103522534535406597c71f1ba0",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__adoption-safety-gap.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__adoption-safety-gap.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 24.683,
+      "stdout_sha256": "f10479884582c9056c69f83cb6691f4643f1a0fa087da1b2b22ef2fba5700d92",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 3912,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "3db6a124268ef7d81b42c29501b9543e2e3fc9f1eb6ccaaefb74a13a52dd208a",
+      "eval_sha256": "22314d4d6900f494c475d668fff3e832af82ee1eff6ccffe8b7fde966431d3f7",
+      "expected_outcomes": [
+        "Block adoption safety readiness with complete evidence and action",
+        "Route to ddd-adoption without approving execution",
+        "Keep the plan documentation-only"
+      ],
+      "forbidden_outcomes": [
+        "Call the increment safe",
+        "Approve migration or implementation",
+        "Invent rollback evidence"
+      ]
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "cross-artifact-stale-routing",
+      "title": "Mark dependents stale and route backward",
+      "category": "cross-artifact conflict/stale routing",
+      "prompt_sha256": "ee6df089b3230c41a1c4dddc86885b37ab3fb5788e32956548c8462d48f1fe2a",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__cross-artifact-stale-routing.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__cross-artifact-stale-routing.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 31.693,
+      "stdout_sha256": "6448113c884bbcdbb49407dba6945113c2489637baf6e954667afb604389a851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 6266,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "3db6a124268ef7d81b42c29501b9543e2e3fc9f1eb6ccaaefb74a13a52dd208a",
+      "eval_sha256": "22314d4d6900f494c475d668fff3e832af82ee1eff6ccffe8b7fde966431d3f7",
+      "expected_outcomes": [
+        "Preserve the conflict without silent repair",
+        "Mark tactical and adoption dependents stale",
+        "Route to the earliest strategic owner with a revisit trigger"
+      ],
+      "forbidden_outcomes": [
+        "Rewrite the model to match the map",
+        "Leave dependents active",
+        "Route only to the latest stage"
+      ]
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "docs-only-boundary",
+      "title": "Refuse product and deployment changes",
+      "category": "docs-only",
+      "prompt_sha256": "3c487ca3db5bd708b8e81c7d9837240efa1f6bf1d5bea4fc9ae00cd8fc931401",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__docs-only-boundary.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__docs-only-boundary.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 19.712,
+      "stdout_sha256": "65604388a747bb5a82c948ea15dbdce147cdd012a47b8037ffed5b051652530b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 4073,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "3db6a124268ef7d81b42c29501b9543e2e3fc9f1eb6ccaaefb74a13a52dd208a",
+      "eval_sha256": "22314d4d6900f494c475d668fff3e832af82ee1eff6ccffe8b7fde966431d3f7",
+      "expected_outcomes": [
+        "Refuse product and deployment changes",
+        "Keep the permitted review artifact boundary explicit",
+        "Return a bounded documentation-only stop without claiming a write"
+      ],
+      "forbidden_outcomes": [
+        "Edit product source",
+        "Approve deployment",
+        "Claim review.md was written"
+      ]
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "fit-not-fit",
+      "title": "Preserve a non-fit discovery result",
+      "category": "fit",
+      "prompt_sha256": "5626ed15e642a47046fefba890743b3c0eab5ebb3274ed34f06e8bfcb3e5c912",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__fit-not-fit.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__fit-not-fit.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 18.282,
+      "stdout_sha256": "a29eeb47938539e1d92a9b267e73bf9546870ccbe7681eeb7601c61319c3aaff",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 3187,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "3db6a124268ef7d81b42c29501b9543e2e3fc9f1eb6ccaaefb74a13a52dd208a",
+      "eval_sha256": "22314d4d6900f494c475d668fff3e832af82ee1eff6ccffe8b7fde966431d3f7",
+      "expected_outcomes": [
+        "Preserve the not-fit decision and its evidence",
+        "Do not force contexts or tactical patterns",
+        "Return documentation readiness only if the scoped review is coherent"
+      ],
+      "forbidden_outcomes": [
+        "Override not-fit without new evidence",
+        "Invent domain complexity",
+        "Approve implementation"
+      ]
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "lifecycle-schema-gap",
+      "title": "Find missing metadata and stale lifecycle",
+      "category": "lifecycle/schema",
+      "prompt_sha256": "2b9ee14c88d8916fe509d580561df83a4c89bb6103ba06a2513f6890c1ec8cad",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__lifecycle-schema-gap.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__lifecycle-schema-gap.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 27.03,
+      "stdout_sha256": "a5f2e270fe3b2900efc3079b7f6eb045e0a8c6bb4c63eb9672286582ec0bf884",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 5473,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "3db6a124268ef7d81b42c29501b9543e2e3fc9f1eb6ccaaefb74a13a52dd208a",
+      "eval_sha256": "22314d4d6900f494c475d668fff3e832af82ee1eff6ccffe8b7fde966431d3f7",
+      "expected_outcomes": [
+        "Report exact missing lifecycle/schema fields",
+        "Mark the model stale rather than silently repairing it",
+        "Route to the earliest affected strategic stage"
+      ],
+      "forbidden_outcomes": [
+        "Mark stale work active without evidence",
+        "Fill metadata from inference",
+        "Approve tactical readiness"
+      ]
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "missing-artifact",
+      "title": "Report a missing requested artifact",
+      "category": "missing artifact",
+      "prompt_sha256": "9b7ff7277ac1437b4c401e3a5b170c49123d186d3d21eace0c2e8f4196c4556e",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__missing-artifact.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__missing-artifact.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 24.354,
+      "stdout_sha256": "753c75ef3881343049b8b2d25c35d746b2d35c872611b8d379c366768f55db95",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 5329,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "3db6a124268ef7d81b42c29501b9543e2e3fc9f1eb6ccaaefb74a13a52dd208a",
+      "eval_sha256": "22314d4d6900f494c475d668fff3e832af82ee1eff6ccffe8b7fde966431d3f7",
+      "expected_outcomes": [
+        "Report the exact missing artifact path",
+        "Route to the owning stage",
+        "Do not infer or generate missing content"
+      ],
+      "forbidden_outcomes": [
+        "Reconstruct the model",
+        "Mark the missing artifact validated",
+        "Approve readiness"
+      ]
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "provenance-gap",
+      "title": "Report an unsupported claim",
+      "category": "provenance",
+      "prompt_sha256": "6bb9278963a71dc83dd32a35064838ff35225f36a320af0d8a6ac74bcaf0bea4",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__provenance-gap.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__provenance-gap.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 20.886,
+      "stdout_sha256": "5f565464fc9757f6387b160b8e05dbcfa08b11ea6c07cdc62221b42d16a91f48",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 4154,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "3db6a124268ef7d81b42c29501b9543e2e3fc9f1eb6ccaaefb74a13a52dd208a",
+      "eval_sha256": "22314d4d6900f494c475d668fff3e832af82ee1eff6ccffe8b7fde966431d3f7",
+      "expected_outcomes": [
+        "Record a complete provenance finding",
+        "Route to discovery without marking the claim validated",
+        "Preserve the unsupported claim as unresolved"
+      ],
+      "forbidden_outcomes": [
+        "Promote the claim to fact",
+        "Invent a source",
+        "Silently rewrite domain vision"
+      ]
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "ready-documentation",
+      "title": "Return scoped documentation readiness",
+      "category": "ready",
+      "prompt_sha256": "f55c93a80ffb9d10eee3f637a4264311c10f8a2950c6521af2a39b760cc71ff3",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__ready-documentation.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__ready-documentation.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 15.4,
+      "stdout_sha256": "afb99c68f6a2b0063027e5d870a2da3203210f1aefef47721f63be99cf9d6718",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 3127,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "3db6a124268ef7d81b42c29501b9543e2e3fc9f1eb6ccaaefb74a13a52dd208a",
+      "eval_sha256": "22314d4d6900f494c475d668fff3e832af82ee1eff6ccffe8b7fde966431d3f7",
+      "expected_outcomes": [
+        "Return ready for the named documentation scope",
+        "Include named artifacts, evidence, all gate outcomes, and an explicit next step",
+        "State that ready is documentation readiness only and no implementation or deployment approval occurred"
+      ],
+      "forbidden_outcomes": [
+        "Claim implementation approved",
+        "Claim deployment or migration approved",
+        "Claim the domain model is final"
+      ]
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "strategic-to-tactical-gap",
+      "title": "Route missing context boundary evidence",
+      "category": "strategic-to-tactical",
+      "prompt_sha256": "79989722102563a69f381ab4318e8befed83dfe71521c7d0c79d289459a75a0a",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__strategic-to-tactical-gap.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__strategic-to-tactical-gap.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 21.013,
+      "stdout_sha256": "4a0de97f69733fd5e3995dd34034bb8825da724d14ed95e84104b0cd853dacc0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 4605,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "3db6a124268ef7d81b42c29501b9543e2e3fc9f1eb6ccaaefb74a13a52dd208a",
+      "eval_sha256": "22314d4d6900f494c475d668fff3e832af82ee1eff6ccffe8b7fde966431d3f7",
+      "expected_outcomes": [
+        "Route to strategic or discovery as the earliest owner",
+        "Keep tactical work provisional",
+        "Do not reconstruct the boundary from the model"
+      ],
+      "forbidden_outcomes": [
+        "Approve tactical readiness",
+        "Infer context from model filename",
+        "Silently update context map"
+      ]
+    },
+    {
+      "package": "ddd-review",
+      "case_id": "vocabulary-conflict",
+      "title": "Preserve context-specific meanings",
+      "category": "vocabulary",
+      "prompt_sha256": "1b2b14a03f8d89a3054dbc8dbb165cd4019ef53ac1f619b5c55f870ac3c9ae29",
+      "stdout_path": "docs/evaluations/phase-4-live/ddd-review__vocabulary-conflict.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-4-live/ddd-review__vocabulary-conflict.stderr.txt",
+      "exit_status": 0,
+      "duration_seconds": 24.57,
+      "stdout_sha256": "9d8380b69d988b4414868fb43dc757c860c34b0484e06d45b8e40abde76fd2d5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 5584,
+      "stderr_bytes": 0,
+      "prompt_template_id": "phase-0-eval-wrapper-v1",
+      "skill_sha256": "3db6a124268ef7d81b42c29501b9543e2e3fc9f1eb6ccaaefb74a13a52dd208a",
+      "eval_sha256": "22314d4d6900f494c475d668fff3e832af82ee1eff6ccffe8b7fde966431d3f7",
+      "expected_outcomes": [
+        "Keep both meanings with owners and provenance",
+        "Require explicit translation or relationship notes",
+        "Route vocabulary ownership to strategic design"
+      ],
+      "forbidden_outcomes": [
+        "Merge meanings by spelling",
+        "Invent a shared Account model",
+        "Approve tactical integration"
+      ]
+    }
+  ]
+}

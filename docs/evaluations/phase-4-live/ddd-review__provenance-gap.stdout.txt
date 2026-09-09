@@ -1,0 +1,97 @@
+## STATUS
+
+`blocked`
+
+## RESULT
+
+- **Stage:** `ddd-review`
+- **Scope:** Approval policy evidence
+- **Review depth:** Provenance and documentation-readiness review
+- **Acceptance criterion:** Find the provenance gap
+- **Requested artifact:** `docs/ddd/domain-vision.md`
+- **Available artifact:** `docs/ddd/domain-vision.md`
+- **Return stage:** `ddd-discover`
+
+### Gate results
+
+- **Fit:** `follow-up` — the claim’s domain fit cannot be fully relied upon until its evidence is established.
+- **Evidence/provenance:** `blocked` — the claim is labeled as a fact but has no source, owner, or validation record.
+- **Lifecycle/schema:** `follow-up` — the artifact is draft and unvalidated; provenance metadata is missing.
+- **Vocabulary:** `not-applicable`
+- **Strategic-to-tactical:** `not-applicable`
+- **Adoption safety:** `not-applicable`
+- **Cross-artifact consistency:** `follow-up` — dependent review conclusions should not treat the claim as validated.
+
+### Finding
+
+```yaml
+severity: blocked
+evidence: "Claim is labeled fact but has no source, owner, or validation"
+provenance: "Missing in domain-vision.md"
+owner: ddd-discover
+action: "Collect source and validate the claim"
+status: routed
+affected_artifact: docs/ddd/domain-vision.md
+earliest_stage: ddd-discover
+```
+
+The provenance gap prevents documentation readiness for the stated scope. The claim must remain unvalidated rather than being treated as an established fact.
+
+This result does **not** approve implementation, deployment, migration, data cutover, product-code changes, release, or a microservice split.
+
+## EVIDENCE
+
+- `docs/ddd/domain-vision.md` is marked `draft`.
+- Its validation status is `unvalidated`.
+- Artifact provenance is explicitly `missing`.
+- The reviewed claim is labeled as a fact but lacks:
+  - a source;
+  - an accountable owner;
+  - a validation record.
+- Supplied evidence states: `"claim has no source or validation"`.
+
+## HANDOFF_OR_STOP
+
+Route to **`ddd-discover`**.
+
+- **Owner:** `ddd-discover`
+- **Required action:** Collect the claim’s source, identify the accountable owner, and validate the claim.
+- **Evidence requested:** Source reference, ownership attribution, validation method/result, and validation date or lifecycle record.
+- **Affected artifact:** `docs/ddd/domain-vision.md`
+- **Revisit trigger:** Return to `ddd-review` after the provenance and validation fields are completed and the claim’s status is updated.
+
+## CHANGED_ARTIFACTS
+
+```yaml
+changed_artifacts: []
+```
+
+No artifact was created or modified. The permitted path `docs/ddd/review.md` was not written because this is an ephemeral, text-only evaluation and no file operation was authorized.
+
+## INVALIDATED_STAGES
+
+- **Stage:** `ddd-discover`
+- **Reason:** The claim’s evidentiary basis is incomplete; its fact classification is not currently supportable.
+- **Affected artifact:** `docs/ddd/domain-vision.md`
+- **Status:** Stale/unvalidated pending provenance collection.
+- **Revisit trigger:** Validated source, owner, and validation record are added.
+
+No strategic, tactical, or adoption stage is independently invalidated because those stages are not in scope and no artifacts from them were supplied.
+
+## OPEN_QUESTIONS
+
+- What is the authoritative source for the claim?
+- Who owns the claim and its validation?
+- What validation method and result establish the claim?
+- When was the claim last validated?
+- Are any downstream conclusions relying on this claim as a confirmed fact?
+
+## BOUNDARY_CHECKS
+
+- Reviewed only the named DDD documentation scope.
+- Did not reconstruct missing evidence or infer facts from filenames or artifact status.
+- Did not rewrite or repair `docs/ddd/domain-vision.md`.
+- Did not create or update `docs/ddd/review.md`.
+- Did not approve implementation, deployment, migration, data cutover, release, product-code edits, or a microservice split.
+- Did not claim that any artifact was actually changed.
+- **Chat summary:** Provenance review is blocked: the fact-labeled claim in `docs/ddd/domain-vision.md` has no source, owner, or validation record. `ddd-discover` must collect and validate that evidence before the review can proceed.

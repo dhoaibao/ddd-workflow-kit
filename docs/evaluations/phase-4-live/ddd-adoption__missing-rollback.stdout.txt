@@ -1,0 +1,90 @@
+STATUS
+
+`blocked`
+
+RESULT
+
+- Mode: `brownfield`
+- Target outcome: Change approval data
+- Proposed first slice: Reconcile approval records
+- Entry is incomplete because the slice lacks:
+  - rollback, recovery, or containment path;
+  - characterization evidence;
+  - reconciliation acceptance criteria.
+- The existing owner (`Approvals owner`) and legacy data inventory do not establish a safe adoption sequence.
+- Adoption planning stops before sequencing or approving a brownfield data change.
+- No migration, data change, reconciliation, product-code change, test change, configuration change, schema change, deployment change, or runtime change was executed.
+- No `ddd-review` request is emitted because the plan is not complete and bounded.
+- The missing rollback/containment decision is a brownfield adoption prerequisite, not an optional follow-up. The missing characterization and reconciliation acceptance evidence must also be established before behavior or data changes are recommended.
+
+EVIDENCE
+
+- Claim: `current-state evidence`
+  - Source: legacy data inventory
+  - Owner: Approvals owner
+  - Scenario: Reconcile approval records
+  - Impact: Identifies approval data to be changed, but does not characterize current behavior, failure modes, invariants, or reconciliation outcomes.
+  - Validation: Partial; insufficient for adoption.
+- Claim: `required obligation`
+  - Source: brownfield adoption entry criteria
+  - Owner: Adoption planning / accountable approval-data owner
+  - Scenario: Any approval-record reconciliation
+  - Impact: A credible rollback, recovery, or containment path is required before planning a risky data increment.
+  - Validation: Missing.
+- Claim: `required obligation`
+  - Source: brownfield adoption entry criteria
+  - Owner: Approvals owner
+  - Scenario: Reconcile approval records
+  - Impact: Characterization evidence and reconciliation acceptance signals must exist before changes are introduced.
+  - Validation: Missing.
+- No target policy or desired meaning is inferred from the inventory. No claim is made that approval records can be safely reverted.
+
+HANDOFF_OR_STOP
+
+Bounded stop at `ddd-adoption`.
+
+Required decisions and evidence before resubmission:
+
+1. Define who owns rollback, recovery, and containment.
+2. Specify the trigger, procedure, recovery point or compensating action, time limits, and known limits of rollback or containment.
+3. Produce characterization evidence for the existing approval-record behavior and failure modes.
+4. Define reconciliation acceptance criteria, including how discrepancies, duplicates, lost records, and externally visible effects are detected and handled.
+5. Confirm data ownership, privacy constraints, integration dependencies, and observability for the slice.
+
+Do not route backward to `ddd-discover`, `ddd-strategic`, or `ddd-tactical` based on the supplied evidence; the stated gaps are brownfield adoption prerequisites. Resubmit to `ddd-adoption` once they are resolved.
+
+CHANGED_ARTIFACTS
+
+`[]`
+
+No artifact was written or changed. The adoption-owned path would be `docs/ddd/adoption-plan.md`, but no update is authorized or appropriate while the entry criteria remain incomplete.
+
+INVALIDATED_STAGES
+
+`[]`
+
+No previously completed stage is invalidated by this stop. The adoption plan cannot qualify the proposed slice until the missing brownfield evidence and containment decision are supplied.
+
+OPEN_QUESTIONS
+
+- What is the rollback, recovery, or containment mechanism if reconciliation produces incorrect approval states?
+- Is rollback technically possible, or is the safe response compensating correction or traffic/data containment?
+- What characterization tests, snapshots, reports, or production observations establish the current baseline?
+- What reconciliation outcomes constitute acceptance?
+- How are discrepancies investigated, corrected, and signed off?
+- Which systems or external integrations consume approval records?
+- What privacy, audit, retention, or regulatory constraints limit rollback or correction?
+- Who owns the legacy side, target side, reconciliation decision, and incident response?
+- What observability detects regressions during and after reconciliation?
+
+BOUNDARY_CHECKS
+
+- Text-only evaluation followed; no tools were used.
+- No files were read or written.
+- No artifact change is claimed.
+- No migration or data operation was executed.
+- No product source, tests, configuration, schema, generated output, deployment file, or runtime behavior was modified.
+- No big-bang migration or irreversible data cutover was proposed.
+- No rollback or reversibility was invented or implied.
+- Current evidence, required obligations, and missing decisions remain separate.
+- No `ddd-review` handoff was produced because the adoption plan is blocked.

@@ -1,0 +1,119 @@
+## STATUS
+
+`blocked`
+
+## RESULT
+
+- The `ddd-review` request cannot be activated because its objective is not documentation-only: `"edit controller and deploy"`.
+- The requested paths `src/claims.py` and `deploy/production.yaml` are outside the declared `allowed_paths` boundary of `["docs/ddd/"]`.
+- The required documentation-only objective is missing, as identified by `missing_fields`.
+- No focused stage ran.
+- No artifact was changed.
+- No review approval, implementation, deployment, migration, or live-validation claim is made.
+- The request is not repaired, normalized, or rerouted into a different stage.
+- The bounded stop is preserved: the caller must remove product and deployment paths and provide a documentation-only objective before `ddd-review` can proceed.
+
+Portable routing result:
+
+```json
+{
+  "version": "ddd-routing-v1",
+  "current_stage": "ddd-review",
+  "status": "blocked",
+  "objective": "edit controller and deploy",
+  "scope": "approval slice",
+  "request": {
+    "version": "ddd-routing-v1",
+    "stage": "ddd-review",
+    "objective": "edit controller and deploy",
+    "scope": "approval slice",
+    "artifacts": [],
+    "evidence": ["requester instruction"],
+    "claims": [],
+    "provenance": ["request"],
+    "assumptions": [],
+    "open_questions": [],
+    "allowed_paths": ["docs/ddd/"],
+    "return_to": "ddd"
+  },
+  "result": null,
+  "preserved_evidence": ["requester instruction"],
+  "preserved_claims": [],
+  "preserved_provenance": ["request"],
+  "assumptions": [],
+  "open_questions": [],
+  "allowed_paths": ["docs/ddd/"],
+  "changed_index_paths": [],
+  "findings": [
+    {
+      "type": "boundary-violation",
+      "message": "Requested product-source and deployment paths are outside the documentation-only boundary."
+    },
+    {
+      "type": "missing-field",
+      "field": "documentation-only objective",
+      "message": "A documentation-only objective is required for review routing."
+    }
+  ],
+  "handoff": "none",
+  "stop": {
+    "reason": "outside documentation-only boundary",
+    "owner": "caller",
+    "missing": "documentation-only objective",
+    "next_action": "remove product and deployment paths",
+    "next_stage": "ddd-review"
+  },
+  "invalidated_stages": [],
+  "stale_dependents": [],
+  "return_to": "ddd"
+}
+```
+
+## EVIDENCE
+
+- Evidence supplied: `"requester instruction"`.
+- Declared allowed boundary: `docs/ddd/`.
+- Requested paths:
+  - `docs/ddd/README.md` — within the declared documentation boundary.
+  - `src/claims.py` — outside the declared boundary.
+  - `deploy/production.yaml` — outside the declared boundary.
+- The supplied entry status is `"incomplete"`.
+- The supplied missing field is `"documentation-only objective"`.
+
+## HANDOFF_OR_STOP
+
+**Stop.**
+
+- Owner: `caller`
+- Reason: `outside documentation-only boundary`
+- Required action: remove `src/claims.py` and `deploy/production.yaml` from the requested paths and provide a bounded documentation-only objective.
+- Next stage named by the caller: `ddd-review`
+- No handoff occurred because the entry contract is incomplete and the path boundary is violated.
+
+## CHANGED_ARTIFACTS
+
+`[]`
+
+No files were read, written, edited, or otherwise changed.
+
+## INVALIDATED_STAGES
+
+`[]`
+
+No stage result was consumed, so no invalidation was processed.
+
+## OPEN_QUESTIONS
+
+- What is the bounded documentation-only objective for the review?
+- After removing the out-of-bound product and deployment paths, which documentation artifact or artifacts under `docs/ddd/` are to be reviewed?
+
+## BOUNDARY_CHECKS
+
+- Documentation-only scope enforced: **failed** due to the objective `"edit controller and deploy"`.
+- Allowed-path enforcement: **failed** for `src/claims.py` and `deploy/production.yaml`.
+- `docs/ddd/README.md` is the only requested path within the declared boundary.
+- Product source editing: **not performed**.
+- Deployment configuration editing: **not performed**.
+- Deployment or runtime behavior change: **not performed**.
+- Review execution: **not performed**.
+- Artifact-change claim: **not made**.

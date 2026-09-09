@@ -1,0 +1,87 @@
+STATUS
+
+`blocked`
+
+RESULT
+
+- Stage: `ddd-review`
+- Scope: Review of the `Claims tactical model` for tactical readiness.
+- Review depth: Strategic-to-tactical prerequisite and cross-artifact review.
+- Acceptance criterion: Do not approve tactical readiness.
+- Result: Tactical readiness is **not approved**. The tactical model cannot be considered documentation-ready for this scope because the strategic boundary and relationship direction remain unvalidated.
+- Fit: Pass based on the supplied evidence.
+- Adoption safety: Not applicable.
+- Lifecycle/schema, provenance, and vocabulary: Follow-up required; the supplied artifacts remain draft/partial or unvalidated.
+- Strategic-to-tactical prerequisite: Blocked.
+- Cross-artifact consistency: Blocked because the tactical model depends on a strategic context boundary and relationship direction that are proposal-only.
+- The earliest required next stage is `ddd-strategic`, not `ddd-tactical`.
+- This result does **not** approve implementation, deployment, migration, data cutover, release, product-code changes, or a microservice split.
+- No artifact was created or updated. The permitted path `docs/ddd/review.md` was not actually changed in this ephemeral evaluation.
+
+Findings:
+
+1.  
+   - severity: `blocked`
+   - evidence: `docs/ddd/context-map.md` records the context boundary and relationship direction as proposals only; the tactical model exists but its strategic boundary prerequisite is not validated.
+   - provenance: `context-map.md` validation record; artifact provenance is also stated as `proposal only`.
+   - owner: `ddd-strategic`
+   - action: Validate the context boundary and relationship direction, recording authoritative evidence, owner, status, and validation outcome before returning to tactical review.
+   - status: `routed`
+   - affected_artifact: `docs/ddd/context-map.md`
+   - earliest_stage: `ddd-strategic`
+
+2.  
+   - severity: `follow-up`
+   - evidence: `docs/ddd/models/claims.md` is draft and only partially validated; its provenance is `scenario notes`.
+   - provenance: `scenario notes`; validation is `partially-validated`.
+   - owner: `ddd-tactical`
+   - action: Reassess the tactical model after the strategic boundary and relationship direction are validated, including any affected model claims.
+   - status: `open`
+   - affected_artifact: `docs/ddd/models/claims.md`
+   - earliest_stage: `ddd-tactical`
+
+HANDOFF_OR_STOP
+
+Handoff to `ddd-strategic`.
+
+- Owner: `ddd-strategic`
+- Required evidence: Validated context boundary and validated relationship direction for the context map.
+- Affected dependent: `docs/ddd/models/claims.md`
+- Revisit trigger: `docs/ddd/context-map.md` receives an authoritative validation decision, with provenance and lifecycle metadata updated.
+- After that handoff, return to `ddd-review` for a new or resumed review of the strategic-to-tactical prerequisites. Tactical review must not proceed as ready before that evidence exists.
+
+CHANGED_ARTIFACTS
+
+`[]`
+
+No write occurred. In particular, `docs/ddd/review.md` was not created or updated.
+
+INVALIDATED_STAGES
+
+- `ddd-tactical`
+  - reason: Tactical claims depend on an unvalidated strategic boundary and relationship direction.
+  - routing: Revisit after `ddd-strategic` validates the context map.
+  - affected artifact: `docs/ddd/models/claims.md`
+- `ddd-strategic`
+  - status: Required action, not itself invalidated as a stage.
+  - action: Validate and establish the boundary and relationship direction in `docs/ddd/context-map.md`.
+
+OPEN_QUESTIONS
+
+- What evidence authorizes the proposed context boundary?
+- What evidence establishes the direction of the relationship between the contexts?
+- Who owns and approves those strategic decisions?
+- What validation scope and date will be recorded for `docs/ddd/context-map.md`?
+- Which claims in `docs/ddd/models/claims.md` change if the boundary or relationship direction changes?
+
+BOUNDARY_CHECKS
+
+- Scope was identifiable: yes — `Claims tactical model`.
+- Requested artifacts were named: yes.
+- Available artifacts were not reconstructed or supplemented: yes.
+- Missing facts were not inferred from filenames, summaries, or generic DDD guidance: yes.
+- Strategic claims were not silently promoted from proposal to fact: yes.
+- Tactical readiness was not approved: yes.
+- No source, tactical, configuration, code, migration, deployment, or unrelated artifact was changed: yes.
+- Only `docs/ddd/review.md` was permitted for a potential additive review write, but no write was performed.
+- The result is documentation review only and does not authorize implementation or deployment.

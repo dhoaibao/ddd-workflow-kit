@@ -2,7 +2,7 @@
 
 ## Current status
 
-The repository has reviewed, committed focused MVP packages for all five focused stages plus the routing-only `ddd` orchestrator. Phase 3 is implemented; phase 4 remains the full-suite transition and currentness pass.
+The repository has reviewed, committed focused MVP packages for all five focused stages plus the routing-only `ddd` orchestrator. Phase 3 is implemented; phase 4 full-suite transition and currentness evaluation is complete for candidate review.
 
 The roadmap is grounded in the [skill routing design](../skill-design/skills-and-routing.md), [workflow rules](../skill-design/workflows.md), [artifact contracts](../skill-design/artifact-contracts.md), [quality gates](../skill-design/quality-gates.md), and [portability notes](../skill-design/portability.md).
 
@@ -42,11 +42,13 @@ The [orchestrator plan](active/ddd.md) is implemented at [`skills/ddd/`](../../s
 
 **Exit criteria:** orchestrator package validation, package isolation, transition-loop evaluations, portability checks, and independent review pass; `docs/ddd/README.md` index ownership and review stewardship are explicit. Phase 3 implementation and package checks are complete; live transition evaluation remains part of phase 4.
 
-### 4. Run the full-suite transition and currentness pass
+### 4. Run the full-suite transition and currentness pass — complete for candidate review
 
 Exercise focused-stage invocation, orchestrated routing, package isolation, portability fallbacks, and evidence/claim preservation. Repeat phase-0 live evaluations only when a previously unavailable host/model or optional validator becomes available. Reconcile README/status links and document residual gaps.
 
 **Dependencies:** stages 1–3 complete; any live evaluation run has the availability and evidence record required by phase 0.
+
+**Execution record:** [phase-4 report](../evaluations/phase-4-report.json), [live capture manifest](../evaluations/phase-4-live-capture.json), [semantic judgments](../evaluations/phase-4-live-semantic-judgments.json), and [transition matrix](../evaluations/phase-4-transition-matrix.json). The 30 adoption/review/orchestrator cases were live-evaluated with 30/30 process and semantic passes. The unchanged 29 phase-0 cases are carried forward by matching package and evaluation hashes; they were not rerun. `skills-ref` remains unavailable and deferred without installation.
 
 **Exit criteria:** all local checks pass, normal transitions construct contract-valid requests from stage results, manual fallbacks preserve unchanged requests, invalidation loops reach the earliest affected stage, documentation accurately distinguishes implemented, reviewed, and deferred work, and residual risks are recorded.
 

@@ -1,0 +1,97 @@
+## STATUS
+
+`blocked`
+
+## RESULT
+
+**Stage:** `ddd-review`  
+**Scope:** Review claims for the adoption first slice.  
+**Review depth:** Adoption safety and related documentation readiness.  
+**Acceptance criterion:** Block unsafe adoption readiness.
+
+The review is **blocked** because the first adoption slice lacks:
+
+- an accountable owner;
+- an observable acceptance signal; and
+- a rollback or containment path.
+
+The adoption-safety gate is `blocked`. Lifecycle/schema is `follow-up`, and cross-artifact consistency is `follow-up`; fit, provenance, and strategic-to-tactical gates pass. Vocabulary is not applicable.
+
+This result does **not** approve adoption readiness. It also does not authorize implementation, deployment, migration, data cutover, product-code edits, or a microservice split.
+
+**Finding:**
+
+```yaml
+severity: blocked
+evidence: First slice lacks accountable owner, acceptance signal, and rollback/containment
+provenance: adoption-plan.md increment table
+owner: ddd-adoption
+action: Name an accountable owner, define an observable acceptance signal, and document rollback or containment before review
+status: routed
+affected_artifact: docs/ddd/adoption-plan.md
+earliest_stage: ddd-adoption
+```
+
+**Chat summary:** Adoption review is blocked. The first slice is named, but it is unsafe to treat it as adoption-ready until `ddd-adoption` records ownership, observable acceptance, and rollback or containment evidence.
+
+## EVIDENCE
+
+- Requested artifact: `docs/ddd/adoption-plan.md`
+- Artifact owner: `ddd-adoption`
+- Provenance: `tactical handoff`
+- Status: `draft`
+- Validation: `partially-validated`
+- Supplied evidence: `first slice has no owner or containment`
+- Adoption-safety gate: `blocked`
+- Cross-artifact gate: `follow-up`
+- Lifecycle/schema gate: `follow-up`
+- Fit gate: `pass`
+- Provenance gate: `pass`
+- Strategic-to-tactical gate: `pass`
+- Vocabulary gate: `not-applicable`
+
+The available evidence supports blocking unsafe adoption readiness. It does not establish a rollback or containment mechanism, acceptance criteria, or accountable ownership.
+
+## HANDOFF_OR_STOP
+
+**Handoff to:** `ddd-adoption`
+
+Required next evidence:
+
+1. An accountable owner for the first slice.
+2. An observable acceptance signal or measurable acceptance criteria.
+3. A documented rollback or containment path, including the trigger and responsible owner.
+
+Revisit `ddd-review` after the adoption plan is updated and validated against those requirements. Do not proceed as adoption-ready before that evidence exists.
+
+## CHANGED_ARTIFACTS
+
+```yaml
+changed_artifacts: []
+```
+
+No artifact was changed. The permitted path was `docs/ddd/review.md`, but this ephemeral, text-only evaluation does not perform file writes or claim that a review artifact was updated.
+
+## INVALIDATED_STAGES
+
+- No source stage is marked `invalidated`.
+- `ddd-adoption` is the earliest stage requiring follow-up.
+- The adoption plan remains a stale/incomplete input for readiness review until ownership, acceptance, and containment evidence are supplied.
+- No downstream implementation or deployment stage is approved or reached.
+
+## OPEN_QUESTIONS
+
+- Who is accountable for the first adoption slice?
+- What observable signal determines acceptance?
+- What condition triggers rollback or containment?
+- Who executes and owns that rollback or containment path?
+- What lifecycle/schema fields remain incomplete in `docs/ddd/adoption-plan.md`?
+
+## BOUNDARY_CHECKS
+
+- Reviewed only the named adoption-plan scope and supplied evidence.
+- Did not invent missing artifact contents or reconstruct absent facts.
+- Did not rewrite or approve the adoption plan.
+- Did not approve implementation, deployment, migration, data cutover, product-code changes, or a microservice split.
+- Did not claim that `docs/ddd/review.md` or any other artifact was changed.
+- Preserved the supplied provenance and routed the blocking issue to `ddd-adoption`.

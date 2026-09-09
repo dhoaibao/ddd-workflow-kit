@@ -1,0 +1,100 @@
+STATUS
+
+`manual-fallback`
+
+RESULT
+
+Named-stage activation is unavailable. The exact manual invocation bundle for `ddd-strategic` is returned unchanged.
+
+Expected outcomes satisfied:
+
+- Returned the exact original request object.
+- Preserved version, stage, objective, scope, artifacts, evidence, claims, provenance, assumptions, open questions, allowed paths, and `return_to`.
+- Identified the exact manual stage name: `ddd-strategic`.
+- Stated that the named stage did not run.
+- No transition is claimed.
+- No artifact change is claimed.
+
+Forbidden outcomes avoided:
+
+- No request normalization, reordering, defaulting, or field alteration.
+- No strategic analysis or emulation of `ddd-strategic`.
+- No invented evidence, claims, provenance, assumptions, or decisions.
+- No artifact, index, product, runtime, deployment, migration, or configuration changes.
+- No claim that any focused stage ran or produced a result.
+
+Exact manual invocation bundle:
+
+```json
+{
+  "version": "ddd-routing-v1",
+  "stage": "ddd-strategic",
+  "objective": "validate Billing boundary",
+  "scope": "Billing context",
+  "artifacts": [
+    {
+      "availability": "available",
+      "lifecycle": "active",
+      "path": "docs/ddd/assessment.md",
+      "validation": "validated"
+    }
+  ],
+  "evidence": [
+    "fit evidence"
+  ],
+  "claims": [
+    "proposal: Billing owns payment terms"
+  ],
+  "provenance": [
+    "discovery notes"
+  ],
+  "assumptions": [
+    "owner is available"
+  ],
+  "open_questions": [
+    "relationship direction"
+  ],
+  "allowed_paths": [
+    "docs/ddd/"
+  ],
+  "return_to": "ddd"
+}
+```
+
+EVIDENCE
+
+Preserved exactly:
+
+- Evidence: `["fit evidence"]`
+- Claims: `["proposal: Billing owns payment terms"]`
+- Provenance: `["discovery notes"]`
+- Assumptions: `["owner is available"]`
+- Artifact record: `docs/ddd/assessment.md`, lifecycle `active`, validation `validated`, availability `available`
+
+HANDOFF_OR_STOP
+
+Manual handoff to `ddd-strategic`.
+
+The exact request is ready for manual invocation. `ddd-strategic` did not run.
+
+CHANGED_ARTIFACTS
+
+`[]`
+
+INVALIDATED_STAGES
+
+`[]`
+
+OPEN_QUESTIONS
+
+`["relationship direction"]`
+
+BOUNDARY_CHECKS
+
+- Request version is `ddd-routing-v1`.
+- Stage is exactly `ddd-strategic`.
+- Objective and scope are preserved unchanged.
+- Allowed path boundary `["docs/ddd/"]` is preserved unchanged.
+- All list order and field values are preserved.
+- No files were read or written.
+- No artifact was actually changed.

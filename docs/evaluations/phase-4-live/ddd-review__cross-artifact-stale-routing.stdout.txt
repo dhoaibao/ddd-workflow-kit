@@ -1,0 +1,132 @@
+## STATUS
+
+`invalidated`
+
+## RESULT
+
+Stage: `ddd-review`
+
+Scope: Review the claims context boundary and its downstream tactical model and adoption plan.
+
+Review depth: Cross-artifact strategic-to-tactical and adoption dependency review.
+
+Acceptance criterion: Preserve the strategic boundary conflict and mark dependent artifacts stale.
+
+The strategic owner changed the boundary in `docs/ddd/context-map.md`, while `docs/ddd/models/claims.md` and `docs/ddd/adoption-plan.md` retain assumptions based on the prior boundary. The conflict invalidates the tactical model and the dependent adoption plan.
+
+Expected outcomes completed in this result:
+
+- The conflict is preserved; neither source artifact is silently repaired.
+- `docs/ddd/models/claims.md` is marked stale and routed to `ddd-strategic` for boundary revalidation.
+- `docs/ddd/adoption-plan.md` is marked stale and its sequencing is paused pending tactical revalidation.
+- The earliest invalidated stage is `ddd-strategic`.
+- The revisit trigger is validated boundary and relationship evidence.
+- Adoption safety and cross-artifact consistency remain blocked.
+
+Forbidden outcomes not performed:
+
+- No implementation approval.
+- No deployment or release approval.
+- No migration, data cutover, or live validation approval.
+- No product-code, runtime, source, test, configuration, schema, or generated-output changes.
+- No tactical or adoption artifact was rewritten.
+- No boundary conflict was merged, resolved, or inferred beyond the supplied evidence.
+- No microservice split or service boundary was approved.
+- No artifact change is claimed.
+
+Chat summary: Review is invalidated because a changed strategic boundary makes the tactical claims model and adoption plan stale. Revalidate the boundary at `ddd-strategic`, then revalidate the tactical model before resuming adoption sequencing.
+
+## EVIDENCE
+
+Requested and available artifacts:
+
+- `docs/ddd/context-map.md` — owner: `ddd-strategic`; provenance: owner decision; status: active; validation: partially-validated.
+- `docs/ddd/models/claims.md` — owner: `ddd-tactical`; provenance: prior boundary; status: active; validation: validated.
+- `docs/ddd/adoption-plan.md` — owner: `ddd-adoption`; provenance: prior tactical handoff; status: active; validation: validated.
+
+Observed evidence:
+
+- The strategic owner changed the boundary.
+- Tactical and adoption assumptions use the old boundary.
+- The owner decision conflicts with downstream artifacts.
+- The adoption slice depends on a stale tactical boundary.
+
+Gate outcomes:
+
+- Fit: `pass`.
+- Evidence/provenance: `pass`.
+- Lifecycle/schema: `pass`.
+- Vocabulary: `follow-up`.
+- Strategic-to-tactical: `blocked`.
+- Adoption safety: `blocked`.
+- Cross-artifact consistency: `blocked`.
+
+Findings:
+
+1. `invalidated` / `routed` — affected artifact: `docs/ddd/models/claims.md`  
+   Evidence: New strategic boundary conflicts with tactical and adoption assumptions.  
+   Provenance: strategic owner decision.  
+   Owner: `ddd-strategic`.  
+   Action: Revalidate the boundary and mark downstream artifacts stale.  
+   Earliest stage: `ddd-strategic`.
+
+2. `invalidated` / `routed` — affected artifact: `docs/ddd/adoption-plan.md`  
+   Evidence: Adoption slice depends on a stale tactical boundary.  
+   Provenance: `adoption-plan.md` dependency record.  
+   Owner: `ddd-adoption`.  
+   Action: Pause sequencing until the tactical model is revalidated.  
+   Earliest stage: `ddd-strategic`.
+
+## HANDOFF_OR_STOP
+
+Handoff to `ddd-strategic`.
+
+Required next action: Revalidate the changed boundary and its relationship evidence. Preserve the conflict and do not update downstream artifacts to make the review pass.
+
+After validated strategic evidence is available:
+
+1. Revisit `docs/ddd/models/claims.md` at `ddd-tactical`.
+2. Revalidate the dependent assumptions, model, and consistency decisions.
+3. Resume `docs/ddd/adoption-plan.md` review at `ddd-adoption` only after tactical revalidation.
+
+Revisit trigger: Validated boundary and relationship evidence.
+
+## CHANGED_ARTIFACTS
+
+`[]`
+
+No artifact was created or updated. The permitted path was `docs/ddd/review.md`, but this text-only evaluation does not claim a write occurred.
+
+## INVALIDATED_STAGES
+
+- `ddd-strategic` — boundary decision requires revalidation.
+- `ddd-tactical` — `docs/ddd/models/claims.md` depends on the prior boundary and is stale.
+- `ddd-adoption` — `docs/ddd/adoption-plan.md` depends on the stale tactical boundary; sequencing is paused.
+- `ddd-review` — review outcome is invalidated for the stated scope until the strategic boundary is validated and downstream artifacts are rechecked.
+
+## OPEN_QUESTIONS
+
+- What validated evidence supports the changed strategic boundary?
+- What relationship direction and boundary definition should govern the claims context?
+- Which assumptions in `docs/ddd/models/claims.md` must be reconsidered after boundary validation?
+- Which adoption slice dependencies, compatibility conditions, and acceptance signals change after tactical revalidation?
+- Does the vocabulary follow-up contain terms whose meanings also changed with the boundary?
+
+## BOUNDARY_CHECKS
+
+- Scope identified: pass.
+- Requested artifacts identified: pass.
+- Artifact availability: pass.
+- Fit assessment: pass.
+- Evidence and provenance presence: pass, with the strategic artifact only partially validated.
+- Lifecycle and schema metadata: pass based on supplied summaries.
+- Vocabulary consistency: follow-up.
+- Strategic boundary coherence: blocked.
+- Strategic-to-tactical prerequisites: blocked.
+- Tactical model validity: invalidated by the strategic boundary change.
+- Adoption safety: blocked because the adoption plan depends on the stale tactical boundary.
+- Cross-artifact consistency: blocked.
+- Stale dependent routing: complete; affected artifacts are `docs/ddd/models/claims.md` and `docs/ddd/adoption-plan.md`, earliest stage is `ddd-strategic`, owner is `ddd-strategic`, and the revisit trigger is validated boundary and relationship evidence.
+- Documentation readiness: not achieved.
+
+`ready` is not returned. This result concerns documentation readiness only and does not authorize implementation, deployment, migration, data cutover, release, product-code edits, or a microservice split.

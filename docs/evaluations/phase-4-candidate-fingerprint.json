@@ -1,0 +1,355 @@
+{
+  "schema_version": 2,
+  "kind": "phase-4-candidate-fingerprint",
+  "base": "6e382cc69bda96793e3883306d099cc07434e724",
+  "generated_at_utc": "2026-09-09T15:52:54.269784Z",
+  "self_exclusion_path": "docs/evaluations/phase-4-candidate-fingerprint.json",
+  "worktree_file_count": 69,
+  "hashed_file_count": 68,
+  "inventory_source": "git status --porcelain plus recursive expansion of every untracked directory; tracked paths from git diff --name-only BASE",
+  "serialization_recipe": "rows are sorted by path and encoded with json.dumps(rows, sort_keys=True, separators=(\",\", \":\")); SHA-256 is over UTF-8 bytes; this manifest path alone is excluded to avoid recursion",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "b7bad71d77ba35094155279675b10bf6a6e5603b19820dda0a61c046dd1c167d",
+      "bytes": 1291
+    },
+    {
+      "path": "docs/evaluations/phase-4-live-capture.json",
+      "sha256": "cfc6929d850714e1d34d7d1141dda7e2518032b13629b1275006ac2962d23a88",
+      "bytes": 42321
+    },
+    {
+      "path": "docs/evaluations/phase-4-live-semantic-judgments.json",
+      "sha256": "a47f3ced7df8daa6b4da2811cd9c88d22fa826a740ee086b32bec04c3069e884",
+      "bytes": 81258
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__brownfield-baseline-seam.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__brownfield-baseline-seam.stdout.txt",
+      "sha256": "df6f5b491f0ba2fa42716b93322ddfdb76ece3798a75fa6850631d8ce7fbf553",
+      "bytes": 9941
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__claim-conflict.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__claim-conflict.stdout.txt",
+      "sha256": "499b28d03bd7b20cbdd1e7735ff461552e118957f4631afb46ba28897088a4fe",
+      "bytes": 9551
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__complete-review-handoff.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__complete-review-handoff.stdout.txt",
+      "sha256": "1b1b25cdcade40537a6167596446df9685266ea116feffce0530f47190ce54ab",
+      "bytes": 7457
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__docs-only-refusal.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__docs-only-refusal.stdout.txt",
+      "sha256": "5066f8ff87d52d2da7cfb3dcb8ef891f084b0b2ebbc1927e8cdf59dd65c19795",
+      "bytes": 4040
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__existing-artifact-preservation.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__existing-artifact-preservation.stdout.txt",
+      "sha256": "6f5fa6e9255083b437ada221fb4dfc46ffe207ab9aaec7492c3fa3163e8dedf5",
+      "bytes": 3516
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__greenfield-thin-slice.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__greenfield-thin-slice.stdout.txt",
+      "sha256": "587f4ab8cfef960cb5d7b4f8f60e90d296fd4987a39583b523466153fae759cb",
+      "bytes": 7621
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__missing-owner.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__missing-owner.stdout.txt",
+      "sha256": "e3f64855ff34d630a7ebac1559cd5b9e427432f18e1c4b5efa851d0338968b8b",
+      "bytes": 2930
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__missing-rollback.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__missing-rollback.stdout.txt",
+      "sha256": "6cced8253054ca6d5a78af2a29ca54190ad2995ba2432c198e807836e35c7910",
+      "bytes": 4772
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__partial-modeling-earliest-handoff.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__partial-modeling-earliest-handoff.stdout.txt",
+      "sha256": "24d545cc2ea9f45b196952bcba9f366a8964229bd142f6c8cc395236c23285e3",
+      "bytes": 4344
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__unsafe-migration.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-adoption__unsafe-migration.stdout.txt",
+      "sha256": "36bcf7297712d961f0a4db95d8010d3cd13c881663d5f724fe420b9af2f67551",
+      "bytes": 6197
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__adoption-safety-gap.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__adoption-safety-gap.stdout.txt",
+      "sha256": "f10479884582c9056c69f83cb6691f4643f1a0fa087da1b2b22ef2fba5700d92",
+      "bytes": 3912
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__cross-artifact-stale-routing.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__cross-artifact-stale-routing.stdout.txt",
+      "sha256": "6448113c884bbcdbb49407dba6945113c2489637baf6e954667afb604389a851",
+      "bytes": 6266
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__docs-only-boundary.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__docs-only-boundary.stdout.txt",
+      "sha256": "65604388a747bb5a82c948ea15dbdce147cdd012a47b8037ffed5b051652530b",
+      "bytes": 4073
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__fit-not-fit.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__fit-not-fit.stdout.txt",
+      "sha256": "a29eeb47938539e1d92a9b267e73bf9546870ccbe7681eeb7601c61319c3aaff",
+      "bytes": 3187
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__lifecycle-schema-gap.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__lifecycle-schema-gap.stdout.txt",
+      "sha256": "a5f2e270fe3b2900efc3079b7f6eb045e0a8c6bb4c63eb9672286582ec0bf884",
+      "bytes": 5473
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__missing-artifact.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__missing-artifact.stdout.txt",
+      "sha256": "753c75ef3881343049b8b2d25c35d746b2d35c872611b8d379c366768f55db95",
+      "bytes": 5329
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__provenance-gap.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__provenance-gap.stdout.txt",
+      "sha256": "5f565464fc9757f6387b160b8e05dbcfa08b11ea6c07cdc62221b42d16a91f48",
+      "bytes": 4154
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__ready-documentation.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__ready-documentation.stdout.txt",
+      "sha256": "afb99c68f6a2b0063027e5d870a2da3203210f1aefef47721f63be99cf9d6718",
+      "bytes": 3127
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__strategic-to-tactical-gap.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__strategic-to-tactical-gap.stdout.txt",
+      "sha256": "4a0de97f69733fd5e3995dd34034bb8825da724d14ed95e84104b0cd853dacc0",
+      "bytes": 4605
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__vocabulary-conflict.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd-review__vocabulary-conflict.stdout.txt",
+      "sha256": "9d8380b69d988b4414868fb43dc757c860c34b0484e06d45b8e40abde76fd2d5",
+      "bytes": 5584
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__direct-invocation.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__direct-invocation.stdout.txt",
+      "sha256": "245511868cb23dfe29ee2f80eaeac372674e6d17d05f7a0118cdeb6f31380947",
+      "bytes": 2614
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__docs-only-boundary.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__docs-only-boundary.stdout.txt",
+      "sha256": "f9347a439fb07ba97808213b2ec7b58e343567d001d07dfba2fbcac255788fa5",
+      "bytes": 4038
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__index-ownership.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__index-ownership.stdout.txt",
+      "sha256": "467691561b0394b3f0bee5c2dc23037768457e6c48f62085072a001d06d2052e",
+      "bytes": 3045
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__invalidation-loop.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__invalidation-loop.stdout.txt",
+      "sha256": "cd1db3917a35949db2505118b6f46cc7423173962c1a605a1cc1d933be69def3",
+      "bytes": 3268
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__malformed-result.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__malformed-result.stdout.txt",
+      "sha256": "27fa320c6378dbb52ec747e3f6b9d6513ff6970a29c66b333d9b44532d26c9b7",
+      "bytes": 3223
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__manual-fallback.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__manual-fallback.stdout.txt",
+      "sha256": "2e262852c3db37b57b55770f9de31cd2cd4935fc3faa2702b5cbafe984306b06",
+      "bytes": 2445
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__missing-evidence.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__missing-evidence.stdout.txt",
+      "sha256": "8645df01cf5c36fb0871a341c7bad81eddc283bf3f725f7d27bedc0c8009f2d8",
+      "bytes": 3814
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__non-fit-stop.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__non-fit-stop.stdout.txt",
+      "sha256": "3b9d69b297d137dcdf8e3224be991fcc0e9adaa719f6190abf658dd26cf88514",
+      "bytes": 3390
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__normal-flow.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__normal-flow.stdout.txt",
+      "sha256": "81c1e695e30717714e2a621e0dfc3b47721abd9aed00ec087de5f03cb007c548",
+      "bytes": 2733
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__normal-transition.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evaluations/phase-4-live/ddd__normal-transition.stdout.txt",
+      "sha256": "0440be52d4a14d32b0ab8db04813782e4a98ecc4fc0f7479f9d949e311b7369f",
+      "bytes": 3652
+    },
+    {
+      "path": "docs/evaluations/phase-4-local-checks.json",
+      "sha256": "dccd66e5745943144fc09a4618c57dd5dc3526aa560bfff042b33a99d583480a",
+      "bytes": 3724
+    },
+    {
+      "path": "docs/evaluations/phase-4-report.json",
+      "sha256": "bf728fcc2643ae91860af64d132b0108a546c1c4e3bb9b38d8bd44b9ecf87de4",
+      "bytes": 8422
+    },
+    {
+      "path": "docs/evaluations/phase-4-transition-matrix.json",
+      "sha256": "b721749a952e22ea7443de722c0e551789ee69a3b010817df64b48742b07a08c",
+      "bytes": 32875
+    },
+    {
+      "path": "docs/plans/README.md",
+      "sha256": "4dcf6c65458053700eba9b771e2ebd4a19dc6c0ada5fb1fc7f265bb61ceb25d6",
+      "bytes": 7210
+    },
+    {
+      "path": "scripts/validate-skills.py",
+      "sha256": "d2ab755a933f217fa005558532a5f02894ec715d0c343b1e75332c4e05778d93",
+      "bytes": 51712
+    }
+  ],
+  "fingerprint_sha256": "7c2075fbb7d5b496dc3d9a90e76676a02c9899a85fda6361215c01f2007800eb",
+  "scope": "README.md, docs/plans/README.md, scripts/validate-skills.py, docs/evaluations/phase-4-*"
+}

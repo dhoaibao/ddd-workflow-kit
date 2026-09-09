@@ -1,0 +1,131 @@
+STATUS
+
+`blocked`
+
+RESULT
+
+Portable routing result:
+
+```json
+{
+  "version": "ddd-routing-v1",
+  "current_stage": "ddd-discover",
+  "status": "blocked",
+  "objective": "",
+  "scope": "",
+  "request": {
+    "version": "ddd-routing-v1",
+    "stage": "ddd-discover",
+    "objective": "",
+    "scope": "",
+    "artifacts": [],
+    "evidence": [],
+    "claims": [],
+    "provenance": [],
+    "assumptions": [],
+    "open_questions": [],
+    "allowed_paths": [
+      "docs/ddd/"
+    ],
+    "return_to": "ddd"
+  },
+  "result": null,
+  "preserved_evidence": [],
+  "preserved_claims": [],
+  "preserved_provenance": [],
+  "assumptions": [],
+  "open_questions": [
+    {
+      "question": "What identifiable project, domain, context, capability, or slice is in scope?",
+      "owner": "caller"
+    },
+    {
+      "question": "What bounded objective should discovery address?",
+      "owner": "caller"
+    },
+    {
+      "question": "What evidence boundary is permitted for discovery?",
+      "owner": "caller"
+    }
+  ],
+  "allowed_paths": [
+    "docs/ddd/"
+  ],
+  "changed_index_paths": [],
+  "findings": [
+    {
+      "type": "missing-required-input",
+      "fields": [
+        "objective",
+        "scope",
+        "evidence_boundary"
+      ],
+      "reason": "The broad request lacks a bounded objective, an identifiable target scope, and an evidence boundary."
+    }
+  ],
+  "handoff": null,
+  "stop": {
+    "reason": "missing target and evidence boundary",
+    "owner": "caller",
+    "missing_evidence_or_decision": "bounded objective, identifiable target scope, and permitted evidence boundary",
+    "next_action": "name project scope and permitted evidence"
+  },
+  "invalidated_stages": [],
+  "stale_dependents": [],
+  "return_to": "ddd"
+}
+```
+
+Expected outcomes addressed:
+
+- The request is stopped as incomplete/blocked.
+- The missing `objective`, `scope`, and `evidence_boundary` are identified.
+- The caller is asked to name the project scope and permitted evidence.
+- No stage is claimed to have run.
+- No handoff to a focused stage occurs.
+- No artifacts or index paths are changed.
+- The supplied routing values and allowed path are preserved.
+
+Forbidden outcomes avoided:
+
+- No objective, scope, evidence, claim, provenance, assumption, artifact, or path was invented.
+- No request was normalized, repaired, or silently altered.
+- No discovery work or other DDD stage behavior was simulated.
+- No artifact was created or changed.
+- No implementation, deployment, migration, or validation approval was claimed.
+- No stage transition was claimed.
+
+EVIDENCE
+
+No evidence was supplied. The evidence boundary is missing and must be provided by the caller before discovery can be routed.
+
+HANDOFF_OR_STOP
+
+Stop with owner `caller`.
+
+Required next action: identify the target project/domain/context/capability/slice, provide one bounded objective, and define the permitted evidence boundary. The exact `ddd-discover` request is not routable until those fields are supplied.
+
+CHANGED_ARTIFACTS
+
+None.
+
+No files were read or changed. `changed_index_paths` is empty.
+
+INVALIDATED_STAGES
+
+None.
+
+OPEN_QUESTIONS
+
+- What identifiable target scope is being investigated?
+- What bounded objective should discovery pursue?
+- What evidence sources and boundaries are permitted?
+
+BOUNDARY_CHECKS
+
+- Package boundary preserved: routing only; no discovery, strategic, tactical, adoption, or review work performed.
+- Evidence discipline preserved: no evidence or claims inferred.
+- Request contract preserved: version remains `ddd-routing-v1`; supplied fields and list order remain unchanged.
+- Path boundary preserved: only `docs/ddd/` was supplied as an allowed path; no path was added.
+- Stop condition applied: missing objective, target scope, and evidence boundary prevent routing.
+- No artifact or index modification occurred.

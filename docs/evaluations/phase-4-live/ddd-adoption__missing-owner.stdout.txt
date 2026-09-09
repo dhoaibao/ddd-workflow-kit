@@ -1,0 +1,79 @@
+STATUS
+
+`blocked`
+
+RESULT
+
+Adoption sequencing cannot be completed because the risky integration increment has no accountable owner for the decision. The validated event-delivery evidence is useful, but ownership is a required entry condition and cannot be inferred.
+
+- Mode: `greenfield`
+- Target outcome: Publish an approval fact
+- Proposed first slice: Define the first integration increment
+- Dependency: Settlement consumer
+- Blocking gap: `accountable_owner`
+- No adoption plan is claimed as written or updated.
+- No implementation, integration change, migration, review, or execution is claimed.
+- The missing owner must be assigned before sequencing can proceed to `ddd-review`.
+
+EVIDENCE
+
+- Claim: Validated event delivery scenario
+  - Claim type: fact / validated evidence
+  - Source: supplied evaluation input
+  - Owner: not supplied
+  - Scenario: settlement consumer integration
+  - Impact: supports that event delivery has been exercised, but does not establish decision accountability
+  - Validation: validated according to the input
+- Claim: An accountable owner is required for the risky integration decision
+  - Claim type: required obligation
+  - Source: adoption entry and stop conditions
+  - Owner: adoption governance; project accountable owner remains missing
+  - Scenario: defining and approving the first integration increment
+  - Impact: blocks completion and review handoff
+  - Validation: unmet
+
+HANDOFF_OR_STOP
+
+Bounded stop:
+
+```json
+{
+  "stage": "ddd-adoption",
+  "status": "blocked",
+  "reason": "No accountable owner is assigned for the risky integration decision.",
+  "required_action": "Assign an accountable owner for the first integration increment and its approval decision.",
+  "return_to": "ddd-adoption"
+}
+```
+
+Do not emit a `ddd-review` request until ownership is supplied and the adoption sequence is otherwise complete.
+
+CHANGED_ARTIFACTS
+
+`[]`
+
+No file was read or written. The adoption-owned path remains:
+
+`docs/ddd/adoption-plan.md`
+
+INVALIDATED_STAGES
+
+`[]`
+
+No prior modeling stage is invalidated. The issue is an adoption-entry ownership gap, not a discovery, strategic, or tactical modeling gap.
+
+OPEN_QUESTIONS
+
+- Who is accountable for deciding and approving the first Settlement consumer integration increment?
+- Who owns the target approval fact and its acceptance decision?
+- Who owns the legacy or external Settlement consumer side, if applicable?
+- What owner will accept the integration risks and containment decision?
+
+BOUNDARY_CHECKS
+
+- No product source, tests, configuration, schemas, generated output, deployment files, or runtime behavior were changed.
+- No migration or integration execution was performed.
+- No framework, database, deployment topology, or service split was mandated.
+- No current behavior or target policy was invented.
+- No artifact change, review, or execution was claimed.
+- The missing owner was not inferred from the dependency or evidence.

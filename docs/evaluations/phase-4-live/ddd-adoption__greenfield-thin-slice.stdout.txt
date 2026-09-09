@@ -1,0 +1,160 @@
+STATUS
+
+`complete` — bounded greenfield adoption plan prepared in text only. No files were read or written.
+
+RESULT
+
+- **Mode:** greenfield
+- **Target outcome:** Settle one approved claim.
+- **Selected first slice:** Approve and record one claim decision.
+- **In scope:** One validated claim scenario, the decision-owner invariant, one claim decision, and the first observable acceptance review.
+- **Out of scope:** Broader claims coverage, platform work, deployment topology, service decomposition, migration, and product-code changes.
+- **Learning question:** Can the Claims owner approve and record one claim decision using the validated scenario and invariant without unresolved ownership or language ambiguity?
+- **Adoption sequence:**
+  1. **Confirm the slice and claim language**
+     - Owner: Claims owner
+     - Dependency: Validated tactical Claims model
+     - Decision point: Confirm that the selected claim is the approved scenario and that the decision-owner invariant applies.
+     - Acceptance signal: Claims owner explicitly confirms the scenario, invariant, and decision record fields.
+     - Rollback/containment: Stop before recording if the scenario, ownership, or invariant is disputed.
+  2. **Approve and record one claim decision**
+     - Owner: Claims owner
+     - Dependency: Slice confirmation
+     - Decision point: Approve the claim or record that approval is not yet justified.
+     - Acceptance signal: One decision record exists with the claim, scenario, decision owner, decision, and rationale.
+     - Rollback/containment: Treat the decision as limited to the selected scenario; do not generalize it to other claims.
+  3. **Review the observable acceptance**
+     - Owner: Claims owner, with `ddd-adoption` facilitating the review
+     - Dependency: Recorded decision
+     - Decision point: Determine whether the first acceptance signal is sufficient for the next slice.
+     - Acceptance signal: The owner verifies that the recorded decision is understandable, attributable, and usable for the selected scenario.
+     - Rollback/containment: Retain the decision as a bounded learning result and open a tactical clarification if the model or invariant is insufficient.
+- **Risks and constraints:**
+  - The approved claim may not cover scenarios beyond the validated scenario.
+  - The decision-owner invariant may be interpreted differently during review.
+  - The open question about which acceptance signal is reviewed first must be resolved before treating the slice as accepted.
+- **Required future artifact recommendation:** Update only `docs/ddd/adoption-plan.md` if an authorized write is later performed. This evaluation does not claim that the artifact was changed.
+- **Forbidden outcomes explicitly avoided:** No migration was executed; no product source, tests, configuration, schemas, generated output, deployment files, or runtime behavior were changed; no framework, database, topology, or service split was mandated; no broad domain rewrite or big-bang adoption was proposed; no review or execution was claimed to have run.
+
+EVIDENCE
+
+- **Fact / validated evidence**
+  - Source: `docs/ddd/assessment.md`, `docs/ddd/context-map.md`, and `docs/ddd/models/claims.md`
+  - Owner: Claims owner / prior DDD validation
+  - Scenario: One validated claim scenario
+  - Impact: Supports selecting one bounded claim decision as the first greenfield slice
+  - Validation: Validated per the supplied input
+- **Required obligation**
+  - Source: One decision-owner invariant
+  - Owner: Claims owner
+  - Scenario: Approval and recording of one claim decision
+  - Impact: The decision must be attributable to the approved owner
+  - Validation: Validated per the supplied input
+- **Assumption**
+  - Source: Supplied case input
+  - Owner: Claims owner
+  - Scenario: First-slice review
+  - Impact: The plan depends on the Claims owner being available to review the slice
+  - Validation: Not independently validated
+- **Dependency**
+  - Source: Supplied case input
+  - Owner: `ddd-tactical`
+  - Scenario: Tactical model readiness
+  - Impact: The slice depends on the validated tactical Claims model
+  - Validation: Declared complete by the input
+- **Open interpretation**
+  - Source: Supplied case input
+  - Owner: Claims owner
+  - Scenario: Acceptance review
+  - Impact: The first acceptance signal is not yet selected
+  - Validation: Unresolved; must be decided before acceptance is finalized
+
+HANDOFF_OR_STOP
+
+Exactly one downstream handoff is prepared:
+
+```text
+stage: ddd-review
+plan_path: docs/ddd/adoption-plan.md
+mode: greenfield
+selected_slice: Approve and record one claim decision
+prerequisites:
+  - Validated tactical Claims model
+  - Validated claim scenario
+  - One decision-owner invariant
+  - Claims owner available to review the first slice
+evidence:
+  - claim_type: fact/validated evidence
+    source: validated claim scenario
+    owner: Claims owner / prior DDD validation
+    scenario: one claim decision
+    impact: supports the bounded first slice
+    validation: validated
+  - claim_type: required obligation
+    source: one decision-owner invariant
+    owner: Claims owner
+    scenario: claim approval and recording
+    impact: decision must be attributable
+    validation: validated
+dependencies:
+  - validated tactical Claims model
+owners:
+  - Claims owner
+  - ddd-adoption
+acceptance_signals:
+  - Claims owner confirms the selected scenario and invariant
+  - One bounded decision record contains the claim, scenario, owner, decision, and rationale
+  - Claims owner verifies that the record is understandable and usable for the selected scenario
+risks:
+  - Decision may be incorrectly generalized beyond the validated scenario
+  - Ownership or invariant interpretation may remain disputed
+  - First acceptance signal is not yet selected
+rollback_or_containment:
+  - Stop before recording if scenario, ownership, or invariant is disputed
+  - Limit any recorded decision to the selected scenario
+  - Route model or invariant gaps back to ddd-tactical
+open_questions:
+  - Which acceptance signal is reviewed first?
+allowed_paths:
+  - docs/ddd/adoption-plan.md
+return_to: ddd-tactical
+```
+
+This is a handoff request only. `ddd-review` has not run.
+
+CHANGED_ARTIFACTS
+
+```json
+[]
+```
+
+No artifact was changed. The supplied allowed path is acknowledged, but this response is text-only and does not claim a documentation write.
+
+INVALIDATED_STAGES
+
+```json
+[]
+```
+
+No adoption constraint invalidates the supplied tactical model or requires backward routing at this time.
+
+OPEN_QUESTIONS
+
+- Which acceptance signal is reviewed first?
+- If the first signal is not accepted, does the issue concern adoption sequencing or the tactical Claims model? The earliest owning stage should be selected rather than inferred.
+
+BOUNDARY_CHECKS
+
+- Documentation-only plan: satisfied in recommendation; no write performed.
+- Exact adoption-owned path recognized: `docs/ddd/adoption-plan.md`.
+- Greenfield thin slice selected: satisfied.
+- One learning question included: satisfied.
+- Observable acceptance signals included: satisfied, with first-signal ordering still open.
+- Evidence and provenance preserved by claim type: satisfied.
+- Owners and dependency named: satisfied.
+- Rollback or containment stated: satisfied for the bounded learning slice.
+- No migration or runtime change executed: satisfied.
+- No product source, tests, configuration, schemas, generated output, or deployment files edited: satisfied.
+- No framework, database, topology, or microservice split mandated: satisfied.
+- No claim that an artifact was changed: satisfied.
+- No claim that `ddd-review` ran: satisfied.

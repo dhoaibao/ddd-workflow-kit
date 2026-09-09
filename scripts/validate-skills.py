@@ -8,6 +8,7 @@ full YAML or host compatibility validation and ignores unknown optional fields.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import sys
@@ -98,7 +99,7 @@ ORCHESTRATOR_RESULT_FIELDS = {
     "invalidated_stages", "evidence", "claims", "provenance", "assumptions", "open_questions",
     "allowed_paths", "return_to",
 }
-ORCHESTRATOR_RESULT_STATUSES = {"complete", "partial", "blocked", "not-fit-conflict", "strategic-conflict", "invalidated", "protocol-error"}
+ORCHESTRATOR_RESULT_STATUSES = {"complete", "partial", "blocked", "ready", "not-fit-conflict", "strategic-conflict", "invalidated", "protocol-error"}
 ORCHESTRATOR_PRESERVED_FIELDS = {"evidence", "claims", "provenance", "assumptions", "open_questions", "artifacts", "allowed_paths"}
 ORCHESTRATOR_ARTIFACT_FIELDS = {"path", "lifecycle", "validation", "availability"}
 ORCHESTRATOR_LIFECYCLES = {"draft", "active", "superseded", "archived", "none"}
@@ -641,6 +642,103 @@ def validate_tactical_contract(skill_root: Path) -> None:
         fail(f"{template}: Claim ID cells must require an actual ledger ID; 'none needed' is not a Claim ID")
 
 
+def validate_phase4_transition_matrix() -> None:
+    path = ROOT / "docs" / "evaluations" / "phase-4-transition-matrix.json"
+    if not path.is_file():
+        return
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    required_categories = {
+        "focused direct invocation", "discover→strategic", "strategic→tactical", "tactical→adoption",
+        "adoption→review", "review-ready terminal result", "non-fit stop", "malformed result stop",
+        "manual fallback request identity", "review invalidation to earliest affected stage",
+    }
+    if payload.get("schema_version") != 1 or payload.get("kind") != "phase-4-transition-matrix":
+        fail(f"{path}: invalid phase-4 transition matrix identity")
+    expected_order = ["ddd-discover", "ddd-strategic", "ddd-tactical", "ddd-adoption", "ddd-review"]
+    if payload.get("canonical_stage_order") != expected_order:
+        fail(f"{path}: canonical stage order is invalid")
+    if set(payload.get("preserved_fields", [])) != ORCHESTRATOR_PRESERVED_FIELDS:
+        fail(f"{path}: preserved field contract is incomplete")
+    schema = payload.get("artifact_record_schema", {})
+    if set(schema.get("required_fields", [])) != ORCHESTRATOR_ARTIFACT_FIELDS:
+        fail(f"{path}: artifact record schema fields are incomplete")
+    if set(schema.get("lifecycles", [])) != ORCHESTRATOR_LIFECYCLES or set(schema.get("validations", [])) != ORCHESTRATOR_VALIDATIONS or set(schema.get("availabilities", [])) != ORCHESTRATOR_AVAILABILITIES:
+        fail(f"{path}: artifact record allowed values do not match the orchestrator contract")
+    fixtures = payload.get("fixtures")
+    if not isinstance(fixtures, list) or len({fixture.get("category") for fixture in fixtures}) != len(fixtures):
+        fail(f"{path}: transition fixtures must have unique categories")
+    categories = {fixture.get("category") for fixture in fixtures}
+    missing = sorted(required_categories - categories)
+    if missing:
+        fail(f"{path}: transition matrix missing categories: {', '.join(missing)}")
+    order = {stage: index for index, stage in enumerate(expected_order)}
+    for fixture in fixtures:
+        case_id = fixture.get("id", "phase-4")
+        category = fixture.get("category")
+        if category == "focused direct invocation":
+            validate_orchestrator_request(path, fixture.get("request"), case_id)
+            if fixture.get("entry_validated") is not True or fixture["request"]["stage"] != "ddd-tactical":
+                fail(f"{path}: {case_id} must prove a validated direct tactical entry")
+        elif category in {"discover→strategic", "strategic→tactical", "tactical→adoption", "adoption→review"}:
+            validate_orchestrator_request(path, fixture.get("request"), case_id)
+            validate_orchestrator_result(path, fixture.get("result"), case_id)
+            validate_orchestrator_request(path, fixture.get("next_request"), case_id)
+            if fixture["result"]["handoff"] != fixture["next_request"]:
+                fail(f"{path}: {case_id} handoff and next request differ")
+            if fixture["result"]["stage"] != fixture["request"]["stage"] or fixture["next_request"]["stage"] not in ORCHESTRATOR_STAGES:
+                fail(f"{path}: {case_id} stage identity is invalid")
+            if set(fixture.get("preserved_fields", [])) != ORCHESTRATOR_PRESERVED_FIELDS:
+                fail(f"{path}: {case_id} preserved field list is incomplete")
+            assertions = fixture.get("preservation_assertions", {})
+            for field in ORCHESTRATOR_PRESERVED_FIELDS - {"artifacts"}:
+                if (fixture["result"].get(field) != fixture["result"]["handoff"].get(field)
+                        or assertions.get(field) != fixture["result"]["handoff"].get(field)
+                        or assertions.get(field) != fixture["next_request"].get(field)):
+                    fail(f"{path}: {case_id} failed exact preservation for {field}")
+            if assertions.get("artifacts") != fixture["result"]["handoff"].get("artifacts") or assertions.get("artifacts") != fixture["next_request"].get("artifacts"):
+                fail(f"{path}: {case_id} failed exact preservation for artifacts")
+            if not fixture["result"]["changed_artifacts"] and fixture["request"]["artifacts"] != fixture["result"]["handoff"]["artifacts"]:
+                fail(f"{path}: {case_id} changed artifact records despite an empty changed_artifacts result")
+            if not fixture["result"]["changed_artifacts"] and fixture["request"]["artifacts"] != fixture["next_request"]["artifacts"]:
+                fail(f"{path}: {case_id} did not preserve request artifact records")
+            validate_orchestrator_artifacts(path, assertions.get("artifacts"), case_id, "preservation_assertions.artifacts")
+        elif category == "review-ready terminal result":
+            validate_orchestrator_request(path, fixture.get("request"), case_id)
+            validate_orchestrator_result(path, fixture.get("result"), case_id)
+            if fixture["result"]["status"] != "ready" or fixture["result"]["handoff"] != "none" or fixture.get("terminal") is not True:
+                fail(f"{path}: {case_id} must be a ready terminal result")
+        elif category == "non-fit stop":
+            validate_orchestrator_request(path, fixture.get("request"), case_id)
+            validate_orchestrator_result(path, fixture.get("result"), case_id)
+            if fixture["result"]["status"] != "not-fit-conflict" or fixture["result"]["handoff"] != "none":
+                fail(f"{path}: {case_id} must stop without a handoff")
+        elif category == "malformed result stop":
+            validate_orchestrator_request(path, fixture.get("request"), case_id)
+            if fixture.get("result_valid") is not False or not fixture.get("malformed_fields"):
+                fail(f"{path}: {case_id} must retain malformed fields and reject repair")
+        elif category == "manual fallback request identity":
+            validate_orchestrator_request(path, fixture.get("request"), case_id)
+            serialized = fixture.get("request_serialized")
+            returned_serialized = fixture.get("returned_request_serialized")
+            if (fixture.get("exact_identity") is not True or fixture.get("request") != fixture.get("returned_request")
+                    or not isinstance(serialized, str) or serialized != returned_serialized
+                    or hashlib.sha256(serialized.encode("utf-8")).hexdigest() != fixture.get("serialization_sha256")
+                    or fixture.get("manual_stage") not in ORCHESTRATOR_STAGES):
+                fail(f"{path}: {case_id} must preserve the manual request byte representation exactly")
+        elif category == "review invalidation to earliest affected stage":
+            validate_orchestrator_request(path, fixture.get("request"), case_id)
+            validate_orchestrator_result(path, fixture.get("result"), case_id)
+            validate_orchestrator_request(path, fixture.get("next_request"), case_id)
+            invalidated = fixture["result"]["invalidated_stages"]
+            earliest = fixture.get("earliest_invalidated_stage")
+            if not invalidated or earliest != min(invalidated, key=order.get) or fixture["next_request"]["stage"] != earliest:
+                fail(f"{path}: {case_id} does not route to the earliest invalidated stage")
+            original = {record["path"]: record for record in fixture["request"]["artifacts"]}
+            for record in fixture["next_request"]["artifacts"]:
+                if record["path"] not in original or record["lifecycle"] != original[record["path"]]["lifecycle"] or record["validation"] != "stale":
+                    fail(f"{path}: {case_id} does not preserve lifecycle while marking validation stale")
+
+
 def validate_forbidden_runtime_references() -> None:
     for path in sorted((ROOT / "skills").rglob("*")):
         if not path.is_file() or path.suffix not in {".md", ".json"}:
@@ -685,6 +783,7 @@ def main() -> int:
             orchestrator_payload = json.loads(orchestrator_eval_path.read_text(encoding="utf-8"))
             validate_orchestrator_eval_inputs(orchestrator_root, orchestrator_payload["cases"])
             validate_orchestrator_contract(orchestrator_root)
+        validate_phase4_transition_matrix()
         validate_forbidden_runtime_references()
     except ValidationError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)

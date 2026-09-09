@@ -1,0 +1,123 @@
+## STATUS
+
+`not-fit-conflict`
+
+Discovery completed and returned a valid `ddd-routing-v1` result indicating that DDD is not a fit because simple CRUD is sufficient. Routing stops at discovery.
+
+## RESULT
+
+- Version: `ddd-routing-v1`
+- Current stage: `ddd-discover`
+- Objective: `assess simple lookup`
+- Scope: `lookup workflow`
+- Status: `not-fit-conflict`
+- The valid discovery result was consumed.
+- The simpler-path rationale is preserved: simple CRUD and low change risk, with no meaningful policy complexity.
+- No strategic, tactical, adoption, or review stage was invoked.
+- No next-stage request was constructed.
+- No handoff occurred.
+- No implementation, deployment, migration, runtime change, or live-validation approval is claimed.
+- No artifact is claimed to have been changed.
+- No evidence, claims, provenance, assumptions, open questions, artifact paths, or allowed paths were rewritten or dropped.
+- The workflow stops rather than forcing DDD stages or silently continuing after the non-fit result.
+
+## EVIDENCE
+
+- Evidence: `simple CRUD and low change risk`
+- Claim: `fact: no meaningful policy complexity`
+- Finding: `simpler path is sufficient`
+- Provenance: `discovery observation`
+- Discovery stop reason: `DDD not fit`
+- Stop action: `use the simpler CRUD path`
+- Stop owner: `ddd-discover`
+
+## HANDOFF_OR_STOP
+
+```json
+{
+  "version": "ddd-routing-v1",
+  "stage": "ddd-discover",
+  "status": "not-fit-conflict",
+  "objective": "assess simple lookup",
+  "scope": "lookup workflow",
+  "artifacts": [
+    {
+      "availability": "available",
+      "lifecycle": "active",
+      "path": "docs/ddd/assessment.md",
+      "validation": "validated"
+    }
+  ],
+  "evidence": [
+    "simple CRUD and low change risk"
+  ],
+  "claims": [
+    "fact: no meaningful policy complexity"
+  ],
+  "provenance": [
+    "discovery observation"
+  ],
+  "assumptions": [],
+  "open_questions": [],
+  "allowed_paths": [
+    "docs/ddd/"
+  ],
+  "return_to": "ddd",
+  "findings": [
+    "simpler path is sufficient"
+  ],
+  "handoff": "none",
+  "stop": {
+    "action": "use the simpler CRUD path",
+    "owner": "ddd-discover",
+    "reason": "DDD not fit"
+  },
+  "invalidated_stages": []
+}
+```
+
+Stop. No further stage request is emitted.
+
+## CHANGED_ARTIFACTS
+
+```json
+[
+  {
+    "availability": "available",
+    "lifecycle": "active",
+    "path": "docs/ddd/assessment.md",
+    "validation": "validated"
+  }
+]
+```
+
+This is the consumed result’s `changed_artifacts` record only. No artifact was actually changed by this text-only evaluation, and no file update is claimed.
+
+## INVALIDATED_STAGES
+
+```json
+[]
+```
+
+No stages were invalidated, and no stale dependents were created.
+
+## OPEN_QUESTIONS
+
+```json
+[]
+```
+
+## BOUNDARY_CHECKS
+
+- No tools were used.
+- No files were read or written.
+- The request and result were not repaired, normalized, or silently altered.
+- The valid discovery result was consumed as returned.
+- The `not-fit-conflict` outcome was preserved.
+- Routing stopped with the simpler-path rationale.
+- No competing stage request was emitted.
+- No focused stage behavior was emulated.
+- No strategic, tactical, adoption, or review work was performed.
+- No product code, tests, configuration, schemas, generated output, deployment files, migrations, or unrelated documents were edited.
+- No deployment topology was selected.
+- No live validation or implementation approval was claimed.

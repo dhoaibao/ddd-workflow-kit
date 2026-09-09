@@ -1,0 +1,100 @@
+STATUS
+
+`complete` routing transition with invalidation applied.
+
+RESULT
+
+- Consumed the valid `ddd-review` result with status `invalidated`.
+- Recognized `ddd-strategic` as the earliest invalidated stage in canonical workflow order.
+- Preserved the supplied routing records, including evidence, claims, provenance, assumptions, open questions, artifact paths, allowed paths, and return target.
+- Marked the affected downstream artifact validation states as `stale`.
+- Emitted exactly one next request to `ddd-strategic`:
+
+```json
+{
+  "version": "ddd-routing-v1",
+  "stage": "ddd-strategic",
+  "objective": "revalidate Claims boundary",
+  "scope": "Claims approval",
+  "artifacts": [
+    {
+      "path": "docs/ddd/models/claims.md",
+      "lifecycle": "active",
+      "validation": "stale",
+      "availability": "available"
+    },
+    {
+      "path": "docs/ddd/adoption-plan.md",
+      "lifecycle": "active",
+      "validation": "stale",
+      "availability": "available"
+    }
+  ],
+  "evidence": ["strategic boundary changed"],
+  "claims": ["decision boundary changed"],
+  "provenance": ["strategic owner"],
+  "assumptions": [],
+  "open_questions": ["new boundary"],
+  "allowed_paths": ["docs/ddd/"],
+  "return_to": "ddd"
+}
+```
+
+- No artifact was changed.
+- No focused stage is claimed to have run.
+- No implementation, deployment, migration, runtime change, or live-validation approval is claimed.
+- No later stage was allowed to repair the invalidated strategic boundary.
+- No competing request was emitted.
+- No malformed-result repair, claim rewriting, path rewriting, or silent normalization occurred.
+
+EVIDENCE
+
+- Review finding: `downstream assumptions stale`
+- Invalidation evidence: `strategic boundary changed`
+- Preserved claim: `decision boundary changed`
+- Preserved provenance: `strategic owner`
+- Affected artifacts:
+  - `docs/ddd/models/claims.md`
+  - `docs/ddd/adoption-plan.md`
+
+HANDOFF_OR_STOP
+
+Handoff to exactly one next stage: `ddd-strategic`.
+
+No stop is required. The strategic stage must revalidate the Claims boundary before tactical or adoption routing can proceed.
+
+CHANGED_ARTIFACTS
+
+No artifacts changed.
+
+Routing-state validation:
+
+- `docs/ddd/models/claims.md`: preserved as `active`, validation marked `stale`
+- `docs/ddd/adoption-plan.md`: preserved as `active`, validation marked `stale`
+
+INVALIDATED_STAGES
+
+Canonical invalidation order:
+
+1. `ddd-strategic`
+2. `ddd-tactical`
+3. `ddd-adoption`
+
+The next route is the earliest invalidated stage: `ddd-strategic`.
+
+OPEN_QUESTIONS
+
+- `new boundary`
+
+BOUNDARY_CHECKS
+
+- Review invalidation was consumed rather than ignored.
+- Earliest invalidated stage was selected deterministically.
+- Tactical and adoption stages were not routed directly.
+- Artifact paths and lifecycle values were preserved.
+- Validation was marked stale only in routing state.
+- Evidence, claims, provenance, assumptions, open questions, allowed paths, objective, scope, and return target were preserved.
+- No product code, tests, configuration, schemas, generated output, deployment files, migrations, or unrelated documents were edited.
+- No artifact change is asserted.
+- No stage execution is asserted without a valid stage result.
+- The result is a single portable routing transition with one next request.
