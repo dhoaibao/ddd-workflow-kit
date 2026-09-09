@@ -92,7 +92,7 @@ python3 -m json.tool skills/ddd-review/evals/evals.json
 rtk git diff --check
 ```
 
-Also run one-H1/rendered-local-link checks, package isolation, semantic finding-schema and stale-routing probes, forbidden runtime/vendor/machine-path checks, protected-scope preservation, whitespace, and exact snapshot hashing. Apply the fit/scope, conflicting-vocabulary, expert-availability, strategic-prerequisite, incomplete-artifact, safe-boundary, and handoff-completeness gates from [quality-gates.md](../skill-design/quality-gates.md), then request independent review.
+Also run one-H1/rendered-local-link checks, package isolation, semantic finding-schema and stale-routing probes, forbidden runtime/vendor/machine-path checks, protected-scope preservation, whitespace, and exact snapshot hashing. Apply the fit/scope, conflicting-vocabulary, expert-availability, strategic-prerequisite, incomplete-artifact, safe-boundary, and handoff-completeness gates from [quality-gates.md](../../skill-design/quality-gates.md), then request independent review.
 
 ## Risks and open decisions
 

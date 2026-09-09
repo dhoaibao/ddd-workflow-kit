@@ -18,7 +18,7 @@ Attempt the deferred live host/model evaluation for the implemented `ddd-discove
 
 ### 1. Implement `ddd-adoption`
 
-Use the [adoption plan](ddd-adoption.md). It must produce documentation-only, incremental, reversible adoption planning for greenfield and brownfield work, with an owned `adoption-plan.md` artifact and an exact handoff to review.
+Use the [adoption plan](active/ddd-adoption.md). It must produce documentation-only, incremental, reversible adoption planning for greenfield and brownfield work, with an owned `adoption-plan.md` artifact and an exact handoff to review.
 
 **Dependencies:** validated enough discovery/strategic/tactical context for a bounded slice, or an explicit bounded request that satisfies adoption entry criteria.
 
@@ -26,7 +26,7 @@ Use the [adoption plan](ddd-adoption.md). It must produce documentation-only, in
 
 ### 2. Implement `ddd-review`
 
-Use the [review plan](ddd-review.md). It must own `review.md`, apply fit/provenance/lifecycle/schema/vocabulary/strategic-to-tactical/adoption/cross-artifact gates, preserve disputed facts, and route stale work backward without silently repairing it.
+Use the [review plan](active/ddd-review.md). It must own `review.md`, apply fit/provenance/lifecycle/schema/vocabulary/strategic-to-tactical/adoption/cross-artifact gates, preserve disputed facts, and route stale work backward without silently repairing it.
 
 **Dependencies:** the review scope and artifacts are identifiable; adoption implementation is not required for review cases that explicitly cover missing or partial adoption artifacts.
 
@@ -34,7 +34,7 @@ Use the [review plan](ddd-review.md). It must own `review.md`, apply fit/provena
 
 ### 3. Implement `ddd` last
 
-Use the [orchestrator plan](ddd.md). It must route and hold state only: manual fallback returns the exact unchanged request bundle, while normal flow consumes an exact stage result and constructs the next contract-valid request while preserving evidence, provenance, claims, and paths. It must use named activation or exact manual fallback, loop to the earliest invalidated stage, and not emulate any focused stage.
+Use the [orchestrator plan](active/ddd.md). It must route and hold state only: manual fallback returns the exact unchanged request bundle, while normal flow consumes an exact stage result and constructs the next contract-valid request while preserving evidence, provenance, claims, and paths. It must use named activation or exact manual fallback, loop to the earliest invalidated stage, and not emulate any focused stage.
 
 **Dependencies:** all five focused packages exist and their transition/result contracts are stable; adoption and review have passed their gates.
 

@@ -90,7 +90,7 @@ python3 -m json.tool skills/ddd-adoption/evals/evals.json
 rtk git diff --check
 ```
 
-Also run the repository Markdown check for one H1 and resolving rendered local links, package-copy/isolation checks, forbidden runtime/vendor/machine-path probes, semantic evaluation checks, foundation/design preservation checks, and an exact frozen hash/status snapshot. Apply the fit/scope, brownfield, incomplete-artifact, safe-boundary, and handoff-completeness gates from [quality-gates.md](../skill-design/quality-gates.md), then request independent review before reporting completion.
+Also run the repository Markdown check for one H1 and resolving rendered local links, package-copy/isolation checks, forbidden runtime/vendor/machine-path probes, semantic evaluation checks, foundation/design preservation checks, and an exact frozen hash/status snapshot. Apply the fit/scope, brownfield, incomplete-artifact, safe-boundary, and handoff-completeness gates from [quality-gates.md](../../skill-design/quality-gates.md), then request independent review before reporting completion.
 
 ## Risks and open decisions
 

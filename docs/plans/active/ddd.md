@@ -95,7 +95,7 @@ python3 -m json.tool skills/ddd/evals/evals.json
 rtk git diff --check
 ```
 
-Also run one-H1/rendered-local-link checks across all Markdown, standalone copies of all packages, exact request/result immutability probes, routing/invalidation semantic evaluations, forbidden runtime/vendor/machine-path probes, protected-scope preservation, whitespace, and exact candidate hashes. Apply the strategic prerequisite, incomplete-artifact, safe-boundary, and handoff-completeness gates from [quality-gates.md](../skill-design/quality-gates.md), then request independent review. Full-suite live evaluation remains conditional on an available host/model and must not be claimed otherwise.
+Also run one-H1/rendered-local-link checks across all Markdown, standalone copies of all packages, exact request/result immutability probes, routing/invalidation semantic evaluations, forbidden runtime/vendor/machine-path probes, protected-scope preservation, whitespace, and exact candidate hashes. Apply the strategic prerequisite, incomplete-artifact, safe-boundary, and handoff-completeness gates from [quality-gates.md](../../skill-design/quality-gates.md), then request independent review. Full-suite live evaluation remains conditional on an available host/model and must not be claimed otherwise.
 
 ## Risks and open decisions
 
