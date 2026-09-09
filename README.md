@@ -12,4 +12,4 @@ This repository is a research and documentation workspace for building a reusabl
 - [Glossary](docs/foundation/glossary.md)
 - [References](docs/foundation/references.md)
 
-**The executable discovery, strategic, tactical, adoption, and review slices are included; the routing-only orchestrator remains planned and unimplemented.**
+**All six executable slices—discovery, strategic, tactical, adoption, review, and routing-only orchestration—are included; phase 4 covers full-suite transition evaluation.**

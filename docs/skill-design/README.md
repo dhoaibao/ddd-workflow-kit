@@ -1,6 +1,6 @@
 # DDD skill-set design
 
-**Status: executable MVP slices.** `ddd-discover`, `ddd-strategic`, `ddd-tactical`, `ddd-adoption`, and `ddd-review` are implemented as portable focused slices; only the routing-only orchestrator remains planned and unimplemented. The MVP slices produce repository documentation under `docs/ddd/` and a concise chat summary; they must not edit product code.
+**Status: executable MVP slices.** `ddd-discover`, `ddd-strategic`, `ddd-tactical`, `ddd-adoption`, `ddd-review`, and the routing-only `ddd` orchestrator are implemented as portable packages. The MVP slices produce repository documentation under `docs/ddd/` and a concise chat summary; they must not edit product code.
 
 ## Design goals
 
@@ -24,7 +24,7 @@ This design does not choose a programming language, framework, deployment platfo
 
 ## First-release boundary
 
-The focused MVP slices create or update only their owned modeling documents under `docs/ddd/`, preserving existing content and marking uncertainty. The future `ddd` orchestrator owns routing/state only and passes exact stage names plus request/result bundles through the portable transition protocol; it never duplicates focused-stage work. A host that cannot activate a named stage returns the exact manual invocation and unchanged bundle. The slices must stop for material user decisions, missing evidence, conflicts, or unsafe file changes. Product source, tests, deployment configuration, and runtime behavior are outside this release.
+The focused MVP slices create or update only their owned modeling documents under `docs/ddd/`, preserving existing content and marking uncertainty. The `ddd` orchestrator owns routing/state only and passes exact stage names plus request/result bundles through the portable transition protocol; it never duplicates focused-stage work. A host that cannot activate a named stage returns the exact manual invocation and unchanged bundle. The slices must stop for material user decisions, missing evidence, conflicts, or unsafe file changes. Product source, tests, deployment configuration, and runtime behavior are outside this release.
 
 - [Implemented MVP portability notes](portability.md)
 - [Implemented discovery skill](../../skills/ddd-discover/SKILL.md)
@@ -32,4 +32,5 @@ The focused MVP slices create or update only their owned modeling documents unde
 - [Implemented tactical skill](../../skills/ddd-tactical/SKILL.md)
 - [Implemented adoption skill](../../skills/ddd-adoption/SKILL.md)
 - [Implemented review skill](../../skills/ddd-review/SKILL.md)
+- [Implemented routing orchestrator](../../skills/ddd/SKILL.md)
 - [Remaining implementation roadmap](../plans/README.md)

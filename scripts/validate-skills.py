@@ -34,12 +34,14 @@ STRATEGIC_ASSETS = {
 TACTICAL_ASSETS = {"context-model-template.md"}
 ADOPTION_ASSETS = {"adoption-plan-template.md"}
 REVIEW_ASSETS = {"review-template.md"}
+ORCHESTRATOR_ASSETS = {"request-result-template.md", "ddd-readme-template.md"}
 PACKAGE_REQUIREMENTS = {
     "ddd-discover": {"assets": DISCOVERY_ASSETS, "minimum_evals": 6},
     "ddd-strategic": {"assets": STRATEGIC_ASSETS, "minimum_evals": 7},
     "ddd-tactical": {"assets": TACTICAL_ASSETS, "minimum_evals": 11},
     "ddd-adoption": {"assets": ADOPTION_ASSETS, "minimum_evals": 10},
     "ddd-review": {"assets": REVIEW_ASSETS, "minimum_evals": 10},
+    "ddd": {"assets": ORCHESTRATOR_ASSETS, "minimum_evals": 10},
 }
 TACTICAL_PREREQUISITE_STOP_CASES = {"missing-strategic-prerequisites", "select-one-context"}
 ADOPTION_CASE_CATEGORIES = {
@@ -81,6 +83,35 @@ REVIEW_TEMPLATE_MARKERS = (
     "`review`", "Review scope and objective", "Artifact inventory and validation summary",
     "DDD fit and quality-gate results", "Findings by severity", "Stale and conflicting artifacts",
     "Chat summary", "documentation readiness", "implementation, deployment, migration",
+)
+ORCHESTRATOR_CASE_CATEGORIES = {
+    "normal flow", "direct invocation", "manual fallback", "normal transition", "missing evidence",
+    "non-fit", "invalidation loop", "malformed result", "index ownership", "docs-only",
+}
+ORCHESTRATOR_STAGES = {"ddd-discover", "ddd-strategic", "ddd-tactical", "ddd-adoption", "ddd-review"}
+ORCHESTRATOR_REQUEST_FIELDS = {
+    "version", "stage", "objective", "scope", "artifacts", "evidence", "claims", "provenance",
+    "assumptions", "open_questions", "allowed_paths", "return_to",
+}
+ORCHESTRATOR_RESULT_FIELDS = {
+    "version", "stage", "status", "changed_artifacts", "findings", "handoff", "stop",
+    "invalidated_stages", "evidence", "claims", "provenance", "assumptions", "open_questions",
+    "allowed_paths", "return_to",
+}
+ORCHESTRATOR_RESULT_STATUSES = {"complete", "partial", "blocked", "not-fit-conflict", "strategic-conflict", "invalidated", "protocol-error"}
+ORCHESTRATOR_PRESERVED_FIELDS = {"evidence", "claims", "provenance", "assumptions", "open_questions", "artifacts", "allowed_paths"}
+ORCHESTRATOR_ARTIFACT_FIELDS = {"path", "lifecycle", "validation", "availability"}
+ORCHESTRATOR_LIFECYCLES = {"draft", "active", "superseded", "archived", "none"}
+ORCHESTRATOR_VALIDATIONS = {"unvalidated", "partially-validated", "validated", "stale", "not-applicable"}
+ORCHESTRATOR_AVAILABILITIES = {"available", "missing", "partial", "out-of-scope", "none"}
+ORCHESTRATOR_INDEX_MARKERS = {
+    "project-scope", "routing-status", "artifact-index", "active-contexts", "validation-summary",
+    "open-questions", "provenance-policy", "safe-update-policy", "ddd-review-owned:latest-review",
+}
+ORCHESTRATOR_TEMPLATE_MARKERS = (
+    "Request and result bundles", "ddd-routing-v1", "Manual fallback", "Normal transition",
+    "DDD artifact index", "ddd-owned:routing-status:start", "ddd-review-owned:latest-review:start",
+    "project/domain scope", "validation summary", "Safe-update policy",
 )
 TACTICAL_REQUIRED_INPUT_FIELDS = {
     "purpose", "outcome", "vocabulary", "commands", "scenarios", "relationships",
@@ -430,6 +461,174 @@ def validate_review_contract(skill_root: Path) -> None:
         fail(f"{template}: finding table must expose the complete finding schema")
 
 
+def validate_orchestrator_artifacts(path: Path, values: object, case_id: str, field: str) -> None:
+    if not isinstance(values, list):
+        fail(f"{path}: case {case_id} field {field} must be an artifact-record list")
+    for record in values:
+        if not isinstance(record, dict):
+            fail(f"{path}: case {case_id} field {field} must reject bare-string artifact records")
+        missing = sorted(ORCHESTRATOR_ARTIFACT_FIELDS - record.keys())
+        if missing:
+            fail(f"{path}: case {case_id} artifact record in {field} missing: {', '.join(missing)}")
+        if not isinstance(record["path"], str) or not record["path"].strip():
+            fail(f"{path}: case {case_id} artifact record path must be nonempty")
+        if record["lifecycle"] not in ORCHESTRATOR_LIFECYCLES:
+            fail(f"{path}: case {case_id} artifact record has invalid lifecycle")
+        if record["validation"] not in ORCHESTRATOR_VALIDATIONS:
+            fail(f"{path}: case {case_id} artifact record has invalid validation")
+        if record["availability"] not in ORCHESTRATOR_AVAILABILITIES:
+            fail(f"{path}: case {case_id} artifact record has invalid availability")
+
+
+def validate_orchestrator_request(path: Path, request: object, case_id: str, allow_empty: bool = False) -> None:
+    if not isinstance(request, dict):
+        fail(f"{path}: case {case_id} request must be an object")
+    missing = sorted(ORCHESTRATOR_REQUEST_FIELDS - request.keys())
+    if missing:
+        fail(f"{path}: case {case_id} request missing fields: {', '.join(missing)}")
+    if request.get("version") != "ddd-routing-v1":
+        fail(f"{path}: case {case_id} request version must be ddd-routing-v1")
+    if request.get("stage") not in ORCHESTRATOR_STAGES:
+        fail(f"{path}: case {case_id} request has an unknown stage")
+    for field in ("objective", "scope", "return_to"):
+        if not isinstance(request[field], str) or (not allow_empty and not request[field].strip()):
+            fail(f"{path}: case {case_id} request field {field} must be a nonempty string")
+    if request["return_to"] not in ({"ddd"} | ORCHESTRATOR_STAGES):
+        fail(f"{path}: case {case_id} request return_to is not a known stage or ddd")
+    validate_orchestrator_artifacts(path, request["artifacts"], case_id, "request.artifacts")
+    for field in ("evidence", "claims", "provenance", "assumptions", "open_questions", "allowed_paths"):
+        values = request[field]
+        if not isinstance(values, list) or not all(isinstance(item, str) for item in values):
+            fail(f"{path}: case {case_id} request field {field} must be a string list")
+
+
+def validate_orchestrator_result(path: Path, result: object, case_id: str) -> None:
+    if not isinstance(result, dict):
+        fail(f"{path}: case {case_id} result must be an object")
+    missing = sorted(ORCHESTRATOR_RESULT_FIELDS - result.keys())
+    if missing:
+        fail(f"{path}: case {case_id} result missing fields: {', '.join(missing)}")
+    if result.get("version") != "ddd-routing-v1" or result.get("stage") not in ORCHESTRATOR_STAGES:
+        fail(f"{path}: case {case_id} result has an invalid version or stage")
+    if result.get("status") not in ORCHESTRATOR_RESULT_STATUSES:
+        fail(f"{path}: case {case_id} result has an invalid status")
+    validate_orchestrator_artifacts(path, result["changed_artifacts"], case_id, "result.changed_artifacts")
+    for field in ("findings", "invalidated_stages", "evidence", "claims", "provenance", "assumptions", "open_questions", "allowed_paths"):
+        values = result[field]
+        if not isinstance(values, list) or not all(isinstance(item, str) for item in values):
+            fail(f"{path}: case {case_id} result field {field} must be a string list")
+    if result["return_to"] not in ({"ddd"} | ORCHESTRATOR_STAGES):
+        fail(f"{path}: case {case_id} result return_to is not a known stage or ddd")
+    if result["handoff"] != "none":
+        validate_orchestrator_request(path, result["handoff"], case_id)
+    if result["stop"] != "none" and not isinstance(result["stop"], (str, dict)):
+        fail(f"{path}: case {case_id} result stop must be none, a string, or an object")
+    if not all(stage in ORCHESTRATOR_STAGES for stage in result["invalidated_stages"]):
+        fail(f"{path}: case {case_id} result contains an unknown invalidated stage")
+
+
+def validate_orchestrator_eval_inputs(skill_root: Path, cases: list[dict]) -> None:
+    if skill_root.name != "ddd":
+        return
+    path = skill_root / "evals" / "evals.json"
+    categories = {case.get("category") for case in cases}
+    missing_categories = sorted(ORCHESTRATOR_CASE_CATEGORIES - categories)
+    if missing_categories:
+        fail(f"{path}: missing orchestrator evaluation categories: {', '.join(missing_categories)}")
+    order = {stage: index for index, stage in enumerate(("ddd-discover", "ddd-strategic", "ddd-tactical", "ddd-adoption", "ddd-review"))}
+    for case in cases:
+        category = case.get("category")
+        payload = case["input"]
+        if not isinstance(category, str) or not category.strip():
+            fail(f"{path}: case {case['id']} must name an orchestrator category")
+        if payload.get("entry_status") not in {"complete", "incomplete"}:
+            fail(f"{path}: case {case['id']} entry_status must be complete or incomplete")
+        validate_orchestrator_request(path, payload.get("request"), case["id"], allow_empty=payload["entry_status"] == "incomplete")
+        if payload["entry_status"] == "incomplete":
+            missing_fields = payload.get("missing_fields")
+            if not isinstance(missing_fields, list) or not missing_fields or not all(isinstance(item, str) and item.strip() for item in missing_fields):
+                fail(f"{path}: incomplete case {case['id']} must name missing_fields")
+        if "result" in payload:
+            if payload.get("result_valid", True):
+                validate_orchestrator_result(path, payload["result"], case["id"])
+            else:
+                malformed = payload.get("malformed_fields")
+                if not isinstance(malformed, list) or not malformed or not all(isinstance(item, str) and item.strip() for item in malformed):
+                    fail(f"{path}: malformed case {case['id']} must name malformed_fields")
+        if category == "normal flow":
+            if payload.get("route_sequence") != ["ddd-discover", "ddd-strategic", "ddd-tactical", "ddd-adoption", "ddd-review"] or payload.get("expected_one_at_a_time") is not True:
+                fail(f"{path}: normal flow case must specify canonical one-at-a-time routing")
+        if category == "direct invocation" and payload.get("direct_entry_validated") is not True:
+            fail(f"{path}: direct invocation case must validate focused entry")
+        if category == "manual fallback":
+            if payload.get("manual_fallback_exact") is not True or payload.get("request") != payload.get("fallback_request"):
+                fail(f"{path}: manual fallback case must preserve the request object exactly")
+            if payload.get("manual_stage") not in ORCHESTRATOR_STAGES:
+                fail(f"{path}: manual fallback case must name an exact stage")
+        if category == "normal transition":
+            if not isinstance(payload.get("next_request"), dict):
+                fail(f"{path}: normal transition case must include next_request")
+            validate_orchestrator_request(path, payload["next_request"], case["id"])
+            if set(payload.get("preserved_fields", [])) != ORCHESTRATOR_PRESERVED_FIELDS:
+                fail(f"{path}: normal transition must preserve every required field")
+            assertions = payload.get("preservation_assertions")
+            if not isinstance(assertions, dict) or set(assertions) != ORCHESTRATOR_PRESERVED_FIELDS:
+                fail(f"{path}: normal transition preservation assertions are incomplete")
+            handoff = payload["result"].get("handoff")
+            for field in ORCHESTRATOR_PRESERVED_FIELDS:
+                if assertions[field] != handoff.get(field) or assertions[field] != payload["next_request"].get(field):
+                    fail(f"{path}: normal transition changed preserved field {field}")
+            validate_orchestrator_artifacts(path, assertions["artifacts"], case["id"], "preservation_assertions.artifacts")
+        if category == "invalidation loop":
+            result = payload.get("result", {})
+            invalidated = result.get("invalidated_stages", [])
+            earliest = payload.get("earliest_invalidated_stage")
+            if not invalidated or earliest not in invalidated or earliest != min(invalidated, key=order.get):
+                fail(f"{path}: invalidation case must route to the earliest invalidated stage")
+            if not isinstance(payload.get("stale_artifacts"), list) or not payload["stale_artifacts"]:
+                fail(f"{path}: invalidation case must name stale artifacts")
+            if payload.get("next_request", {}).get("stage") != earliest:
+                fail(f"{path}: invalidation case next request must target earliest stage")
+            original_by_path = {record["path"]: record for record in payload["request"]["artifacts"]}
+            for record in payload["next_request"]["artifacts"]:
+                original = original_by_path.get(record["path"])
+                if original is None or record["lifecycle"] != original["lifecycle"] or record["validation"] != "stale":
+                    fail(f"{path}: invalidation case must preserve lifecycle and mark only validation stale")
+        if category == "malformed result":
+            if payload.get("result_valid") is not False or not isinstance(payload.get("stop"), dict):
+                fail(f"{path}: malformed result case must produce a bounded stop")
+        if category == "non-fit":
+            if payload.get("result", {}).get("status") != "not-fit-conflict" or payload.get("result", {}).get("handoff") != "none":
+                fail(f"{path}: non-fit case must stop without a handoff")
+        if category == "index ownership":
+            if set(payload.get("index_markers", [])) != ORCHESTRATOR_INDEX_MARKERS or payload.get("review_stewardship") is not True or payload.get("preserve_user_prose") is not True:
+                fail(f"{path}: index ownership case must cover canonical markers and review stewardship")
+        if category == "docs-only":
+            requested_paths = payload.get("requested_paths", [])
+            if not any(path_value.startswith(("src/", "deploy/", "tests/")) for path_value in requested_paths):
+                fail(f"{path}: docs-only case must include an outside-scope path")
+            if not isinstance(payload.get("stop"), dict):
+                fail(f"{path}: docs-only case must produce a bounded stop")
+
+
+def validate_orchestrator_contract(skill_root: Path) -> None:
+    if skill_root.name != "ddd":
+        return
+    request_template = skill_root / "assets" / "request-result-template.md"
+    index_template = skill_root / "assets" / "ddd-readme-template.md"
+    request_text = request_template.read_text(encoding="utf-8")
+    index_text = index_template.read_text(encoding="utf-8")
+    missing_request = [marker for marker in ORCHESTRATOR_TEMPLATE_MARKERS if marker not in request_text + index_text]
+    if missing_request:
+        fail(f"{request_template}: orchestrator contract markers missing: {', '.join(missing_request)}")
+    if "docs/ddd/README.md" not in index_text:
+        fail(f"{index_template}: index template must name docs/ddd/README.md")
+    if "ddd-owned:routing-status:start" not in index_text or "ddd-review-owned:latest-review:start" not in index_text:
+        fail(f"{index_template}: index ownership markers are incomplete")
+    if "ddd-routing-v1" not in request_text:
+        fail(f"{request_template}: request/result template must name ddd-routing-v1")
+
+
 def validate_tactical_contract(skill_root: Path) -> None:
     template = skill_root / "assets" / "context-model-template.md"
     if skill_root.name != "ddd-tactical" or not template.is_file():
@@ -480,6 +679,12 @@ def main() -> int:
             review_payload = json.loads(review_eval_path.read_text(encoding="utf-8"))
             validate_review_eval_inputs(review_root, review_payload["cases"])
             validate_review_contract(review_root)
+        orchestrator_eval_path = SKILLS_ROOT / "ddd" / "evals" / "evals.json"
+        if orchestrator_eval_path.is_file():
+            orchestrator_root = SKILLS_ROOT / "ddd"
+            orchestrator_payload = json.loads(orchestrator_eval_path.read_text(encoding="utf-8"))
+            validate_orchestrator_eval_inputs(orchestrator_root, orchestrator_payload["cases"])
+            validate_orchestrator_contract(orchestrator_root)
         validate_forbidden_runtime_references()
     except ValidationError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)

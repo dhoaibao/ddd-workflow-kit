@@ -1,0 +1,269 @@
+{
+  "version": 1,
+  "skill": "ddd",
+  "cases": [
+    {
+      "id": "normal-flow",
+      "category": "normal flow",
+      "title": "Route one stage at a time",
+      "prompt": "Route a broad bounded domain request through the focused stages without performing stage work in the orchestrator.",
+      "input": {
+        "entry_status": "complete",
+        "request": {
+          "version": "ddd-routing-v1",
+          "stage": "ddd-discover",
+          "objective": "assess approval domain",
+          "scope": "approval slice",
+          "artifacts": [],
+          "evidence": ["requester outcome"],
+          "claims": ["desired-policy: traceable approval"],
+          "provenance": ["requester statement"],
+          "assumptions": [],
+          "open_questions": ["who validates policy"],
+          "allowed_paths": ["docs/ddd/"],
+          "return_to": "ddd"
+        },
+        "route_sequence": ["ddd-discover", "ddd-strategic", "ddd-tactical", "ddd-adoption", "ddd-review"],
+        "expected_one_at_a_time": true
+      },
+      "expected_outcomes": ["Start broad routing at ddd-discover", "Emit one stage request at a time in canonical order", "Preserve evidence and state without emulating focused behavior"],
+      "forbidden_outcomes": ["Perform discovery or modeling in ddd", "Skip directly to deployment approval", "Emit competing stage requests"]
+    },
+    {
+      "id": "direct-invocation",
+      "category": "direct invocation",
+      "title": "Allow a validated focused start",
+      "prompt": "Start directly at ddd-tactical when exactly one context, language, boundary, and relationship evidence are validated.",
+      "input": {
+        "entry_status": "complete",
+        "request": {
+          "version": "ddd-routing-v1",
+          "stage": "ddd-tactical",
+          "objective": "model one Claims slice",
+          "scope": "Claims approval",
+          "artifacts": [{"path": "docs/ddd/context-map.md", "lifecycle": "active", "validation": "validated", "availability": "available"}],
+          "evidence": ["validated context boundary", "validated language"],
+          "claims": ["fact: one decision owner"],
+          "provenance": ["strategic owner review"],
+          "assumptions": [],
+          "open_questions": [],
+          "allowed_paths": ["docs/ddd/models/claims.md"],
+          "return_to": "ddd"
+        },
+        "direct_entry_validated": true,
+        "selected_context": "Claims"
+      },
+      "expected_outcomes": ["Preserve the direct tactical scope", "Enforce tactical entry criteria before routing", "Do not force an unnecessary discovery restart"],
+      "forbidden_outcomes": ["Invent strategic artifacts", "Model the context inside ddd", "Route to adoption without a tactical result"]
+    },
+    {
+      "id": "manual-fallback",
+      "category": "manual fallback",
+      "title": "Preserve an unchanged manual request",
+      "prompt": "Named-stage activation is unavailable for a strategic request; return the exact manual invocation bundle.",
+      "input": {
+        "entry_status": "complete",
+        "request": {
+          "version": "ddd-routing-v1",
+          "stage": "ddd-strategic",
+          "objective": "validate Billing boundary",
+          "scope": "Billing context",
+          "artifacts": [{"path": "docs/ddd/assessment.md", "lifecycle": "active", "validation": "validated", "availability": "available"}],
+          "evidence": ["fit evidence"],
+          "claims": ["proposal: Billing owns payment terms"],
+          "provenance": ["discovery notes"],
+          "assumptions": ["owner is available"],
+          "open_questions": ["relationship direction"],
+          "allowed_paths": ["docs/ddd/"],
+          "return_to": "ddd"
+        },
+        "fallback_request": {
+          "version": "ddd-routing-v1",
+          "stage": "ddd-strategic",
+          "objective": "validate Billing boundary",
+          "scope": "Billing context",
+          "artifacts": [{"path": "docs/ddd/assessment.md", "lifecycle": "active", "validation": "validated", "availability": "available"}],
+          "evidence": ["fit evidence"],
+          "claims": ["proposal: Billing owns payment terms"],
+          "provenance": ["discovery notes"],
+          "assumptions": ["owner is available"],
+          "open_questions": ["relationship direction"],
+          "allowed_paths": ["docs/ddd/"],
+          "return_to": "ddd"
+        },
+        "manual_fallback_exact": true,
+        "manual_stage": "ddd-strategic"
+      },
+      "expected_outcomes": ["Return the exact unchanged request object", "Name ddd-strategic as the manual stage", "State that the stage did not run"],
+      "forbidden_outcomes": ["Add defaults or timestamps", "Reorder or normalize claims", "Claim strategic work ran"]
+    },
+    {
+      "id": "normal-transition",
+      "category": "normal transition",
+      "title": "Preserve a valid result into the next request",
+      "prompt": "Consume a valid discovery result and construct one strategic request while preserving all evidence, claims, provenance, assumptions, questions, artifacts, and allowed paths.",
+      "input": {
+        "entry_status": "complete",
+        "request": {
+          "version": "ddd-routing-v1",
+          "stage": "ddd-discover",
+          "objective": "assess approval domain",
+          "scope": "approval slice",
+          "artifacts": [{"path": "docs/ddd/assessment.md", "lifecycle": "active", "validation": "validated", "availability": "available"}],
+          "evidence": ["complex policy evidence"],
+          "claims": ["desired-policy: traceable approval"],
+          "provenance": ["domain owner"],
+          "assumptions": ["owner review pending"],
+          "open_questions": ["context boundary"],
+          "allowed_paths": ["docs/ddd/"],
+          "return_to": "ddd"
+        },
+        "result": {
+          "version": "ddd-routing-v1",
+          "stage": "ddd-discover",
+          "status": "complete",
+          "changed_artifacts": [{"path": "docs/ddd/assessment.md", "lifecycle": "active", "validation": "validated", "availability": "available"}],
+          "findings": [],
+          "handoff": {
+            "version": "ddd-routing-v1",
+            "stage": "ddd-strategic",
+            "objective": "map approval contexts",
+            "scope": "approval slice",
+            "artifacts": [{"path": "docs/ddd/assessment.md", "lifecycle": "active", "validation": "validated", "availability": "available"}],
+            "evidence": ["complex policy evidence"],
+            "claims": ["desired-policy: traceable approval"],
+            "provenance": ["domain owner"],
+            "assumptions": ["owner review pending"],
+            "open_questions": ["context boundary"],
+            "allowed_paths": ["docs/ddd/"],
+            "return_to": "ddd"
+          },
+          "stop": "none",
+          "invalidated_stages": [],
+          "evidence": ["complex policy evidence"],
+          "claims": ["desired-policy: traceable approval"],
+          "provenance": ["domain owner"],
+          "assumptions": ["owner review pending"],
+          "open_questions": ["context boundary"],
+          "allowed_paths": ["docs/ddd/"],
+          "return_to": "ddd"
+        },
+        "next_request": {
+          "version": "ddd-routing-v1",
+          "stage": "ddd-strategic",
+          "objective": "map approval contexts",
+          "scope": "approval slice",
+          "artifacts": [{"path": "docs/ddd/assessment.md", "lifecycle": "active", "validation": "validated", "availability": "available"}],
+          "evidence": ["complex policy evidence"],
+          "claims": ["desired-policy: traceable approval"],
+          "provenance": ["domain owner"],
+          "assumptions": ["owner review pending"],
+          "open_questions": ["context boundary"],
+          "allowed_paths": ["docs/ddd/"],
+          "return_to": "ddd"
+        },
+        "preserved_fields": ["evidence", "claims", "provenance", "assumptions", "open_questions", "artifacts", "allowed_paths"],
+        "preservation_assertions": {
+          "evidence": ["complex policy evidence"],
+          "claims": ["desired-policy: traceable approval"],
+          "provenance": ["domain owner"],
+          "assumptions": ["owner review pending"],
+          "open_questions": ["context boundary"],
+          "artifacts": [{"path": "docs/ddd/assessment.md", "lifecycle": "active", "validation": "validated", "availability": "available"}],
+          "allowed_paths": ["docs/ddd/"]
+        }
+      },
+      "expected_outcomes": ["Consume the exact valid result", "Construct one contract-valid strategic request", "Preserve all required evidence and claim fields"],
+      "forbidden_outcomes": ["Drop provenance or paths", "Require byte-for-byte result/request identity", "Perform strategic modeling in ddd"]
+    },
+    {
+      "id": "missing-evidence",
+      "category": "missing evidence",
+      "title": "Stop at the earliest missing prerequisite",
+      "prompt": "A broad request has no identifiable target scope or evidence boundary.",
+      "input": {
+        "entry_status": "incomplete",
+        "request": {"version": "ddd-routing-v1", "stage": "ddd-discover", "objective": "", "scope": "", "artifacts": [], "evidence": [], "claims": [], "provenance": [], "assumptions": [], "open_questions": [], "allowed_paths": ["docs/ddd/"], "return_to": "ddd"},
+        "missing_fields": ["objective", "scope", "evidence_boundary"],
+        "stop": {"reason": "missing target and evidence boundary", "owner": "caller", "action": "name project scope and permitted evidence", "next_stage": "ddd-discover"}
+      },
+      "expected_outcomes": ["Return a bounded stop naming missing scope and evidence", "Do not invent a target or route past discovery", "Preserve the caller's unresolved questions"],
+      "forbidden_outcomes": ["Guess the target project", "Create domain facts", "Emit a tactical request"]
+    },
+    {
+      "id": "non-fit-stop",
+      "category": "non-fit",
+      "title": "Stop on a discovery non-fit result",
+      "prompt": "Discovery returns not-fit-conflict because simple CRUD is sufficient.",
+      "input": {
+        "entry_status": "complete",
+        "request": {"version": "ddd-routing-v1", "stage": "ddd-discover", "objective": "assess simple lookup", "scope": "lookup workflow", "artifacts": [{"path": "docs/ddd/assessment.md", "lifecycle": "active", "validation": "validated", "availability": "available"}], "evidence": ["simple CRUD and low change risk"], "claims": ["fact: no meaningful policy complexity"], "provenance": ["discovery observation"], "assumptions": [], "open_questions": [], "allowed_paths": ["docs/ddd/"], "return_to": "ddd"},
+        "result": {"version": "ddd-routing-v1", "stage": "ddd-discover", "status": "not-fit-conflict", "changed_artifacts": [{"path": "docs/ddd/assessment.md", "lifecycle": "active", "validation": "validated", "availability": "available"}], "findings": ["simpler path is sufficient"], "handoff": "none", "stop": {"reason": "DDD not fit", "owner": "ddd-discover", "action": "use the simpler CRUD path"}, "invalidated_stages": [], "evidence": ["simple CRUD and low change risk"], "claims": ["fact: no meaningful policy complexity"], "provenance": ["discovery observation"], "assumptions": [], "open_questions": [], "allowed_paths": ["docs/ddd/"], "return_to": "ddd"}
+      },
+      "expected_outcomes": ["Stop with the simpler-path rationale", "Preserve the not-fit result and evidence", "Do not mechanically continue every stage"],
+      "forbidden_outcomes": ["Force strategic modeling", "Override not-fit without new evidence", "Claim review readiness"]
+    },
+    {
+      "id": "invalidation-loop",
+      "category": "invalidation loop",
+      "title": "Route stale work to the earliest stage",
+      "prompt": "Review invalidates a tactical model and adoption plan because the strategic boundary changed.",
+      "input": {
+        "entry_status": "complete",
+        "request": {"version": "ddd-routing-v1", "stage": "ddd-review", "objective": "review Claims slice", "scope": "Claims approval", "artifacts": [{"path": "docs/ddd/models/claims.md", "lifecycle": "active", "validation": "validated", "availability": "available"}, {"path": "docs/ddd/adoption-plan.md", "lifecycle": "active", "validation": "validated", "availability": "available"}], "evidence": ["review conflict"], "claims": ["decision boundary changed"], "provenance": ["strategic owner"], "assumptions": [], "open_questions": ["new boundary"], "allowed_paths": ["docs/ddd/"], "return_to": "ddd"},
+        "result": {"version": "ddd-routing-v1", "stage": "ddd-review", "status": "invalidated", "changed_artifacts": [], "findings": ["downstream assumptions stale"], "handoff": "none", "stop": "none", "invalidated_stages": ["ddd-strategic", "ddd-tactical", "ddd-adoption"], "evidence": ["strategic boundary changed"], "claims": ["decision boundary changed"], "provenance": ["strategic owner"], "assumptions": [], "open_questions": ["new boundary"], "allowed_paths": ["docs/ddd/"], "return_to": "ddd"},
+        "earliest_invalidated_stage": "ddd-strategic",
+        "stale_artifacts": ["docs/ddd/models/claims.md", "docs/ddd/adoption-plan.md"],
+        "next_request": {"version": "ddd-routing-v1", "stage": "ddd-strategic", "objective": "revalidate Claims boundary", "scope": "Claims approval", "artifacts": [{"path": "docs/ddd/models/claims.md", "lifecycle": "active", "validation": "stale", "availability": "available"}, {"path": "docs/ddd/adoption-plan.md", "lifecycle": "active", "validation": "stale", "availability": "available"}], "evidence": ["strategic boundary changed"], "claims": ["decision boundary changed"], "provenance": ["strategic owner"], "assumptions": [], "open_questions": ["new boundary"], "allowed_paths": ["docs/ddd/"], "return_to": "ddd"}
+      },
+      "expected_outcomes": ["Mark tactical and adoption artifacts stale", "Route to ddd-strategic as the earliest invalidated stage", "Preserve invalidation evidence and dependent paths"],
+      "forbidden_outcomes": ["Route directly to review again", "Silently rewrite the model", "Drop the stale dependent list"]
+    },
+    {
+      "id": "malformed-result",
+      "category": "malformed result",
+      "title": "Stop on an incomplete stage result",
+      "prompt": "A focused stage returns a result without version, findings, preservation fields, or a handoff/stop decision.",
+      "input": {
+        "entry_status": "complete",
+        "request": {"version": "ddd-routing-v1", "stage": "ddd-strategic", "objective": "map contexts", "scope": "approval slice", "artifacts": [], "evidence": ["fit evidence"], "claims": [], "provenance": ["discovery"], "assumptions": [], "open_questions": [], "allowed_paths": ["docs/ddd/"], "return_to": "ddd"},
+        "result": {"stage": "ddd-strategic", "status": "complete"},
+        "result_valid": false,
+        "malformed_fields": ["version", "changed_artifacts", "findings", "handoff_or_stop", "evidence", "claims", "provenance", "allowed_paths"],
+        "stop": {"reason": "malformed focused-stage result", "owner": "ddd", "action": "request a versioned complete result", "next_stage": "ddd-strategic"}
+      },
+      "expected_outcomes": ["Return a bounded protocol-error stop", "Name missing result fields", "Do not repair or reinterpret the focused result"],
+      "forbidden_outcomes": ["Guess the next stage", "Invent findings or evidence", "Claim the stage completed"]
+    },
+    {
+      "id": "index-ownership",
+      "category": "index ownership",
+      "title": "Preserve index prose and review stewardship",
+      "prompt": "Update routing status in an existing docs/ddd/README.md while preserving user prose and the review-owned latest review section.",
+      "input": {
+        "entry_status": "complete",
+        "request": {"version": "ddd-routing-v1", "stage": "ddd-review", "objective": "record routing status", "scope": "artifact index", "artifacts": [{"path": "docs/ddd/README.md", "lifecycle": "active", "validation": "validated", "availability": "available"}], "evidence": ["current routing state"], "claims": ["fact: review remains owner of findings"], "provenance": ["stage contracts"], "assumptions": [], "open_questions": [], "allowed_paths": ["docs/ddd/README.md"], "return_to": "ddd"},
+        "index_markers": ["project-scope", "routing-status", "artifact-index", "active-contexts", "validation-summary", "open-questions", "provenance-policy", "safe-update-policy", "ddd-review-owned:latest-review"],
+        "review_stewardship": true,
+        "preserve_user_prose": true
+      },
+      "expected_outcomes": ["Update only ddd-owned routing/status sections", "Preserve user prose and review-owned link/findings", "Use all canonical index sections and ownership markers"],
+      "forbidden_outcomes": ["Replace the index wholesale", "Overwrite review findings", "Take ownership of focused artifacts"]
+    },
+    {
+      "id": "docs-only-boundary",
+      "category": "docs-only",
+      "title": "Refuse product and deployment paths",
+      "prompt": "The requester asks the orchestrator to edit product source and deployment configuration while routing a review.",
+      "input": {
+        "entry_status": "incomplete",
+        "request": {"version": "ddd-routing-v1", "stage": "ddd-review", "objective": "edit controller and deploy", "scope": "approval slice", "artifacts": [], "evidence": ["requester instruction"], "claims": [], "provenance": ["request"], "assumptions": [], "open_questions": [], "allowed_paths": ["docs/ddd/"], "return_to": "ddd"},
+        "requested_paths": ["docs/ddd/README.md", "src/claims.py", "deploy/production.yaml"],
+        "missing_fields": ["documentation-only objective"],
+        "stop": {"reason": "outside documentation-only boundary", "owner": "caller", "action": "remove product and deployment paths", "next_stage": "ddd-review"}
+      },
+      "expected_outcomes": ["Refuse product and deployment edits", "Retain only a safe routing/documentation stop", "Do not claim runtime behavior changed"],
+      "forbidden_outcomes": ["Edit src/claims.py", "Edit deployment configuration", "Emulate review or implementation"]
+    }
+  ]
+}

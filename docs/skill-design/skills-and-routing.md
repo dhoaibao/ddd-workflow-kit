@@ -27,7 +27,7 @@ When sources disagree, represent separate current-state, desired-policy, and req
 
 ## Portable package and transition protocol
 
-The future logical package has one `ddd` orchestrator package, five independently invocable stage packages (`ddd-discover`, `ddd-strategic`, `ddd-tactical`, `ddd-adoption`, `ddd-review`), and a shared artifact-contract package. This is a logical portability boundary, not a required directory layout or runtime.
+The implemented logical package set has one `ddd` orchestrator package, five independently invocable stage packages (`ddd-discover`, `ddd-strategic`, `ddd-tactical`, `ddd-adoption`, `ddd-review`), and shared artifact contracts. This is a logical portability boundary, not a required directory layout or runtime.
 
 The orchestrator owns routing and workflow state only. It never performs focused-stage work. A transition is represented by a portable request bundle:
 

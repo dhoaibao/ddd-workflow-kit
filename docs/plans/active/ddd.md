@@ -2,7 +2,7 @@
 
 ## Current status
 
-`ddd` is unimplemented. It is the last implementation phase because it depends on the five independently invocable focused stages and their stable transition/result contracts. It owns routing and workflow state only.
+`ddd` is implemented at `skills/ddd/`. It is the final routing phase because it depends on the five independently invocable focused stages and their stable transition/result contracts. It owns routing and workflow state only.
 
 ## Purpose and boundaries
 
@@ -22,9 +22,9 @@ Require stable contracts for all focused stages, including their entry criteria,
 
 If the target or desired outcome is not identifiable, ask a material user question. If a focused result is missing or malformed, return a bounded stop rather than reconstructing it.
 
-## Proposed portable package
+## Implemented portable package
 
-Create last, after adoption and review are implemented and reviewed:
+The phase-3 implementation contains:
 
 - `skills/ddd/SKILL.md` — routing/state-only instructions;
 - `skills/ddd/references/orchestration-protocol.md` — exact request/result bundles, state transitions, invalidation, and fallback;
@@ -107,4 +107,4 @@ Also run one-H1/rendered-local-link checks across all Markdown, standalone copie
 
 ## Non-goals
 
-This phase does not implement any focused stage, create target-project model artifacts, edit product code, execute migration/deployment work, choose architecture topology, install optional validators, or claim live compatibility without evidence.
+The phase-3 implementation does not implement any focused stage, create target-project model artifacts, edit product code, execute migration/deployment work, choose architecture topology, install optional validators, or claim live compatibility without evidence.

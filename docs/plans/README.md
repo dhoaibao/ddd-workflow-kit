@@ -2,7 +2,7 @@
 
 ## Current status
 
-The repository has reviewed, committed focused MVP packages for `ddd-discover`, `ddd-strategic`, `ddd-tactical`, `ddd-adoption`, and `ddd-review`. The only remaining executable stage is the routing-only `ddd` orchestrator. This roadmap plans that stage without creating its package or claiming that it is implemented.
+The repository has reviewed, committed focused MVP packages for all five focused stages plus the routing-only `ddd` orchestrator. Phase 3 is implemented; phase 4 remains the full-suite transition and currentness pass.
 
 The roadmap is grounded in the [skill routing design](../skill-design/skills-and-routing.md), [workflow rules](../skill-design/workflows.md), [artifact contracts](../skill-design/artifact-contracts.md), [quality gates](../skill-design/quality-gates.md), and [portability notes](../skill-design/portability.md).
 
@@ -34,13 +34,13 @@ The [review plan](active/ddd-review.md) is implemented at [`skills/ddd-review/`]
 
 **Exit criteria:** package validation, evaluation review, safe-update checks, and independent review pass; readiness is documented readiness only, never implementation approval. Phase 2 implementation and package checks are complete; live transition evaluation remains part of phase 4.
 
-### 3. Implement `ddd` last
+### 3. Implement `ddd` last — completed
 
-Use the [orchestrator plan](active/ddd.md). It must route and hold state only: manual fallback returns the exact unchanged request bundle, while normal flow consumes an exact stage result and constructs the next contract-valid request while preserving evidence, provenance, claims, and paths. It must use named activation or exact manual fallback, loop to the earliest invalidated stage, and not emulate any focused stage.
+The [orchestrator plan](active/ddd.md) is implemented at [`skills/ddd/`](../../skills/ddd/SKILL.md). It routes and holds state only: manual fallback returns the exact unchanged request bundle, while normal flow consumes an exact stage result and constructs the next contract-valid request while preserving evidence, provenance, claims, and paths. It uses named activation or exact manual fallback, loops to the earliest invalidated stage, and does not emulate any focused stage.
 
 **Dependencies:** all five focused packages exist and their transition/result contracts are stable; adoption and review have passed their gates.
 
-**Exit criteria:** orchestrator package validation, package isolation, transition-loop evaluations, portability checks, and independent review pass; `docs/ddd/README.md` index ownership and review stewardship are explicit.
+**Exit criteria:** orchestrator package validation, package isolation, transition-loop evaluations, portability checks, and independent review pass; `docs/ddd/README.md` index ownership and review stewardship are explicit. Phase 3 implementation and package checks are complete; live transition evaluation remains part of phase 4.
 
 ### 4. Run the full-suite transition and currentness pass
 
