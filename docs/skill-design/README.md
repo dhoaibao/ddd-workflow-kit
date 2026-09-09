@@ -30,3 +30,4 @@ The focused MVP slices create or update only their owned modeling documents unde
 - [Implemented discovery skill](../../skills/ddd-discover/SKILL.md)
 - [Implemented strategic skill](../../skills/ddd-strategic/SKILL.md)
 - [Implemented tactical skill](../../skills/ddd-tactical/SKILL.md)
+- [Remaining implementation roadmap](../plans/README.md)
