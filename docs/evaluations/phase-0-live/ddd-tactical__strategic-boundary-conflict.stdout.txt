@@ -1,0 +1,170 @@
+## STATUS
+
+`strategic-conflict`
+
+Tactical modeling is blocked because the evidence indicates that the validated Fulfillment boundary and/or its language cannot support the required immediate invariant.
+
+## RESULT
+
+Portable result:
+
+```json
+{
+  "stage": "ddd-tactical",
+  "status": "strategic-conflict",
+  "scope": {
+    "context": "Fulfillment",
+    "capability": "Fulfillment",
+    "selected_slice": "Reserve and dispatch an item atomically"
+  },
+  "changed_artifacts": [],
+  "evidence": [
+    {
+      "claim_type": "required obligation",
+      "source": "cross-context scenario",
+      "owner": "Fulfillment owner",
+      "scenario": "Reserve and dispatch an item atomically",
+      "statement": "Reservation and dispatch must be immediately consistent."
+    },
+    {
+      "claim_type": "interpretation",
+      "source": "owner discussion",
+      "owner": "Fulfillment owner",
+      "scenario": "Reserve and dispatch an item atomically",
+      "statement": "The scenario crosses the selected strategic boundary."
+    },
+    {
+      "claim_type": "conflict",
+      "source": "owner discussion",
+      "owner": "Fulfillment owner",
+      "scenario": "Reserve and dispatch an item atomically",
+      "statement": "Context owners disagree on the meaning of reservation."
+    }
+  ],
+  "commands": [
+    "Reserve and dispatch item"
+  ],
+  "scenarios": [
+    "Reserve and dispatch an item atomically"
+  ],
+  "invariants": [
+    {
+      "statement": "Reservation and dispatch must be immediately consistent.",
+      "scope": "The proposed boundary and participating concepts",
+      "validation": "unresolved strategic conflict",
+      "consistency": "immediate",
+      "consequence": "The operation cannot be modeled safely as an eventual cross-context interaction."
+    }
+  ],
+  "model_elements": {
+    "status": "not modeled",
+    "reason": "The aggregate boundary, ownership, and vocabulary must be resolved strategically before tactical elements can be selected."
+  },
+  "consistency": {
+    "required": "immediate",
+    "status": "boundary-invalidated",
+    "decision": "Do not assume a multi-aggregate or cross-context transaction, event workaround, or eventual consistency."
+  },
+  "integration": {
+    "status": "blocked",
+    "relationship": "Inventory supplies availability",
+    "reason": "The required atomic behavior crosses the selected strategic boundary."
+  },
+  "persistence": {
+    "status": "not modeled"
+  },
+  "optional_patterns": {
+    "cqrs": "not evaluated",
+    "event_sourcing": "not evaluated"
+  },
+  "assumptions": [
+    "The boundary may need strategic revision."
+  ],
+  "risks": [
+    "Modeling the current boundary would encode an invariant it cannot protect.",
+    "Different meanings of reservation may produce incompatible ownership and behavior.",
+    "Proceeding tactically could incorrectly introduce cross-context atomicity or hide a required boundary change."
+  ],
+  "open_questions": [
+    "Which owner defines reservation?",
+    "Should Reservation and Dispatch belong to one context to protect the immediate invariant?",
+    "If the concepts remain separate, what evidence justifies a different invariant or consistency policy?"
+  ],
+  "invalidated_stages": [
+    "ddd-tactical",
+    "ddd-adoption",
+    "strategic"
+  ],
+  "handoff": {
+    "stage": "ddd-strategic",
+    "status": "blocked",
+    "return_to": "ddd-strategic",
+    "reason": "Revalidate the boundary, ownership, relationship, and vocabulary before tactical modeling."
+  }
+}
+```
+
+The result explicitly avoids all forbidden outcomes: no aggregate, repository, domain service, event, CQRS, event-sourcing, persistence, framework, API, schema, implementation, or adoption decision is invented. No tactical model is treated as valid, no cross-context transaction is assumed, no eventual-consistency workaround is used, no strategic conflict is silently repaired, and no artifact is claimed to have been changed.
+
+## EVIDENCE
+
+- **Required obligation:** “Reservation and dispatch must be immediately consistent.”
+- **Scenario:** “Reserve and dispatch an item atomically.”
+- **Conflict:** The scenario crosses the selected strategic boundary.
+- **Language conflict:** Context owners disagree on the meaning of “reservation.”
+- **Decision owner:** Fulfillment owner.
+- **Provenance:** Cross-context scenario and owner discussion.
+- **Validation state:** The strategic boundary and language are no longer sufficient for tactical modeling.
+
+## HANDOFF_OR_STOP
+
+Return the exact manual stage name: `ddd-strategic`.
+
+Required strategic follow-up:
+
+1. Reassess whether Reservation and Dispatch must be owned by the same bounded context.
+2. Establish which owner defines “reservation.”
+3. Revalidate the Fulfillment boundary and the Inventory relationship.
+4. Confirm whether the immediate invariant remains required.
+5. Only after resolution, produce a new single-context tactical handoff.
+
+No `ddd-adoption` request is produced because the tactical model is not sufficiently valid or explicit.
+
+## CHANGED_ARTIFACTS
+
+```json
+[]
+```
+
+No files were read or written, and no artifact change is claimed.
+
+## INVALIDATED_STAGES
+
+```json
+[
+  "strategic",
+  "ddd-tactical",
+  "ddd-adoption"
+]
+```
+
+The strategic stage requires revalidation. Tactical modeling and adoption are blocked until that revalidation is complete.
+
+## OPEN_QUESTIONS
+
+- Which owner defines reservation?
+- Does the immediate invariant require Reservation and Dispatch to be in one bounded context?
+- Is Inventory merely supplying availability, or does it own part of the atomic operation?
+- Can the strategic language distinguish reservation from dispatch without conflicting definitions?
+- If the boundary remains split, what explicit evidence supports an immediate consistency mechanism?
+
+## BOUNDARY_CHECKS
+
+- Exactly one selected context was supplied: **Fulfillment**.
+- The supplied slug and permitted model path are valid: `fulfillment` and `docs/ddd/models/fulfillment.md`.
+- The selected context is not modeled because tactical evidence challenges its strategic boundary and language.
+- The required immediate invariant must not be weakened to eventual consistency without evidence.
+- A multi-aggregate or cross-context transaction must not be assumed as a tactical workaround.
+- The conflict is preserved and returned to `ddd-strategic`.
+- No owned artifact is created or updated.
+

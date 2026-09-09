@@ -1,0 +1,234 @@
+STATUS
+
+`partial`
+
+The tactical result rejects the requested single aggregate because the supplied evidence shows that payment and policy lifecycles change independently and may have independent concurrency concerns. The model is not treated as implementation approval, and no repository artifact was changed in this text-only evaluation.
+
+RESULT
+
+Scope: one bounded context, `Settlement`, selected slice: settling approved claims while keeping payment state valid.
+
+Proposed tactical direction:
+
+- Do **not** create one aggregate containing every customer, policy, payment, and history object.
+- Keep the aggregate boundary focused on the smallest invariant currently evidenced: **payment status must be valid for settlement**.
+- `Payment` is the strongest candidate for an aggregate root because its status changes independently and the invariant is payment-centered.
+- `Policy` should not be embedded in the payment aggregate merely because policy terms influence settlement. Treat policy terms as an external reference or separately modeled policy state until the required freshness semantics are known.
+- `Customer` and `history` are not justified as members of the settlement aggregate by the supplied evidence. Their inclusion would create an oversized object graph and unnecessary transaction/concurrency coupling.
+- Customer history is currently a read/use-case concern, not evidence for enlarging the transactional aggregate.
+
+Behavior:
+
+1. **Update payment status**
+   - Actor: not specified.
+   - Preconditions: payment exists; requested status transition is allowed; status remains valid for settlement.
+   - Successful outcome: payment status is updated.
+   - Failure: payment is missing, transition is invalid, or the resulting status violates settlement validity.
+   - Consistency: immediate within the payment aggregate.
+   - Concurrency: must protect independent payment updates; exact mechanism is unresolved.
+
+2. **Change policy terms**
+   - Actor: not specified.
+   - Preconditions and allowed transitions: unresolved.
+   - Successful outcome: policy terms change independently of payment lifecycle.
+   - Impact: the effect on already-approved settlements and payment validity is unresolved.
+   - Consistency with payment: not assumed immediate until the required reference freshness is established.
+
+3. **Read customer history**
+   - Actor and acceptance signal: not specified.
+   - No evidence requires customer history to be part of the payment transaction boundary.
+   - Prefer a separate read model, query, or other read-side mechanism only after the history requirements are clarified. This is a proposal, not an implementation decision.
+
+Invariant:
+
+- **Payment status is valid for settlement**
+  - Evidence: supplied candidate invariant and invariant; operations lifecycle review; independent lifecycle and concurrency observations.
+  - Scope: payment state used by settlement.
+  - Owner: Settlement owner.
+  - Validation state: identified and supported at a high level; exact valid-status rule remains unspecified.
+  - Failure consequence: settlement must reject or otherwise prevent use of an invalid payment status.
+  - Consistency: immediate inside the payment aggregate. Cross-context or cross-aggregate freshness is unresolved.
+
+Model-element decisions:
+
+- Aggregate/root: `Payment` — proposed, because it owns the payment-status invariant and changes independently.
+- Entity: payment identity and lifecycle continuity — proposed.
+- Value objects: none added; no named value equality or validation need was supplied.
+- Policy aggregate/entity: separate or external reference — proposed, not fully validated.
+- Customer/history elements: excluded from the payment aggregate; model status deferred.
+- Repository: a payment repository is justified only as a domain-facing contract needed to load and save the payment aggregate. Persistence behavior and technology are unspecified.
+- Domain service: not required by current evidence.
+- Specification: not introduced; the validity rule is not yet detailed enough.
+- Factory: not introduced; no construction complexity was evidenced.
+- Domain events: none required for the currently stated immediate invariant. Events may be considered later for independent policy/payment effects, but no event contract is invented.
+- CQRS: `deferred`; the read-history requirement is insufficiently specified.
+- Event sourcing: `not-needed`; ordinary lifecycle independence does not justify it.
+
+Explicitly rejected or forbidden outcomes:
+
+- No aggregate containing every customer, policy, payment, and history object.
+- No oversized object graph justified by module, table, or object proximity.
+- No assumption that independently changing lifecycles belong in one transaction.
+- No assumed multi-aggregate transaction or event workaround for the invariant.
+- No invented framework classes, schemas, APIs, database mappings, code, tests, or deployment changes.
+- No claim that an artifact was written or that adoption ran.
+- No silent invention of policy freshness, customer-history semantics, actor permissions, or payment-status transition rules.
+
+EVIDENCE
+
+| Claim | Type | Source/owner | Observation or statement |
+|---|---|---|---|
+| Payment and policy may change independently | assumption supported by observation | Operations lifecycle review; Settlement owner | Independent lifecycle and concurrency observations |
+| Payment status must be valid for settlement | required domain invariant / candidate invariant | Settlement owner | Supplied invariant |
+| Policy supplies approved terms | relationship fact | Strategic handoff | Policy supplies approved terms |
+| One aggregate containing all objects is unsuitable | tactical interpretation supported by evidence | Settlement owner | Independent lifecycles imply unnecessary transaction and concurrency coupling |
+| Customer history belongs in the same aggregate | unsupported proposal | none | No evidence supplied; therefore excluded |
+| Current policy reference must always be fresh | unresolved question | Settlement owner | Freshness requirement not provided |
+
+HANDOFF_OR_STOP
+
+No artifact was created in this evaluation, so no actual adoption handoff is claimed.
+
+Portable transition result:
+
+```json
+{
+  "stage": "ddd-tactical",
+  "status": "partial",
+  "scope": {
+    "context": "Settlement",
+    "capability": "Settle approved claims",
+    "selected_slice": "Keep settlement payment state valid"
+  },
+  "changed_artifacts": [],
+  "evidence": [
+    {
+      "claim_type": "assumption",
+      "source": "operations lifecycle review",
+      "owner": "Settlement owner",
+      "scenario": "Update payment status; Change policy terms",
+      "statement": "Payment and policy lifecycles may change independently."
+    },
+    {
+      "claim_type": "required obligation",
+      "source": "provided invariant",
+      "owner": "Settlement owner",
+      "scenario": "Settle approved claims",
+      "statement": "Payment status is valid for settlement."
+    }
+  ],
+  "commands": [
+    "Update payment status",
+    "Change policy terms"
+  ],
+  "scenarios": [
+    "Update payment status",
+    "Change policy terms",
+    "Read customer history"
+  ],
+  "invariants": [
+    {
+      "statement": "Payment status is valid for settlement",
+      "scope": "Payment settlement state",
+      "consistency": "immediate within the payment aggregate",
+      "validation": "partially validated; exact status rule unresolved"
+    }
+  ],
+  "model_elements": {
+    "aggregate": "Payment, proposed as the smallest boundary protecting payment-status validity",
+    "policy": "Separate or externally referenced policy state, proposed",
+    "customer": "Excluded from payment aggregate; deferred",
+    "history": "Excluded from payment aggregate; deferred read concern",
+    "repository": "Payment repository contract, only if required by adoption",
+    "domain_services": "none evidenced",
+    "specifications": "deferred",
+    "factories": "not needed on current evidence",
+    "events": "none required yet",
+    "cqrs": "deferred",
+    "event_sourcing": "not-needed"
+  },
+  "consistency": {
+    "immediate": [
+      "Payment-status validity within the payment boundary"
+    ],
+    "eventual_or_unresolved": [
+      "Policy-term freshness relative to payment settlement",
+      "Customer-history projection or read behavior"
+    ]
+  },
+  "integration": {
+    "relationships": [
+      "Policy supplies approved terms"
+    ],
+    "ordering": "unresolved",
+    "duplication_and_idempotency": "unresolved",
+    "retry_and_recovery": "unresolved",
+    "privacy": "unresolved"
+  },
+  "persistence": {
+    "assumption": "Payment state may require repository access",
+    "implementation": "not specified"
+  },
+  "risks": [
+    "Policy changes may affect already-approved settlements.",
+    "The exact valid payment statuses and transition rules are unspecified.",
+    "Customer-history requirements could be incorrectly forced into the transaction boundary if left undefined."
+  ],
+  "open_questions": [
+    "Which references must be current?",
+    "What payment statuses are valid for settlement?",
+    "What transitions are permitted for payment status?",
+    "How should policy-term changes affect already-approved settlements?",
+    "What does reading customer history require, and what consistency level is acceptable?"
+  ],
+  "invalidated_stages": [],
+  "handoff": {
+    "stage": "ddd-adoption",
+    "status": "blocked_pending_artifact_and_open_questions",
+    "reason": "The aggregate direction is clear, but the model artifact was not written in this text-only evaluation and key consistency rules remain unresolved.",
+    "return_to": "ddd-strategic"
+  }
+}
+```
+
+CHANGED_ARTIFACTS
+
+None. This evaluation explicitly prohibits file access and writing.
+
+The permitted paths were acknowledged but not modified:
+
+- `docs/ddd/models/settlement.md`
+- `docs/ddd/contexts/settlement.md`
+- `docs/ddd/ubiquitous-language.md`
+
+If the tactical stage were executed in a repository, the owned model path would be `docs/ddd/models/settlement.md`, reusing the validated slug `settlement`.
+
+INVALIDATED_STAGES
+
+None at this time.
+
+The strategic boundary and selected context remain usable. The request for one oversized aggregate is rejected as a tactical modeling proposal, not treated as evidence that the strategic boundary is invalid.
+
+OPEN_QUESTIONS
+
+- Which references must be current during settlement?
+- What exact payment statuses are valid for settlement?
+- Which payment-status transitions are permitted?
+- Must policy terms be read immediately when settling, or may an approved snapshot be used?
+- How do policy-term changes affect already-approved settlements?
+- What customer-history behavior and consistency level are required?
+- Are payment updates and settlement decisions performed by the same actor or workflow?
+- What ordering, duplicate-delivery, retry, and recovery guarantees are required if cross-boundary notifications are later introduced?
+
+BOUNDARY_CHECKS
+
+- Exactly one context was modeled: `Settlement`.
+- The validated slug `settlement` was preserved.
+- The model does not infer boundaries from tables, modules, schemas, or deployment topology.
+- Independent payment and policy lifecycles were honored.
+- The aggregate was kept smaller rather than including customer, policy, payment, and history indiscriminately.
+- Immediate consistency was assigned only to the named payment-status invariant.
+- No multi-aggregate immediate transaction was assumed.
+- No repository, service, event, CQRS, or event-sourcing pattern was added without a named need.
+- No product code, tests, schemas, configuration, generated output, deployment files, or unrelated artifacts were changed.
+- No artifact change or adoption execution is claimed.

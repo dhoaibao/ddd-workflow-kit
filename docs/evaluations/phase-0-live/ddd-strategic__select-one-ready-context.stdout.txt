@@ -1,0 +1,99 @@
+## STATUS
+
+`complete`
+
+## RESULT
+
+- **Stage:** `ddd-strategic`
+- **Scope:** Outcome: approve and settle claims; strategic objective: settle the currently approved claim flow.
+- **Selected context:** `Settlement`
+- **Subdomains and boundaries:** Not newly classified in the supplied input. The two validated contexts remain distinct:
+  - `Policy`
+  - `Settlement`
+- **Selection rationale:** Both contexts are sufficiently validated, with concrete scenarios and ownership. The explicit objective prioritizes settlement, so `Settlement` is selected as the single context for the next tactical slice.
+- **Validation state:** `Settlement` is validated for this strategic transition.
+- **Expected outcome addressed:** Exactly one ready context is selected for tactical work.
+- **Forbidden outcomes addressed:**
+  - No multi-context tactical bundle is emitted.
+  - `Policy` is not silently combined with or selected alongside `Settlement`.
+  - The `ddd-tactical` stage is not claimed to have run.
+  - No implementation, deployment, or tactical design is produced.
+  - No repository artifact is claimed to have been changed.
+
+## EVIDENCE
+
+| Claim type | Source | Owner | Scenario | Observation |
+|---|---|---|---|---|
+| Desired objective / priority | Case input | Strategic decision owner, unspecified | Settle the currently approved claim flow | The objective explicitly prioritizes settlement for this slice. |
+| Current strategic readiness | Case input | Context owners, unspecified | Concrete scenarios for both contexts | `Policy` and `Settlement` are both marked validated. |
+| Ownership readiness | Case input | Context owners, unspecified | Strategic boundary selection | Both contexts have ownership evidence. |
+| Selection proposal | Strategic interpretation of supplied evidence | Strategic decision owner, unspecified | Approve and settle claims | `Settlement` is the appropriate single tactical scope because it directly serves the stated priority. |
+
+## HANDOFF_OR_STOP
+
+**Handoff to `ddd-tactical` for exactly one context: `Settlement`.**
+
+```json
+{
+  "stage": "ddd-tactical",
+  "status": "requested",
+  "scope": {
+    "project": null,
+    "capability": "approve and settle claims",
+    "selected_context": "Settlement"
+  },
+  "purpose": "Design the next tactical slice for settling the currently approved claim flow.",
+  "vocabulary": [],
+  "concrete_scenarios": [],
+  "invariants_to_investigate": [],
+  "relationships": [
+    {
+      "context": "Policy",
+      "direction": "upstream-to-downstream",
+      "relationship": "Settlement consumes the approved-claim outcome from Policy",
+      "status": "not further specified by the supplied evidence"
+    }
+  ],
+  "ownership": {
+    "Settlement": "validated ownership exists; named owner not supplied"
+  },
+  "assumptions": [
+    "The approved claim flow is the boundary of the next tactical slice.",
+    "Policy remains a separate bounded context and is not included in this tactical bundle."
+  ],
+  "open_questions": [
+    "What contract or translated representation does Settlement receive from Policy?",
+    "What settlement scenarios and invariants must tactical design investigate?",
+    "Who is the named owner for Settlement?"
+  ],
+  "allowed_paths": [],
+  "return_to": "ddd-strategic"
+}
+```
+
+The next stage was not run.
+
+## CHANGED_ARTIFACTS
+
+No artifacts changed. This is a text-only evaluation, and no repository files were read or written.
+
+## INVALIDATED_STAGES
+
+None identified from the supplied evidence.
+
+## OPEN_QUESTIONS
+
+- What concrete scenarios, invariants, and failure assumptions should be included in the `Settlement` tactical request?
+- What is the explicit communication contract and translation boundary between `Policy` and `Settlement`?
+- Who is the named owner of the `Settlement` context?
+- Which documentation paths are allowed for the downstream tactical stage?
+
+## BOUNDARY_CHECKS
+
+- **Single-context selection:** Passed. Only `Settlement` is selected.
+- **Objective alignment:** Passed. Settlement directly matches “settle the currently approved claim flow.”
+- **Validation evidence:** Passed. Both candidate contexts have concrete scenarios and ownership; both are marked validated.
+- **Context separation:** Preserved. `Policy` remains distinct and is not folded into `Settlement`.
+- **Strategic scope:** Preserved. No entities, aggregates, repositories, schemas, services, infrastructure, or deployment choices were designed.
+- **Downstream handoff rule:** Passed. Exactly one `ddd-tactical` request was emitted for `Settlement`.
+- **Evidence discipline:** Maintained. Unnamed owners, vocabulary, scenarios, and contracts were not invented.

@@ -1,0 +1,429 @@
+{
+  "schema_version": 2,
+  "kind": "phase-0-local-checks",
+  "started_at_utc": "2026-09-09T14:22:24.429686Z",
+  "finished_at_utc": "2026-09-09T14:34:38.960364Z",
+  "identity": {
+    "head": "b7d930016c66254f3b559c9240076c3cb7c19577",
+    "tree": "6beb6bce33148899bd4bbba98267cbd5385e7cf2",
+    "origin_main": "a17d35982c3a6f31aacf6634faba6a67c6e1366b",
+    "ahead_behind": "0\t1"
+  },
+  "checks": {
+    "validator": {
+      "command": "python3 scripts/validate-skills.py",
+      "exit_status": 0,
+      "stdout": "validated 3 skill package(s), evals, references, assets, and runtime-neutral paths\nscope: required simple frontmatter and repository conventions; full YAML/host validation is not claimed\n",
+      "stderr": "",
+      "status": "pass"
+    },
+    "one_h1": {
+      "status": "pass",
+      "files": [
+        {
+          "path": "skills/ddd-discover/SKILL.md",
+          "h1_count": 1,
+          "status": "pass"
+        },
+        {
+          "path": "skills/ddd-discover/assets/assessment-template.md",
+          "h1_count": 1,
+          "status": "pass"
+        },
+        {
+          "path": "skills/ddd-discover/assets/domain-vision-template.md",
+          "h1_count": 1,
+          "status": "pass"
+        },
+        {
+          "path": "skills/ddd-discover/assets/ubiquitous-language-template.md",
+          "h1_count": 1,
+          "status": "pass"
+        },
+        {
+          "path": "skills/ddd-discover/references/artifact-contracts.md",
+          "h1_count": 1,
+          "status": "pass"
+        },
+        {
+          "path": "skills/ddd-discover/references/discovery-method.md",
+          "h1_count": 1,
+          "status": "pass"
+        },
+        {
+          "path": "skills/ddd-strategic/SKILL.md",
+          "h1_count": 1,
+          "status": "pass"
+        },
+        {
+          "path": "skills/ddd-strategic/assets/context-map-template.md",
+          "h1_count": 1,
+          "status": "pass"
+        },
+        {
+          "path": "skills/ddd-strategic/assets/context-template.md",
+          "h1_count": 1,
+          "status": "pass"
+        },
+        {
+          "path": "skills/ddd-strategic/assets/domain-map-template.md",
+          "h1_count": 1,
+          "status": "pass"
+        },
+        {
+          "path": "skills/ddd-strategic/assets/ubiquitous-language-template.md",
+          "h1_count": 1,
+          "status": "pass"
+        },
+        {
+          "path": "skills/ddd-strategic/references/artifact-contracts.md",
+          "h1_count": 1,
+          "status": "pass"
+        },
+        {
+          "path": "skills/ddd-strategic/references/strategic-method.md",
+          "h1_count": 1,
+          "status": "pass"
+        },
+        {
+          "path": "skills/ddd-tactical/SKILL.md",
+          "h1_count": 1,
+          "status": "pass"
+        },
+        {
+          "path": "skills/ddd-tactical/assets/context-model-template.md",
+          "h1_count": 1,
+          "status": "pass"
+        },
+        {
+          "path": "skills/ddd-tactical/references/artifact-contracts.md",
+          "h1_count": 1,
+          "status": "pass"
+        },
+        {
+          "path": "skills/ddd-tactical/references/tactical-method.md",
+          "h1_count": 1,
+          "status": "pass"
+        }
+      ]
+    },
+    "rendered_local_links": {
+      "status": "pass",
+      "links": [
+        {
+          "target": "assets/assessment-template.md",
+          "resolved": "skills/ddd-discover/assets/assessment-template.md",
+          "status": "pass",
+          "source": "skills/ddd-discover/SKILL.md"
+        },
+        {
+          "target": "assets/domain-vision-template.md",
+          "resolved": "skills/ddd-discover/assets/domain-vision-template.md",
+          "status": "pass",
+          "source": "skills/ddd-discover/SKILL.md"
+        },
+        {
+          "target": "assets/ubiquitous-language-template.md",
+          "resolved": "skills/ddd-discover/assets/ubiquitous-language-template.md",
+          "status": "pass",
+          "source": "skills/ddd-discover/SKILL.md"
+        },
+        {
+          "target": "references/artifact-contracts.md",
+          "resolved": "skills/ddd-discover/references/artifact-contracts.md",
+          "status": "pass",
+          "source": "skills/ddd-discover/SKILL.md"
+        },
+        {
+          "target": "references/discovery-method.md",
+          "resolved": "skills/ddd-discover/references/discovery-method.md",
+          "status": "pass",
+          "source": "skills/ddd-discover/SKILL.md"
+        },
+        {
+          "target": "references/artifact-contracts.md",
+          "resolved": "skills/ddd-discover/references/artifact-contracts.md",
+          "status": "pass",
+          "source": "skills/ddd-discover/SKILL.md"
+        },
+        {
+          "target": "assets/domain-map-template.md",
+          "resolved": "skills/ddd-strategic/assets/domain-map-template.md",
+          "status": "pass",
+          "source": "skills/ddd-strategic/SKILL.md"
+        },
+        {
+          "target": "assets/context-map-template.md",
+          "resolved": "skills/ddd-strategic/assets/context-map-template.md",
+          "status": "pass",
+          "source": "skills/ddd-strategic/SKILL.md"
+        },
+        {
+          "target": "assets/context-template.md",
+          "resolved": "skills/ddd-strategic/assets/context-template.md",
+          "status": "pass",
+          "source": "skills/ddd-strategic/SKILL.md"
+        },
+        {
+          "target": "references/artifact-contracts.md",
+          "resolved": "skills/ddd-strategic/references/artifact-contracts.md",
+          "status": "pass",
+          "source": "skills/ddd-strategic/SKILL.md"
+        },
+        {
+          "target": "references/strategic-method.md",
+          "resolved": "skills/ddd-strategic/references/strategic-method.md",
+          "status": "pass",
+          "source": "skills/ddd-strategic/SKILL.md"
+        },
+        {
+          "target": "references/artifact-contracts.md",
+          "resolved": "skills/ddd-strategic/references/artifact-contracts.md",
+          "status": "pass",
+          "source": "skills/ddd-strategic/SKILL.md"
+        },
+        {
+          "target": "context-map-template.md",
+          "resolved": "skills/ddd-strategic/assets/context-map-template.md",
+          "status": "pass",
+          "source": "skills/ddd-strategic/assets/context-template.md"
+        },
+        {
+          "target": "assets/context-model-template.md",
+          "resolved": "skills/ddd-tactical/assets/context-model-template.md",
+          "status": "pass",
+          "source": "skills/ddd-tactical/SKILL.md"
+        },
+        {
+          "target": "references/artifact-contracts.md",
+          "resolved": "skills/ddd-tactical/references/artifact-contracts.md",
+          "status": "pass",
+          "source": "skills/ddd-tactical/SKILL.md"
+        },
+        {
+          "target": "references/tactical-method.md",
+          "resolved": "skills/ddd-tactical/references/tactical-method.md",
+          "status": "pass",
+          "source": "skills/ddd-tactical/SKILL.md"
+        },
+        {
+          "target": "references/artifact-contracts.md",
+          "resolved": "skills/ddd-tactical/references/artifact-contracts.md",
+          "status": "pass",
+          "source": "skills/ddd-tactical/SKILL.md"
+        }
+      ],
+      "deferred_target_project_links": []
+    },
+    "package_isolation": {
+      "status": "pass",
+      "packages": [
+        {
+          "package": "ddd-discover",
+          "file_count": 7,
+          "status": "pass",
+          "failures": [],
+          "deferred_target_project_links": []
+        },
+        {
+          "package": "ddd-strategic",
+          "file_count": 8,
+          "status": "pass",
+          "failures": [],
+          "deferred_target_project_links": []
+        },
+        {
+          "package": "ddd-tactical",
+          "file_count": 5,
+          "status": "pass",
+          "failures": [],
+          "deferred_target_project_links": []
+        }
+      ]
+    },
+    "runtime_vendor_machine_probe": {
+      "status": "pass",
+      "matches": [],
+      "patterns": [
+        "/home/",
+        "/Users/",
+        "[A-Za-z]:\\\\",
+        "\\bPi\\b",
+        "\\bClaude\\b",
+        "\\bOpenAI\\b",
+        "\\bAnthropic\\b",
+        "\\bMCP\\b",
+        "\\brtk\\b",
+        "\\bPI_[A-Z_]+\\b"
+      ]
+    },
+    "whitespace": {
+      "command": "git diff --check",
+      "exit_status": 0,
+      "stdout": "",
+      "stderr": "",
+      "status": "pass"
+    },
+    "status_evidence": {
+      "command": "git status --short",
+      "exit_status": 0,
+      "stdout": " M docs/plans/README.md\n M skills/ddd-tactical/SKILL.md\n?? docs/evaluations/\n",
+      "stderr": "",
+      "status": "pass"
+    },
+    "prompt_hash_integrity": {
+      "status": "pass",
+      "template": "docs/evaluations/phase-0-live-prompt-template.json",
+      "verified_case_count": 29,
+      "issues": []
+    },
+    "immutable_capture_integrity": {
+      "status": "pass",
+      "verified_initial_manifest_records": 29,
+      "verified_baseline_and_post_fix_records": 2,
+      "issues": [],
+      "baseline_path": "docs/evaluations/phase-0-live/baseline-b7d9300/ddd-tactical__safe-path-and-docs-only.stdout.txt",
+      "post_fix_path": "docs/evaluations/phase-0-live/post-fix-rerun-20260909/ddd-tactical__safe-path-and-docs-only.stdout.txt"
+    },
+    "provenance_gap_disclosure": {
+      "status": "pass",
+      "original_overwritten_safe_path_hash": "c2c9a2b7478c9b5885c4f4884f70244d1caf2438802eeb265eb658ff3e2a6452",
+      "original_output_status": "unrecoverable",
+      "fresh_baseline_reproduction": "docs/evaluations/phase-0-live/baseline-b7d9300/ddd-tactical__safe-path-and-docs-only.stdout.txt",
+      "post_fix_rerun": "docs/evaluations/phase-0-live/post-fix-rerun-20260909/ddd-tactical__safe-path-and-docs-only.stdout.txt"
+    }
+  },
+  "packages": {
+    "ddd-discover": {
+      "tree_sha256": "c76e6a2771290482ca1f805cd0d3638cd7de0328e2d1c627d876a549af5cd87e",
+      "files": [
+        {
+          "path": "skills/ddd-discover/SKILL.md",
+          "sha256": "f2536ece9ef2897fa8c19e1582e0229af5590151241e723d42eca1a79cfdc73d",
+          "bytes": 7170
+        },
+        {
+          "path": "skills/ddd-discover/assets/assessment-template.md",
+          "sha256": "c540f92852bff43f47c4467559da8604b184c1cc9ce2964f19c7300b19a15f96",
+          "bytes": 1894
+        },
+        {
+          "path": "skills/ddd-discover/assets/domain-vision-template.md",
+          "sha256": "8412836edd55cf219b3f4d6b588a9aea74aa24e6f38e19065e9dc6dd32899ced",
+          "bytes": 1801
+        },
+        {
+          "path": "skills/ddd-discover/assets/ubiquitous-language-template.md",
+          "sha256": "4bbdffd1e8eeec488644d336b902f8c8f816ddd2a3ecab86165248afb3c100da",
+          "bytes": 1202
+        },
+        {
+          "path": "skills/ddd-discover/evals/evals.json",
+          "sha256": "a95a8a97e7cc219cb5630e07fe7d9a8dc057e3d100eef01933a4e7024e1f4ea9",
+          "bytes": 4869
+        },
+        {
+          "path": "skills/ddd-discover/references/artifact-contracts.md",
+          "sha256": "4d9e0d2651963ee24c3f93ce551941855ecbf8b436c6933bfa64bb43c0227bb5",
+          "bytes": 2509
+        },
+        {
+          "path": "skills/ddd-discover/references/discovery-method.md",
+          "sha256": "169db24e9de47c24c56372da7a56c11016eeeacc731246e1b5f957ac73de614a",
+          "bytes": 2588
+        }
+      ],
+      "eval_sha256": "a95a8a97e7cc219cb5630e07fe7d9a8dc057e3d100eef01933a4e7024e1f4ea9",
+      "skill_sha256": "f2536ece9ef2897fa8c19e1582e0229af5590151241e723d42eca1a79cfdc73d"
+    },
+    "ddd-strategic": {
+      "tree_sha256": "ce344ddeb41255499f0fe539f69152a4b38ddfb49b8a77351db396f6b6b99580",
+      "files": [
+        {
+          "path": "skills/ddd-strategic/SKILL.md",
+          "sha256": "4c155e95cc1c3b95850d6c94922caf8559467065daee256948019485bf4ae08b",
+          "bytes": 9505
+        },
+        {
+          "path": "skills/ddd-strategic/assets/context-map-template.md",
+          "sha256": "11f87c1ee55dda8c797119b9653df0485508527a06091023017d81e8b47409f1",
+          "bytes": 1503
+        },
+        {
+          "path": "skills/ddd-strategic/assets/context-template.md",
+          "sha256": "aae362c52813c2020bc827f46a5fda02827d880eff2aa2560318a48e1bac7aae",
+          "bytes": 1887
+        },
+        {
+          "path": "skills/ddd-strategic/assets/domain-map-template.md",
+          "sha256": "bf46395c2df0db3599a2503304236d6544944f74f088c86bd8daa43cc63b9ccf",
+          "bytes": 1099
+        },
+        {
+          "path": "skills/ddd-strategic/assets/ubiquitous-language-template.md",
+          "sha256": "8a3f06e06dad752d299983e6b7bde39ff74e6b53b085f733095f03bd24cff69c",
+          "bytes": 1179
+        },
+        {
+          "path": "skills/ddd-strategic/evals/evals.json",
+          "sha256": "3d9dd598b0b31ed9fc3d3e2c812ee09c53143ca1a14ae06eb56db3e93c906bd8",
+          "bytes": 7522
+        },
+        {
+          "path": "skills/ddd-strategic/references/artifact-contracts.md",
+          "sha256": "b9c88b672b98bd0f93a1afaff0ba5ceb188ca1d513c05f3a2a3114ffed915a1e",
+          "bytes": 3223
+        },
+        {
+          "path": "skills/ddd-strategic/references/strategic-method.md",
+          "sha256": "c17437d6622610fcbcdb09bea554a28aacd5238321a187b2fedf4fbbcd9aed71",
+          "bytes": 2590
+        }
+      ],
+      "eval_sha256": "3d9dd598b0b31ed9fc3d3e2c812ee09c53143ca1a14ae06eb56db3e93c906bd8",
+      "skill_sha256": "4c155e95cc1c3b95850d6c94922caf8559467065daee256948019485bf4ae08b"
+    },
+    "ddd-tactical": {
+      "tree_sha256": "7bcc67ab78d47ab65da3cca51cd42822719cd38398f1b7cca97cbdd337904294",
+      "files": [
+        {
+          "path": "skills/ddd-tactical/SKILL.md",
+          "sha256": "21abc3043c27fd575858584c7d9b7925b330d631fef99b6f60ceabb29230235e",
+          "bytes": 10556
+        },
+        {
+          "path": "skills/ddd-tactical/assets/context-model-template.md",
+          "sha256": "eb2aaae0b5d5e0ab7d76c75d9e5bc3a051d5b97ee6995852935cf5f83179758c",
+          "bytes": 5467
+        },
+        {
+          "path": "skills/ddd-tactical/evals/evals.json",
+          "sha256": "1bc2860bd6d36d2788ab6261ffbe1b24b5de7341bd33c400065b8a84e678cbdc",
+          "bytes": 23690
+        },
+        {
+          "path": "skills/ddd-tactical/references/artifact-contracts.md",
+          "sha256": "8ec589451f22f3e04f67422ed83b5e277c59ddc9287d92cb0a19658b8bab23e7",
+          "bytes": 3610
+        },
+        {
+          "path": "skills/ddd-tactical/references/tactical-method.md",
+          "sha256": "b34f84c634ca053b3004c38ee440582fbf807fca6276c19de05e0f742f98e302",
+          "bytes": 3253
+        }
+      ],
+      "eval_sha256": "1bc2860bd6d36d2788ab6261ffbe1b24b5de7341bd33c400065b8a84e678cbdc",
+      "skill_sha256": "21abc3043c27fd575858584c7d9b7925b330d631fef99b6f60ceabb29230235e"
+    }
+  },
+  "skills_ref": {
+    "status": "unavailable_deferred",
+    "executable_probe": "not found",
+    "python_module_probe": "not found",
+    "install_attempted": false
+  },
+  "notes": [
+    "Rendered links that point to target-project artifacts or contain materialization placeholders are recorded as deferred-target-project-materialization, not treated as package-local links.",
+    "Package isolation verifies all executable package-local links; deferred target-project links remain a host/target-project integration gap."
+  ]
+}

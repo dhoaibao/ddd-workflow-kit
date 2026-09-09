@@ -1,0 +1,210 @@
+## STATUS
+
+`complete`
+
+## RESULT
+
+Stage: `ddd-tactical`
+
+Scope: exactly one validated context.
+
+- Context: **Claims**
+- Capability/purpose: **Decide claims**
+- Selected slice: **Approve claim**
+- Model path: `docs/ddd/models/claims.md`
+- Context path: `docs/ddd/contexts/claims.md`
+- Safe slug: `claims`
+
+Behavior modeled from the supplied evidence:
+
+- Command: **Approve claim**
+- Scenario: **Approve claim with one decision owner**
+- Outcome: **Approve one claim**
+- Decision owner: **Claims owner**
+- Relationship affected: **Settlement consumes approval fact**
+- Preconditions, failure cases, counterexamples, and observable acceptance signals were not supplied in sufficient detail; they remain adoption-planning inputs rather than invented facts.
+
+Invariant:
+
+- **Approved claim has one decision owner**
+  - Evidence: approved scenario and owner evidence; claims owner evidence
+  - Scope: claim approval
+  - Owner: Claims owner
+  - Failure consequence: approval must not be accepted without exactly one decision owner
+  - Validation: validated by the supplied tactical input
+
+Tactical decisions:
+
+- The model is accepted as ready for adoption planning.
+- The aggregate, entity, value-object, repository, domain-service, specification, factory, and domain-event details are not restated or expanded beyond the validated model because the input does not provide their evidence.
+- Immediate consistency is required for the supplied approval invariant. Cross-context consumption by Settlement is treated as an integration concern and may be eventual; no stronger delivery or ordering guarantee is inferred.
+- Persistence, concurrency, delivery, duplication, retry, recovery, and privacy assumptions must be confirmed or specified during adoption planning.
+- CQRS: `deferred`; no evidence requires it.
+- Event sourcing: `deferred`; ordinary approval facts do not imply event sourcing.
+
+No product code, tests, schemas, configuration, deployment files, or unrelated artifacts were changed. This is a text-only result; no repository artifact was actually created or updated.
+
+The expected tactical completion outcome is satisfied: one context is explicit, its command, scenario, outcome, invariant, relationship, ownership, validation state, and adoption transition are identified.
+
+The following forbidden outcomes did not occur:
+
+- No second context was modeled.
+- No strategic boundary, language, ownership, or relationship was silently changed.
+- No unsupported domain facts, framework classes, persistence design, API, schema, or deployment topology was invented.
+- No implementation approval was claimed.
+- No adoption execution was claimed.
+- No artifact change was claimed.
+
+## EVIDENCE
+
+| Claim | Type | Source / provenance | Owner | Scenario | Observation or statement |
+|---|---|---|---|---|---|
+| Claims is the selected context | Fact / validated handoff | `selected_context.validation: validated` | Claims owner | Approve claim with one decision owner | Exactly one context was supplied. |
+| The model is ready for adoption planning | Assumption supplied by input | `assumptions` | Claims owner | N/A | Accepted as the transition premise; adoption itself has not run. |
+| Approve claim is the command | Fact from validated input | `commands` | Claims owner | Approve claim with one decision owner | The command decides claims. |
+| Approved claim has one decision owner | Required obligation / candidate invariant | `invariants`, `candidate_invariants` | Claims owner | Approve claim with one decision owner | Approval requires one decision owner. |
+| Settlement consumes approval fact | Relationship statement | `relationships` | Claims owner / Settlement counterpart not supplied | After approval | The approval fact is consumed by Settlement; delivery semantics remain open. |
+| Adoption acceptance signal is unresolved | Open question | `open_questions` | Adoption owner to define | N/A | The first acceptance signal must be selected during adoption planning. |
+
+## HANDOFF_OR_STOP
+
+Handoff: exactly one `ddd-adoption` request.
+
+```json
+{
+  "stage": "ddd-adoption",
+  "status": "ready",
+  "model_path": "docs/ddd/models/claims.md",
+  "context": {
+    "name": "Claims",
+    "safe_slug": "claims",
+    "context_path": "docs/ddd/contexts/claims.md"
+  },
+  "commands": [
+    "Approve claim"
+  ],
+  "scenarios": [
+    "Approve claim with one decision owner"
+  ],
+  "outcome": "Approve one claim",
+  "invariants": [
+    {
+      "statement": "Approved claim has one decision owner",
+      "owner": "Claims owner",
+      "scope": "claim approval",
+      "validation": "validated",
+      "evidence": [
+        "approved scenario and owner evidence",
+        "claims owner evidence"
+      ],
+      "failure_consequence": "Approval must not be accepted without exactly one decision owner."
+    }
+  ],
+  "decisions": [
+    {
+      "decision": "Keep the approval invariant within the Claims tactical model.",
+      "status": "validated",
+      "evidence": "approved scenario and owner evidence"
+    },
+    {
+      "decision": "Treat Settlement consumption of the approval fact as an integration concern.",
+      "status": "validated relationship; delivery semantics unresolved",
+      "evidence": "Settlement consumes approval fact"
+    },
+    {
+      "decision": "Do not introduce CQRS or event sourcing at this stage.",
+      "status": "deferred",
+      "evidence": "No supplied evidence requires either pattern."
+    }
+  ],
+  "integration_assumptions": [
+    "Settlement consumes an approval fact produced by Claims.",
+    "Delivery, ordering, duplication, idempotency, retry, recovery, and privacy requirements are adoption-planning inputs and are not yet specified."
+  ],
+  "persistence_assumptions": [
+    "Persistence technology, repository behavior, concurrency control, and transaction boundaries must be confirmed during adoption planning.",
+    "The approval invariant requires immediate consistency within its tactical boundary."
+  ],
+  "risks": [
+    "The first acceptance signal for adoption has not been selected.",
+    "Integration delivery and failure semantics for Settlement are unspecified.",
+    "Concurrency and persistence assumptions are not yet explicit."
+  ],
+  "evidence": [
+    {
+      "claim": "Approved claim has one decision owner",
+      "type": "required obligation",
+      "source": "approved scenario and owner evidence; claims owner evidence",
+      "owner": "Claims owner",
+      "scenario": "Approve claim with one decision owner"
+    },
+    {
+      "claim": "Settlement consumes approval fact",
+      "type": "relationship",
+      "source": "validated strategic handoff",
+      "owner": "Claims owner",
+      "scenario": "After approval"
+    }
+  ],
+  "validation": {
+    "model": "validated and ready for adoption planning",
+    "tactical_stage": "complete",
+    "implementation": "not approved or performed"
+  },
+  "owners": [
+    "Claims owner"
+  ],
+  "allowed_paths": [
+    "docs/ddd/models/claims.md",
+    "docs/ddd/contexts/claims.md",
+    "docs/ddd/ubiquitous-language.md"
+  ],
+  "open_questions": [
+    "Which acceptance signal should adoption define first?",
+    "What delivery, ordering, duplication, idempotency, retry, and recovery guarantees does Settlement require?",
+    "What persistence and concurrency assumptions must adoption preserve?"
+  ],
+  "acceptance_signals_to_define": [
+    "The first observable acceptance signal for approving one claim with exactly one decision owner."
+  ],
+  "return_to": "ddd-strategic"
+}
+```
+
+The host should activate the manual stage name `ddd-adoption` if no named-stage activation is available. Adoption has not run.
+
+## CHANGED_ARTIFACTS
+
+No artifacts were actually changed in this text-only evaluation.
+
+Expected owned artifact for a real execution:
+
+- `docs/ddd/models/claims.md` — tactical model; lifecycle would be created or updated additively by `ddd-tactical`; validation: ready for adoption planning.
+- `docs/ddd/contexts/claims.md` — no change required by the supplied evidence.
+- `docs/ddd/ubiquitous-language.md` — no change required by the supplied evidence.
+
+## INVALIDATED_STAGES
+
+`[]`
+
+The tactical evidence does not challenge the validated Claims boundary, vocabulary, ownership, or Settlement relationship. No strategic fallback is required.
+
+## OPEN_QUESTIONS
+
+- Which acceptance signal should adoption define first?
+- What delivery, ordering, duplication, idempotency, retry, recovery, and privacy guarantees does Settlement require?
+- What persistence and concurrency assumptions must adoption preserve?
+
+## BOUNDARY_CHECKS
+
+- Exactly one context supplied and modeled: **yes**.
+- Validated safe slug reused exactly: **yes**, `claims`.
+- Model path is under the permitted parent `docs/ddd/models`: **yes**.
+- Strategic boundary altered: **no**.
+- Ubiquitous language altered: **no**.
+- Ownership altered: **no**.
+- Cross-context relationship invented: **no**; Settlement consumption was supplied.
+- Unsupported implementation detail introduced: **no**.
+- Product or repository files changed: **no**.
+- Adoption claimed as executed: **no**.
+- Exactly one adoption handoff produced: **yes**.

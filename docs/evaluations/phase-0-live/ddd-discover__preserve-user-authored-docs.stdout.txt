@@ -1,0 +1,107 @@
+## STATUS
+
+`partial` — discovery cannot be safely updated until the conflicting metadata is resolved or explicit approval is provided for the intended structural/metadata changes.
+
+## RESULT
+
+- **Stage:** `ddd-discover`
+- **Status:** `partial`
+- **Scope:** Existing brownfield discovery artifacts under `docs/ddd/`, specifically `assessment.md` and `domain-vision.md`.
+- **Fit:** Not reassessed. The supplied evidence concerns document preservation and metadata conflict, not domain complexity or DDD suitability.
+- **Expected outcomes addressed:**
+  - Preserve the existing user-authored sections.
+  - Treat named owners and provenance as existing evidence.
+  - Treat the new evidence as additive rather than as permission to overwrite existing content.
+  - Do not silently resolve conflicting metadata.
+  - Do not claim that either artifact was updated.
+  - Stop before strategic modeling because the discovery baseline is not safely updateable.
+- **Forbidden outcomes avoided:**
+  - No destructive or structural edits.
+  - No replacement, normalization, or silent merging of conflicting metadata.
+  - No invention of owners, provenance, lifecycle state, or validation state.
+  - No product-code, test, configuration, deployment, or generated-output changes.
+  - No claim that files were read, written, validated, or changed.
+  - No `ddd-strategic` handoff while the discovery artifacts have unresolved metadata conflict.
+
+## EVIDENCE
+
+- **Current/documented evidence**
+  - Source: existing discovery documents.
+  - Owner: named owners recorded in those documents.
+  - Observation: `docs/ddd/assessment.md` and `docs/ddd/domain-vision.md` contain user-authored sections.
+  - Impact: those sections must be preserved unless their authors explicitly approve destructive, ambiguous, or structural changes.
+
+- **Current/documented evidence**
+  - Source: existing discovery documents.
+  - Owner: provenance recorded in those documents.
+  - Observation: the documents contain provenance information.
+  - Impact: provenance must not be replaced or silently reinterpreted.
+
+- **Additive evidence**
+  - Source: supplied case input.
+  - Owner: not specified.
+  - Observation: new evidence is additive but conflicts with existing metadata.
+  - Impact: the conflict requires clarification or explicit approval before updating metadata or document structure.
+
+- **Interpretation**
+  - Because the metadata conflict is material and the existing artifacts are user-authored, an additive update cannot be performed reliably without knowing which metadata is authoritative and whether the existing owners approve the change.
+
+## HANDOFF_OR_STOP
+
+**Bounded stop.**
+
+Required next action: obtain explicit approval from the affected document owners, or obtain an authoritative decision identifying the correct metadata and the permitted additive update.
+
+No `ddd-strategic` request is issued. Strategic work must wait until the discovery artifacts have a stable scope, ownership, provenance, and validation state.
+
+Portable handoff state:
+
+```text
+stage: ddd-discover
+status: partial
+scope:
+  project: unspecified
+  capability: existing discovery documentation
+  mode: brownfield
+changed_artifacts: []
+evidence:
+  - existing documents contain named owners and provenance
+  - new evidence is additive but conflicts with metadata
+assumptions:
+  - the existing sections are user-authored and require preservation
+open_questions:
+  - Which metadata is authoritative?
+  - Which document owners approve the metadata update?
+  - Is the requested change limited to additive content, or does it require structural/metadata changes?
+fit: not reassessed
+handoff: bounded stop pending metadata resolution and owner approval
+return_to: ddd-discover
+```
+
+## CHANGED_ARTIFACTS
+
+None.
+
+No artifact was read, written, modified, validated, or claimed to have changed.
+
+## INVALIDATED_STAGES
+
+None explicitly invalidated. Any later strategic work must treat discovery as incomplete and must not rely on unresolved metadata.
+
+## OPEN_QUESTIONS
+
+1. Which metadata values are authoritative where the two sources conflict?
+2. Who owns approval for each affected document?
+3. Does the requested update permit only additive content, or also metadata and structural changes?
+4. What lifecycle and validation status should apply after the conflict is resolved?
+5. Is there additional brownfield evidence that can establish current ownership or provenance?
+
+## BOUNDARY_CHECKS
+
+- Preserved user-authored content conceptually; no content was altered.
+- Did not silently resolve metadata conflicts.
+- Did not invent missing project, capability, owners, provenance, or domain facts.
+- Did not reassess DDD fit without relevant domain evidence.
+- Did not update files or claim that artifacts changed.
+- Stayed within discovery scope.
+- Did not perform strategic context mapping, tactical modeling, migration planning, implementation, or product-code changes.

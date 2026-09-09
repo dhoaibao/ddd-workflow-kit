@@ -1,0 +1,199 @@
+## STATUS
+
+`partial`
+
+## RESULT
+
+Portable transition result:
+
+```json
+{
+  "stage": "ddd-strategic",
+  "status": "partial",
+  "scope": {
+    "project": "unspecified",
+    "capability": "manage customer access and billing",
+    "selected_context": null
+  },
+  "changed_artifacts": [],
+  "evidence": [
+    {
+      "claim_type": "current_or_declared_meaning",
+      "source": "billing and identity owners",
+      "owner": "billing and identity domain owners",
+      "scenario": "manage customer access and billing",
+      "statement": "The term 'account' has different meanings in billing and identity."
+    }
+  ],
+  "assumptions": [
+    {
+      "statement": "Billing and identity are separate model and language boundaries.",
+      "status": "proposed"
+    },
+    {
+      "statement": "Billing owns the meaning of an account as a billing relationship.",
+      "status": "proposed"
+    },
+    {
+      "statement": "Identity owns the meaning of an account as an authenticated identity.",
+      "status": "proposed"
+    }
+  ],
+  "open_questions": [
+    "Which context owns the relationship between a billing account and an authenticated identity?",
+    "What integration or translation contract connects billing and identity?",
+    "Must access and billing changes be immediately consistent, eventually consistent, or independently available?",
+    "Are there concrete scenarios covering account creation, identity linking, billing changes, access revocation, and failure handling?",
+    "Which context is the explicit priority for tactical design?"
+  ],
+  "subdomains": [
+    {
+      "name": "Billing relationship management",
+      "classification": "supporting",
+      "rationale": "It manages the customer’s billing relationship, but no evidence establishes it as the differentiating core capability.",
+      "status": "proposed",
+      "owner": "billing domain owner"
+    },
+    {
+      "name": "Authenticated identity and access",
+      "classification": "supporting",
+      "rationale": "It manages authenticated identity and customer access, but no evidence establishes it as the differentiating core capability.",
+      "status": "proposed",
+      "owner": "identity domain owner"
+    }
+  ],
+  "contexts": [
+    {
+      "name": "Billing",
+      "boundary": {
+        "in": [
+          "Billing relationship meaning of 'account'",
+          "Billing ownership and billing lifecycle"
+        ],
+        "out": [
+          "Authentication",
+          "Authenticated identity lifecycle"
+        ]
+      },
+      "language": {
+        "account": "A billing relationship or customer billing record.",
+        "status": "proposed"
+      },
+      "ownership": "Billing domain owner",
+      "validation": "unvalidated"
+    },
+    {
+      "name": "Identity and Access",
+      "boundary": {
+        "in": [
+          "Authenticated identity meaning of 'account'",
+          "Authentication and access lifecycle"
+        ],
+        "out": [
+          "Billing relationship lifecycle",
+          "Billing policy ownership"
+        ]
+      },
+      "language": {
+        "account": "An authenticated identity or identity record used for access.",
+        "status": "proposed"
+      },
+      "ownership": "Identity domain owner",
+      "validation": "unvalidated"
+    }
+  ],
+  "relationships": [
+    {
+      "upstream": "Identity and Access",
+      "downstream": "Billing",
+      "relationship": "proposed identity-to-billing reference or translation",
+      "communication": "Unspecified",
+      "translation": "Required; the overloaded term 'account' must not be shared without qualification.",
+      "consistency": "Unspecified",
+      "failure": "Unspecified",
+      "status": "unvalidated"
+    }
+  ],
+  "invalidated_stages": [],
+  "handoff": {
+    "stage": "ddd-tactical",
+    "status": "not-emitted",
+    "reason": "Neither context is sufficiently validated for tactical design, and the evidence does not establish which context should be selected first."
+  }
+}
+```
+
+The expected strategic outcomes are addressed:
+
+- The overloaded term `account` is preserved rather than forced into one global meaning.
+- Billing and identity are modeled as separate bounded-context hypotheses.
+- Each context receives its own vocabulary and ownership.
+- A possible relationship and required translation are identified without inventing an integration contract.
+- Evidence, uncertainty, assumptions, and open questions are explicitly recorded.
+- No single tactical context is selected without sufficient evidence or an explicit priority.
+
+The forbidden outcomes are not performed:
+
+- No entities, value objects, aggregates, repositories, services, schemas, or infrastructure are designed.
+- No deployment topology, microservice boundary, database, or team structure is inferred.
+- No overloaded language is silently reconciled into one shared definition.
+- No relationship, consistency model, or failure behavior is marked as factual without evidence.
+- No tactical handoff is emitted for multiple contexts.
+- No repository artifact is claimed to have been created or changed.
+
+## EVIDENCE
+
+| Claim | Type | Source | Owner | Status |
+|---|---|---|---|---|
+| `account` means a billing relationship in one area | Declared meaning | Billing owner | Billing domain owner | Proposed from supplied evidence |
+| `account` means an authenticated identity in another area | Declared meaning | Identity owner | Identity domain owner | Proposed from supplied evidence |
+| Billing and identity should have distinct context-specific meanings | Interpretation/proposal | Supplied owner disagreement | Billing and identity owners | Unvalidated |
+| A translation or reference is needed between the two meanings | Strategic proposal | Overloaded-language observation | Billing and identity owners | Unvalidated |
+
+## HANDOFF_OR_STOP
+
+Bounded stop: obtain concrete cross-context scenarios and decide which context has priority for tactical exploration.
+
+Required next decision:
+
+1. Confirm whether `Billing` and `Identity and Access` are intended as separate bounded contexts.
+2. Define the relationship between a billing account and an authenticated identity.
+3. Select exactly one context for `ddd-tactical`.
+
+Until that decision and evidence are available, no `ddd-tactical` request is emitted.
+
+## CHANGED_ARTIFACTS
+
+None.
+
+This is a text-only portable result. No files were read, written, or modified.
+
+## INVALIDATED_STAGES
+
+None.
+
+No existing tactical or adoption assumptions were supplied, so no downstream stage can be marked stale.
+
+## OPEN_QUESTIONS
+
+- What are the concrete scenarios for managing customer access and billing?
+- Can one authenticated identity belong to multiple billing relationships?
+- Can one billing relationship contain multiple authenticated identities?
+- Who authorizes linking or unlinking identities to billing relationships?
+- What happens when billing data is unavailable during authentication or access decisions?
+- What happens when an identity is revoked while its billing relationship remains active?
+- Which context owns customer-facing terminology when both meanings appear in the same workflow?
+- Which context should be selected first for tactical design?
+
+## BOUNDARY_CHECKS
+
+| Check | Result |
+|---|---|
+| Language coherence | Supports separate meanings: billing `account` and identity `account`. |
+| Lifecycle coherence | Likely separate lifecycles, but concrete lifecycle evidence is missing. |
+| Decision ownership | Distinct billing and identity owners support separate ownership boundaries. |
+| Consistency | Unresolved; no evidence for synchronous or eventual consistency. |
+| Failure behavior | Unresolved; no availability or failure scenarios supplied. |
+| Security | Identity access concerns are distinct from billing relationship concerns, but authorization ownership is not specified. |
+| Change pressure | Unvalidated; no evidence about independent change or policy cadence. |
+| Boundary confidence | Low to moderate hypothesis only; requires scenario validation. |

@@ -1,0 +1,171 @@
+STATUS
+
+`complete` for the tactical modeling request; no files were read or modified in this text-only evaluation.
+
+RESULT
+
+Scope: one bounded context, Claims; selected slice: approving a claim after policy verification.
+
+Behavior:
+
+- Command/use case: `Approve claim`
+- Actor: not specified; remains an open ownership/detail question.
+- Preconditions:
+  - A claim can be loaded.
+  - The policy condition has been verified and is available before approval.
+- Flow:
+  1. Application orchestration loads the claim aggregate.
+  2. It invokes the claim’s approval rule with the verified policy condition.
+  3. The claim aggregate accepts or rejects approval.
+  4. On success, the application flow saves the aggregate.
+  5. A result/approval fact is published after successful persistence, subject to delivery and retry policy.
+- Successful outcome: the claim is approved only when the policy condition is verified.
+- Failure: approval is rejected when the policy condition is not verified.
+- Counterexample: a coordinator must not save or publish an approval result for a rejected approval.
+- Acceptance signal to define: an approved claim is persisted only after the invariant succeeds, and publication represents a completed approval rather than a request to approve.
+
+Invariant:
+
+- `Approval requires a verified policy condition.`
+- Scope: one claim aggregate.
+- Owner: Claims domain/decision owner.
+- Consequence: approval must fail without changing the claim to approved.
+- Consistency: immediate within the claim aggregate transaction.
+- Validation: supported by the supplied candidate invariant, invariant, assumption, and claims policy review; the exact failure behavior remains partially unresolved.
+
+Model-element decisions:
+
+- Aggregate: proposed `Claim` aggregate, because the named invariant is a claim decision invariant requiring immediate consistency.
+- Aggregate root: `Claim`; external callers access approval through the root rather than changing approval state directly.
+- Entity: `Claim`, requiring identity and continuity across approval attempts.
+- Value object: no additional value object is required by the supplied evidence. The verified policy condition may be represented as an input value or policy result, but its structure and validation are not yet evidenced.
+- Domain behavior: approval belongs on the `Claim` aggregate because the evidence states that the policy rule belongs to the claim decision.
+- Application service/orchestrator: proposed for the load–invoke–save–publish flow. This is orchestration, not a domain service.
+- Domain service: not needed on current evidence. The rule is owned by the claim decision and can be protected by the aggregate root.
+- Repository: proposed `ClaimRepository` only as a domain-facing persistence contract for loading and saving the `Claim` aggregate. Persistence technology and lookup details are unspecified.
+- Factory: not needed; no construction complexity is evidenced.
+- Specification: not needed; the invariant can be expressed as aggregate behavior using the verified policy condition.
+- Domain event: a past-tense approval fact, such as `ClaimApproved`, is proposed only to communicate the completed result. It is not a command and does not imply event sourcing.
+
+Consistency and integration assumptions:
+
+- The approval invariant is immediately consistent inside the claim aggregate transaction.
+- Policy supplies a verification outcome before approval, as stated in the assumption and relationship.
+- Policy verification is treated as an input/result dependency, not as an invariant spanning two aggregates.
+- Persistence must complete before the approval result is published.
+- Delivery, ordering, duplication, idempotency, retry, recovery, and privacy behavior are not sufficiently evidenced and require definition.
+- Publishing a result must not cause approval to occur twice; the delivery mechanism or consumer contract must define idempotency.
+- CQRS: `not-needed` on current evidence; no read/write separation need is established.
+- Event sourcing: `not-needed`; ordinary domain events are sufficient if publication is required.
+
+Forbidden outcomes explicitly avoided:
+
+- No generic “service” was promoted to a domain concept merely because the flow uses a service.
+- No domain service was introduced without evidence that the rule cannot belong to the `Claim` aggregate.
+- No aggregate boundary was inferred from modules, tables, schemas, or deployment topology.
+- No multi-aggregate transaction was assumed.
+- No event-sourcing, CQRS, framework class, API, schema, database, ORM mapping, test, configuration, or deployment change was proposed as implementation approval.
+- No strategic boundary, context map, domain map, or strategic language artifact was changed.
+- No product source or unrelated file was edited.
+- No artifact is claimed to have been changed in this evaluation.
+
+HANDOFF_OR_STOP
+
+Handoff status: ready for `ddd-adoption`, subject to the unresolved retry and delivery decisions.
+
+```json
+{
+  "stage": "ddd-adoption",
+  "status": "request",
+  "model_path": "docs/ddd/models/claims.md",
+  "context": "Claims",
+  "commands": ["Approve claim"],
+  "scenarios": ["Approve a claim"],
+  "invariants": [
+    "Approval requires a verified policy condition"
+  ],
+  "decisions": {
+    "aggregate": "Claim aggregate with Claim as root",
+    "approval_rule": "Owned by the Claim aggregate",
+    "orchestration": "Application service coordinates load, invoke, save, and publish",
+    "domain_service": "Not needed on current evidence",
+    "repository": "ClaimRepository contract proposed for aggregate load/save",
+    "domain_event": "ClaimApproved proposed as a past-tense result fact",
+    "cqrs": "not-needed",
+    "event_sourcing": "not-needed"
+  },
+  "integration_assumptions": [
+    "Policy supplies a verified condition before approval",
+    "Persistence completes before the approval result is published",
+    "Delivery and consumer behavior must define duplication and idempotency"
+  ],
+  "persistence_assumptions": [
+    "The Claim aggregate is loaded and saved through a domain-facing repository contract",
+    "The approval invariant is enforced immediately within the aggregate transaction",
+    "Storage and concurrency strategy remain unspecified"
+  ],
+  "risks": [
+    "Retry and recovery behavior is undefined",
+    "Publication may duplicate or be reordered unless delivery semantics are specified",
+    "The actor and exact failure contract are unspecified"
+  ],
+  "evidence": [
+    "policy rule belongs to claim decision",
+    "flow includes load, decide, save, notify",
+    "claims policy review",
+    "Approval requires a verified policy condition"
+  ],
+  "validation": "tactical model sufficiently explicit; delivery and retry details remain open",
+  "owners": ["Claims owner"],
+  "allowed_paths": [
+    "docs/ddd/models/claims.md",
+    "docs/ddd/contexts/claims.md",
+    "docs/ddd/ubiquitous-language.md"
+  ],
+  "open_questions": [
+    "Which failures are retryable?"
+  ],
+  "acceptance_signals_to_define": [
+    "Rejected approval does not persist an approved state",
+    "Successful approval is persisted before its result is published",
+    "Repeated delivery does not produce an unintended second approval"
+  ],
+  "return_to": "ddd-strategic"
+}
+```
+
+The host should activate the manual stage `ddd-adoption`; adoption has not run.
+
+CHANGED_ARTIFACTS
+
+None. This evaluation is text-only, so no artifact was created or updated.
+
+The intended owned model path, if execution were authorized, would be:
+
+- `docs/ddd/models/claims.md` — tactical model artifact, not actually changed.
+
+No additive updates to `docs/ddd/contexts/claims.md` or `docs/ddd/ubiquitous-language.md` are required by the supplied evidence.
+
+INVALIDATED_STAGES
+
+None. The tactical evidence supports the validated Claims boundary, vocabulary, ownership, and relationship.
+
+OPEN_QUESTIONS
+
+- Which failures are retryable?
+- What exact failure is returned when the policy condition is unverified?
+- What actor or application entry point issues `Approve claim`?
+- What delivery guarantee applies to the published approval result?
+- How are duplicate publication and consumer retries made idempotent?
+- What concurrency assumption applies when two approval attempts target the same claim?
+
+BOUNDARY_CHECKS
+
+- Exactly one selected context was modeled: Claims.
+- The validated slug `claims` and permitted model path `docs/ddd/models/claims.md` were preserved.
+- The aggregate was chosen only to protect the named immediate invariant.
+- The coordinating service was classified as application orchestration, not automatically as a domain service.
+- The policy relationship was preserved as an external supplied verification outcome.
+- Immediate consistency was limited to the Claim aggregate; cross-context delivery remains eventual/unspecified.
+- No unsupported persistence, deployment, framework, API, schema, or implementation details were invented.
+- No actual repository artifact change is claimed.

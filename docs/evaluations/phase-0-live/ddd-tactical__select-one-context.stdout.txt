@@ -1,0 +1,90 @@
+STATUS
+
+`blocked`
+
+RESULT
+
+The tactical stage cannot proceed because the input contains two validated contexts—`Policy` and `Settlement`—but does not identify exactly one selected context, and `objective_priority` is null.
+
+Expected outcomes satisfied:
+
+- Preserved both strategically validated contexts without inferring a selection.
+- Refused to model both contexts in one tactical slice.
+- Refused to infer the selected context from context names or validation status.
+- Returned a bounded stop before tactical modeling.
+- Preserved the validated slugs unchanged: `policy` and `settlement`.
+
+Forbidden outcomes avoided:
+
+- No aggregate, entity, value object, repository, service, event, consistency, persistence, or optional-pattern design was invented.
+- No strategic boundary or relationship was silently changed.
+- No artifact was created or modified.
+- No adoption handoff was produced, because a single context has not been selected.
+- No claim was made that tactical modeling or adoption ran.
+
+EVIDENCE
+
+- **Fact / strategic validation:** `Policy` is validated with safe slug `policy`.
+  - Source: exact case input.
+  - Observation: context validation is `"validated"`.
+- **Fact / strategic validation:** `Settlement` is validated with safe slug `settlement`.
+  - Source: exact case input.
+  - Observation: context validation is `"validated"`.
+- **Required selection prerequisite:** exactly one context must be selected before tactical modeling.
+  - Source: tactical-stage entry criteria and selection stop condition.
+  - Observation: `selected_context` is `null`.
+- **Missing prioritization evidence:** no objective priority is supplied.
+  - Source: exact case input.
+  - Observation: `objective_priority` is `null`.
+
+HANDOFF_OR_STOP
+
+Bounded stop. Request an evidence-backed or user-prioritized selection of exactly one context:
+
+```json
+{
+  "stage": "ddd-strategic",
+  "status": "blocked",
+  "request": "Select exactly one validated context for tactical modeling.",
+  "candidates": [
+    {
+      "name": "Policy",
+      "safe_slug": "policy",
+      "validation": "validated"
+    },
+    {
+      "name": "Settlement",
+      "safe_slug": "settlement",
+      "validation": "validated"
+    }
+  ],
+  "selection": null,
+  "objective_priority": null,
+  "return_to": "ddd-tactical"
+}
+```
+
+After selection, provide the selected context’s tactical prerequisites: purpose/outcome, vocabulary, concrete scenarios or commands, decision owner, relationships, assumptions, open questions, candidate invariants, evidence/provenance, and allowed paths.
+
+CHANGED_ARTIFACTS
+
+None. This was a text-only evaluation; no files were read or written.
+
+INVALIDATED_STAGES
+
+None. The strategic validation is not invalidated. Tactical modeling is blocked pending single-context selection.
+
+OPEN_QUESTIONS
+
+1. Should tactical modeling proceed for `Policy` or `Settlement`?
+2. What evidence or objective priority determines that selection?
+3. Once selected, who is the decision owner for the tactical model?
+
+BOUNDARY_CHECKS
+
+- Context count: **2** — fails the exactly-one-context prerequisite.
+- Selected context: **none** — fails the required selection prerequisite.
+- Safe slugs: `policy` and `settlement` are present and preserved, but no slug may be chosen implicitly.
+- Strategic validation: both contexts are validated; this does not authorize modeling both.
+- Artifact scope: no model path can be selected until one context is explicitly chosen.
+- Adoption readiness: not applicable; no tactical model exists.

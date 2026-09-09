@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "kind": "phase-0-live-baseline-index",
+  "prompt_template": "docs/evaluations/phase-0-live-prompt-template.json",
+  "baseline_reproduction": "docs/evaluations/phase-0-baseline-reproduction.json",
+  "stdout_path": "docs/evaluations/phase-0-live/baseline-b7d9300/ddd-tactical__safe-path-and-docs-only.stdout.txt",
+  "stderr_path": "docs/evaluations/phase-0-live/baseline-b7d9300/ddd-tactical__safe-path-and-docs-only.stderr.txt",
+  "baseline_commit": "b7d930016c66254f3b559c9240076c3cb7c19577",
+  "semantic_status": "fail_as_expected",
+  "original_overwritten_capture": {
+    "stdout_sha256": "c2c9a2b7478c9b5885c4f4884f70244d1caf2438802eeb265eb658ff3e2a6452",
+    "status": "unrecoverable",
+    "note": "The original path was overwritten before review; this fresh pre-fix reproduction supplies the inspectable failure."
+  },
+  "post_fix_rerun_manifest": "docs/evaluations/phase-0-live-reruns.json"
+}

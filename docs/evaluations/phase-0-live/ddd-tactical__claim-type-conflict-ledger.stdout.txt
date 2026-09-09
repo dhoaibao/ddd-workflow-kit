@@ -1,0 +1,86 @@
+STATUS
+
+`blocked`
+
+RESULT
+
+- Scope is exactly one validated context: **Claims** (`claims`), selected slice: **Approve claim while recording the required decision trace**.
+- The command and outcome are sufficiently identified:
+  - Command: `Approve claim`
+  - Outcome: record a defensible approval decision
+  - Relationship: Audit consumes decision facts
+- Evidence reveals a material consistency conflict:
+  - **Current behavior:** operations report that approval may be eventually consistent.
+  - **Desired policy/meaning:** approval must be immediately consistent.
+  - **Required obligation:** every approval must have a traceable decision.
+- The invariant **“Every approved claim has a traceable decision”** is supported by the explicit obligation, but its consistency boundary and relationship to approval state are unresolved.
+- No aggregate, entity, value object, repository, service, domain event, CQRS decision, or event-sourcing decision is selected. Choosing one before resolving the consistency policy would be unsupported.
+- No tactical model is completed and no `ddd-adoption` handoff is produced because the immediate-versus-eventual consistency decision is material and remains unresolved.
+- This is not classified as a strategic-boundary conflict: the evidence does not challenge the selected context, language, ownership, or relationship. The stop is tactical and consistency-related.
+- Forbidden outcomes avoided:
+  - No claim that an artifact was created or changed.
+  - No claim that adoption ran.
+  - No silent choice between immediate and eventual consistency.
+  - No inference from patterns, persistence, modules, or topology.
+  - No multi-aggregate transaction or event workaround assumed.
+  - No alteration of strategic artifacts or product files.
+
+EVIDENCE
+
+| Claim | Type | Source / provenance | Owner | Observation or statement |
+|---|---|---|---|---|
+| Approval may be eventually consistent | Current behavior | Operations report / operations observation | Claims owner | Current operations permit eventual consistency. |
+| Approval must be immediate | Desired policy or meaning | Policy statement / desired approval policy | Claims owner | Desired policy requires immediate consistency. |
+| Every approved claim has a traceable decision | Required obligation / candidate invariant | Obligation text / explicit traceability obligation | Claims owner | Approval must be accompanied by a traceable decision. |
+| Audit consumes decision facts | Fact / relationship | Supplied relationship | Claims owner | Audit is a downstream consumer of decision facts. |
+| The consistency policy requires owner review | Assumption | Supplied assumption | Claims owner | The conflict cannot be resolved by tactical modeling alone. |
+
+HANDOFF_OR_STOP
+
+Bounded stop pending review by the **Claims owner**.
+
+Resolve the following before tactical modeling proceeds:
+
+1. Whether approval state itself must be immediately consistent.
+2. Whether the traceable decision record must be created in the same consistency boundary as approval.
+3. Whether the current eventual-consistency behavior is permitted, transitional, or invalid.
+4. What acceptance signal demonstrates that an approval has a traceable decision.
+5. Whether Audit may consume the decision fact eventually after the approval decision is committed.
+
+No `ddd-adoption` request is emitted. The next action is owner review of the consistency conflict, then return to `ddd-tactical` with the resolved policy and evidence. `return_to`: `ddd-strategic` is preserved as supplied if the owner review changes the strategic meaning, ownership, or relationship.
+
+CHANGED_ARTIFACTS
+
+None. This is a text-only evaluation; no files were read or written, and no artifact is claimed to have changed.
+
+Proposed owned model path, not created:
+
+`docs/ddd/models/claims.md`
+
+The permitted context and language paths were not modified.
+
+INVALIDATED_STAGES
+
+- `ddd-tactical`: blocked pending consistency-policy resolution.
+- `ddd-adoption`: not started and not ready.
+- `strategic`: not invalidated; the supplied evidence does not currently challenge the bounded-context boundary, vocabulary, ownership, or relationship.
+
+OPEN_QUESTIONS
+
+- Which claim controls the tactical consistency decision: current operations, desired approval policy, or the required traceability obligation?
+- Must approval and its traceable decision be committed atomically?
+- Is eventual consistency acceptable for Audit consumption while approval and trace creation remain immediate?
+- What constitutes a valid traceable decision: decision identity, approver, timestamp, rationale, or another required record?
+- Is the operations behavior an accepted current state, a defect, or a transitional implementation?
+- What acceptance signal confirms that every approved claim has a traceable decision?
+
+BOUNDARY_CHECKS
+
+- Exactly one context selected: **Claims**.
+- Selected context validation: `validated`.
+- Safe slug reused unchanged: `claims`.
+- Candidate model path is within the permitted `docs/ddd/models` parent.
+- Artifact ownership is respected: the model would be tactical-owned; context and language artifacts remain strategic-owned.
+- No strategic boundary, language, ownership, or relationship conflict identified.
+- No unsupported tactical pattern introduced.
+- Immediate versus eventual consistency remains unresolved, so the aggregate boundary and adoption handoff must not be finalized.

@@ -1,0 +1,123 @@
+## STATUS
+
+`blocked`
+
+## RESULT
+
+Portable result:
+
+```json
+{
+  "stage": "ddd-strategic",
+  "status": "blocked",
+  "scope": {
+    "project": null,
+    "capability": null,
+    "selected_context": null
+  },
+  "changed_artifacts": [],
+  "evidence": [
+    {
+      "claim_type": "interpretation",
+      "source": "discovery result",
+      "owner": null,
+      "scenario": null,
+      "observation": "The discovery input contains only one vague capability label.",
+      "validation_status": "insufficient"
+    }
+  ],
+  "assumptions": [],
+  "open_questions": [
+    "What meaningful business or user outcome is in scope?",
+    "What does the vague capability label mean in the domain?",
+    "Which domain terms, actors, decisions, and lifecycle states are relevant?",
+    "What concrete scenarios demonstrate the capability?",
+    "Who owns the decisions and outcomes?",
+    "What consistency, security, availability, and change constraints apply?"
+  ],
+  "subdomains": [],
+  "contexts": [],
+  "invalidated_stages": [],
+  "handoff": {
+    "type": "bounded-stop",
+    "reason": "Strategic design cannot proceed because the discovery result lacks a meaningful outcome, adequate vocabulary, and concrete scenarios.",
+    "required_action": "Return to ddd-discover and gather outcome-focused evidence, domain vocabulary, and concrete scenarios before retrying ddd-strategic."
+  }
+}
+```
+
+Expected outcomes addressed:
+
+- The `fit` value is preserved, but it is not sufficient to proceed because the required strategic inputs are absent.
+- No subdomain classification is made.
+- No bounded context or relationship is proposed.
+- No tactical handoff is emitted.
+- The result is explicitly stopped as `blocked`.
+- No repository artifacts are claimed as changed.
+
+Forbidden outcomes avoided:
+
+- No domain facts, vocabulary, scenarios, ownership, or boundaries were invented.
+- No context was inferred from the vague capability label.
+- No strategic hypothesis was marked validated.
+- No tactical design was started.
+- No files were read or written.
+- No artifact change was claimed.
+
+## EVIDENCE
+
+- **Discovery fit:** `fit` — supplied by the input, but insufficient on its own.
+- **Capability evidence:** `"one vague capability label"` — inadequate to establish a meaningful outcome, vocabulary, lifecycle, decision ownership, or scope.
+- **Concrete scenarios:** none provided.
+- **Strategic adequacy:** insufficient evidence for subdomain classification, language reconciliation, context boundaries, or relationship mapping.
+
+## HANDOFF_OR_STOP
+
+Bounded stop. The exact next action is:
+
+`ddd-discover`
+
+Gather at least:
+
+1. one meaningful business or user outcome;
+2. domain vocabulary with definitions and known overloaded terms;
+3. concrete scenarios, including actors, triggers, decisions, and outcomes;
+4. available ownership, lifecycle, consistency, security, availability, and change evidence.
+
+Do not proceed to `ddd-tactical`.
+
+## CHANGED_ARTIFACTS
+
+None.
+
+No strategic-owned documents were created or updated.
+
+## INVALIDATED_STAGES
+
+None.
+
+No strategic artifacts or downstream assumptions exist in this input to invalidate.
+
+## OPEN_QUESTIONS
+
+- What outcome is the capability intended to produce?
+- Who benefits from or is affected by that outcome?
+- What does the capability label mean operationally?
+- What are the main scenarios and alternate or failure scenarios?
+- Which terms require context-specific meanings?
+- Who owns the relevant decisions?
+- What obligations or policies constrain the capability?
+- What changes frequently, and what must remain consistent?
+- Are there security or availability requirements that could affect future boundaries?
+
+## BOUNDARY_CHECKS
+
+- **Scope check:** failed — no meaningful outcome or bounded capability scope.
+- **Vocabulary check:** failed — only a vague label is available.
+- **Scenario check:** failed — no concrete scenarios.
+- **Subdomain check:** not performed; evidence is insufficient.
+- **Context-boundary check:** not performed; no coherent model, language, lifecycle, or decision ownership can be established.
+- **Relationship check:** not performed; no contexts or contracts exist to relate.
+- **Validation check:** no hypotheses can be validated.
+- **Artifact safety check:** no writes permitted or performed.
+

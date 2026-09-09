@@ -1,0 +1,98 @@
+STATUS
+
+`blocked`
+
+RESULT
+
+- Stage: `ddd-tactical`
+- Scope: none selected; no context, capability slice, or validated slug is available.
+- Tactical design was not performed because required strategic prerequisites are missing.
+- No aggregate, entity, value object, repository, service, specification, factory, domain event, consistency model, persistence assumption, or optional-pattern decision was created.
+- No bounded context was inferred from the broad capability label or outcome.
+- No slug was invented or normalized.
+- No strategic boundary, ownership, vocabulary, invariant, scenario, or relationship was silently inferred.
+- No artifact was created or claimed to have changed.
+- No `ddd-adoption` handoff was produced because a single validated tactical model does not exist.
+- This is a bounded stop, not a strategic conflict: the available input does not challenge a boundary; it is insufficient to establish one.
+
+EVIDENCE
+
+- Claim: `one broad capability label`
+  - Type: fact supplied by request
+  - Source: exact case input
+  - Owner: not provided
+  - Observation: too broad to identify exactly one selected bounded context or tactical slice.
+- Claim: `manage claims`
+  - Type: stated outcome
+  - Source: exact case input
+  - Owner: not provided
+  - Observation: does not establish context identity, vocabulary, behavior, invariants, or ownership.
+- Claim: `fit`
+  - Type: stated fit signal
+  - Source: exact case input
+  - Owner: not provided
+  - Observation: does not substitute for the required strategic handoff evidence.
+- Missing required evidence:
+  - exactly one selected context identity;
+  - validated safe slug and permitted model path;
+  - context-specific vocabulary;
+  - concrete commands or use-case scenarios;
+  - preconditions, decisions, outcomes, failures, and counterexamples;
+  - decision owner;
+  - relationships;
+  - assumptions and open questions;
+  - candidate invariants and their evidence;
+  - allowed paths, artifact ownership, and `return_to`.
+
+HANDOFF_OR_STOP
+
+Bounded stop. Provide a validated `ddd-strategic` handoff before retrying tactical design.
+
+The handoff must contain exactly one selected context with:
+
+- context identity and reused validated slug;
+- purpose/outcome;
+- context-specific vocabulary;
+- concrete commands or scenarios;
+- decision owner;
+- relationships;
+- assumptions and open questions;
+- candidate invariants;
+- evidence and provenance;
+- allowed paths and artifact ownership;
+- `return_to`.
+
+Exact next action: `ddd-strategic`
+
+CHANGED_ARTIFACTS
+
+None.
+
+No files were read or written, and no artifact change is claimed.
+
+INVALIDATED_STAGES
+
+None. No tactical model was started, and no strategic boundary or language claim was contradicted.
+
+OPEN_QUESTIONS
+
+1. What is the single bounded context selected for tactical design?
+2. What is its validated context identity and safe slug?
+3. What context-specific terms and definitions comprise its vocabulary?
+4. Which concrete commands or use cases must be modeled?
+5. For each command, what are the actor, preconditions, inputs, decisions, successful outcome, failures, counterexamples, and observable acceptance signals?
+6. What candidate invariants must hold, and what evidence supports each one?
+7. Who owns the relevant domain decisions?
+8. Which relationships with other contexts are already validated?
+9. What assumptions, unresolved questions, permitted paths, artifact ownership, and `return_to` value apply?
+
+BOUNDARY_CHECKS
+
+- Exactly one context selected: **failed** — `contexts` is empty.
+- Validated context slug and model path: **failed** — none supplied.
+- Sufficient vocabulary: **failed** — only a broad capability label is present.
+- Concrete scenarios or commands: **failed** — none supplied.
+- Candidate invariants: **failed** — none supplied.
+- Evidence and provenance: **insufficient** — only broad, unowned statements are present.
+- Tactical modeling: **not started**.
+- Product code, tests, schemas, configuration, deployment, and unrelated files: **not touched**.

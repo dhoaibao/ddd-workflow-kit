@@ -14,6 +14,8 @@ Attempt the deferred live host/model evaluation for the implemented `ddd-discove
 
 **Dependency:** an available host/model and optional validator are not required to start the phase; their availability determines which checks can produce results.
 
+**Execution record:** [phase-0 evaluation report](../evaluations/phase-0-report.json), with captured per-case outputs under [`docs/evaluations/phase-0-live/`](../evaluations/phase-0-live/). The optional `skills-ref` check remains explicitly deferred because the executable and Python module were unavailable; it was not installed.
+
 **Exit criteria:** each focused package has either a recorded live result and resolved/reviewed issues, or an explicit `blocked`/`deferred` record naming the unavailable capability and residual risk. Static checks never claim live success, and adoption cannot be declared unblocked by an unrecorded evaluation gap.
 
 ### 1. Implement `ddd-adoption`

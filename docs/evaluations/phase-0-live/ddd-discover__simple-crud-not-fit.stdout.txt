@@ -1,0 +1,85 @@
+## STATUS
+
+`not-fit`
+
+## RESULT
+
+Portable result:
+
+```yaml
+stage: ddd-discover
+status: not-fit
+scope:
+  project: contact list
+  capability: stable contact management with create, read, update, and delete operations
+  mode: greenfield
+changed_artifacts: []
+evidence:
+  - claim_type: current behavior
+    source: requirements
+    owner: unspecified
+    observation: Requirements describe straightforward CRUD operations.
+  - claim_type: interpretation
+    source: supplied evidence
+    owner: unspecified
+    observation: No meaningful domain rules, ambiguous vocabulary, competing policies, strategic differentiation, or high change risk are reported.
+assumptions: []
+open_questions: []
+fit:
+  classification: not-fit
+  rationale: The capability is stable, low-risk CRUD with no reported domain complexity or language ambiguity. A simpler CRUD-oriented design is better supported than DDD.
+handoff: bounded-stop
+invalidated_stages: []
+```
+
+Expected outcomes addressed:
+
+- DDD fit is assessed as `not-fit`.
+- The assessment is evidence-backed by the straightforward CRUD requirements and absence of domain rules or conflicting terms.
+- A simpler approach is recommended.
+- No strategic DDD handoff is requested.
+- No repository artifacts are claimed to have been created or changed.
+
+Forbidden outcomes avoided:
+
+- No bounded contexts, aggregates, domain events, tactical models, service decomposition, or implementation changes were proposed.
+- No domain facts were invented.
+- No ambiguous vocabulary or unresolved conflict was silently introduced.
+- No artifact was marked validated or reported as changed.
+- No later DDD stage is claimed to have run.
+
+## EVIDENCE
+
+- **Current behavior / stated capability:** The requirements describe straightforward create, read, update, and delete operations.
+- **Interpretation:** The capability has no evidenced meaningful domain rules, competing policies, ambiguous terminology, or complex invariants.
+- **Interpretation:** The reported low change risk and stable scope favor a simpler CRUD-oriented implementation over DDD discovery and strategic modeling.
+- **Required obligation:** None reported.
+
+## HANDOFF_OR_STOP
+
+**Bounded stop.**
+
+DDD strategic modeling is not justified by the available evidence. Use a simple CRUD-oriented approach. No `ddd-strategic` request is produced.
+
+## CHANGED_ARTIFACTS
+
+None.
+
+No files were read or written, and no artifact changes are claimed.
+
+## INVALIDATED_STAGES
+
+None.
+
+## OPEN_QUESTIONS
+
+None material to the fit decision based on the supplied evidence.
+
+## BOUNDARY_CHECKS
+
+- Scope limited to assessing DDD fit for the stated contact-list capability.
+- Greenfield mode recorded.
+- No strategic context mapping or tactical modeling performed.
+- No product code, tests, configuration, generated output, or deployment files changed.
+- No discovery-owned documentation changes claimed.
+- Result is based only on the supplied JSON evidence.

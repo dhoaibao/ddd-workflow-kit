@@ -1,0 +1,103 @@
+## STATUS
+
+`partial`
+
+## RESULT
+
+- **Stage:** `ddd-discover`
+- **Scope:** Brownfield order workflow, specifically the approval-to-shipment decision.
+- **DDD fit:** `fit`
+  - The workflow has a material conflict between desired policy and observed behavior.
+  - The approval rule affects a consequential business decision: whether an order may ship.
+  - Legacy behavior and an integration seam are relevant to ownership and change risk.
+- **Evidence boundary:** The supplied expert statement, tests, observed legacy behavior, and known ownership/integration seam only.
+- **Discovery conclusion:** Approval is a desired domain policy according to the expert, but current behavior permits shipment without approval. The conflict remains unresolved.
+- **Expected outcomes addressed:**
+  - Distinguishes desired approval policy from current observed behavior.
+  - Records tests and legacy behavior as evidence of current behavior, not as the intended policy.
+  - Preserves the disagreement rather than silently resolving it.
+  - Identifies the workflow as a candidate for further strategic discovery.
+  - Treats the known legacy ownership and integration seam as brownfield evidence, not proof of a domain boundary.
+- **Forbidden outcomes explicitly avoided:**
+  - Did not claim that approval is currently enforced.
+  - Did not reinterpret the expert’s desired policy as implemented behavior.
+  - Did not infer that shipment without approval is the correct policy merely because tests permit it.
+  - Did not resolve the policy conflict without an accountable decision owner.
+  - Did not perform context mapping, tactical modeling, migration planning, service decomposition, or product-code changes.
+  - Did not claim that any repository artifact was created or changed.
+
+## EVIDENCE
+
+1. **Desired policy or meaning**
+   - **Source:** Domain expert
+   - **Owner:** Domain expert; accountable policy owner not explicitly identified
+   - **Statement:** Approval is required before shipment.
+   - **Impact:** Establishes the intended business policy, but not current system behavior.
+
+2. **Current behavior**
+   - **Source:** Tests
+   - **Owner:** Existing test/system ownership
+   - **Observation:** Shipment can proceed without approval.
+   - **Impact:** Demonstrates that the current behavior does not enforce the stated approval policy.
+
+3. **Current behavior**
+   - **Source:** Observed legacy behavior
+   - **Owner:** Legacy system ownership
+   - **Observation:** The legacy workflow permits shipment without approval.
+   - **Impact:** Confirms the discrepancy is not limited to an isolated test and may affect production behavior.
+
+4. **Current implementation evidence**
+   - **Source:** Brownfield discovery input
+   - **Owner:** Known legacy owner and integration owner
+   - **Observation:** Legacy ownership and an integration seam are known.
+   - **Impact:** Provides a starting point for tracing responsibility and change impact; it does not establish a bounded context or desired policy boundary.
+
+## HANDOFF_OR_STOP
+
+**Handoff request:** `ddd-strategic`
+
+- **Objective:** Determine the policy ownership and strategic boundary for the approval-to-shipment decision while preserving the distinction between intended policy and legacy behavior.
+- **Scope:** Order workflow from approval status through shipment authorization, including the known legacy ownership and integration seam.
+- **Artifact bundle:** No artifacts changed. The discovery result and evidence listed above are the available bundle.
+- **Evidence bundle:** Domain expert approval requirement; tests permitting shipment without approval; observed legacy behavior; known ownership and integration seam.
+- **Assumptions:** The expert’s statement represents desired policy rather than a confirmed current obligation. The supplied tests and observation accurately represent current behavior.
+- **Open questions:** See below.
+- **Allowed paths:** Discovery-owned documentation paths under `docs/ddd/` only for a future repository-backed run; no source, tests, configuration, deployment, or generated files.
+- **Return to:** `ddd-discover` if policy ownership, current production behavior, or the conflict requires clarification before strategic modeling.
+
+Because this is an ephemeral text-only evaluation, the handoff is returned as a request only; no subsequent stage is claimed to have run.
+
+## CHANGED_ARTIFACTS
+
+None.
+
+No files were read or written, and no artifact change is claimed.
+
+## INVALIDATED_STAGES
+
+None identified.
+
+Strategic modeling should not rely on an assumption that approval is already enforced. Any later artifacts that assert approval is enforced would be stale or invalidated unless supported by new evidence.
+
+## OPEN_QUESTIONS
+
+1. Who owns the decision that approval is mandatory before shipment?
+2. Is approval a required obligation, an intended business policy, or a future policy change?
+3. Does the approval requirement apply to every order, or only specific order types, risk levels, customers, or fulfillment paths?
+4. Is shipment without approval an accepted exception, a defect, or undocumented legacy behavior?
+5. Which system is authoritative for approval status and shipment authorization?
+6. Does the integration seam bypass approval checks, or is the missing check located elsewhere?
+7. Are there production incidents, contracts, audit requirements, or operational controls that establish the required behavior?
+8. What migration or compatibility constraints apply if the approval policy is enforced?
+
+## BOUNDARY_CHECKS
+
+- **Discovery only:** Yes.
+- **Strategic context mapping:** Not performed.
+- **Tactical/domain modeling:** Not performed.
+- **Migration or implementation planning:** Not performed.
+- **Product-code, test, configuration, deployment, or generated-file changes:** None.
+- **Evidence discipline:** Current behavior, desired policy, and implementation evidence are explicitly separated.
+- **Conflict handling:** The disagreement is preserved as unresolved; it is not silently resolved.
+- **Artifact claim:** No artifact is claimed to have been created, updated, validated, or persisted.
+

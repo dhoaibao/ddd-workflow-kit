@@ -1,0 +1,100 @@
+STATUS
+
+`partial`
+
+RESULT
+
+- Scope: exactly one validated bounded context, **Catalog**, capability **Maintain product descriptions**, selected slice **Update and read a product description**.
+- CQRS decision: **not-needed**.
+  - Evidence: the context has an ordinary read/write flow and no stated read/write asymmetry.
+  - Simpler alternative: retain a unified model and ordinary application read/write flow.
+  - Costs avoided: separate models, synchronization between read and write sides, additional operational paths, consistency lag, deployment complexity, and duplicated transformation logic.
+- Event sourcing decision: **not-needed**.
+  - Evidence: there is no audit requirement, replay requirement, or other stated need to reconstruct state from an event history.
+  - Simpler alternative: persist the current product description and use ordinary domain events only if a concrete integration need is later identified.
+  - Costs avoided: event-schema/versioning burden, replay and projection operations, storage growth, recovery complexity, privacy-management complexity, and treating historical events as an authoritative record without a demonstrated requirement.
+- Ordinary domain events, if later justified by the Search relationship, do **not** imply event sourcing.
+- The request to use CQRS and event sourcing solely because they are popular is rejected as insufficient evidence.
+- The available evidence supports ordinary consistency and does not justify either optional pattern.
+- The candidate invariant, “A product description is valid for the catalog,” remains underspecified: validity criteria, owner, failure consequence, and validation behavior are not provided. This prevents a fully complete tactical model and adoption handoff.
+- No implementation approval, framework choice, persistence schema, deployment change, or product-code change is implied.
+- No artifact was actually changed in this ephemeral evaluation.
+
+EVIDENCE
+
+| Claim | Type | Source / provenance | Owner | Scenario | Observation or statement |
+|---|---|---|---|---|---|
+| Catalog maintains product descriptions | fact / desired meaning | `purpose`, `outcome`; catalog owner request | Catalog owner | Update and read a product description | The context maintains product descriptions and supports reading them. |
+| The selected context is Catalog | fact | validated strategic handoff | Catalog owner | All supplied scenarios | `docs/ddd/contexts/catalog.md`, safe slug `catalog`, validation `validated`. |
+| Update product description is a command | desired behavior | `commands`; catalog owner request | Catalog owner | Update and read a product description | The command changes a product description. |
+| Ordinary consistency is sufficient | assumption / proposed tactical constraint | supplied assumption | Catalog owner | Update and read a product description | No immediate cross-aggregate invariant requiring a stronger pattern is evidenced. |
+| No CQRS read/write asymmetry is evidenced | current-observation boundary | `ordinary read/write flow` | Catalog owner | Update and read a product description | The supplied evidence describes an ordinary read/write flow. |
+| No event-sourcing audit or replay need is evidenced | current-observation boundary | `no audit or replay requirement` | Catalog owner | Update and read a product description | No requirement calls for event-history reconstruction or replay. |
+| Search consumes product descriptions | relationship fact | supplied relationship | Catalog owner / Search owner not supplied | After a product description update | Search may need a product-description update signal, but the delivery contract is not defined. |
+| Product-description validity is required | candidate invariant | supplied candidate invariant | Catalog owner | Update product description | The invariant is named but its actual validation rule is unspecified. |
+
+HANDOFF_OR_STOP
+
+Bounded stop before `ddd-adoption`.
+
+Reason:
+
+- CQRS and event sourcing can be conclusively gated as **not-needed** on current evidence.
+- The tactical model is not sufficiently explicit for adoption because the product-description validity invariant lacks:
+  - a concrete rule;
+  - validation owner;
+  - failure behavior;
+  - immediate versus eventual consistency classification;
+  - observable acceptance signal.
+
+Exact next action: return to `ddd-strategic` with the unchanged `return_to` value and clarify the validity rule and the Search integration obligation. Do not activate adoption yet.
+
+Potential tactical decisions once the invariant is clarified:
+
+- Model a product identity and description value only if their identity, equality, and validation needs are confirmed.
+- Use the smallest aggregate boundary that protects the confirmed immediate invariant.
+- Use ordinary persistence and application orchestration unless new evidence establishes a named need for another pattern.
+- Consider a past-tense product-description-updated domain event only if Search requires an explicit integration fact; this would remain independent of event sourcing.
+
+CHANGED_ARTIFACTS
+
+No artifacts were changed.
+
+If executed in a repository after the missing invariant is resolved, the owned candidate path would be:
+
+- `docs/ddd/models/catalog.md` — tactical model, owned by `ddd-tactical`.
+
+The allowed context and language paths were not modified, and no claim is made that any file exists or was updated.
+
+INVALIDATED_STAGES
+
+- `ddd-adoption` — blocked pending clarification of the product-description validity invariant and its acceptance signal.
+- `ddd-tactical` — remains partial for the same reason.
+- `strategic` — **not invalidated**. The evidence does not challenge the Catalog boundary, vocabulary, ownership, or relationship. It only leaves a tactical invariant underspecified.
+
+OPEN_QUESTIONS
+
+1. What makes a product description valid for the Catalog?
+2. Who owns and decides that validity rule?
+3. What happens when an update is invalid?
+4. Must validity be enforced immediately within one consistency boundary?
+5. Does Search require an explicit update notification, and if so:
+   - what fact is published;
+   - what delivery guarantees apply;
+   - how are duplicates and retries handled;
+   - how much staleness is acceptable?
+6. What future audit obligation, if any, could change the event-sourcing decision?
+
+BOUNDARY_CHECKS
+
+- Exactly one selected context: **yes — Catalog**.
+- Reused validated slug and permitted model path: **yes — `catalog`, `docs/ddd/models/catalog.md`**.
+- Strategic boundary challenged: **no**.
+- CQRS adopted because it is popular: **no**.
+- Event sourcing adopted because it is popular: **no**.
+- Read/write asymmetry claimed without evidence: **no**.
+- Audit or replay requirement invented: **no**.
+- Ordinary domain events conflated with event sourcing: **no**.
+- Persistence, deployment, framework, schema, or product-code changes proposed: **no**.
+- Artifact change falsely claimed: **no**.
+- Adoption handoff emitted despite an unresolved material invariant: **no**.

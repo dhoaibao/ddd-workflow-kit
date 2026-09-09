@@ -1,0 +1,75 @@
+## STATUS
+
+`blocked`
+
+## RESULT
+
+- **Stage:** `ddd-discover`
+- **Status:** `blocked`
+- **Scope:** A domain was named, but the project, capability boundary, stakeholders, and desired discovery depth were not specified.
+- **Mode:** `mixed`
+- **DDD fit:** Not reliably assessable in this iteration. Available evidence may support a future assessment, but unresolved terminology and unavailable domain expertise prevent a defensible `fit`, `limited-fit`, or `not-fit` classification.
+- **Expected outcomes addressed:**
+  - Scope cannot be established sufficiently to begin reliable discovery.
+  - Available tests and integration contracts can be treated as current-behavior or obligation evidence when their provenance is known.
+  - Expert-dependent meanings remain unresolved rather than being inferred.
+  - Discovery must stop without strategic modeling or implementation recommendations.
+  - No artifact changes are reported.
+- **Forbidden outcomes avoided:**
+  - No domain facts, terminology meanings, policies, or bounded contexts were invented.
+  - Current tests and integration contracts were not treated as proof of desired domain policy.
+  - No disagreement or ambiguity was silently resolved.
+  - No domain expert statements were fabricated.
+  - No `ddd-strategic` handoff was issued because scope and terminology are insufficient.
+  - No files, product code, tests, configuration, or generated output were claimed to be changed.
+
+## EVIDENCE
+
+| Claim type | Source | Owner | Observation |
+|---|---|---|---|
+| Current behavior / required obligation, classification pending provenance | Current tests and integration contracts | System or contract owners not identified | Tests and contracts are available, but their exact behavioral and contractual authority has not been established. |
+| Constraint | User-provided case input | Project stakeholders | Domain-expert access is unavailable for this iteration. |
+| Open interpretation | User-provided case input | Domain or product owners not identified | Terminology has unresolved meanings. |
+| Assumption | Working assumption | To be confirmed | The available tests and contracts may provide enough evidence for a later brownfield baseline, but this cannot be confirmed without the target capability and source ownership. |
+
+## HANDOFF_OR_STOP
+
+**Bounded stop.**
+
+Do not hand off to `ddd-strategic`. Before discovery can continue, provide:
+
+1. The project and specific capability in scope.
+2. The intended stakeholders, users, or business outcomes.
+3. The provenance and authority of the available tests and integration contracts.
+4. A non-expert source for resolving terminology, such as approved documentation, contract definitions, product decisions, or named owners.
+5. The desired discovery depth and relevant constraints.
+
+When those inputs are available, resume `ddd-discover`; preserve unresolved terminology as explicit questions if expert access remains unavailable.
+
+## CHANGED_ARTIFACTS
+
+None. This was a text-only evaluation, and no repository artifacts were created or updated.
+
+## INVALIDATED_STAGES
+
+None. No later stage had been established or run. Any future strategic work must wait until discovery is unblocked.
+
+## OPEN_QUESTIONS
+
+1. What project and capability constitute the discovery scope?
+2. Who owns the available tests and integration contracts?
+3. Which contracts are externally imposed obligations versus current implementation behavior?
+4. What do the unresolved domain terms mean, and which source has authority to define them?
+5. Which actors, outcomes, policies, and failure costs are relevant?
+6. Is there an approved non-expert source that can substitute for unavailable domain-expert access?
+7. What evidence would be sufficient to assess DDD fit for this capability?
+
+## BOUNDARY_CHECKS
+
+- Stayed within `ddd-discover`.
+- Did not perform strategic context mapping, tactical modeling, migration planning, service decomposition, or product-code changes.
+- Did not create or update `docs/ddd/` artifacts.
+- Distinguished available current-system evidence from unresolved desired meaning.
+- Preserved uncertainty caused by missing expert access and ambiguous terminology.
+- Did not claim that any artifact was actually changed or validated.
+

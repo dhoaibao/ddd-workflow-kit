@@ -1,0 +1,93 @@
+STATUS
+
+`partial`
+
+## RESULT
+
+- **Scope:** Capability: settle approved claims. Contexts in scope: **Policy** and **Settlement**.
+- **Subdomain hypotheses:**
+  - **Policy:** supporting or core candidate; owns approved-limit decisions. Classification remains proposed because there is no evidence about competitive differentiation or strategic importance.
+  - **Settlement:** core candidate for the stated outcome; consumes approved limits while settling claims. Classification remains proposed.
+- **Bounded contexts:**
+  - **Policy context:** owns the meaning, approval, and decision authority for limits. It supplies approved-limit data.
+  - **Settlement context:** owns settlement decisions and processing for approved claims. It translates approved-limit data into its own settlement representation.
+- **Directional relationship:**
+  - **Direction:** Policy → Settlement.
+  - **Upstream:** Policy.
+  - **Downstream:** Settlement.
+  - **Communication/contract:** Approved-limit data supplied by Policy; the exact contract is not specified.
+  - **Translation:** Settlement translates the approved-limit data rather than treating the Policy model as its own model.
+  - **Consistency:** Not specified whether consumption is synchronous, eventually consistent, or subject to a freshness window.
+  - **Failure assumption:** Delivery failure is retried.
+  - **Ownership:** Policy owns limit decisions; Settlement owns consumption and settlement behavior.
+- **Expected outcomes addressed:**
+  1. A policy context supplies approved limits.
+  2. A settlement context consumes those limits.
+  3. The relationship is directional from Policy to Settlement.
+  4. Settlement translates the approved-limit data.
+  5. Delivery failures are retried.
+- **Forbidden outcomes avoided:**
+  1. No reverse Settlement → Policy dependency is inferred.
+  2. No shared canonical model or shared database is proposed.
+  3. No deployment topology, service split, team ownership, or infrastructure choice is inferred.
+  4. No entities, value objects, aggregates, repositories, schemas, or implementation services are designed.
+  5. No claim is made that artifacts were actually changed.
+  6. No claim is made that retry semantics, delivery guarantees, or consistency behavior are fully specified beyond the supplied evidence.
+
+## EVIDENCE
+
+| Claim | Type | Source | Owner | Scenario | Observation |
+|---|---|---|---|---|---|
+| Policy owns limit decisions | Current behavior / ownership evidence | Exact case input | Policy domain owner, to be confirmed | Approving a claim limit | Policy is the decision authority for limits. |
+| Settlement translates approved-limit data | Current behavior evidence | Exact case input | Settlement domain owner, to be confirmed | Settling an approved claim | Settlement consumes and translates the supplied data. |
+| Delivery failure is retried | Current behavior evidence | Exact case input | Integration/operations owner, to be confirmed | Approved-limit delivery fails | Delivery is retried; retry policy details are unknown. |
+| Policy supplies approved limits to Settlement | Strategic interpretation based on the three observations | Exact case input | Policy and Settlement owners | Settle approved claims | A Policy → Settlement relationship is supported. |
+| Policy and Settlement are separate bounded contexts | Strategic proposal | Derived from distinct ownership and translation responsibility | Policy and Settlement owners | Settle approved claims | Separate decision ownership and translation justify a boundary hypothesis; validation is incomplete. |
+
+## HANDOFF_OR_STOP
+
+**Bounded stop: further tactical work is not selected.**
+
+The strategic relationship is sufficiently described, but the input does not establish whether **Policy** or **Settlement** should be selected as the single context for `ddd-tactical`. Both are relevant to the outcome, and selecting one would be a material choice without explicit user priority.
+
+Manual next action: `ddd-tactical` after selecting exactly one context—Policy or Settlement—and supplying its concrete scenarios, invariants, and ownership details.
+
+## CHANGED_ARTIFACTS
+
+No artifacts were changed in this text-only evaluation.
+
+If repository writing were authorized, the strategic outputs would be candidates for:
+
+- `docs/ddd/domain-map.md`
+- `docs/ddd/context-map.md`
+- `docs/ddd/contexts/policy.md`
+- `docs/ddd/contexts/settlement.md`
+
+These remain proposed paths only; no filename collision or existing-content check was performed.
+
+## INVALIDATED_STAGES
+
+None.
+
+No existing tactical or adoption artifacts were inspected, and no strategic change was applied.
+
+## OPEN_QUESTIONS
+
+1. What exactly constitutes an approved limit, and which lifecycle states are relevant?
+2. What contract or message carries approved-limit data from Policy to Settlement?
+3. Is delivery synchronous, asynchronous, or otherwise event-driven?
+4. What consistency or freshness requirement applies when Settlement consumes an approved limit?
+5. What does retry mean operationally—retry count, backoff, deduplication, and handling of exhausted retries?
+6. Can an approved limit be revoked or changed after delivery, and how does Settlement learn of that change?
+7. Who owns contract evolution and compatibility?
+8. Which context should be selected first for tactical modeling: Policy or Settlement?
+
+## BOUNDARY_CHECKS
+
+- **Scenario check:** The boundary supports the stated scenario, “settle approved claims,” but end-to-end lifecycle details are incomplete.
+- **Change/lifecycle check:** Policy limit changes and revocation behavior are unknown; boundary confidence is therefore limited.
+- **Consistency check:** Translation is evidenced, but consistency and staleness assumptions are unresolved.
+- **Ownership check:** Policy decision ownership and Settlement consumption responsibility are explicit.
+- **Security check:** Authorization and sensitivity of approved-limit data are unspecified.
+- **Availability/failure check:** Retry on delivery failure is evidenced; retry exhaustion and recovery behavior are unresolved.
+- **Boundary status:** Proposed and partially supported, not fully validated.

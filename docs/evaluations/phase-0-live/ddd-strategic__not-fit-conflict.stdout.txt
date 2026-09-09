@@ -1,0 +1,100 @@
+STATUS
+
+`not-fit-conflict`
+
+RESULT
+
+Portable transition result:
+
+```json
+{
+  "stage": "ddd-strategic",
+  "status": "not-fit-conflict",
+  "scope": {
+    "outcome": "maintain a simple catalog",
+    "capability": "simple catalog",
+    "selected_context": null
+  },
+  "changed_artifacts": [],
+  "evidence": [
+    {
+      "claim_type": "current_behavior",
+      "source": "discovery result",
+      "owner": "unspecified",
+      "scenario": "maintain a simple catalog",
+      "observation": "stable CRUD and no complex policy",
+      "relevance": "The available evidence indicates that strategic DDD boundary modeling is not currently warranted."
+    }
+  ],
+  "assumptions": [],
+  "open_questions": [
+    "Does the requester explicitly want to override the discovery result?",
+    "What new evidence demonstrates meaningful domain complexity, policy variation, ownership separation, lifecycle differences, or consistency boundaries?",
+    "Who owns the decision to proceed despite the discovery result?"
+  ],
+  "subdomains": [],
+  "contexts": [],
+  "invalidated_stages": [],
+  "handoff": {
+    "type": "bounded-stop",
+    "reason": "The discovery result is not-fit, while the request asks for bounded contexts without new evidence.",
+    "required_action": "Provide new evidence or an explicit decision to override the not-fit result, then rerun or continue strategic assessment."
+  }
+}
+```
+
+The discovery result is preserved and not silently overridden. No subdomains, bounded contexts, relationships, or tactical handoff are produced.
+
+The result does **not** infer boundaries from the catalog, invent domain complexity, treat deployment structure as domain truth, mark hypotheses as validated, or claim that any artifact was changed.
+
+EVIDENCE
+
+- Claim type: current behavior / discovery assessment.
+- Source: supplied discovery result.
+- Evidence: “stable CRUD and no complex policy.”
+- Outcome: “maintain a simple catalog.”
+- Assessment: This supports the discovery result of `not-fit` for strategic DDD modeling.
+- Missing evidence: no scenarios, vocabulary, ownership distinctions, lifecycle differences, consistency requirements, security boundaries, availability constraints, or policy complexity that would justify bounded contexts.
+
+HANDOFF_OR_STOP
+
+Bounded stop.
+
+Do not proceed with `ddd-strategic` modeling unless one of the following is supplied:
+
+1. New evidence showing meaningful domain complexity or boundary-defining differences; or
+2. An explicit, owned decision to override the `not-fit` discovery result.
+
+No `ddd-tactical` handoff is emitted because no context is sufficiently validated or selected.
+
+CHANGED_ARTIFACTS
+
+None.
+
+No files were read or written, and no repository artifact is claimed to have changed.
+
+INVALIDATED_STAGES
+
+None.
+
+No tactical or adoption stage is invalidated because strategic modeling did not proceed.
+
+OPEN_QUESTIONS
+
+- What new evidence conflicts with the finding of stable CRUD and no complex policy?
+- Is the requester intentionally overriding the discovery result?
+- Who owns and approves that override?
+- What meaningful outcome requires bounded contexts rather than a simple catalog model?
+
+BOUNDARY_CHECKS
+
+- Discovery fit: `not-fit`; strategic work must not silently override it.
+- Scope: one simple catalog outcome is present, but evidence is insufficient for strategic boundary modeling.
+- Vocabulary: insufficient to define context-specific language.
+- Evidence: insufficient for subdomain classification, context boundaries, or relationship mapping.
+- Ownership: unresolved.
+- Strategic boundaries: none proposed.
+- Context relationships: none proposed.
+- Tactical readiness: none.
+- Artifact ownership and safety: no writes permitted or performed.
+- Stop condition: satisfied because the request conflicts with a `not-fit` discovery result and supplies no new evidence or explicit override.

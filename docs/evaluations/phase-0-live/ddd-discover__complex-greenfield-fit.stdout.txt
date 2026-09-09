@@ -1,0 +1,107 @@
+## STATUS
+
+`complete`
+
+## RESULT
+
+- **Stage:** `ddd-discover`
+- **Scope:** New insurance claims capability; greenfield mode.
+- **DDD fit:** `fit`.
+- **Rationale:** The capability has meaningful policy rules, approval decisions, exceptions, multiple actors, domain events, and costly incorrect outcomes. These are strong indicators that explicit domain discovery and modeling are warranted.
+- **Expected outcomes addressed:**
+  - The scope is bounded to one claims capability.
+  - The evidence supports a DDD `fit` assessment.
+  - Relevant actors, policies, exceptions, approvals, and events are identified as discovery concerns.
+  - Discovery-owned artifact paths are identified without claiming that files were changed.
+  - A portable request for `ddd-strategic` is prepared.
+- **Forbidden outcomes avoided:**
+  - No bounded contexts or service boundaries were invented.
+  - No tactical model, aggregates, entities, commands, or implementation design was produced.
+  - No migration, decomposition, product-code, test, configuration, or deployment changes were proposed as completed work.
+  - No unsupported insurance-domain facts were presented as established.
+  - No desired policy was conflated with current system behavior.
+  - No artifact changes are claimed in this ephemeral evaluation.
+
+## EVIDENCE
+
+| Claim type | Source | Owner | Evidence |
+|---|---|---|---|
+| Desired policy or meaning | Claims handlers and underwriters | Claims handlers and underwriters | They describe approval policies. |
+| Desired policy or meaning | Claims handlers and underwriters | Claims handlers and underwriters | They describe exceptions that affect claims decisions. |
+| Desired policy or meaning | Claims handlers and underwriters | Claims handlers and underwriters | They provide examples involving domain events. |
+| Interpretation | Supplied case evidence | Discovery stage | Approval policies, exceptions, multiple actors, and costly incorrect decisions indicate meaningful domain complexity and decision risk. |
+| Assumption | Scope statement | Requestor | The capability boundary is sufficiently limited to one claims capability for discovery, but detailed inclusions and exclusions remain to be confirmed. |
+
+No current-behavior evidence, implementation evidence, contractual obligation, regulatory evidence, or operational evidence was supplied. Therefore, no claims are made about an existing system.
+
+## HANDOFF_OR_STOP
+
+**Handoff requested:** `ddd-strategic`
+
+```yaml
+stage: ddd-discover
+status: complete
+scope:
+  project: new insurance claims capability
+  capability: one claims capability
+  mode: greenfield
+objective: >
+  Establish strategic domain boundaries and relationships for the insurance
+  claims capability using the discovery evidence.
+artifact_bundle:
+  - docs/ddd/assessment.md
+  - docs/ddd/domain-vision.md
+  - docs/ddd/ubiquitous-language.md
+evidence_bundle:
+  - Claims handlers and underwriters describe approval policies.
+  - Examples include exceptions and events.
+  - The scope is one claims capability.
+assumptions:
+  - The stated claims capability boundary is sufficient for strategic discovery.
+open_questions:
+  - Which actors participate in claim submission, assessment, approval, exception handling, and settlement?
+  - Which approval policies are mandatory, discretionary, or configurable?
+  - What events represent meaningful business state changes?
+  - Which exceptions require human judgment or escalation?
+  - What outcomes make an incorrect decision costly, and to whom?
+allowed_paths:
+  - docs/ddd/
+return_to: ddd-discover
+```
+
+The handoff does not authorize implementation or service decomposition.
+
+## CHANGED_ARTIFACTS
+
+No artifacts were changed.
+
+Discovery-owned paths that would be appropriate for subsequent repository work:
+
+- `docs/ddd/assessment.md` — proposed; not created or validated here.
+- `docs/ddd/domain-vision.md` — proposed; not created or validated here.
+- `docs/ddd/ubiquitous-language.md` — proposed; not created or validated here.
+
+## INVALIDATED_STAGES
+
+None. No later-stage artifacts or implementation work were supplied and therefore none were invalidated.
+
+## OPEN_QUESTIONS
+
+1. What is explicitly inside and outside the claims capability?
+2. Which actors have authority to approve, reject, escalate, or override a claim?
+3. What are the concrete approval rules and exception cases?
+4. Which events are business-significant, and what facts do they represent?
+5. Are there regulatory, contractual, audit, or security obligations governing decisions?
+6. Which terms have competing meanings between claims handlers and underwriters?
+7. What evidence will establish the cost and impact of incorrect decisions?
+
+## BOUNDARY_CHECKS
+
+- Scope was treated as one insurance claims capability in greenfield mode.
+- Evidence was classified rather than expanded with invented facts.
+- Current behavior was not inferred because no existing system evidence was supplied.
+- Desired policy statements were kept distinct from required obligations.
+- Only discovery concerns were addressed.
+- No strategic context map was created.
+- No tactical modeling, migration execution, service decomposition, or product-code changes were performed.
+- No repository files were read or written, and no artifact update is claimed.

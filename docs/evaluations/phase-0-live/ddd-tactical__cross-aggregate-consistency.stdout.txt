@@ -1,0 +1,153 @@
+STATUS
+
+`strategic-conflict`
+
+The tactical design is blocked because the invariant requires two proposed aggregates to change immediately together, while eventual delivery is explicitly unacceptable. Under the tactical rules, an immediate invariant spanning proposed aggregates requires revisiting or merging the aggregate boundary. This challenges the validated strategic model and must return to `ddd-strategic`.
+
+RESULT
+
+- Scope: one context — **Inventory**; capability/slice — **Reserve inventory / Reserve the last available unit**.
+- The command is **Reserve unit**.
+- The candidate invariant is: **“A reservation and available quantity never disagree at commit.”**
+- Evidence indicates immediate consistency is required:
+  - The domain owner requires immediate consistency.
+  - Delayed updates caused an observed violation.
+- The two proposed aggregates cannot remain separate under the current evidence if both must change atomically at commit.
+- The tactical model is **not produced** because the aggregate boundary is unresolved.
+- No eventual-consistency workaround is selected.
+- No multi-aggregate transaction is assumed.
+- No domain event or retry mechanism is treated as sufficient to preserve the invariant.
+- No CQRS or event-sourcing decision is made.
+- No repository, service, entity, value object, aggregate, or event contract is finalized.
+- No adoption handoff is issued because the tactical model is not sufficiently explicit or valid.
+- No artifact is claimed to have been created or changed.
+- The required next stage is the exact manual stage name: `ddd-strategic`.
+- The strategic stage must reassess whether the reservation and available-quantity concepts belong within one aggregate boundary or whether the invariant itself should be redefined with explicit evidence.
+
+Forbidden outcomes avoided:
+
+- No silent merging of aggregates.
+- No assumption that eventual delivery is acceptable.
+- No invented distributed transaction or persistence mechanism.
+- No modeling from generic DDD patterns alone.
+- No claim that adoption ran.
+- No edits to product code, schemas, configuration, deployment files, or strategic artifacts.
+
+EVIDENCE
+
+- Claim: Immediate consistency is required at commit.  
+  - Type: required obligation / desired policy.  
+  - Source: domain owner decision.  
+  - Owner: Inventory owner.  
+  - Scenario: Reserve the last available unit.  
+  - Observation: Domain owner requires immediate consistency.
+
+- Claim: Eventual delivery is insufficient for the invariant.  
+  - Type: current behavior and failure evidence.  
+  - Source: incident scenario.  
+  - Owner: Inventory owner.  
+  - Scenario: Reserve the last available unit.  
+  - Observation: Delayed updates caused an observed violation.
+
+- Claim: A reservation and available quantity must never disagree at commit.  
+  - Type: candidate invariant / required obligation.  
+  - Source: supplied invariant and domain-owner evidence.  
+  - Owner: Inventory owner.  
+  - Validation: supported by the stated requirement and incident, but aggregate ownership is unresolved.
+
+- Claim: Fulfillment consumes reservation facts.  
+  - Type: relationship fact.  
+  - Source: strategic handoff.  
+  - Owner: not separately identified.  
+  - Impact: downstream consumption may remain eventual, but it cannot relax the immediate Inventory invariant.
+
+HANDOFF_OR_STOP
+
+Bounded stop with strategic fallback.
+
+Return exactly one `ddd-strategic` request:
+
+```json
+{
+  "stage": "ddd-strategic",
+  "reason": "strategic-conflict",
+  "context": "Inventory",
+  "safe_slug": "inventory",
+  "context_path": "docs/ddd/contexts/inventory.md",
+  "purpose": "Reserve inventory",
+  "outcome": "Reserve the last available unit safely",
+  "commands": ["Reserve unit"],
+  "scenarios": ["Reserve the last available unit"],
+  "invariants": [
+    "A reservation and available quantity never disagree at commit"
+  ],
+  "conflict": {
+    "statement": "Two proposed aggregates must change immediately together to satisfy one invariant.",
+    "required_consistency": "immediate at commit",
+    "unacceptable_alternative": "eventual delivery",
+    "impact": "The proposed aggregate boundary cannot currently protect the invariant."
+  },
+  "required_resolution": [
+    "Reassess whether reservation and available quantity must be one aggregate boundary.",
+    "If separate aggregates remain proposed, provide evidence for a different invariant or consistency requirement.",
+    "Do not proceed to tactical modeling until ownership and the immediate consistency boundary are resolved."
+  ],
+  "relationships": [
+    "Fulfillment consumes reservation facts"
+  ],
+  "decision_owner": "Inventory owner",
+  "evidence": [
+    "domain owner requires immediate consistency",
+    "delayed updates caused an observed violation"
+  ],
+  "assumptions": [
+    "Immediate consistency is required at commit"
+  ],
+  "open_questions": [
+    "What is the recovery path after a conflict?"
+  ],
+  "allowed_paths": [
+    "docs/ddd/models/inventory.md",
+    "docs/ddd/contexts/inventory.md",
+    "docs/ddd/ubiquitous-language.md"
+  ],
+  "return_to": "ddd-strategic"
+}
+```
+
+No `ddd-adoption` request is returned.
+
+CHANGED_ARTIFACTS
+
+No artifacts changed.
+
+The permitted paths were evaluated conceptually only; this text-only evaluation does not create or update:
+
+- `docs/ddd/models/inventory.md`
+- `docs/ddd/contexts/inventory.md`
+- `docs/ddd/ubiquitous-language.md`
+
+INVALIDATED_STAGES
+
+- `strategic`: boundary and aggregate ownership require reassessment.
+- `tactical`: blocked until the strategic conflict is resolved.
+- `adoption`: not reached and not valid to invoke.
+
+OPEN_QUESTIONS
+
+- What is the recovery path after a conflict?
+- Are reservation and available quantity actually separate consistency boundaries?
+- If they remain separate concepts, what evidence permits relaxing the invariant or changing its timing?
+- Which domain owner has authority to approve a revised boundary or invariant?
+
+BOUNDARY_CHECKS
+
+- Exactly one selected context is present: **Inventory**.
+- The validated slug `inventory` is preserved.
+- The requested model path would be `docs/ddd/models/inventory.md`, but no model is written because the boundary is unresolved.
+- The immediate invariant spans two proposed aggregates.
+- Eventual consistency is explicitly rejected by the case evidence.
+- The tactical rules require revisiting or merging the aggregate boundary rather than assuming a multi-aggregate transaction or event workaround.
+- Strategic artifacts are not modified by this tactical result.
+- No product source, tests, schemas, configuration, generated output, or deployment files are involved.
+- Ownership is respected: the conflict is returned to `ddd-strategic`; tactical modeling and adoption do not proceed.

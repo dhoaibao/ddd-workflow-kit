@@ -1,0 +1,250 @@
+## STATUS
+
+`complete`
+
+Stage: `ddd-tactical`  
+Scope: one validated bounded context — **Claims** (`claims`)  
+Selected slice: approving a claim while maintaining exactly one current decision owner.
+
+No files were read or written. This is a portable, text-only result.
+
+## RESULT
+
+### Context and behavior
+
+- **Purpose/outcome:** Decide and settle claims.
+- **Command:** `Approve claim`
+- **Actor:** Unspecified; requires confirmation by the Claims policy owner before adoption.
+- **Preconditions:**
+  - The claim is available for approval.
+  - Decision ownership is available at approval time.
+  - Policy supplies verified limits.
+- **Input:** Claim identity and the decision owner to assign or confirm.
+- **Decision:** Verify that approval will result in exactly one current decision owner.
+- **Successful outcome:** The claim is approved with one current decision owner.
+- **Failures:**
+  - Approval is rejected when no current decision owner can be established.
+  - Approval is rejected when more than one current decision owner would remain.
+  - Approval is rejected when ownership cannot be evaluated using the available information.
+- **Counterexample:** A failed approval scenario with two owners.
+- **Observable acceptance signal:** After successful approval, querying the approval state identifies exactly one current decision owner.
+- **Affected relationship:** Policy supplies verified limits.
+
+### Invariant
+
+**Invariant:** Each approved claim has exactly one current decision owner.
+
+- **Evidence:** Domain expert approval policy; failed approval scenario with two owners.
+- **Provenance:** Domain expert interview; failed approval scenario.
+- **Owner:** Claims policy owner.
+- **Scope:** The approval state of one claim.
+- **Failure consequence:** The approval must not complete, because the claim would have ambiguous decision ownership.
+- **Validation:** `validated` as a named rule supported by the supplied evidence.
+- **Consistency:** Immediate. The rule must hold at the point the approval command succeeds; eventual repair would expose an invalid approved state.
+
+### Model-element decisions
+
+- **Approval aggregate/root:** `proposed`, with the approval state and its current decision owner inside the smallest consistency boundary that directly protects the invariant.
+  - External commands operate through this root.
+  - The root must reject approval unless exactly one current decision owner is established.
+  - The aggregate boundary is limited to the approval state needed for this rule; no broader claim boundary is inferred.
+- **Decision owner value or reference:** `unvalidated`.
+  - The supplied evidence establishes the cardinality rule but does not define whether an owner is modeled by identity, a value object, or a reference to another context.
+  - Do not infer owner attributes or lifecycle.
+- **Claim:** Remains a referenced subject of approval. No separate Claim aggregate is introduced because the supplied evidence does not establish a Claim-owned invariant.
+- **Repository:** `proposed only if adoption requires loading and saving the approval aggregate for `Approve claim`. Domain-facing intent would be to retrieve the approval state and persist the accepted decision with concurrency protection.
+- **Domain service:** Not needed for the named invariant. The rule belongs inside the approval consistency boundary.
+- **Specification:** Not needed; the invariant can be expressed directly by the aggregate decision rule.
+- **Factory:** Not needed; no construction complexity was evidenced.
+- **Domain event:** `Claim approval recorded` is deferred. An event may be useful for downstream notification or policy effects, but no such consumer or requirement was supplied. It must not be treated as a command.
+
+### Transaction and concurrency assumptions
+
+- Approval and assignment or confirmation of the current decision owner occur within one immediate consistency boundary.
+- Concurrent approval attempts must not both succeed against stale ownership state.
+- The exact concurrency mechanism is intentionally unspecified.
+- No multi-aggregate transaction is assumed.
+
+### Integration, delivery, and recovery
+
+- **Integration:** Policy supplies verified limits. The interaction direction is recorded; protocol and delivery guarantees are not specified.
+- **Delivery:** No event delivery requirement was evidenced.
+- **Ordering:** No cross-aggregate ordering requirement was evidenced.
+- **Duplication/idempotency:** The command’s idempotency behavior is an open adoption concern; it must be defined before implementation if retries are possible.
+- **Retry/recovery:** A failed invariant check must leave the approval unapproved. Recovery behavior for stale owner assignment remains unresolved.
+- **Privacy:** No privacy requirement was supplied.
+
+### Optional patterns
+
+- **CQRS:** `not-needed` for this slice. No read/write scaling or separate model evidence was provided. Simpler aggregate command handling is sufficient.
+- **Event sourcing:** `not-needed`. No audit, temporal reconstruction, or event-history requirement was provided. Ordinary domain events, if later required, would not imply event sourcing.
+
+### Expected outcomes addressed
+
+- A single Claims context is modeled.
+- The named rule is treated as an immediate invariant.
+- The concrete `Approve claim` scenario protects that rule.
+- Evidence, owner, failure consequence, and validation state are recorded.
+- The approval consistency boundary is kept narrow.
+- Unsupported details remain unvalidated or deferred.
+- Exactly one adoption handoff is prepared.
+
+### Forbidden outcomes avoided
+
+- No second context was modeled.
+- No aggregate was inferred from tables, modules, schemas, filenames, or deployment structure.
+- No unsupported owner identity, lifecycle, persistence schema, API, framework, or implementation class was invented.
+- No eventual-consistency workaround was proposed for an immediate invariant.
+- No multi-aggregate transaction was assumed.
+- No CQRS or event sourcing was introduced by default.
+- No strategic boundary, context map, domain map, or product source was changed.
+- No claim was made that files were actually created or modified.
+- No adoption execution was claimed.
+
+## EVIDENCE
+
+| Claim | Type | Source/provenance | Owner | Scenario/observation |
+|---|---|---|---|---|
+| Claims exists as the selected context with validated slug `claims` | Fact / current handoff | Supplied strategic input | Claims policy owner | Selected context is Claims |
+| Claims decides and settles claims | Desired meaning / outcome | Supplied purpose and outcome | Claims policy owner | Approve a claim |
+| Approval must have exactly one current decision owner | Required obligation / invariant | Domain expert approval policy | Claims policy owner | Approve a claim with one decision owner |
+| Multiple owners are an approval failure | Current behavior / failure evidence | Failed approval scenario | Claims policy owner | Failure example with two owners |
+| Decision ownership is available at approval time | Assumption | Supplied assumption | Claims policy owner | Approval-time ownership check |
+| Policy supplies verified limits | Relationship fact | Supplied relationship | Policy/Claims owners to confirm | Approval uses policy limits |
+| Stale owner resolution is undefined | Open question | Supplied open question | Claims policy owner | Stale owner assignment |
+
+## HANDOFF_OR_STOP
+
+### `ddd-adoption` request
+
+```yaml
+stage: ddd-adoption
+return_to: ddd-strategic
+context:
+  name: Claims
+  slug: claims
+  model_path: docs/ddd/models/claims.md
+selected_slice: Approve a claim with one current decision owner
+
+commands:
+  - name: Approve claim
+    scenario: Approve a claim with one decision owner
+    success: Claim approval completes with exactly one current decision owner
+    failures:
+      - No current decision owner can be established
+      - More than one current decision owner remains
+      - Ownership cannot be evaluated
+
+invariants:
+  - statement: Each approved claim has exactly one current decision owner
+    scope: One claim approval
+    owner: Claims policy owner
+    consistency: immediate
+    validation: validated
+    evidence:
+      - domain expert approval policy
+      - failed approval scenario with two owners
+
+decisions:
+  - Approval state is modeled as a proposed aggregate/root boundary
+  - The invariant is enforced inside that immediate consistency boundary
+  - No domain service, specification, factory, CQRS, or event sourcing is required by current evidence
+  - A repository is proposed only if adoption requires persistence of the approval aggregate
+  - Domain event publication is deferred pending a downstream requirement
+
+integration_assumptions:
+  - Policy supplies verified limits
+  - No delivery, ordering, duplication, or cross-aggregate protocol has yet been established
+
+persistence_assumptions:
+  - Approval state must be loaded and saved as one consistency unit if persistence is adopted
+  - Concurrency protection is required to prevent competing approvals from violating the invariant
+  - No schema, database, ORM, or storage technology is prescribed
+
+risks:
+  - The owner identity/reference model is not yet validated
+  - Stale owner assignment resolution is undefined
+  - Command idempotency and retry behavior are unspecified
+  - The relationship contract with Policy is not detailed
+
+evidence:
+  - claim: Approval requires exactly one current decision owner
+    source: domain expert interview
+    claim_type: required obligation
+  - claim: Multiple owners are a failure condition
+    source: failed approval scenario
+    claim_type: current behavior
+  - claim: Decision ownership is available at approval time
+    source: supplied assumption
+    claim_type: assumption
+
+validation:
+  status: tactical model complete; implementation adoption not run
+  owner: Claims policy owner
+  strategic_boundary: unchanged
+
+owners:
+  decision_owner: Claims policy owner
+  unresolved_integration_owner: Policy and Claims owners to confirm
+
+allowed_paths:
+  - docs/ddd/models/claims.md
+  - docs/ddd/contexts/claims.md
+  - docs/ddd/ubiquitous-language.md
+
+open_questions:
+  - Who resolves a stale owner assignment?
+  - Is the decision owner an identity value, a reference, or another domain concept?
+  - What are the command retry and idempotency rules?
+  - What contract supplies verified policy limits?
+  - Is a downstream consumer required for an approval event?
+
+acceptance_signals_to_define:
+  - A successful approval exposes exactly one current decision owner
+  - Approval with two owners is rejected without changing approved state
+  - Approval with no resolvable owner is rejected
+  - Concurrent approval attempts cannot create multiple current owners
+```
+
+Manual next stage if the host does not activate named stages: `ddd-adoption`. Adoption has not run.
+
+## CHANGED_ARTIFACTS
+
+No artifacts were actually changed.
+
+Planned owned artifact:
+
+- `docs/ddd/models/claims.md` — tactical context model; lifecycle `planned`, validation `complete for current evidence`.
+
+No updates are proposed to the strategic-owned context or language documents because the available evidence does not require additive vocabulary or conflict notes.
+
+## INVALIDATED_STAGES
+
+`[]`
+
+The tactical evidence does not challenge the selected boundary, context language, ownership, or relationship. No strategic invalidation is returned.
+
+## OPEN_QUESTIONS
+
+1. Who resolves a stale owner assignment?
+2. Is the decision owner an identity value, a reference, or another domain concept?
+3. What retry and idempotency behavior does `Approve claim` require?
+4. What exact contract supplies verified policy limits?
+5. Is a downstream consumer needed for approval facts?
+6. What concurrency guarantee is required by the adoption environment?
+
+## BOUNDARY_CHECKS
+
+- Exactly one context selected: **yes**.
+- Context identity and safe slug reused exactly: **yes**, `claims`.
+- Selected model path is within the permitted model directory: **yes**, `docs/ddd/models/claims.md`.
+- Model path parent is exactly `docs/ddd/models`: **yes**.
+- Evidence-backed invariant present: **yes**.
+- Concrete command scenario protects the invariant: **yes**, `Approve claim`.
+- Immediate versus eventual consistency distinguished: **yes**, immediate.
+- Unsupported details marked unresolved or proposed: **yes**.
+- Strategic artifacts protected: **yes**.
+- Product code, tests, schemas, configuration, deployment files, and generated output untouched: **yes**.
+- Artifact ownership respected: **yes**.
+- Adoption handoff contains exactly one context and one model path: **yes**.
+- Adoption claimed as executed: **no**.

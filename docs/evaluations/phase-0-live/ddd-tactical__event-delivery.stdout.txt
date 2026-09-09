@@ -1,0 +1,219 @@
+STATUS
+
+`complete` — tactical design is sufficiently explicit for one validated context. No files were read or written; this is a portable, text-only result.
+
+RESULT
+
+- **Stage:** `ddd-tactical`
+- **Scope:**  
+  - Context: **Approvals**
+  - Capability: approval processing/publication
+  - Selected slice: publish an approval fact for settlement translation
+- **Outcome:** Deliver an approval fact for settlement translation.
+- **Decision owner:** Approvals owner.
+- **Vocabulary:** approval, fact, settlement.
+
+### Behavior
+
+**Command/use case: Publish approval fact**
+
+- **Actor:** Approvals application/process owner.
+- **Preconditions:** An approval has been established according to the upstream approval behavior; the fact is published after the approval transaction commits.
+- **Inputs:** The permitted approval facts required by the integration contract.
+- **Decisions:** Select only privacy-approved fields; publish only after commit.
+- **Successful outcome:** A past-tense approval fact is made available for settlement translation.
+- **Failures:** Publication may fail or be retried; the approval itself must not be re-created merely because delivery is retried.
+- **Counterexamples:**  
+  - A fact includes a privacy-restricted field.
+  - Settlement receives the same fact more than once.
+  - Facts arrive out of order.
+  - Delivery succeeds after a retry.
+- **Observable acceptance signals to define:** A committed approval produces a consumable fact; prohibited payload details are absent; duplicate delivery does not produce duplicate settlement effects; retry does not lose the fact.
+- **Affected relationship:** Settlement translates approval facts.
+
+### Invariant
+
+1. **Approval facts contain only permitted facts.**
+   - **Evidence:** Privacy review; integration contract.
+   - **Scope:** Approval fact payload at creation/publication.
+   - **Owner:** Approvals owner, subject to privacy review authority.
+   - **Failure consequence:** The fact must not be published, or publication must fail safely for review/remediation.
+   - **Consistency:** Immediate at fact construction/publication. Privacy filtering cannot be deferred to settlement.
+   - **Validation:** Supported by the supplied evidence; exact permitted field list remains an open contract detail.
+
+### Tactical model elements
+
+- **Approval fact:** Proposed past-tense domain/integration fact representing that an approval occurred. It is a fact, not a command.
+- **Value objects:** Not introduced. The evidence does not identify a value-equality or validation concept requiring a separate value object.
+- **Entity:** Not introduced. Approval identity and lifecycle continuity are not sufficiently specified by this case.
+- **Aggregate/root:** Not introduced. No aggregate boundary is justified solely by publication or delivery behavior. The approval transaction that establishes the fact is outside the supplied tactical evidence.
+- **Repository:** Not introduced. No aggregate-root persistence intent or lookup/save contract is required by this slice.
+- **Domain service:** Not introduced. Settlement translation is a downstream relationship, not evidence of an Approvals domain service.
+- **Factory/specification:** Not introduced. Privacy filtering can remain a named publication rule unless later evidence shows a reusable construction or policy boundary is needed.
+
+### Consistency and integration
+
+- Approval fact creation/publication is tied to the committed approval outcome.
+- Settlement consumption is **eventually consistent** with Approvals.
+- Delivery is allowed to:
+  - duplicate facts;
+  - arrive out of order;
+  - require retry.
+- Consumers are assumed capable of deduplicating facts.
+- Settlement must use a stable fact identity or equivalent deduplication key. The exact identity/key contract is not supplied.
+- Ordering cannot be guaranteed or modeled completely until the available ordering key is known.
+- Retry must be safe and idempotent from the consumer’s perspective.
+- The fact payload must exclude privacy-restricted details.
+- Cross-aggregate or multi-aggregate immediate consistency is not proposed.
+
+### Optional patterns
+
+- **CQRS:** `not-needed` for this slice. No query-side problem or independent read model is evidenced.
+- **Event sourcing:** `not-needed` for this slice. A past-tense fact does not imply event sourcing; no event-history persistence requirement is provided.
+- **Ordinary domain/integration fact:** `proposed`, subject to confirmation of the integration contract and payload rules.
+
+### Expected outcomes addressed
+
+- Models a past-tense approval fact consumed by settlement.
+- Treats the fact as a fact rather than a command.
+- Makes duplicate delivery explicit.
+- Makes out-of-order delivery explicit.
+- Makes retry behavior explicit.
+- Requires consumer deduplication/idempotency.
+- Preserves the privacy payload invariant.
+- Distinguishes immediate payload validation from eventual settlement consistency.
+- Records ordering-key uncertainty instead of inventing an ordering mechanism.
+- Produces one-context tactical scope only.
+- Prepares exactly one `ddd-adoption` handoff.
+
+### Forbidden outcomes explicitly avoided
+
+- No aggregate, repository, service, CQRS, or event-sourcing pattern was added without evidence.
+- No ordering key was invented.
+- No assumption of exactly-once delivery was made.
+- No immediate cross-context transaction was assumed.
+- No strategic boundary, context map, domain map, or language ownership was changed.
+- No product code, tests, schemas, configuration, deployment files, or generated output were changed.
+- No adoption work was run or claimed.
+- No second bounded context was modeled.
+- No artifact change is claimed in this text-only evaluation.
+
+EVIDENCE
+
+| Claim | Type | Source/provenance | Owner | Scenario/observation |
+|---|---|---|---|---|
+| Settlement translates approval facts | Fact/current integration behavior | Supplied evidence; integration contract | Approvals owner / settlement counterpart | Publish an approval fact after commit |
+| Delivery may duplicate | Fact/current integration behavior | Supplied evidence; integration contract | Approvals owner / settlement counterpart | Repeated delivery of one approval fact |
+| Delivery may require retry | Fact/current integration behavior | Supplied evidence; integration contract | Approvals owner / settlement counterpart | Failed delivery followed by retry |
+| Delivery may arrive out of order | Fact/current integration behavior | Case statement | Approvals owner / settlement counterpart | Multiple facts delivered in non-creation order |
+| Consumers can deduplicate facts | Assumption | Supplied assumptions | Settlement owner to validate | Duplicate delivery |
+| Approval facts contain only permitted facts | Candidate invariant / required policy | Privacy review and integration contract | Approvals owner with privacy review | Fact includes a prohibited payload detail |
+| Facts are published after commit | Desired policy/meaning | Supplied scenario | Approvals owner | Publish an approval fact after commit |
+| Exact ordering key is available | Unresolved question | Supplied open question | Approvals owner and settlement owner | Out-of-order delivery |
+
+HANDOFF_OR_STOP
+
+**Handoff:** one `ddd-adoption` request.
+
+```yaml
+stage: ddd-adoption
+context: Approvals
+model_path: docs/ddd/models/approvals.md
+commands:
+  - Publish approval fact
+scenarios:
+  - Publish an approval fact after commit
+invariants:
+  - name: Approval facts contain only permitted facts
+    consistency: immediate
+    evidence:
+      - privacy review
+      - integration contract
+decisions:
+  - Model the approval fact as a past-tense fact, not a command.
+  - Publish only after the approval transaction commits.
+  - Treat settlement consumption as eventually consistent.
+  - Require duplicate-safe/idempotent settlement consumption.
+  - Do not assume ordering until the ordering-key contract is resolved.
+  - Do not introduce an aggregate, repository, domain service, CQRS, or event sourcing without further evidence.
+integration_assumptions:
+  - Settlement translates approval facts.
+  - Delivery may duplicate, arrive out of order, and require retry.
+  - Consumers can deduplicate facts.
+  - The fact must expose a stable identity or equivalent deduplication basis.
+persistence_assumptions:
+  - No Approvals repository or persistence model is justified by the supplied slice.
+  - The approval fact is published after commit; publication durability and recovery mechanics require adoption-level confirmation.
+risks:
+  - Missing or unsuitable deduplication identity could cause duplicate settlement effects.
+  - Unknown ordering key could prevent deterministic settlement handling.
+  - Privacy payload rules may be incomplete.
+  - Retry/recovery semantics may be underspecified.
+evidence:
+  - settlement translates the fact
+  - delivery can duplicate and retry
+  - privacy review limits payload details
+  - integration contract
+  - privacy review
+validation:
+  status: tactical model complete with open integration questions
+  required_follow_up:
+    - confirm permitted payload fields
+    - confirm fact identity/deduplication key
+    - confirm ordering key and whether settlement needs ordering guarantees
+owners:
+  - Approvals owner
+  - Settlement owner
+  - Privacy review owner
+allowed_paths:
+  - docs/ddd/models/approvals.md
+  - docs/ddd/contexts/approvals.md
+  - docs/ddd/ubiquitous-language.md
+open_questions:
+  - Which ordering key is available?
+  - What stable identity does settlement use for deduplication?
+  - Which exact payload fields are permitted?
+acceptance_signals_to_define:
+  - A committed approval produces one logically identifiable approval fact.
+  - Repeated delivery does not create duplicate settlement effects.
+  - Retry eventually delivers or exposes a recoverable failure.
+  - Out-of-order delivery is handled according to the confirmed ordering policy.
+  - Prohibited payload details are never published.
+return_to: ddd-strategic
+```
+
+The host should activate the named next stage `ddd-adoption`; adoption has not run.
+
+CHANGED_ARTIFACTS
+
+- None. This evaluation is ephemeral and text-only.
+- Intended tactical model path, if written by an authorized host: `docs/ddd/models/approvals.md`
+- Lifecycle status: `proposed/not written`
+- No existing context or language artifact was edited.
+
+INVALIDATED_STAGES
+
+- None.
+- `ddd-strategic` remains valid because the tactical evidence does not challenge the Approvals boundary, ownership, vocabulary, or relationship.
+- `ddd-adoption` is pending and must not be treated as completed.
+
+OPEN_QUESTIONS
+
+1. Which ordering key is available?
+2. What stable fact identity or deduplication key will settlement use?
+3. Which exact payload fields are permitted by the privacy review?
+4. What delivery durability and recovery behavior is required after publication?
+5. What is the settlement behavior when an out-of-order fact cannot yet be applied?
+
+BOUNDARY_CHECKS
+
+- Exactly one selected context: **Approvals**.
+- Validated slug reused exactly: `approvals`.
+- Intended model path is under the permitted parent `docs/ddd/models`.
+- Strategic artifacts remain owned by `ddd-strategic`.
+- Tactical model remains owned by `ddd-tactical`.
+- No unsupported domain facts were invented.
+- Immediate versus eventual consistency is explicit.
+- Duplicate, ordering, retry, recovery, privacy, and idempotency concerns are recorded.
+- No artifact was actually changed or claimed to have changed.
+- Exactly one downstream handoff is provided: `ddd-adoption`.

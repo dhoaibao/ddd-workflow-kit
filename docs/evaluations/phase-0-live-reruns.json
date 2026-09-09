@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "prompt_template": "docs/evaluations/phase-0-live-prompt-template.json",
+  "prompt_template_id": "phase-0-eval-wrapper-v1",
+  "reruns": [
+    {
+      "rerun_at_utc": "2026-09-09T14:20:14.540034Z",
+      "package": "ddd-tactical",
+      "case_id": "safe-path-and-docs-only",
+      "title": "Reuse the safe slug and refuse product changes",
+      "baseline_commit": "b7d930016c66254f3b559c9240076c3cb7c19577",
+      "post_fix_skill_source": "working-tree skills/ddd-tactical/SKILL.md",
+      "exit_status": 0,
+      "duration_seconds": 33.884,
+      "stdout_path": "docs/evaluations/phase-0-live/post-fix-rerun-20260909/ddd-tactical__safe-path-and-docs-only.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/post-fix-rerun-20260909/ddd-tactical__safe-path-and-docs-only.stderr.txt",
+      "prompt_sha256": "e7c10e2e0a8466920e76ed675726ad8651f36c08b77ffbaf73475739600b6139",
+      "stdout_sha256": "4f3f0787eca4a8b38504d283930775371d0e4f9f48ca73f4a0bf67dccc895658",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 6984,
+      "stderr_bytes": 0,
+      "skill_sha256": "21abc3043c27fd575858584c7d9b7925b330d631fef99b6f60ceabb29230235e",
+      "semantic_judgment": {
+        "status": "pass",
+        "evidence": "The post-fix output isolates the safe additive subset, refuses only product/traversal paths, and preserves the unresolved section-ownership stop."
+      }
+    }
+  ]
+}

@@ -1,0 +1,207 @@
+## STATUS
+
+`complete` — tactical model prepared for exactly one validated context, with no files read or written.
+
+## RESULT
+
+### Scope
+
+- **Context:** Billing
+- **Capability/slice:** Manage billing amounts and customer references
+- **Validated context path:** `docs/ddd/contexts/billing.md`
+- **Model path:** `docs/ddd/models/billing.md`
+- **Decision owner:** Billing owner
+- **Validation state:** Model decisions are evidence-backed where stated; supported-currency policy remains unresolved.
+
+### Behavior
+
+1. **Change customer contact details**
+   - **Actor:** Billing user or authorized billing workflow; authorization is not otherwise specified.
+   - **Precondition:** A customer reference exists.
+   - **Input:** Customer reference and new contact details.
+   - **Decision:** Preserve the customer identity while replacing or updating contact details.
+   - **Successful outcome:** Contact details change; the customer reference remains the same identity.
+   - **Failure cases:** No specific failure policy was supplied.
+   - **Counterexample prevented:** A contact-detail change must not create a new customer identity.
+   - **Acceptance signal to define:** Before and after the change, the customer reference resolves to the same customer identity.
+   - **Affected relationship:** Customer access supplies the identity reference.
+
+2. **Compare two monetary amounts**
+   - **Actor:** Billing workflow or caller.
+   - **Precondition:** Both amounts have valid currencies and precision.
+   - **Input:** Two monetary amounts.
+   - **Decision:** Compare by currency and numeric value.
+   - **Successful outcome:** Amounts are equal only when both currency and numeric value are equal.
+   - **Failure cases:** Invalid currency or precision; exact handling is not specified.
+   - **Counterexamples prevented:**
+     - Numerically equal amounts in different currencies are not equal.
+     - Amounts with invalid currency or precision are not valid monetary amounts.
+   - **Acceptance signal to define:** Equality returns true only for matching currency and numeric value.
+
+### Invariants
+
+1. **Customer identity remains continuous through contact changes**
+   - **Evidence:** “customer identity remains continuous”; assumption: “Customer identity outlives contact changes.”
+   - **Scenario:** Change customer contact details.
+   - **Scope:** One customer reference and its associated customer identity.
+   - **Owner:** Billing owner.
+   - **Consequence of failure:** Billing could associate a changed contact with a different customer identity.
+   - **Validation:** Supported by supplied evidence; exact identity/reference contract remains to be made explicit.
+   - **Consistency:** Immediate within the customer-reference change operation, because the operation must preserve identity continuity as one observable result.
+
+2. **A monetary amount has valid currency and precision**
+   - **Evidence:** Candidate invariant, invariant, and evidence: “amount validation requires currency and precision.”
+   - **Scenario:** Compare two monetary amounts.
+   - **Scope:** Each monetary amount value.
+   - **Owner:** Billing owner.
+   - **Consequence of failure:** Invalid monetary values could participate in billing comparisons.
+   - **Validation:** Supported as a required invariant; supported-currency policy is unresolved.
+   - **Consistency:** Immediate at monetary-amount creation or validation before comparison.
+
+3. **Monetary equality requires currency and numeric value equality**
+   - **Evidence:** Case requirement: “a monetary amount that is equal by currency and numeric value.”
+   - **Scenario:** Compare two monetary amounts.
+   - **Scope:** Two monetary amount values.
+   - **Owner:** Billing owner.
+   - **Consequence of failure:** Comparisons could treat amounts from different currencies as equal.
+   - **Validation:** Directly supported by the requested behavior.
+
+### Tactical model elements
+
+- **Customer reference — Entity**
+  - **Identity:** Stable customer identity/reference.
+  - **Continuity:** Identity persists when contact details change.
+  - **Mutable state:** Contact details may change.
+  - **Equality:** By stable identity, not by current contact details.
+  - **Status:** Supported by supplied evidence and assumption.
+  - **Aggregate/root decision:** No aggregate boundary is required by the supplied evidence. Do not introduce an aggregate or repository without a named transactional or persistence need.
+
+- **Monetary amount — Value Object**
+  - **Equality:** By currency and numeric value.
+  - **Validation:** Currency and precision must be valid.
+  - **Immutability:** Proposed as appropriate to value semantics; this is a tactical modeling proposal, not an independently supplied domain fact.
+  - **Status:** Value-object classification is supported by the required equality semantics; supported currencies remain unresolved.
+  - **Aggregate/root decision:** None required for the supplied comparison behavior.
+
+- **Domain services:** Not needed by the supplied scenarios. Comparison is a behavior of the monetary amount value object.
+- **Specifications:** Not needed; the supplied validation and equality rules can be expressed directly as value-object rules.
+- **Factories:** Not needed on current evidence.
+- **Repositories:** Not modeled; no persistence lookup/save requirement was supplied.
+- **Domain events:** None modeled; no cross-boundary fact publication requirement was supplied.
+
+### Consistency and integration assumptions
+
+- Customer identity continuity is immediate for a contact-change operation.
+- Monetary validity is immediate before comparison.
+- No eventual-consistency behavior was supplied.
+- “Customer access supplies identity reference” is treated as an integration relationship, not as evidence for a specific API, database, or deployment mechanism.
+- No delivery, ordering, duplication, retry, recovery, or idempotency contract was provided because no domain event or asynchronous interaction was required.
+- No persistence mapping or storage behavior is assumed.
+
+### Optional patterns
+
+- **CQRS:** `not-needed` on current evidence. No separate read/write scaling or model divergence need was supplied. Simpler direct domain behavior is sufficient.
+- **Event sourcing:** `not-needed` on current evidence. No history reconstruction or event-log requirement was supplied. Ordinary persistence, if later required, should remain the simpler alternative unless evidence changes.
+
+### Risks and validation
+
+- Supported currencies are not defined.
+- The precise representation and allowed precision rules are not defined.
+- The source and lifecycle of a customer reference are only described through the relationship “Customer access supplies identity reference.”
+- Authorization and failure semantics for changing contact details are unspecified.
+- These gaps do not invalidate the entity/value-object classification, but they limit adoption readiness for implementation.
+
+### Forbidden outcomes explicitly avoided
+
+- No customer identity was inferred from tables, modules, schemas, classes, or deployment topology.
+- No aggregate, repository, service, event, CQRS, or event-sourcing pattern was introduced without a named need.
+- No framework-specific classes, code, schemas, APIs, persistence mappings, tests, configuration, or deployment changes were proposed.
+- No second bounded context was modeled.
+- No strategic boundary, context map, domain map, or strategic ownership document was changed.
+- No product source or unrelated file was changed.
+- No artifact change is claimed.
+
+## EVIDENCE
+
+| Claim | Type | Source/provenance | Owner | Scenario | Observation or statement |
+|---|---|---|---|---|---|
+| Billing manages amounts and customer references | Fact/desired scope | Supplied purpose and outcome; billing owner examples | Billing owner | Both supplied commands | “Manage billing amounts and customer references.” |
+| Customer identity outlives contact changes | Assumption supported by evidence | Supplied assumption and evidence | Billing owner | Change customer contact details | Identity remains continuous while contact details change. |
+| Monetary amount requires valid currency and precision | Required obligation/invariant | Supplied invariant, candidate invariant, and evidence | Billing owner | Compare two monetary amounts | Amount validation requires currency and precision. |
+| Monetary equality uses currency and numeric value | Required behavior | Exact case requirement | Billing owner | Compare two monetary amounts | Equal only when currency and numeric value match. |
+| Customer access supplies identity reference | Relationship/fact | Supplied relationship | Billing owner / customer-access owner not specified | Change customer contact details | Billing receives or uses a customer identity reference. |
+| Supported currencies | Unresolved question | Supplied open question | Billing owner | Compare two monetary amounts | Currency set is not defined. |
+
+## HANDOFF_OR_STOP
+
+### `ddd-adoption` request
+
+- **Model path:** `docs/ddd/models/billing.md`
+- **Context:** Billing
+- **Commands/scenarios:**
+  - Change customer contact details
+  - Compare two monetary amounts
+- **Invariants:**
+  - Customer identity remains continuous through contact changes.
+  - Monetary amounts have valid currency and precision.
+  - Monetary equality requires matching currency and numeric value.
+- **Tactical decisions:**
+  - Customer reference is an entity with stable identity and mutable contact details.
+  - Monetary amount is a value object with currency-and-numeric equality.
+  - No aggregate, repository, service, specification, factory, or domain event is currently required.
+  - CQRS and event sourcing are `not-needed`.
+- **Integration assumptions:** Customer access supplies the identity reference; no protocol or delivery semantics specified.
+- **Persistence assumptions:** None supplied; no repository or persistence mapping modeled.
+- **Risks:** Unsupported currency policy, precision rules, failure semantics, authorization, and customer-reference lifecycle remain unspecified.
+- **Evidence:** Supplied billing-owner examples, assumptions, invariant, relationship, and scenarios listed above.
+- **Validation:** Tactical classifications are complete for the requested entity/value-object slice; unresolved policy questions remain.
+- **Owner:** Billing owner.
+- **Allowed paths:** `docs/ddd/models/billing.md`, `docs/ddd/contexts/billing.md`, `docs/ddd/ubiquitous-language.md`
+- **Open questions:** Which currencies are supported? What precision rules apply? What are contact-change failure and authorization semantics?
+- **Acceptance signals to define:**
+  - Customer identity is unchanged after contact details change.
+  - Invalid currency or precision cannot form a valid monetary amount.
+  - Equal monetary amounts require equal currency and numeric value.
+- **Return to:** `ddd-strategic`
+- **Next stage:** `ddd-adoption`; adoption has not run.
+
+## CHANGED_ARTIFACTS
+
+No artifacts were changed. This is a text-only evaluation, and no file operations were performed or claimed.
+
+Planned owned artifact for a real repository run:
+
+- `docs/ddd/models/billing.md` — would be created or updated additively by `ddd-tactical`; not written here.
+
+No changes are proposed to:
+
+- `docs/ddd/domain-map.md`
+- `docs/ddd/context-map.md`
+- product source, tests, schemas, configuration, generated output, or deployment files.
+
+## INVALIDATED_STAGES
+
+- None.
+- The tactical evidence does not challenge the Billing boundary, vocabulary, ownership, or relationship.
+- `ddd-strategic` remains the declared `return_to` stage for unresolved strategic or policy questions.
+
+## OPEN_QUESTIONS
+
+1. Which currencies are supported?
+2. What numeric precision and rounding rules apply?
+3. What constitutes invalid contact details?
+4. What are the failure semantics when the customer reference is missing or unavailable?
+5. Who authorizes contact-detail changes?
+6. Is the customer reference locally owned by Billing or only supplied by Customer access?
+
+## BOUNDARY_CHECKS
+
+- Exactly one selected context was modeled: **Billing**.
+- The validated slug `billing` was reused unchanged.
+- The permitted model path is exactly `docs/ddd/models/billing.md`.
+- Customer reference and monetary amount were modeled from supplied behavior and invariants, not structural artifacts.
+- Entity and value-object labels have named evidence.
+- Immediate consistency was assigned only to stated invariants.
+- No unsupported aggregate, repository, service, event, persistence, or framework decision was made.
+- No strategic artifact or product implementation was altered.
+- The result contains exactly one adoption handoff for the Billing model.

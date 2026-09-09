@@ -1,0 +1,152 @@
+## STATUS
+
+`partial`
+
+## RESULT
+
+- **Stage:** `ddd-strategic`
+- **Scope:** Project-level strategic boundary review; two previously proposed contexts whose independence assumptions are now challenged.
+- **Outcome:** The new evidence invalidates the claim that the two contexts can be modeled as independently consistent. The proposed boundaries and relationship must be revisited.
+- **Strategic conclusion:** Immediate shared consistency is a strategic constraint, not merely an implementation detail. The existing context split is therefore **unvalidated and unresolved** until the invariant’s ownership, scope, and timing are clarified.
+- **Expected outcomes addressed:**
+  - The new domain-expert scenario is recorded as evidence requiring immediate shared consistency.
+  - The previously independent tactical and adoption assumptions are marked stale/invalidated.
+  - The two-context boundary hypothesis is challenged rather than approved unchanged.
+  - A consistency relationship must be documented, including ownership, communication/contract expectations, translation, failure behavior, and availability assumptions.
+  - Downstream tactical and adoption work must not proceed from the prior independence assumptions.
+- **Forbidden outcomes explicitly avoided:**
+  - No claim is made that the contexts must be merged; shared consistency alone does not establish a single bounded context.
+  - No deployment topology, service, database, aggregate, entity, repository, or implementation design is inferred.
+  - No tactical or adoption artifacts are silently rewritten.
+  - No strategic hypothesis is marked validated without further evidence.
+  - No artifact is claimed to have been created or changed in this text-only evaluation.
+  - No context is selected for `ddd-tactical`, because the boundary and ownership decision is materially unresolved.
+
+Portable result:
+
+```json
+{
+  "stage": "ddd-strategic",
+  "status": "partial",
+  "scope": {
+    "project": "unspecified",
+    "capability": "approve and settle claims",
+    "selected_context": null
+  },
+  "changed_artifacts": [],
+  "evidence": [
+    {
+      "claim_type": "current_or_required_domain_behavior",
+      "source": "domain-expert scenario",
+      "owner": "domain expert",
+      "scenario": "approve and settle claims",
+      "observation": "The two proposed contexts require immediate shared consistency."
+    },
+    {
+      "claim_type": "invalidated_assumption",
+      "source": "existing tactical and adoption assumptions",
+      "owner": "downstream stage owners",
+      "scenario": "approve and settle claims",
+      "observation": "The contexts were previously assumed to be independently consistent."
+    }
+  ],
+  "assumptions": [
+    "The phrase 'immediate shared consistency' refers to a domain-required invariant rather than a preferred technical implementation.",
+    "The two proposed contexts and their prior boundary rationale exist in strategic documentation, although their names are not supplied here."
+  ],
+  "open_questions": [
+    "What exact invariant must hold immediately, and across which concepts or lifecycle states?",
+    "Which context owns the decision and correction policy for that invariant?",
+    "Does the invariant require one coherent model, or can it be preserved across contexts through an explicit relationship and contract?",
+    "What are the failure, retry, availability, and temporal consistency expectations?",
+    "Which scenarios demonstrate that delayed consistency is unacceptable?",
+    "Are the existing context filenames and strategic artifacts available for safe, additive updates?"
+  ],
+  "subdomains": [
+    {
+      "classification": "unresolved",
+      "status": "unvalidated",
+      "rationale": "The new invariant may change the capability and boundary assessment; no reclassification is justified from the supplied evidence alone."
+    }
+  ],
+  "contexts": [
+    {
+      "status": "boundary-challenged",
+      "ownership": "unresolved",
+      "language": "The shared term or invariant is unresolved and must not be forced into one context meaning.",
+      "relationships": "A relationship requiring immediate shared consistency must be modeled or the boundary must be reconsidered.",
+      "uncertainty": "It is not yet established whether the invariant crosses two valid bounded contexts or demonstrates that the proposed separation is unsound."
+    }
+  ],
+  "invalidated_stages": [
+    "tactical",
+    "adoption"
+  ],
+  "handoff": {
+    "type": "bounded-decision-request",
+    "reason": "Strategic boundary and ownership claims must be resolved before emitting a single-context ddd-tactical request."
+  }
+}
+```
+
+## EVIDENCE
+
+1. **Domain-expert scenario — required domain meaning/behavior**
+   - New scenario requires immediate shared consistency between the two proposed contexts.
+   - This directly conflicts with the prior assumption that each context could maintain independent consistency.
+
+2. **Existing tactical and adoption assumptions — invalidated downstream assumptions**
+   - Tactical assumptions treating the contexts as independently consistent are stale.
+   - Adoption assumptions based on that independence are also stale.
+   - These are downstream consequences, not evidence that the contexts must be merged.
+
+## HANDOFF_OR_STOP
+
+**Bounded stop / decision request.**
+
+Before continuing to tactical design, obtain an explicit strategic decision on whether:
+
+1. the two contexts remain separate with a documented immediate-consistency relationship and clear ownership; or
+2. the proposed boundary is rejected and a different bounded-context model is investigated.
+
+After that decision, re-run the boundary and relationship checks. Only then should exactly one sufficiently validated context be selected for the manual `ddd-tactical` stage.
+
+## CHANGED_ARTIFACTS
+
+No artifacts were changed or claimed to have changed.
+
+If repository access and the required artifacts were available, the strategic updates would be limited to strategic-owned documents under `docs/ddd/`, recording:
+
+- the challenged boundary hypothesis;
+- the immediate-consistency relationship or unresolved boundary decision;
+- the evidence and uncertainty;
+- downstream staleness.
+
+Tactical and adoption artifacts would not be silently rewritten.
+
+## INVALIDATED_STAGES
+
+- `tactical` — prior independent-consistency assumptions are no longer valid.
+- `adoption` — adoption assumptions relying on those tactical boundaries are no longer valid.
+
+No source code, tests, configuration, generated output, deployment files, or downstream artifacts are modified.
+
+## OPEN_QUESTIONS
+
+- What is the exact shared invariant?
+- Is immediate consistency required for every transition or only for approval and settlement?
+- Which party owns the invariant and conflict-resolution policy?
+- Can the invariant be represented through a directional contract without collapsing the contexts?
+- What failure behavior is acceptable when one side is unavailable?
+- Which context, if any, should be selected for tactical investigation after the boundary decision?
+
+## BOUNDARY_CHECKS
+
+- **Scenario check:** Failed under the prior independent-boundary hypothesis; the new scenario requires immediate shared consistency.
+- **Consistency check:** Failed for independent contexts; the invariant crosses the proposed boundary.
+- **Ownership check:** Unresolved; no owner for the shared invariant was supplied.
+- **Lifecycle/change check:** Unresolved; the impact across approval and settlement lifecycles is unspecified.
+- **Security check:** Not assessable from the supplied evidence.
+- **Availability/failure check:** Unresolved; immediate consistency may impose cross-context availability or failure constraints.
+- **Language check:** Unresolved; no overloaded terms or context-specific meanings were supplied.
+- **Deployment check:** Intentionally not performed; deployment topology is not domain-boundary evidence.

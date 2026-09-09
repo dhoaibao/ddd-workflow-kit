@@ -1,0 +1,81 @@
+## STATUS
+
+`partial`
+
+## RESULT
+
+- **Scope:** Claims domain; outcome: **decide and settle claims**.
+- **Subdomain classifications:**
+  - **Fraud Detection — Core subdomain, proposed.** Evidence indicates that fraud detection differentiates the business and is therefore a likely source of competitive advantage in deciding claims.
+  - **Billing — Supporting subdomain, proposed.** Evidence indicates that billing supports claims operations but is not itself the differentiating capability.
+  - **Identity — Generic subdomain, proposed.** Evidence indicates that identity is a commodity capability and should not be treated as a claims-specific differentiator.
+- **Context implications:** These classifications support investigating a claims decision/settlement context, a fraud-detection context, a billing-support context, and an identity capability boundary. They do **not** establish final bounded contexts, ownership, relationships, or integration contracts.
+- **Validation state:** Classifications remain proposed because the supplied evidence gives expert rationale and examples but does not include concrete scenarios, lifecycle boundaries, decision ownership, consistency requirements, security constraints, or availability expectations.
+- **Expected outcomes addressed:** fraud detection is classified as core; billing as supporting; identity as generic; the claims outcome is preserved.
+- **Forbidden outcomes avoided:** no entities, value objects, aggregates, repositories, services, schemas, infrastructure, deployment topology, team structure, or implementation approval were designed or inferred. No classification was treated as validated fact, and no context was selected for tactical design without sufficient evidence.
+
+## EVIDENCE
+
+| Claim | Type | Source | Owner | Observation |
+|---|---|---|---|---|
+| Fraud detection differentiates the business | Expert rationale / interpretation | Expert rationale and examples for each capability | Not specified | Fraud detection is identified as the capability that differentiates the business. Supports a proposed **core** classification. |
+| Billing supports operations | Expert rationale / interpretation | Expert rationale and examples for each capability | Not specified | Billing is identified as operational support for the claims domain. Supports a proposed **supporting** classification. |
+| Identity is a commodity capability | Expert rationale / interpretation | Expert rationale and examples for each capability | Not specified | Identity is identified as broadly available or non-differentiating. Supports a proposed **generic** classification. |
+| Decide and settle claims is the in-scope outcome | Stated objective | Case input | Not specified | Provides the meaningful domain outcome for strategic exploration. |
+
+## HANDOFF_OR_STOP
+
+**Bounded stop:** Do not emit a `ddd-tactical` request yet.
+
+Missing evidence required before selecting exactly one context for tactical work:
+
+- concrete claim-decision and settlement scenarios;
+- decision ownership for fraud detection, claim settlement, billing, and identity;
+- lifecycle boundaries and change drivers;
+- consistency and failure assumptions between capabilities;
+- security and availability constraints;
+- context-specific vocabulary and translation needs;
+- named owners for the classifications and boundaries.
+
+Next action: provide the missing strategic evidence or explicitly authorize a bounded context-mapping decision based on the proposed classifications.
+
+## CHANGED_ARTIFACTS
+
+No artifacts changed. This is an ephemeral, text-only evaluation, and no repository access or file updates were performed.
+
+Portable artifact lifecycle and validation status:
+
+- `docs/ddd/domain-map.md` — not changed; proposed classifications are not yet recorded in the repository.
+- `docs/ddd/context-map.md` — not changed; relationships are not sufficiently evidenced.
+- `docs/ddd/contexts/` — no context document created; no context is sufficiently validated or safely selected.
+- `docs/ddd/domain-vision.md` — not changed.
+- `docs/ddd/ubiquitous-language.md` — not changed.
+
+## INVALIDATED_STAGES
+
+`[]`
+
+No downstream tactical or adoption artifacts were changed or invalidated. The strategic hypotheses should be revalidated when the missing evidence is supplied.
+
+## OPEN_QUESTIONS
+
+1. What concrete scenarios demonstrate how fraud detection changes claim decisions or settlement outcomes?
+2. Who owns the fraud-detection decisions and the final claim-settlement decision?
+3. Is billing part of claim settlement, a downstream operational process, or both?
+4. Which identity meanings and identity decisions are relevant to claims, and where must translation occur?
+5. What consistency guarantees are required among fraud assessment, claim decision, settlement, billing, and identity?
+6. What happens when fraud detection, billing, or identity is unavailable?
+7. Which capabilities have distinct lifecycles or independent change drivers?
+8. Are there regulatory, audit, privacy, or security obligations that affect the proposed boundaries?
+9. Are the classifications accepted by named domain experts, and who owns their validation?
+
+## BOUNDARY_CHECKS
+
+- **Scenario check:** Not yet validated; no concrete scenarios supplied.
+- **Lifecycle/change check:** Not yet validated; no lifecycle or change evidence supplied.
+- **Consistency check:** Not yet validated; no consistency requirements supplied.
+- **Ownership check:** Unresolved; no capability or decision owners named.
+- **Security check:** Unresolved; identity and fraud detection may have materially different security obligations, but no evidence was supplied.
+- **Availability/failure check:** Unresolved; no dependency or degraded-mode behavior supplied.
+- **Language check:** Incomplete; the terms “claims,” “fraud detection,” “billing,” and “identity” are available, but their context-specific meanings and translations are not established.
+- **Boundary conclusion:** The subdomain classifications are reasonable strategic hypotheses from the supplied evidence, but bounded contexts and context relationships remain unresolved.

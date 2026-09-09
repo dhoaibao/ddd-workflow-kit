@@ -1,0 +1,206 @@
+STATUS
+
+`complete`
+
+Tactical modeling is sufficiently explicit for the Approvals context. No files were read or written; this is a text-only portable result.
+
+RESULT
+
+- **Scope:** Approvals context, capability of recording approval decisions, selected slice: approving one pending request.
+- **Outcome:** Approve one pending request safely.
+- **Command/use case:** `Approve pending request`
+  - **Actor:** Not specified; approval workflow is the available provenance.
+  - **Preconditions:** The request is pending. The approval root is retrieved through its external access point.
+  - **Inputs:** A request/approval identity and the approval decision; exact input shape is not specified.
+  - **Decision:** Verify that the request is still pending, then record the approval decision.
+  - **Successful outcome:** The approval decision is recorded and the approved fact is available for Settlement.
+  - **Failures:** Missing request reporting is unresolved. An optimistic concurrency conflict must fail safely rather than overwrite a concurrent decision.
+  - **Counterexample:** Two concurrent approval attempts must not both replace or create competing current decisions.
+  - **Observable acceptance signals to define:** One current decision remains; stale saves are rejected; Settlement can consume the resulting approved fact.
+  - **Affected relationship:** Settlement consumes approved facts.
+
+- **Invariant:**
+  - `Only one approval decision is current.`
+  - **Evidence:** Candidate invariant and invariant supplied in the strategic handoff; supported by the concurrent-update failure evidence.
+  - **Scope/owner:** Approval root; Approvals owner.
+  - **Failure consequence:** Conflicting or stale approval state could be persisted and consumed by Settlement.
+  - **Validation:** Validated as a candidate domain invariant; the precise lifecycle rules for pending, approved, rejected, and superseded decisions remain unspecified.
+  - **Consistency:** Immediate within the approval aggregate transaction. Optimistic concurrency is required to prevent lost updates.
+
+- **Model elements:**
+  - **Approval aggregate/root:** Proposed and evidence-backed. The root is the external access point and is the smallest identified boundary protecting the “one current decision” invariant.
+  - **Approval decision:** Domain state/value within the approval root. Whether it is a separate entity or value object is unresolved because identity and lifecycle details are not provided.
+  - **Repository:** Required for the named need to retrieve and save one approval aggregate root. The contract is domain-facing:
+    - retrieve the approval root by its domain identity;
+    - report absence according to an unresolved missing-request policy;
+    - save the root with an optimistic version or equivalent concurrency token;
+    - reject stale saves with a domain/application-visible concurrency conflict;
+    - preserve the invariant on successful save.
+    - No persistence technology, schema, ORM, database, or implementation is selected.
+  - **Domain service:** Not needed based on current evidence; the decision appears to belong to the approval root.
+  - **Specification/factory:** Not needed; no named rule requires either.
+  - **Domain event:** `ApprovalDecisionRecorded` is proposed as a past-tense fact if Settlement integration requires publication. Its exact payload and publication obligation are unresolved.
+
+- **Application flow:**
+  1. Retrieve the approval root through the repository.
+  2. If absent, apply the unresolved missing-request policy.
+  3. Ask the root to approve the pending request.
+  4. Save using optimistic concurrency.
+  5. If the version is stale, reject the operation; do not silently retry an approval decision without an explicit policy.
+  6. Publish or otherwise expose the approved fact for Settlement according to an integration contract that remains to be defined.
+
+- **Consistency and concurrency:**
+  - The “one current decision” invariant is immediate within the approval root.
+  - Settlement consumption may be eventual if approval facts are delivered asynchronously; this is an integration assumption, not yet a validated policy.
+  - Delivery ordering, duplication, idempotency, retry, recovery, privacy, and exact event transport are unresolved.
+  - Repository save must provide optimistic conflict detection. Automatic conflict retries are not assumed.
+
+- **Persistence:**
+  - Persistence technology is intentionally unspecified.
+  - The repository abstracts retrieval, save, absence, and optimistic-conflict semantics only.
+  - No database, schema, ORM mapping, transaction mechanism, or deployment decision is implied.
+
+- **Optional patterns:**
+  - **CQRS:** `not-needed` for this slice; no evidence requires separate read/write models.
+  - **Event sourcing:** `not-needed`; ordinary domain facts do not imply event sourcing, and no history/replay requirement is supplied.
+
+- **Expected outcomes addressed:**
+  - A repository is modeled because retrieval and saving one aggregate root are explicit needs.
+  - The repository contract includes optimistic conflict handling.
+  - The approval root is the external access point.
+  - The one-current-decision invariant is protected immediately within the root.
+  - Persistence technology remains unspecified.
+  - Missing-request behavior remains an explicit open question.
+  - No framework-specific classes, schemas, APIs, product code, tests, configuration, or deployment changes are proposed.
+  - No second context is introduced.
+  - No aggregate, repository, service, event, CQRS, or event-sourcing label is used without a named need.
+
+HANDOFF_OR_STOP
+
+`ddd-adoption` handoff is ready for the single Approvals model.
+
+```json
+{
+  "stage": "ddd-tactical",
+  "status": "complete",
+  "model_path": "docs/ddd/models/approvals.md",
+  "context": "Approvals",
+  "commands": ["Approve pending request"],
+  "scenarios": ["Approve a pending request"],
+  "invariants": [
+    {
+      "statement": "Only one approval decision is current",
+      "scope": "Approval aggregate/root",
+      "consistency": "immediate",
+      "owner": "Approvals owner",
+      "validation": "candidate invariant supported by supplied evidence"
+    }
+  ],
+  "decisions": [
+    "Use an approval aggregate/root as the external access point",
+    "Use a domain-facing repository to retrieve and save the root",
+    "Require optimistic conflict detection on save",
+    "Do not select persistence technology",
+    "Do not introduce CQRS or event sourcing"
+  ],
+  "integration_assumptions": [
+    "Settlement consumes approved facts",
+    "Cross-context delivery semantics are not yet defined",
+    "If a domain event is used, it is a past-tense fact and must have explicit delivery, duplication, ordering, retry, and recovery contracts"
+  ],
+  "persistence_assumptions": [
+    "Repository retrieval and save are required",
+    "Missing-root behavior is unresolved",
+    "Save rejects stale versions or equivalent concurrency tokens",
+    "No persistence technology is selected"
+  ],
+  "risks": [
+    "Missing-request semantics are undefined",
+    "Approval lifecycle states and decision identity are incomplete",
+    "Settlement integration and delivery guarantees are unspecified",
+    "Automatic retry could incorrectly overwrite or repeat a decision"
+  ],
+  "evidence": [
+    {
+      "claim_type": "required_need",
+      "source": "use case needs root retrieval and save",
+      "owner": "Approvals owner",
+      "scenario": "Approve a pending request",
+      "statement": "The approval root must be retrieved and saved through a domain-facing contract."
+    },
+    {
+      "claim_type": "current_failure",
+      "source": "concurrency incident",
+      "owner": "Approvals owner",
+      "scenario": "Concurrent approval updates",
+      "statement": "Concurrent updates require optimistic conflict handling."
+    },
+    {
+      "claim_type": "candidate_invariant",
+      "source": "strategic handoff",
+      "owner": "Approvals owner",
+      "scenario": "Approve a pending request",
+      "statement": "Only one approval decision is current."
+    }
+  ],
+  "validation": "tactical model explicit; unresolved questions remain recorded",
+  "owners": ["Approvals owner"],
+  "allowed_paths": [
+    "docs/ddd/models/approvals.md",
+    "docs/ddd/contexts/approvals.md",
+    "docs/ddd/ubiquitous-language.md"
+  ],
+  "open_questions": [
+    "How is a missing request reported?",
+    "What are the complete approval lifecycle states?",
+    "What is the exact approval decision identity and payload?",
+    "Are approved facts delivered to Settlement immediately or eventually?",
+    "What delivery, duplication, ordering, retry, recovery, and privacy guarantees apply?"
+  ],
+  "acceptance_signals_to_define": [
+    "A stale optimistic save is rejected without overwriting the current decision",
+    "A successful approval leaves exactly one current decision",
+    "Missing requests have a defined observable outcome",
+    "Settlement receives or can consume the approved fact according to an explicit contract"
+  ],
+  "return_to": "ddd-strategic"
+}
+```
+
+CHANGED_ARTIFACTS
+
+No artifacts were actually changed.
+
+Planned owned artifact:
+
+- `docs/ddd/models/approvals.md` — lifecycle: proposed tactical model; validation: complete with explicit unresolved questions; owner: `ddd-tactical`.
+- No updates are required to `docs/ddd/contexts/approvals.md` or `docs/ddd/ubiquitous-language.md` from the supplied evidence.
+
+INVALIDATED_STAGES
+
+`[]`
+
+The tactical evidence does not challenge the validated Approvals boundary, context identity, vocabulary, ownership, or Settlement relationship. No strategic invalidation is raised.
+
+OPEN_QUESTIONS
+
+1. How is a missing request reported?
+2. What are the complete approval lifecycle states?
+3. What is the identity and structure of an approval decision?
+4. Is an approval decision immutable, replaceable, or supersedable?
+5. Are approved facts delivered to Settlement immediately or eventually?
+6. What ordering, duplication, idempotency, retry, recovery, and privacy guarantees apply to Settlement integration?
+7. Is a conflict surfaced directly to the caller, or is any explicit retry policy required?
+
+BOUNDARY_CHECKS
+
+- Exactly one context was modeled: **Approvals**.
+- The validated slug `approvals` and permitted model path are preserved.
+- The repository is modeled only because retrieval and saving one root are explicit requirements.
+- Optimistic conflict handling is part of the repository contract, without choosing persistence technology.
+- The approval root is the external access point, as supplied by assumption.
+- The immediate invariant is scoped to the approval root.
+- No multi-aggregate immediate invariant is assumed.
+- Settlement remains a related context/consumer; it is not modeled.
+- No product files, code, schemas, tests, configuration, generated output, deployment files, or unrelated documentation are changed or proposed.
+- No persistence implementation, framework, database, ORM, CQRS implementation, or event-sourcing design is inferred.

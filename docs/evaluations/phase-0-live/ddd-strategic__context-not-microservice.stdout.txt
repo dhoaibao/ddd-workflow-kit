@@ -1,0 +1,120 @@
+STATUS
+
+`partial`
+
+The request is a valid strategic-design request with `fit: fit` and outcome `evaluate risk`. A provisional bounded context can be defined for underwriting, but the evidence is insufficient to validate the boundary fully or hand off to tactical design.
+
+RESULT
+
+- **Proposed bounded context:** `Underwriting`
+- **Purpose:** Evaluate risk and produce underwriting decisions.
+- **Boundary rationale:** Underwriting has coherent policy language and decision ownership, which supports a model and language boundary.
+- **In scope:** Risk evaluation policies, underwriting decision criteria, and the meaning of an underwriting decision.
+- **Out of scope:** Other contexts’ meanings of risk, customer, product, pricing, fulfillment, or claims unless explicitly translated at a relationship boundary.
+- **Ownership:** Underwriting decision ownership is evidenced; the accountable organizational owner is not named.
+- **Status:** Proposed and partially evidenced; not yet validated against scenarios, lifecycle, consistency, security, or availability concerns.
+
+The requester’s suggestion that every context should be a microservice is **not accepted as domain evidence**. A bounded context is a boundary around a coherent model, language, lifecycle, and decision ownership. It does **not** imply a microservice, separate deployment, separate database, or team boundary. Deployment topology requires separate technical and operational evidence.
+
+Expected outcomes addressed:
+
+- A bounded context for underwriting is proposed.
+- The boundary is justified by coherent policy language and decision ownership.
+- The context is treated as a domain/model boundary rather than a deployment unit.
+- The proposal remains explicitly provisional where evidence is missing.
+
+Forbidden outcomes avoided:
+
+- No inference that the context must be a microservice.
+- No design of entities, aggregates, repositories, schemas, services, or infrastructure.
+- No inference from deployment topology.
+- No unsupported claims that the context is fully validated.
+- No tactical handoff for multiple contexts.
+- No claim that repository artifacts were changed.
+
+EVIDENCE
+
+- **Claim:** Underwriting has coherent policy language.
+  - **Claim type:** Current or intended domain meaning; exact status requires confirmation.
+  - **Source:** Supplied case evidence.
+  - **Owner:** Not named.
+  - **Observation:** “Underwriting has coherent policy language.”
+  - **Implication:** Supports a language/model boundary for an Underwriting context.
+  - **Validation status:** Proposed, partially supported.
+
+- **Claim:** Underwriting has decision ownership.
+  - **Claim type:** Current ownership statement.
+  - **Source:** Supplied case evidence.
+  - **Owner:** Not named.
+  - **Observation:** “Underwriting has coherent policy language and decision ownership.”
+  - **Implication:** Supports placing underwriting decision authority within the proposed context.
+  - **Validation status:** Proposed, partially supported.
+
+- **Claim:** The context should be a microservice.
+  - **Claim type:** Requester proposal, not domain evidence.
+  - **Source:** Requester suggestion.
+  - **Observation:** Every context is suggested to become a microservice.
+  - **Implication:** None for strategic boundary validation; deployment topology remains unresolved.
+  - **Validation status:** Not accepted as a bounded-context constraint.
+
+HANDOFF_OR_STOP
+
+Bounded stop: do not emit a `ddd-tactical` request yet.
+
+Missing evidence required before tactical design:
+
+1. Concrete underwriting scenarios, including normal and exceptional risk evaluations.
+2. The decision lifecycle and the point at which underwriting owns or relinquishes decisions.
+3. Terms that overlap with other areas, such as `risk`, `applicant`, `policy`, `decision`, and `approval`.
+4. Consistency and failure expectations for underwriting decisions and consuming contexts.
+5. Security or regulatory obligations governing underwriting information and decisions.
+6. The accountable owner for underwriting policy and decision changes.
+7. Evidence about change cadence and availability requirements.
+
+Next action: gather the missing scenarios, ownership details, and relationship evidence, then re-run strategic validation. Do not choose a deployment form as part of this step.
+
+CHANGED_ARTIFACTS
+
+No artifacts were changed.
+
+Potential strategic artifacts, if repository editing were authorized and the proposal were accepted, would be:
+
+- `docs/ddd/domain-map.md` — add the proposed Underwriting subdomain/context with provisional status.
+- `docs/ddd/context-map.md` — add relationships only after upstream/downstream evidence is available.
+- `docs/ddd/contexts/underwriting.md` — document the provisional Underwriting boundary.
+- `docs/ddd/ubiquitous-language.md` — record underwriting-specific meanings and unresolved overloaded terms.
+
+These are not reported as changed artifacts in this text-only evaluation.
+
+INVALIDATED_STAGES
+
+None.
+
+No tactical or adoption artifacts were changed or invalidated. Tactical work should remain pending until the bounded context is sufficiently validated.
+
+OPEN_QUESTIONS
+
+- Who owns underwriting policy and underwriting decision changes?
+- What concrete scenarios must the Underwriting context support?
+- What is the exact meaning of `risk` within underwriting?
+- Which terms are shared with other contexts, and where is translation required?
+- Which context supplies the information underwriting evaluates?
+- Which contexts consume underwriting decisions?
+- Are decisions required to be strongly consistent, auditable, immutable, or reversible?
+- What happens when an underwriting decision is unavailable or cannot be evaluated?
+- What security, privacy, or regulatory obligations apply?
+- How frequently do underwriting policies and decision rules change?
+- Is any deployment separation desired for independent operational reasons, apart from the domain boundary?
+
+BOUNDARY_CHECKS
+
+- **Language:** Pass provisionally. Coherent underwriting policy language is evidenced; overloaded terms remain unresolved.
+- **Decision ownership:** Pass provisionally. Underwriting decision ownership is evidenced; accountable owner is unnamed.
+- **Outcome alignment:** Pass. The boundary supports the stated outcome of evaluating risk.
+- **Scenarios:** Not yet demonstrated.
+- **Lifecycle and change:** Not yet demonstrated.
+- **Consistency:** Not yet demonstrated.
+- **Security:** Not yet demonstrated.
+- **Availability and failure behavior:** Not yet demonstrated.
+- **Relationship direction:** Not established; no upstream or downstream contexts were supplied.
+- **Deployment independence:** Explicitly unresolved. The proposed bounded context is not equivalent to a microservice.

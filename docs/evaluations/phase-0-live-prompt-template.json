@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "kind": "phase-0-live-prompt-template",
+  "template_id": "phase-0-eval-wrapper-v1",
+  "encoding": "UTF-8",
+  "prompt_sha256_input": "The expanded prompt string encoded as UTF-8, before passing it as the final positional argument to pi",
+  "case_input_serialization": {
+    "language": "Python json.dumps",
+    "arguments": {
+      "ensure_ascii": false,
+      "sort_keys": true
+    },
+    "note": "Default separators and default escaping are retained exactly as used by the runner."
+  },
+  "expansion": {
+    "package": "case package directory name, for example ddd-tactical",
+    "case_id": "case.id",
+    "case_prompt": "case.prompt",
+    "case_input_json": "json.dumps(case.input, ensure_ascii=False, sort_keys=True)",
+    "skill_system_prompt": "The complete package SKILL.md is supplied separately through pi --system-prompt; it is not interpolated into this wrapper."
+  },
+  "wrapper_template": "Evaluation case: {package}/{case_id}\n\nThe following package SKILL.md is the governing skill instruction already supplied as the system instruction. Follow it exactly. This is an ephemeral, text-only evaluation: do not use tools, do not read or write files, and do not claim that any artifact was actually changed. Return the portable result and chat summary the skill would produce for the case. Preserve evidence discipline, package boundaries, and stop conditions.\n\nExact case prompt:\n{case_prompt}\n\nExact case input (JSON):\n{case_input_json}\n\nFor deterministic judging, use these headings: STATUS, RESULT, EVIDENCE, HANDOFF_OR_STOP, CHANGED_ARTIFACTS, INVALIDATED_STAGES, OPEN_QUESTIONS, BOUNDARY_CHECKS. In RESULT, explicitly address every expected outcome and every forbidden outcome.",
+  "expansion_algorithm": [
+    "Load case from package evals/evals.json without changing its object values.",
+    "Serialize case.input with json.dumps(case['input'], ensure_ascii=False, sort_keys=True).",
+    "Substitute package, case.id, case.prompt, and the serialized input into wrapper_template without further whitespace normalization.",
+    "Hash the resulting UTF-8 prompt string with SHA-256.",
+    "Pass that exact string as the final positional argument after -- to the command recipe recorded in the capture manifest."
+  ],
+  "headings_required_by_wrapper": [
+    "STATUS",
+    "RESULT",
+    "EVIDENCE",
+    "HANDOFF_OR_STOP",
+    "CHANGED_ARTIFACTS",
+    "INVALIDATED_STAGES",
+    "OPEN_QUESTIONS",
+    "BOUNDARY_CHECKS"
+  ]
+}

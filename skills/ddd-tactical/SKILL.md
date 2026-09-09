@@ -35,7 +35,7 @@ Require all of the following before modeling:
 
 If prerequisites are missing, return the exact `ddd-strategic` handoff or a bounded stop. If more than one context is present, require an evidence-backed or user-prioritized selection and do not model all contexts. Never infer the selected context from modules, tables, schemas, or filenames.
 
-Reuse the validated strategic slug exactly for `docs/ddd/models/<context-slug>.md`. Resolve the candidate and verify that its parent is exactly `docs/ddd/models`; preserve an existing owned model additively; ask before ambiguity, collision, structural, destructive, or ownership changes. Do not normalize a new slug in this stage.
+Reuse the validated strategic slug exactly for `docs/ddd/models/<context-slug>.md`. Resolve the candidate and verify that its parent is exactly `docs/ddd/models`; preserve an existing owned model additively; ask before ambiguity, collision, structural, destructive, or ownership changes. When a request mixes a safe, explicitly owned additive documentation update with forbidden or out-of-scope paths, isolate and complete the safe subset, refuse only the forbidden paths, and report both outcomes. Stop the whole request only when the safe subset is materially ambiguous or cannot be isolated. Do not normalize a new slug in this stage.
 
 ## Evidence discipline
 

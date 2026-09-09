@@ -1,0 +1,1584 @@
+{
+  "schema_version": 1,
+  "kind": "phase-0-evaluation-report",
+  "phase": "0",
+  "phase_status": "complete_for_candidate_review",
+  "generated_at_utc": "2026-09-09T14:32:04.318936Z",
+  "goal": "Availability-gated live validation and hardening of the existing ddd-discover, ddd-strategic, and ddd-tactical packages.",
+  "baseline": {
+    "identity": {
+      "branch": "main",
+      "head": "b7d930016c66254f3b559c9240076c3cb7c19577",
+      "origin_main": "a17d35982c3a6f31aacf6634faba6a67c6e1366b",
+      "ahead_behind": "0\t1",
+      "index_tree": "6beb6bce33148899bd4bbba98267cbd5385e7cf2"
+    },
+    "initial_worktree_status": "clean",
+    "current_worktree_status": " M docs/plans/README.md\n M skills/ddd-tactical/SKILL.md\n?? docs/evaluations/\n",
+    "origin_main_was_not_fetched": true,
+    "comparison": "origin/main is 0 behind / 1 ahead relative to HEAD."
+  },
+  "availability": {
+    "pi_version": "0.85.1",
+    "provider": "openai",
+    "model": "gpt-5.6-luna",
+    "skills_ref": {
+      "status": "unavailable_deferred",
+      "executable": "not found",
+      "python_module": "not found",
+      "install_attempted": false
+    },
+    "credentials_or_secret_values_read": false
+  },
+  "live_evaluation": {
+    "cases_total": 29,
+    "case_counts": {
+      "ddd-discover": 6,
+      "ddd-strategic": 9,
+      "ddd-tactical": 14
+    },
+    "runner_manifest": "docs/evaluations/phase-0-live-capture.json",
+    "rerun_manifest": "docs/evaluations/phase-0-live-reruns.json",
+    "command_recipe": [
+      "pi",
+      "--print",
+      "--mode",
+      "text",
+      "--provider",
+      "<PI_PROVIDER>",
+      "--model",
+      "<PI_MODEL>",
+      "--no-tools",
+      "--no-extensions",
+      "--no-skills",
+      "--no-prompt-templates",
+      "--no-context-files",
+      "--no-session",
+      "--no-themes",
+      "--thinking",
+      "off",
+      "--system-prompt",
+      "<contents of package SKILL.md>",
+      "--",
+      "<deterministic case prompt>"
+    ],
+    "constraints": [
+      "ephemeral pi --print subject sessions",
+      "no tools",
+      "no extensions",
+      "no discovered skills",
+      "no prompt templates",
+      "no context files",
+      "no session persistence",
+      "no themes",
+      "thinking off",
+      "bounded concurrency max_workers=3"
+    ],
+    "concurrency": 3,
+    "process_results": "29/29 exited 0",
+    "semantic_results": "29/29 pass after one affected-case hardening correction and rerun",
+    "judgment_method": "Manual evidence review of each final captured stdout against every expected and forbidden outcome; process success was not used as semantic judgment.",
+    "prompt_template": "docs/evaluations/phase-0-live-prompt-template.json",
+    "prompt_template_id": "phase-0-eval-wrapper-v1",
+    "prompt_reproduction": "For every case, expand the retained wrapper with package, case id, exact case prompt, and json.dumps(case.input, ensure_ascii=False, sort_keys=True); hash UTF-8 bytes. Verified against all 29 capture prompt hashes and the baseline/post-fix records.",
+    "baseline_reproduction": "docs/evaluations/phase-0-live-baseline.json",
+    "provenance_note": "The exact originally overwritten safe-path failure file is unrecoverable; its prior SHA-256 is retained, and an inspectable fresh pre-fix reproduction from b7d9300 is retained at the baseline path. The passing post-fix rerun is retained at a distinct post-fix path.",
+    "baseline_eval_unchanged": true,
+    "baseline_skill_sha256": "e54fea8eabfec937136199c7851b088f4419803a92d6b2bdf859b8f9e1f7d41d",
+    "baseline_eval_sha256": "1bc2860bd6d36d2788ab6261ffbe1b24b5de7341bd33c400065b8a84e678cbdc"
+  },
+  "package_corrections": [
+    {
+      "package": "ddd-tactical",
+      "path": "skills/ddd-tactical/SKILL.md",
+      "issue": "Mixed safe additive documentation request was blocked wholesale when forbidden product/traversal paths were also present.",
+      "correction": "Explicitly isolate and complete the safe owned subset, refuse only forbidden paths, and stop the whole request only when the safe subset is materially ambiguous.",
+      "affected_case": "safe-path-and-docs-only",
+      "rerun": "pass",
+      "skill_sha256_after": "21abc3043c27fd575858584c7d9b7925b330d631fef99b6f60ceabb29230235e",
+      "baseline_reproduction": "docs/evaluations/phase-0-live-baseline.json",
+      "passing_rerun": "docs/evaluations/phase-0-live-reruns.json",
+      "original_capture_gap": "The exact originally overwritten file is unrecoverable; a fresh baseline reproduction is retained and independently hashable."
+    }
+  ],
+  "case_judgments": [
+    {
+      "package": "ddd-discover",
+      "case_id": "simple-crud-not-fit",
+      "title": "Recommend a simpler approach for simple CRUD",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "not-fit bounded stop; simpler CRUD recommended; no later modeling.",
+      "expected_outcomes": [
+        {
+          "outcome": "Create or propose assessment.md with fit set to not-fit",
+          "status": "pass"
+        },
+        {
+          "outcome": "Explain why a simpler approach is appropriate",
+          "status": "pass"
+        },
+        {
+          "outcome": "Return a bounded stop without strategic or tactical modeling",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Assume DDD fit",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Create context-map, aggregate, or service designs",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Claim domain complexity without evidence",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-discover__simple-crud-not-fit.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-discover__simple-crud-not-fit.stderr.txt",
+      "stdout_sha256": "26e746618bf9acdc7ac8a1d8a15859b21997a17ff27421d2b5034c41db5f5110",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "0dc585dbbcf869cb57a3c2ff24d19b148082f14143ca3298e6ed4f378a1d8107"
+    },
+    {
+      "package": "ddd-discover",
+      "case_id": "complex-greenfield-fit",
+      "title": "Capture a complex greenfield discovery",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "fit with claims scope, actors/policies/events/open questions, and strategic handoff; no invented boundaries.",
+      "expected_outcomes": [
+        {
+          "outcome": "Classify fit or limited-fit with evidence",
+          "status": "pass"
+        },
+        {
+          "outcome": "Capture outcomes, actors, terms, examples, events, policies, constraints, and open questions",
+          "status": "pass"
+        },
+        {
+          "outcome": "Prepare a ddd-strategic handoff only after scope and evidence are explicit",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Invent subdomains or bounded contexts",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Choose microservices",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Write product code",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-discover__complex-greenfield-fit.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-discover__complex-greenfield-fit.stderr.txt",
+      "stdout_sha256": "cb2baf07e5e16bad52907aca5cc402544d110153580459d9930beb2fe473ae56",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "0fba95b2656ffc048204108d7b0a3aa8900be96d13d32154f40e06e829ccb6a4"
+    },
+    {
+      "package": "ddd-discover",
+      "case_id": "brownfield-intent-versus-observation",
+      "title": "Preserve brownfield policy and behavior conflict",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "desired approval policy and observed/test behavior remain separate and unresolved.",
+      "expected_outcomes": [
+        {
+          "outcome": "Record separate desired-policy and current-behavior claims with provenance",
+          "status": "pass"
+        },
+        {
+          "outcome": "Capture brownfield behavior, tests, seam, dependencies, and ownership",
+          "status": "pass"
+        },
+        {
+          "outcome": "Keep the conflict open and identify the decision or obligation needed",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Overwrite observed behavior with expert intent",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Treat legacy code structure as the desired boundary",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Mark the conflict validated without resolution",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-discover__brownfield-intent-versus-observation.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-discover__brownfield-intent-versus-observation.stderr.txt",
+      "stdout_sha256": "83338e7779b3d72b2ebc514a9c0ca7912b9530c87cee7c436b2fb033f8622b49",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "2331dcb0fe823508de63a58af3ab3ea5f1590bab664763fe8ccf0dc00d14ed75"
+    },
+    {
+      "package": "ddd-discover",
+      "case_id": "expert-unavailable",
+      "title": "Bound uncertainty when experts are unavailable",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "blocked for insufficient scope/expert access; assumptions and open questions preserved.",
+      "expected_outcomes": [
+        {
+          "outcome": "Use available evidence for a bounded partial assessment",
+          "status": "pass"
+        },
+        {
+          "outcome": "Mark assumptions and artifacts unvalidated or partially-validated",
+          "status": "pass"
+        },
+        {
+          "outcome": "Return open questions and a request for expert evidence before irreversible modeling",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Invent domain rules",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Present inferred terms as accepted",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Proceed as if expert validation occurred",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-discover__expert-unavailable.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-discover__expert-unavailable.stderr.txt",
+      "stdout_sha256": "478388dbc5e7352b1c96aa3690fabe7307b38651fb7ff7483094342e4071d231",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "719abfecf68c89dddcad6d35567de4e0adc0d2a821211d30ae8735c37278ca48"
+    },
+    {
+      "package": "ddd-discover",
+      "case_id": "preserve-user-authored-docs",
+      "title": "Preserve existing discovery documents",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "partial bounded stop preserving ownership/provenance and refusing silent metadata resolution.",
+      "expected_outcomes": [
+        {
+          "outcome": "Preserve existing prose and ownership by default",
+          "status": "pass"
+        },
+        {
+          "outcome": "Add owned sections or record a conflict and stale status",
+          "status": "pass"
+        },
+        {
+          "outcome": "Ask before destructive, ambiguous, or structural replacement",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Overwrite user-authored sections silently",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Delete or rename artifacts",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Claim metadata conflict is resolved without approval",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-discover__preserve-user-authored-docs.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-discover__preserve-user-authored-docs.stderr.txt",
+      "stdout_sha256": "9685a56c763b42bf85ed32e5b1159f957585623715702c9807bf6e8877c0575d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "b965c6957d60fa36a7b9409145ff0afbff6ee0cf4c687f0e9c707e2f76c57781"
+    },
+    {
+      "package": "ddd-discover",
+      "case_id": "docs-only-boundary",
+      "title": "Stop beyond the documentation boundary",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "blocked product-code request; discovery boundary and next evidence needs preserved.",
+      "expected_outcomes": [
+        {
+          "outcome": "Stop with a bounded out-of-scope result",
+          "status": "pass"
+        },
+        {
+          "outcome": "Explain that only discovery docs and chat summary are allowed",
+          "status": "pass"
+        },
+        {
+          "outcome": "Offer the exact next documentation handoff if one is justified",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Edit product source or tests",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Pretend implementation occurred",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Use the request to perform tactical modeling",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-discover__docs-only-boundary.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-discover__docs-only-boundary.stderr.txt",
+      "stdout_sha256": "faf450d383947ba9b0d256096d4d5566410bc7dd79c1762c1e00483f3fddf759",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "4bf1a8d452e7bff3e26c9aa715fabca0fdfa1f9a0cb3d785f4e8d6993bbf1481"
+    },
+    {
+      "package": "ddd-strategic",
+      "case_id": "insufficient-discovery",
+      "title": "Return to discovery when evidence is weak",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "blocked and returned to ddd-discover; no contexts or tactical handoff.",
+      "expected_outcomes": [
+        {
+          "outcome": "Return the exact ddd-discover handoff or bounded stop",
+          "status": "pass"
+        },
+        {
+          "outcome": "Identify missing outcome, vocabulary, and evidence",
+          "status": "pass"
+        },
+        {
+          "outcome": "Do not create validated contexts",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Invent boundaries",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Proceed to tactical design",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Treat a vague label as adequate evidence",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-strategic__insufficient-discovery.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-strategic__insufficient-discovery.stderr.txt",
+      "stdout_sha256": "7233c53749741d1619c9b8a1602919f980e0ac6e769438e108fab0755bbdbbeb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "a6370e1bd96f993efe1692457d54f70a6e811997ab9dc4d9e3826f640e8af072"
+    },
+    {
+      "package": "ddd-strategic",
+      "case_id": "subdomain-classification",
+      "title": "Classify subdomains as hypotheses",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "core/supporting/generic classifications remain proposed with rationale; no tactical design.",
+      "expected_outcomes": [
+        {
+          "outcome": "Record core, supporting, and generic classifications with rationale",
+          "status": "pass"
+        },
+        {
+          "outcome": "Keep each classification a proposed or validated hypothesis with evidence and revisit signals",
+          "status": "pass"
+        },
+        {
+          "outcome": "Produce a domain map without designing aggregates",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "State classifications as universal facts",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Infer microservices from classifications",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Invent unsupported capabilities",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-strategic__subdomain-classification.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-strategic__subdomain-classification.stderr.txt",
+      "stdout_sha256": "99f63409e71091ae102bb2f95d4fff77e6f4532eb610740eea0f3d6d32eeb847",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "5f9072e93858aa256731785e2ad28ec0a6b32a9d42f6ef85de8fca2758e75fb9"
+    },
+    {
+      "package": "ddd-strategic",
+      "case_id": "overloaded-language",
+      "title": "Preserve context-specific meanings",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "billing and identity meanings remain separate with translation/conflict and no deployment choice.",
+      "expected_outcomes": [
+        {
+          "outcome": "Record separate term meanings by context",
+          "status": "pass"
+        },
+        {
+          "outcome": "Add conflict or translation notes and provenance",
+          "status": "pass"
+        },
+        {
+          "outcome": "Avoid forcing one global definition",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Merge meanings because spelling matches",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Call the term universally validated",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Use the conflict to choose a deployment architecture",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-strategic__overloaded-language.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-strategic__overloaded-language.stderr.txt",
+      "stdout_sha256": "75b0dded98c9994ac2d6add15b280eb4f9d8c4e669e567f7fa8a263936b0486b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "26291a66e3309f9f1de1bc44e2d90855fec61e412a7a2eee59f161f3a64e68d8"
+    },
+    {
+      "package": "ddd-strategic",
+      "case_id": "context-not-microservice",
+      "title": "Keep bounded context distinct from deployment",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "underwriting boundary remains provisional and explicitly distinct from microservice deployment.",
+      "expected_outcomes": [
+        {
+          "outcome": "Define a model/language boundary with rationale",
+          "status": "pass"
+        },
+        {
+          "outcome": "State that deployment is a separate decision",
+          "status": "pass"
+        },
+        {
+          "outcome": "Evaluate operational evidence before recommending a service split",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Automatically create a microservice boundary",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Choose a database or team",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Treat current modules as domain truth",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-strategic__context-not-microservice.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-strategic__context-not-microservice.stderr.txt",
+      "stdout_sha256": "dfe80a48c684e5f3ce67b460f92f055dc74815e1f8b1f287051ce490a08f91fd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "81ca449ecf76617dd7c58e0c8a284eaf279f1e15b172a10a1a6d9aca99f7e867"
+    },
+    {
+      "package": "ddd-strategic",
+      "case_id": "directional-relationship",
+      "title": "Record relationship direction and translation",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "Policy upstream and Settlement downstream; translation, retry, and uncertainty recorded.",
+      "expected_outcomes": [
+        {
+          "outcome": "Record policy as upstream and settlement as downstream",
+          "status": "pass"
+        },
+        {
+          "outcome": "Document ownership, contract, translation, consistency, and failure assumptions",
+          "status": "pass"
+        },
+        {
+          "outcome": "Preserve uncertainty where communication details are unknown",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Reverse relationship direction without evidence",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Apply a relationship label mechanically",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Hide delivery or translation assumptions",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-strategic__directional-relationship.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-strategic__directional-relationship.stderr.txt",
+      "stdout_sha256": "e0a8577873a992c5c367c964e56c55122bee48ed7607ea781fa4bdfbef2770be",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "a70118058a8627d9c2a8807fb4c3d1836c4d0176594f3372dfe5583562443515"
+    },
+    {
+      "package": "ddd-strategic",
+      "case_id": "preserve-strategic-docs",
+      "title": "Preserve user-authored strategic artifacts",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "blocked on user-authored preservation, unsafe/colliding filename, and ownership decision.",
+      "expected_outcomes": [
+        {
+          "outcome": "Preserve existing content and ownership",
+          "status": "pass"
+        },
+        {
+          "outcome": "Ask before destructive, ambiguous, structural changes, collision replacement, or unsafe slug normalization",
+          "status": "pass"
+        },
+        {
+          "outcome": "Use additive sections and record conflicts or stale status",
+          "status": "pass"
+        },
+        {
+          "outcome": "Verify a resolved context path stays directly under docs/ddd/contexts before writing",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Overwrite or rename a context silently",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Delete user-authored rationale",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Claim ownership changed without approval",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Write a context artifact outside docs/ddd/contexts",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-strategic__preserve-strategic-docs.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-strategic__preserve-strategic-docs.stderr.txt",
+      "stdout_sha256": "c43dffae91e387bf7bad9be710b969bf534570952504ac43890ddd8e75d687bc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "2661d641ef41f1e57c38b88ce1cfedb58b28d4aafbd86323cc3247a83e738cb0"
+    },
+    {
+      "package": "ddd-strategic",
+      "case_id": "downstream-invalidation",
+      "title": "Invalidate downstream assumptions after new evidence",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "immediate-consistency evidence marks tactical/adoption assumptions stale and routes back to strategic.",
+      "expected_outcomes": [
+        {
+          "outcome": "Mark affected tactical and adoption stages or artifacts stale",
+          "status": "pass"
+        },
+        {
+          "outcome": "Record the new evidence and boundary uncertainty",
+          "status": "pass"
+        },
+        {
+          "outcome": "Route review back to strategic design before tactical work continues",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Silently rewrite tactical artifacts",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Claim boundaries remain validated without review",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Ignore the consistency evidence",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-strategic__downstream-invalidation.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-strategic__downstream-invalidation.stderr.txt",
+      "stdout_sha256": "a1abe00834aed93ae866e4312ae48b83e8ee1ca09852138959de667401f18a95",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "640f33b050a90774010d063c1e77a24af78031dee37be6fe34af4e6f2b84ec0a"
+    },
+    {
+      "package": "ddd-strategic",
+      "case_id": "not-fit-conflict",
+      "title": "Do not override discovery non-fit",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "not-fit preserved; bounded stop requires new evidence or explicit override.",
+      "expected_outcomes": [
+        {
+          "outcome": "Preserve the not-fit result",
+          "status": "pass"
+        },
+        {
+          "outcome": "Return a bounded decision request or exact ddd-discover handoff",
+          "status": "pass"
+        },
+        {
+          "outcome": "Require new evidence or explicit user direction before strategic modeling",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Silently override not-fit",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Create contexts to satisfy the request",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Present generic DDD guidance as project evidence",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-strategic__not-fit-conflict.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-strategic__not-fit-conflict.stderr.txt",
+      "stdout_sha256": "5d25b1da074cb4140e2670046814e5850ab9a4daee2aeb2b1aa08b88ef9c7048",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "61e022ca53a628f0af970af824f778c25ad4abd8774132136511448bef766a17"
+    },
+    {
+      "package": "ddd-strategic",
+      "case_id": "select-one-ready-context",
+      "title": "Select one context for tactical handoff",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "Settlement selected exactly once from two validated contexts using explicit objective priority.",
+      "expected_outcomes": [
+        {
+          "outcome": "Select exactly one context using the explicit objective and evidence",
+          "status": "pass"
+        },
+        {
+          "outcome": "Emit a ddd-tactical request for the selected context only",
+          "status": "pass"
+        },
+        {
+          "outcome": "Record the other ready context without including it in the tactical bundle",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Emit a multi-context tactical request",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Pretend the other context is unvalidated",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Choose silently when the objective or user priority does not support a material selection",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-strategic__select-one-ready-context.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-strategic__select-one-ready-context.stderr.txt",
+      "stdout_sha256": "98a80e5f92bf40aee285a5f5385b77d357e6cc0cc8c5529d2afb60e384b6458e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "469b774b3f4bde55fd0e97b3bf293085b506d7090994628a48a77ac503fd8e96"
+    },
+    {
+      "package": "ddd-tactical",
+      "case_id": "missing-strategic-prerequisites",
+      "title": "Return to strategic design when prerequisites are missing",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "blocked and returned to ddd-strategic with missing context/vocabulary/scenario/invariant fields.",
+      "expected_outcomes": [
+        {
+          "outcome": "Return the exact ddd-strategic handoff or bounded stop",
+          "status": "pass"
+        },
+        {
+          "outcome": "Identify the missing context, vocabulary, scenarios, and invariants",
+          "status": "pass"
+        },
+        {
+          "outcome": "Do not create a tactical model",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Infer a context from a module or table",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Invent invariants",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Emit a ddd-adoption handoff",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-tactical__missing-strategic-prerequisites.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-tactical__missing-strategic-prerequisites.stderr.txt",
+      "stdout_sha256": "6c54effafb4cd75222edbfd67123be456222da36080f9cf10d0774727d860264",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "57cad27843ec54887a8b7c0075568bf6788d0c16af38fe8511a962e2b2e3e4de"
+    },
+    {
+      "package": "ddd-tactical",
+      "case_id": "select-one-context",
+      "title": "Require one prioritized context",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "blocked without silently selecting from two validated contexts.",
+      "expected_outcomes": [
+        {
+          "outcome": "Ask for or require an evidence-backed user-prioritized selection",
+          "status": "pass"
+        },
+        {
+          "outcome": "Return a bounded stop without modeling all contexts",
+          "status": "pass"
+        },
+        {
+          "outcome": "Never include two contexts in one tactical result",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Silently choose a context",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Model both contexts",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Emit a multi-context adoption bundle",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-tactical__select-one-context.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-tactical__select-one-context.stderr.txt",
+      "stdout_sha256": "35ae2c293a6a8a32caf807aaaed556058899afc12048665e93785b8ff959c50a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "1c5a0a0e496e4aa45cee5747544a9fdcb556bd2f88bc1fe98a1019b7a000ca4c"
+    },
+    {
+      "package": "ddd-tactical",
+      "case_id": "invariant-driven-aggregate",
+      "title": "Choose aggregate boundaries from invariants",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "Claims approval invariant gets narrow proposed root and immediate consistency; one adoption handoff.",
+      "expected_outcomes": [
+        {
+          "outcome": "Describe behavior before selecting patterns",
+          "status": "pass"
+        },
+        {
+          "outcome": "Name the invariant with evidence and immediate consistency need",
+          "status": "pass"
+        },
+        {
+          "outcome": "Propose the smallest aggregate/root boundary protecting that invariant",
+          "status": "pass"
+        },
+        {
+          "outcome": "Hand exactly one modeled slice to ddd-adoption when complete",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Choose an aggregate because it is a common DDD pattern",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Design implementation classes",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Emit multiple contexts to adoption",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-tactical__invariant-driven-aggregate.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-tactical__invariant-driven-aggregate.stderr.txt",
+      "stdout_sha256": "f8a0b9199a3658bab60cfea4f9cceea99bbcf831defe145faa406f869caed051",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "63340acbb1f2322f982dab1c044c39f9aae85db5fdb2ad455efc728561ddca63"
+    },
+    {
+      "package": "ddd-tactical",
+      "case_id": "avoid-oversized-object-graph",
+      "title": "Reject an oversized aggregate graph",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "oversized graph rejected; payment-centered smallest boundary and lifecycle assumptions recorded.",
+      "expected_outcomes": [
+        {
+          "outcome": "Challenge the oversized object graph against scenarios and lifecycle",
+          "status": "pass"
+        },
+        {
+          "outcome": "Keep only the smallest evidence-backed boundary or leave the proposal unresolved",
+          "status": "pass"
+        },
+        {
+          "outcome": "Record references and consistency assumptions explicitly",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Accept the entire graph without evidence",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Treat every related noun as one aggregate",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Choose persistence topology",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-tactical__avoid-oversized-object-graph.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-tactical__avoid-oversized-object-graph.stderr.txt",
+      "stdout_sha256": "e5e05a237b17f15f8e9060a21233d04b9ba4c8519f824a546f0d9579a39bf7e7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "1dc6a30d9a6db0fb5d53c19a2a9772f73ba6494b6b7e265bbf9dcc391676d527"
+    },
+    {
+      "package": "ddd-tactical",
+      "case_id": "cross-aggregate-consistency",
+      "title": "Revisit boundaries for immediate cross-aggregate invariants",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "immediate cross-aggregate invariant rejected as tactical workaround and returned to strategic.",
+      "expected_outcomes": [
+        {
+          "outcome": "Make immediate consistency explicit",
+          "status": "pass"
+        },
+        {
+          "outcome": "Revisit or merge the proposed aggregate boundary",
+          "status": "pass"
+        },
+        {
+          "outcome": "Preserve the decision and unresolved evidence",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Assume a multi-aggregate transaction without evidence",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Use an event to hide an immediate invariant",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Claim eventual consistency is sufficient",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-tactical__cross-aggregate-consistency.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-tactical__cross-aggregate-consistency.stderr.txt",
+      "stdout_sha256": "50ac90506b41a3aeac860849f2ee5ab959ca6a390729f27cc9d28e49e3b4befb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "22656ff76879e44be92db8b7448cefe38e8b8818253731144721b2ef8af79821"
+    },
+    {
+      "package": "ddd-tactical",
+      "case_id": "entity-value-object",
+      "title": "Distinguish identity from value equality",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "customer continuity treated as entity; monetary equality/validation as value object.",
+      "expected_outcomes": [
+        {
+          "outcome": "Model the customer reference as an entity candidate with identity and continuity",
+          "status": "pass"
+        },
+        {
+          "outcome": "Model the monetary amount as a value-object candidate with value equality and validation",
+          "status": "pass"
+        },
+        {
+          "outcome": "Record examples, non-examples, and validation state",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Make every noun an entity",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Treat value equality as identity",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Invent database columns",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-tactical__entity-value-object.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-tactical__entity-value-object.stderr.txt",
+      "stdout_sha256": "e63587608665b5bd9e5a783c1e9f3b58f25c49893c7a63dabcf1a2c2adc9d68f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "f82c3d4edb037710c100d023ad4cf8d3c6b0f9f9a9416450f248674607725581"
+    },
+    {
+      "package": "ddd-tactical",
+      "case_id": "service-boundary",
+      "title": "Separate domain rules from application orchestration",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "load-decide-save-publish kept as application orchestration; rule stays with Claim.",
+      "expected_outcomes": [
+        {
+          "outcome": "Keep application orchestration distinct from the domain rule",
+          "status": "pass"
+        },
+        {
+          "outcome": "Place a rule on an entity/value or domain service only when its named need requires it",
+          "status": "pass"
+        },
+        {
+          "outcome": "Record the simpler alternative and evidence",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Put all behavior in an application service",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Leak orchestration into a domain rule",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Create a service merely because the pattern is familiar",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-tactical__service-boundary.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-tactical__service-boundary.stderr.txt",
+      "stdout_sha256": "4997ae0f717fd6593736cbf56b392b42906748d469516b56c268c9f98390abfe",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "5a837c2e8f173284f028f7f3403a46f258631304d3077e93151794b90ea294e1"
+    },
+    {
+      "package": "ddd-tactical",
+      "case_id": "repository-contract",
+      "title": "Define a repository as a domain-facing contract",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "repository limited to one root with not-found and optimistic-conflict semantics; no persistence technology.",
+      "expected_outcomes": [
+        {
+          "outcome": "Define a repository only for the needed aggregate root",
+          "status": "pass"
+        },
+        {
+          "outcome": "Document domain-facing behavior, not persistence implementation",
+          "status": "pass"
+        },
+        {
+          "outcome": "Record not-found and concurrency failure semantics",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Design an ORM or database schema",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Create repositories for every entity",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Hide concurrency assumptions",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-tactical__repository-contract.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-tactical__repository-contract.stderr.txt",
+      "stdout_sha256": "9517d15c311a7205c3ded4ecf906c9ca03afb28e325d64b580ae6f90ecfaa376",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "7230194afca6be84fbc8be71bb1c4c017bb74e87015d6cd0d55edddebc0ab316"
+    },
+    {
+      "package": "ddd-tactical",
+      "case_id": "event-delivery",
+      "title": "Make event delivery semantics explicit",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "past-tense fact, duplicate/out-of-order/retry/idempotency/privacy semantics explicit; eventual cross-context consistency.",
+      "expected_outcomes": [
+        {
+          "outcome": "Model a past-tense fact rather than a command",
+          "status": "pass"
+        },
+        {
+          "outcome": "Record ordering, duplication, idempotency, retry, recovery, and privacy assumptions",
+          "status": "pass"
+        },
+        {
+          "outcome": "Make cross-context consistency eventual unless evidence requires otherwise",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Assume exactly-once delivery without evidence",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Put commands in an event",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Treat an ordinary event as event sourcing",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-tactical__event-delivery.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-tactical__event-delivery.stderr.txt",
+      "stdout_sha256": "de9db64f79e9be0edfa007d6b98a94d6a628e290676dca7110baed68f4e47ad3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "16ac05beea4fe01fda563890eda288a9e299d36d0a96247650c18c80179c57b8"
+    },
+    {
+      "package": "ddd-tactical",
+      "case_id": "optional-pattern-gate",
+      "title": "Gate CQRS and event sourcing on evidence",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "CQRS and event sourcing marked not-needed with costs and simpler alternative; invariant gap blocks adoption.",
+      "expected_outcomes": [
+        {
+          "outcome": "Record CQRS and event sourcing as not-needed or deferred",
+          "status": "pass"
+        },
+        {
+          "outcome": "Explain costs and a simpler alternative",
+          "status": "pass"
+        },
+        {
+          "outcome": "Keep ordinary domain events separate from event sourcing",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Adopt either pattern by default",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Claim domain events require event sourcing",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Invent operational scale evidence",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-tactical__optional-pattern-gate.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-tactical__optional-pattern-gate.stderr.txt",
+      "stdout_sha256": "86c359d5d24d18207a022cd193222feb467fd78cf25884b6dc719a8548c30996",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "0ba9338f20595b826f60b80d2923ed2726aeaca0cd320c445fa071a3acce5c13"
+    },
+    {
+      "package": "ddd-tactical",
+      "case_id": "strategic-boundary-conflict",
+      "title": "Return strategic conflicts instead of repairing them silently",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "boundary/language conflict preserved; invalidated stages include strategic/tactical/adoption; no silent repair.",
+      "expected_outcomes": [
+        {
+          "outcome": "Preserve the tactical evidence and conflict",
+          "status": "pass"
+        },
+        {
+          "outcome": "Mark affected model/downstream work stale and include invalidated_stages",
+          "status": "pass"
+        },
+        {
+          "outcome": "Return the exact ddd-strategic request instead of silently rewriting strategic artifacts",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Repair the context map silently",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Continue to adoption as if the boundary were valid",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Discard the conflicting scenario",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-tactical__strategic-boundary-conflict.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-tactical__strategic-boundary-conflict.stderr.txt",
+      "stdout_sha256": "88d298bea20403c0ededba73bee669a984f3e23ccc0be892852e20e1ef3e9826",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "24a9309a066a92d44478e21c8c74ad48b8b2cc16b666b13bfce643514e20b782"
+    },
+    {
+      "package": "ddd-tactical",
+      "case_id": "safe-path-and-docs-only",
+      "title": "Reuse the safe slug and refuse product changes",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "after hardening, safe additive subset isolated while product and traversal paths are refused; unresolved section ownership remains explicit.",
+      "expected_outcomes": [
+        {
+          "outcome": "Reuse the exact validated slug and update the owned model additively",
+          "status": "pass"
+        },
+        {
+          "outcome": "Verify the model path resolves directly under docs/ddd/models",
+          "status": "pass"
+        },
+        {
+          "outcome": "Refuse product and escaping-path changes",
+          "status": "pass"
+        },
+        {
+          "outcome": "Preserve existing content and ownership",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Normalize a new slug",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Write outside docs/ddd/models",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Edit product source",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Overwrite the existing model destructively",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/post-fix-rerun-20260909/ddd-tactical__safe-path-and-docs-only.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/post-fix-rerun-20260909/ddd-tactical__safe-path-and-docs-only.stderr.txt",
+      "stdout_sha256": "4f3f0787eca4a8b38504d283930775371d0e4f9f48ca73f4a0bf67dccc895658",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "e7c10e2e0a8466920e76ed675726ad8651f36c08b77ffbaf73475739600b6139",
+      "baseline_observation": {
+        "status": "fail_as_expected",
+        "stdout_path": "docs/evaluations/phase-0-live/baseline-b7d9300/ddd-tactical__safe-path-and-docs-only.stdout.txt",
+        "stderr_path": "docs/evaluations/phase-0-live/baseline-b7d9300/ddd-tactical__safe-path-and-docs-only.stderr.txt",
+        "stdout_sha256": "3b0b5f02d534f1ed28ceca439fda93791bd1e47c831264db77d6f00767e6c86a",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "baseline_commit": "b7d930016c66254f3b559c9240076c3cb7c19577",
+        "evidence": "Baseline output blocks the whole mixed request; it is the inspectable pre-fix failure reproduced from the parent commit."
+      },
+      "post_fix_observation": {
+        "status": "pass",
+        "stdout_path": "docs/evaluations/phase-0-live/post-fix-rerun-20260909/ddd-tactical__safe-path-and-docs-only.stdout.txt",
+        "stdout_sha256": "4f3f0787eca4a8b38504d283930775371d0e4f9f48ca73f4a0bf67dccc895658",
+        "evidence": "Post-fix output isolates safe additive work and refuses only forbidden paths."
+      }
+    },
+    {
+      "package": "ddd-tactical",
+      "case_id": "claim-type-conflict-ledger",
+      "title": "Preserve conflicting claim types",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "current, desired, and required claims kept separate; material consistency conflict blocks tactical completion.",
+      "expected_outcomes": [
+        {
+          "outcome": "Record current behavior, desired policy/meaning, and required obligation as separate claim types",
+          "status": "pass"
+        },
+        {
+          "outcome": "Link the conflicting claims to the affected invariant or decision",
+          "status": "pass"
+        },
+        {
+          "outcome": "Preserve the conflict with source, owner, scenario, and validation state",
+          "status": "pass"
+        },
+        {
+          "outcome": "Return a bounded decision or unresolved result when the conflict is material",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Silently resolve the claim conflict",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Treat desired policy as current behavior",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Drop the required obligation",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Mark the invariant validated without claim evidence",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-tactical__claim-type-conflict-ledger.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-tactical__claim-type-conflict-ledger.stderr.txt",
+      "stdout_sha256": "67c4428b34dc41e3c4687f3720034f178e6b63d0bfbfe47d0713cce047b5df9a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "b6cb82cadc98bc86d108bc7f83f1c68e05d560a20180e57c9443e0c23bc03565"
+    },
+    {
+      "package": "ddd-tactical",
+      "case_id": "adoption-handoff",
+      "title": "Emit one complete adoption bundle",
+      "process_status": "pass",
+      "semantic_status": "pass",
+      "evidence": "exactly one Claims adoption request with model path, evidence, decisions, risks, owners, paths, and acceptance signals; adoption not claimed run.",
+      "expected_outcomes": [
+        {
+          "outcome": "Emit exactly one ddd-adoption request",
+          "status": "pass"
+        },
+        {
+          "outcome": "Include model path, one context, commands/scenarios, invariants, decisions, assumptions, risks, evidence, validation, owners, allowed paths, open questions, acceptance signals to define, and return_to",
+          "status": "pass"
+        },
+        {
+          "outcome": "Do not claim adoption ran",
+          "status": "pass"
+        }
+      ],
+      "forbidden_outcomes": [
+        {
+          "outcome": "Emit a second context",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Omit the model path or return_to",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        },
+        {
+          "outcome": "Claim implementation or adoption is complete",
+          "status": "pass",
+          "evidence": "No forbidden behavior observed in the captured result."
+        }
+      ],
+      "stdout_path": "docs/evaluations/phase-0-live/ddd-tactical__adoption-handoff.stdout.txt",
+      "stderr_path": "docs/evaluations/phase-0-live/ddd-tactical__adoption-handoff.stderr.txt",
+      "stdout_sha256": "b3d89c26413a6a7d0d8586bef9ee3e35d0bddd62aa61232df6f549ae8f0308d1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prompt_sha256": "0b57559e886364a0c86cdc27e7208f74e340f5b8a53aef305c49616d667bf6f8"
+    }
+  ],
+  "local_checks": {
+    "manifest": "docs/evaluations/phase-0-local-checks.json",
+    "statuses": {
+      "validator": "pass",
+      "one_h1": "pass",
+      "rendered_local_links": "pass",
+      "package_isolation": "pass",
+      "runtime_vendor_machine_probe": "pass",
+      "whitespace": "pass",
+      "status_evidence": "pass"
+    },
+    "validator_scope": "Deterministic repository-convention validator; full YAML/host compatibility is not claimed.",
+    "target_project_links": "Rendered package-local links pass; target-project materialization references in template instructions remain host/target-project integration concerns."
+  },
+  "package_hashes": {
+    "ddd-discover": {
+      "skill_sha256": "f2536ece9ef2897fa8c19e1582e0229af5590151241e723d42eca1a79cfdc73d",
+      "eval_sha256": "a95a8a97e7cc219cb5630e07fe7d9a8dc057e3d100eef01933a4e7024e1f4ea9",
+      "package_tree_sha256": "c76e6a2771290482ca1f805cd0d3638cd7de0328e2d1c627d876a549af5cd87e",
+      "files": [
+        {
+          "path": "skills/ddd-discover/SKILL.md",
+          "sha256": "f2536ece9ef2897fa8c19e1582e0229af5590151241e723d42eca1a79cfdc73d",
+          "bytes": 7170
+        },
+        {
+          "path": "skills/ddd-discover/assets/assessment-template.md",
+          "sha256": "c540f92852bff43f47c4467559da8604b184c1cc9ce2964f19c7300b19a15f96",
+          "bytes": 1894
+        },
+        {
+          "path": "skills/ddd-discover/assets/domain-vision-template.md",
+          "sha256": "8412836edd55cf219b3f4d6b588a9aea74aa24e6f38e19065e9dc6dd32899ced",
+          "bytes": 1801
+        },
+        {
+          "path": "skills/ddd-discover/assets/ubiquitous-language-template.md",
+          "sha256": "4bbdffd1e8eeec488644d336b902f8c8f816ddd2a3ecab86165248afb3c100da",
+          "bytes": 1202
+        },
+        {
+          "path": "skills/ddd-discover/evals/evals.json",
+          "sha256": "a95a8a97e7cc219cb5630e07fe7d9a8dc057e3d100eef01933a4e7024e1f4ea9",
+          "bytes": 4869
+        },
+        {
+          "path": "skills/ddd-discover/references/artifact-contracts.md",
+          "sha256": "4d9e0d2651963ee24c3f93ce551941855ecbf8b436c6933bfa64bb43c0227bb5",
+          "bytes": 2509
+        },
+        {
+          "path": "skills/ddd-discover/references/discovery-method.md",
+          "sha256": "169db24e9de47c24c56372da7a56c11016eeeacc731246e1b5f957ac73de614a",
+          "bytes": 2588
+        }
+      ]
+    },
+    "ddd-strategic": {
+      "skill_sha256": "4c155e95cc1c3b95850d6c94922caf8559467065daee256948019485bf4ae08b",
+      "eval_sha256": "3d9dd598b0b31ed9fc3d3e2c812ee09c53143ca1a14ae06eb56db3e93c906bd8",
+      "package_tree_sha256": "ce344ddeb41255499f0fe539f69152a4b38ddfb49b8a77351db396f6b6b99580",
+      "files": [
+        {
+          "path": "skills/ddd-strategic/SKILL.md",
+          "sha256": "4c155e95cc1c3b95850d6c94922caf8559467065daee256948019485bf4ae08b",
+          "bytes": 9505
+        },
+        {
+          "path": "skills/ddd-strategic/assets/context-map-template.md",
+          "sha256": "11f87c1ee55dda8c797119b9653df0485508527a06091023017d81e8b47409f1",
+          "bytes": 1503
+        },
+        {
+          "path": "skills/ddd-strategic/assets/context-template.md",
+          "sha256": "aae362c52813c2020bc827f46a5fda02827d880eff2aa2560318a48e1bac7aae",
+          "bytes": 1887
+        },
+        {
+          "path": "skills/ddd-strategic/assets/domain-map-template.md",
+          "sha256": "bf46395c2df0db3599a2503304236d6544944f74f088c86bd8daa43cc63b9ccf",
+          "bytes": 1099
+        },
+        {
+          "path": "skills/ddd-strategic/assets/ubiquitous-language-template.md",
+          "sha256": "8a3f06e06dad752d299983e6b7bde39ff74e6b53b085f733095f03bd24cff69c",
+          "bytes": 1179
+        },
+        {
+          "path": "skills/ddd-strategic/evals/evals.json",
+          "sha256": "3d9dd598b0b31ed9fc3d3e2c812ee09c53143ca1a14ae06eb56db3e93c906bd8",
+          "bytes": 7522
+        },
+        {
+          "path": "skills/ddd-strategic/references/artifact-contracts.md",
+          "sha256": "b9c88b672b98bd0f93a1afaff0ba5ceb188ca1d513c05f3a2a3114ffed915a1e",
+          "bytes": 3223
+        },
+        {
+          "path": "skills/ddd-strategic/references/strategic-method.md",
+          "sha256": "c17437d6622610fcbcdb09bea554a28aacd5238321a187b2fedf4fbbcd9aed71",
+          "bytes": 2590
+        }
+      ]
+    },
+    "ddd-tactical": {
+      "skill_sha256": "21abc3043c27fd575858584c7d9b7925b330d631fef99b6f60ceabb29230235e",
+      "eval_sha256": "1bc2860bd6d36d2788ab6261ffbe1b24b5de7341bd33c400065b8a84e678cbdc",
+      "package_tree_sha256": "7bcc67ab78d47ab65da3cca51cd42822719cd38398f1b7cca97cbdd337904294",
+      "files": [
+        {
+          "path": "skills/ddd-tactical/SKILL.md",
+          "sha256": "21abc3043c27fd575858584c7d9b7925b330d631fef99b6f60ceabb29230235e",
+          "bytes": 10556
+        },
+        {
+          "path": "skills/ddd-tactical/assets/context-model-template.md",
+          "sha256": "eb2aaae0b5d5e0ab7d76c75d9e5bc3a051d5b97ee6995852935cf5f83179758c",
+          "bytes": 5467
+        },
+        {
+          "path": "skills/ddd-tactical/evals/evals.json",
+          "sha256": "1bc2860bd6d36d2788ab6261ffbe1b24b5de7341bd33c400065b8a84e678cbdc",
+          "bytes": 23690
+        },
+        {
+          "path": "skills/ddd-tactical/references/artifact-contracts.md",
+          "sha256": "8ec589451f22f3e04f67422ed83b5e277c59ddc9287d92cb0a19658b8bab23e7",
+          "bytes": 3610
+        },
+        {
+          "path": "skills/ddd-tactical/references/tactical-method.md",
+          "sha256": "b34f84c634ca053b3004c38ee440582fbf807fca6276c19de05e0f742f98e302",
+          "bytes": 3253
+        }
+      ]
+    }
+  },
+  "boundary_and_scope": {
+    "allowed_changes": [
+      "docs/evaluations/**",
+      "skills/ddd-tactical/SKILL.md",
+      "docs/plans/README.md",
+      "docs/evaluations/phase-0-live-prompt-template.json"
+    ],
+    "product_source_changed": false,
+    "target_project_docs_changed": false,
+    "runtime_behavior_changed": false,
+    "portable_package_runtime_vendor_machine_probe": "pass"
+  },
+  "residual_risks": [
+    "skills-ref official validation remains unavailable/deferred and was not installed.",
+    "Static checks do not establish arbitrary host compatibility or full YAML/spec conformance.",
+    "Target-project materialization links are intentionally not validated against a target project in this repository.",
+    "The exact first-run safe-path stdout was overwritten before review and is unrecoverable; the recorded original hash and a fresh parent-commit baseline reproduction make the failure inspectable but not byte-identical to that first run."
+  ],
+  "verdict": "All 29 existing package-local cases have final reproducible captures and semantic judgments; the one observed package issue was corrected and its affected case rerun successfully. Candidate is frozen pending independent b-review; do not commit yet."
+}

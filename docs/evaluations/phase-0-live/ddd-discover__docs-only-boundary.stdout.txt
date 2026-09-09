@@ -1,0 +1,63 @@
+STATUS
+
+`blocked`
+
+RESULT
+
+- The requested controller edit and approval-rule implementation are product-code changes.
+- Product source changes are outside `ddd-discover` ownership and are forbidden by the package boundary.
+- No tools were used, no files were read or written, and no artifact changes are claimed.
+- The discovery artifacts may remain in scope for discovery, but they do not authorize implementation work.
+- DDD fit cannot be reliably assessed from the supplied evidence alone.
+- No approval policy was inferred, specified, or implemented.
+- No controller, tests, configuration, generated output, or deployment files were changed.
+- No strategic modeling handoff is justified from this request because the requested action is implementation rather than discovery.
+
+EVIDENCE
+
+- **Current behavior:** Not established. No repository or runtime evidence was inspected.
+- **Desired policy or meaning:** Not established. The approval rule itself was not specified beyond the request to implement it.
+- **Required obligation:** Not established. No contract, regulation, security requirement, or explicit constraint was provided.
+- **Interpretation:** The requested controller and rule changes are product-code changes, based on the supplied evidence.
+- **Assumption:** “Discovery artifacts are in scope” means only discovery-owned documentation may be considered; it does not expand the allowed paths to product code.
+- **Source:** Exact case input.
+- **Owner:** Not provided.
+- **Impact:** Implementation cannot proceed within `ddd-discover`; the approval policy remains unresolved.
+
+HANDOFF_OR_STOP
+
+Bounded stop. Do not edit product code.
+
+A later implementation workflow may be requested separately, but it must not be represented as `ddd-discover` work. If further discovery is needed, provide the approval rule’s intended meaning, examples, actors, commands or decisions, exceptions, evidence of current behavior, and policy owner before reassessing scope.
+
+CHANGED_ARTIFACTS
+
+None.
+
+No `docs/ddd/` artifact was created or updated, and no product-code artifact was changed.
+
+INVALIDATED_STAGES
+
+None.
+
+No later stage was run or invalidated. Any implementation or strategic artifacts not supplied here should not be treated as validated by this result.
+
+OPEN_QUESTIONS
+
+- What is the intended approval policy?
+- Who owns and validates that policy?
+- What concrete approval and rejection examples apply?
+- What exceptions, thresholds, roles, or sequencing constraints exist?
+- What current controller behavior and tests demonstrate the existing rule, if any?
+- Which separate workflow is authorized to make product-code changes?
+
+BOUNDARY_CHECKS
+
+- Discovery-owned paths only: **preserved**.
+- Product controller modification: **not performed; out of scope**.
+- Approval-rule implementation: **not performed; out of scope**.
+- Tests, configuration, generated output, and deployment changes: **not performed**.
+- File reads and writes: **none**.
+- Claims of changed artifacts: **none**.
+- Strategic context mapping, tactical modeling, migration, service decomposition, and product implementation: **not performed**.
+- Portable result: `stage=ddd-discover`, `status=blocked`, with no changed artifacts and a bounded-stop explanation.
