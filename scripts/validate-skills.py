@@ -25,6 +25,16 @@ DISCOVERY_ASSETS = {
     "domain-vision-template.md",
     "ubiquitous-language-template.md",
 }
+STRATEGIC_ASSETS = {
+    "domain-map-template.md",
+    "context-map-template.md",
+    "context-template.md",
+    "ubiquitous-language-template.md",
+}
+PACKAGE_REQUIREMENTS = {
+    "ddd-discover": {"assets": DISCOVERY_ASSETS, "minimum_evals": 6},
+    "ddd-strategic": {"assets": STRATEGIC_ASSETS, "minimum_evals": 7},
+}
 REQUIRED_EVAL_FIELDS = {"id", "title", "prompt", "input", "expected_outcomes", "forbidden_outcomes"}
 
 
@@ -99,7 +109,8 @@ def validate_skill(skill_root: Path) -> None:
         if not any(references.glob("*")):
             fail(f"{references}: directory is empty")
 
-    required_assets = DISCOVERY_ASSETS if skill_root.name == "ddd-discover" else set()
+    requirements = PACKAGE_REQUIREMENTS.get(skill_root.name, {"assets": set(), "minimum_evals": 1})
+    required_assets = requirements["assets"]
     assets = skill_root / "assets"
     missing_assets = sorted(name for name in required_assets if not (assets / name).is_file())
     if missing_assets:
@@ -117,7 +128,8 @@ def validate_evals(skill_root: Path) -> None:
     if not isinstance(payload, dict) or payload.get("skill") != skill_root.name:
         fail(f"{path}: payload skill must match package directory {skill_root.name!r}")
     cases = payload.get("cases")
-    minimum = 6 if skill_root.name == "ddd-discover" else 1
+    requirements = PACKAGE_REQUIREMENTS.get(skill_root.name, {"minimum_evals": 1})
+    minimum = requirements["minimum_evals"]
     if not isinstance(cases, list) or len(cases) < minimum:
         fail(f"{path}: expected at least {minimum} evaluation case(s)")
     ids: set[str] = set()

@@ -1,6 +1,6 @@
 # DDD skill-set design
 
-**Status: first executable MVP.** `ddd-discover` is implemented as the first portable skill slice; the remaining orchestrator and focused stages are still unimplemented. The MVP produces repository documentation under `docs/ddd/` and a concise chat summary; it must not edit product code.
+**Status: executable MVP slices.** `ddd-discover` and `ddd-strategic` are implemented as the first portable focused slices; the orchestrator, tactical, adoption, and review stages remain unimplemented. The MVP slices produce repository documentation under `docs/ddd/` and a concise chat summary; they must not edit product code.
 
 ## Design goals
 
@@ -24,7 +24,8 @@ This design does not choose a programming language, framework, deployment platfo
 
 ## First-release boundary
 
-The `ddd-discover` MVP creates or updates only the discovery-owned modeling documents under `docs/ddd/`, preserving existing content and marking uncertainty. The future `ddd` orchestrator owns routing/state only and passes exact stage names plus request/result bundles through the portable transition protocol; it never duplicates focused-stage work. A host that cannot activate a named stage returns the exact manual invocation and unchanged bundle. It must stop for material user decisions, missing evidence, conflicts, or unsafe file changes. Product source, tests, deployment configuration, and runtime behavior are outside this release.
+The focused MVP slices create or update only their owned modeling documents under `docs/ddd/`, preserving existing content and marking uncertainty. The future `ddd` orchestrator owns routing/state only and passes exact stage names plus request/result bundles through the portable transition protocol; it never duplicates focused-stage work. A host that cannot activate a named stage returns the exact manual invocation and unchanged bundle. The slices must stop for material user decisions, missing evidence, conflicts, or unsafe file changes. Product source, tests, deployment configuration, and runtime behavior are outside this release.
 
 - [Implemented MVP portability notes](portability.md)
-- [Implemented skill package](../../skills/ddd-discover/SKILL.md)
+- [Implemented discovery skill](../../skills/ddd-discover/SKILL.md)
+- [Implemented strategic skill](../../skills/ddd-strategic/SKILL.md)
