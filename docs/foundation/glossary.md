@@ -1,0 +1,23 @@
+# Glossary
+
+- **Aggregate:** a consistency and access boundary around related domain objects.
+- **Aggregate root:** the object through which an aggregate is accessed and its invariants are coordinated.
+- **Anti-corruption layer:** translation that protects one model from another model's concepts or constraints.
+- **Application service:** use-case orchestration at the application boundary.
+- **Bounded context:** a boundary in which a model and its language have consistent meaning.
+- **Context map:** a map of contexts, ownership, and their integration relationships.
+- **Core subdomain:** a strategically differentiating area of domain knowledge.
+- **Domain:** the business area addressed by a product or organization.
+- **Domain event:** a record of a meaningful occurrence in the domain.
+- **Domain service:** domain behavior that does not naturally belong to one entity or value object.
+- **Entity:** a domain object identified by continuity rather than only by its attributes.
+- **Event sourcing:** treating an ordered event history as the primary record used to rebuild state.
+- **Factory:** a mechanism that encapsulates meaningful creation rules.
+- **Generic subdomain:** a broadly understood capability that may be available as a commodity solution.
+- **Model:** a purposeful representation of domain concepts for a bounded context.
+- **Repository:** a domain-facing abstraction for obtaining and storing modeled objects.
+- **Specification:** a named, composable business predicate or rule.
+- **Subdomain:** a coherent area of knowledge or capability within a domain.
+- **Supporting subdomain:** a necessary area that is generally not the primary differentiator.
+- **Ubiquitous language:** shared, context-specific vocabulary used by experts and the delivery team.
+- **Value object:** a value-defined object whose identity is determined by its attributes.
