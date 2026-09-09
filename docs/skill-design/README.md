@@ -1,6 +1,6 @@
 # DDD skill-set design
 
-**Status: executable MVP slices.** `ddd-discover` and `ddd-strategic` are implemented as the first portable focused slices; the orchestrator, tactical, adoption, and review stages remain unimplemented. The MVP slices produce repository documentation under `docs/ddd/` and a concise chat summary; they must not edit product code.
+**Status: executable MVP slices.** `ddd-discover`, `ddd-strategic`, and `ddd-tactical` are implemented as the first portable focused slices; the orchestrator, adoption, and review stages remain unimplemented. The MVP slices produce repository documentation under `docs/ddd/` and a concise chat summary; they must not edit product code.
 
 ## Design goals
 
@@ -29,3 +29,4 @@ The focused MVP slices create or update only their owned modeling documents unde
 - [Implemented MVP portability notes](portability.md)
 - [Implemented discovery skill](../../skills/ddd-discover/SKILL.md)
 - [Implemented strategic skill](../../skills/ddd-strategic/SKILL.md)
+- [Implemented tactical skill](../../skills/ddd-tactical/SKILL.md)

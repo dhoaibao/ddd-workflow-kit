@@ -6,7 +6,8 @@ This repository is a research and documentation workspace for building a reusabl
 - [Skill-set design and executable MVPs](docs/skill-design/README.md)
 - [ddd-discover skill](skills/ddd-discover/SKILL.md)
 - [ddd-strategic skill](skills/ddd-strategic/SKILL.md)
+- [ddd-tactical skill](skills/ddd-tactical/SKILL.md)
 - [Glossary](docs/foundation/glossary.md)
 - [References](docs/foundation/references.md)
 
-**The first executable discovery and strategic slices are included; the orchestrator, tactical, adoption, and review stages remain unimplemented.**
+**The executable discovery, strategic, and tactical slices are included; the orchestrator, adoption, and review stages remain unimplemented.**

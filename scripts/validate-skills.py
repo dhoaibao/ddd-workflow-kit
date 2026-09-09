@@ -31,10 +31,32 @@ STRATEGIC_ASSETS = {
     "context-template.md",
     "ubiquitous-language-template.md",
 }
+TACTICAL_ASSETS = {"context-model-template.md"}
 PACKAGE_REQUIREMENTS = {
     "ddd-discover": {"assets": DISCOVERY_ASSETS, "minimum_evals": 6},
     "ddd-strategic": {"assets": STRATEGIC_ASSETS, "minimum_evals": 7},
+    "ddd-tactical": {"assets": TACTICAL_ASSETS, "minimum_evals": 11},
 }
+TACTICAL_PREREQUISITE_STOP_CASES = {"missing-strategic-prerequisites", "select-one-context"}
+TACTICAL_REQUIRED_INPUT_FIELDS = {
+    "purpose", "outcome", "vocabulary", "commands", "scenarios", "relationships",
+    "decision_owner", "evidence", "provenance", "assumptions", "open_questions",
+    "candidate_invariants", "allowed_paths", "artifact_ownership", "return_to",
+}
+TACTICAL_CONTEXT_FIELDS = {"name", "safe_slug", "path", "validation"}
+TACTICAL_NONEMPTY_LIST_FIELDS = {"vocabulary", "commands", "scenarios", "evidence", "provenance", "candidate_invariants", "allowed_paths"}
+TACTICAL_OPTIONAL_LIST_FIELDS = {"relationships", "assumptions", "open_questions"}
+TACTICAL_CLAIM_LINK_MARKERS = (
+    "| Command/use case | Claim IDs |",
+    "| Entity | Claim IDs |",
+    "| Value object | Claim IDs |",
+    "| Aggregate/root | Protected immediate invariant | Claim IDs |",
+    "| Contract | Claim IDs |",
+    "| Element | Claim IDs |",
+    "| Past-tense event | Claim IDs |",
+    "| Decision area | Claim IDs |",
+    "| Pattern | Claim IDs |",
+)
 REQUIRED_EVAL_FIELDS = {"id", "title", "prompt", "input", "expected_outcomes", "forbidden_outcomes"}
 
 
@@ -154,6 +176,66 @@ def validate_evals(skill_root: Path) -> None:
                 fail(f"{path}: case {case_id} field {field} must be a nonempty string list")
 
 
+def validate_tactical_eval_inputs(skill_root: Path, cases: list[dict]) -> None:
+    if skill_root.name != "ddd-tactical":
+        return
+    for case in cases:
+        if case["id"] in TACTICAL_PREREQUISITE_STOP_CASES:
+            continue
+        payload = case["input"]
+        missing = sorted(TACTICAL_REQUIRED_INPUT_FIELDS - payload.keys())
+        if missing:
+            fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} missing tactical entry fields: {', '.join(missing)}")
+        context = payload.get("selected_context")
+        if not isinstance(context, dict):
+            fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} must have one selected_context")
+        missing_context = sorted(TACTICAL_CONTEXT_FIELDS - context.keys())
+        if missing_context:
+            fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} missing context fields: {', '.join(missing_context)}")
+        for field in sorted(TACTICAL_CONTEXT_FIELDS):
+            value = context[field]
+            if not isinstance(value, str) or not value.strip():
+                fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} context field {field} must be a nonempty string")
+        if context["validation"] != "validated":
+            fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} selected context must be validated")
+        if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", context["safe_slug"]):
+            fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} has an unsafe context slug")
+        expected_context_path = f"docs/ddd/contexts/{context['safe_slug']}.md"
+        expected_model_path = f"docs/ddd/models/{context['safe_slug']}.md"
+        if context["path"] != expected_context_path:
+            fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} context path must reuse its safe slug")
+        for field in ("purpose", "outcome", "decision_owner", "return_to"):
+            if not isinstance(payload[field], str) or not payload[field].strip():
+                fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} field {field} must be a nonempty string")
+        for field in sorted(TACTICAL_NONEMPTY_LIST_FIELDS):
+            values = payload[field]
+            if not isinstance(values, list) or not values or not all(isinstance(item, str) and item.strip() for item in values):
+                fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} field {field} must be a nonempty string list")
+        for field in sorted(TACTICAL_OPTIONAL_LIST_FIELDS):
+            values = payload[field]
+            if not isinstance(values, list) or not all(isinstance(item, str) and item.strip() for item in values):
+                fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} field {field} must be a string list, possibly empty")
+        allowed_paths = set(payload["allowed_paths"])
+        permitted_paths = {expected_model_path, expected_context_path, "docs/ddd/ubiquitous-language.md"}
+        if not {expected_model_path, expected_context_path}.issubset(allowed_paths) or not allowed_paths.issubset(permitted_paths):
+            fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} allowed_paths must contain only the derived model/context paths and optional language path")
+        ownership = payload["artifact_ownership"]
+        if not isinstance(ownership, dict) or not all(isinstance(ownership.get(key), str) and ownership[key].strip() for key in ("model", "context", "language")):
+            fail(f"{skill_root / 'evals' / 'evals.json'}: case {case['id']} artifact_ownership must name model, context, and language owners")
+
+
+def validate_tactical_contract(skill_root: Path) -> None:
+    template = skill_root / "assets" / "context-model-template.md"
+    if skill_root.name != "ddd-tactical" or not template.is_file():
+        return
+    text = template.read_text(encoding="utf-8")
+    missing = [marker for marker in TACTICAL_CLAIM_LINK_MARKERS if marker not in text]
+    if missing:
+        fail(f"{template}: every tactical decision section must expose Claim IDs; missing: {', '.join(missing)}")
+    if "_C-001 or none needed_" in text:
+        fail(f"{template}: Claim ID cells must require an actual ledger ID; 'none needed' is not a Claim ID")
+
+
 def validate_forbidden_runtime_references() -> None:
     for path in sorted((ROOT / "skills").rglob("*")):
         if not path.is_file() or path.suffix not in {".md", ".json"}:
@@ -174,6 +256,12 @@ def main() -> int:
         for skill_root in skill_dirs:
             validate_skill(skill_root)
             validate_evals(skill_root)
+        tactical_eval_path = SKILLS_ROOT / "ddd-tactical" / "evals" / "evals.json"
+        if tactical_eval_path.is_file():
+            tactical_root = SKILLS_ROOT / "ddd-tactical"
+            tactical_payload = json.loads(tactical_eval_path.read_text(encoding="utf-8"))
+            validate_tactical_eval_inputs(tactical_root, tactical_payload["cases"])
+            validate_tactical_contract(tactical_root)
         validate_forbidden_runtime_references()
     except ValidationError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
