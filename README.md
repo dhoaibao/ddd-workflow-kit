@@ -32,7 +32,15 @@ Use `--path /some/skills-directory` to register a single explicit destination. T
 ~/.ddd-workflow-kit/bin/ddd-workflow-kit update
 ```
 
-The manager also accepts `install` for a new selection and `version` to print the installed release.
+The manager also accepts `install` for a new selection, `uninstall` for full or registration-scoped removal, and `version` to print the installed release. Uninstall prompts default to No; automation must pass `--yes`. Interactive Project uninstall lists all project and explicit-path registration rows (explicit rows are labelled `explicit path`) and selects registrations rather than physical destinations.
+
+```bash
+# Remove every managed registration and the local installer state
+~/.ddd-workflow-kit/bin/ddd-workflow-kit uninstall --full --yes
+
+# Remove one registration while preserving shared physical links when needed
+~/.ddd-workflow-kit/bin/ddd-workflow-kit uninstall --partial --agent shared --global --yes
+```
 
 ## How it works
 

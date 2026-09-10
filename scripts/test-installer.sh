@@ -20,6 +20,7 @@ bash "$ROOT/install.sh" --source-dir "$ROOT" --agent pi --global
 bash "$ROOT/install.sh" --source-dir "$ROOT" --agent pi --global
 assert [ -L "$HOME/.pi/agent/skills/ddd" ]
 assert [ -x "$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" ]
+assert [ -x "$HOME/.ddd-workflow-kit/bin/install.sh" ]
 assert [ "$("$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" version)" = 0.1.2 ]
 
 printf '2. project path with spaces, multi-agent selection, and deduplication\n'
@@ -180,6 +181,210 @@ if command -v script >/dev/null 2>&1 && script -qec true /dev/null >/dev/null 2>
   assert [ "$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); assert any(r["scope"] == "project" for r in d["registrations"]); assert any(l["scope"] == "project" and l["agent"] == "shared,codex" for l in d["links"]); print("ok")' "$PTY_HOME/.ddd-workflow-kit/manifest.json")" = ok ]
 else
   printf 'test-installer: skipping pseudo-TTY case; util-linux script not available\n'
+fi
+
+printf '7. uninstall filtering, rollback, safety, and full cleanup\n'
+UN_HOME="$TMP/uninstall-home"
+UN_PROJECT="$TMP/uninstall project"
+UN_EXPLICIT="$TMP/uninstall-explicit"
+mkdir -p "$UN_HOME" "$UN_PROJECT" "$UN_EXPLICIT"
+printf 'keep project\n' > "$UN_PROJECT/unrelated.txt"
+printf 'keep explicit\n' > "$UN_EXPLICIT/unrelated.txt"
+HOME="$UN_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent shared,codex --global
+HOME="$UN_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent pi --project "$UN_PROJECT"
+HOME="$UN_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent claude --path "$UN_EXPLICIT"
+UN_MANAGER="$UN_HOME/.ddd-workflow-kit/bin/ddd-workflow-kit"
+DDD_RELEASE_URL=file:///missing DDD_CHECKSUM_URL=file:///missing HOME="$UN_HOME" "$UN_MANAGER" uninstall --partial --agent shared --global --yes
+assert [ -L "$UN_HOME/.agents/skills/ddd" ]
+assert [ "$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); assert {r["agent"] for r in d["registrations"]} == {"codex","pi","claude"}; assert all(l["agent"] != "shared" for l in d["links"]); print("ok")' "$UN_HOME/.ddd-workflow-kit/manifest.json")" = ok ]
+DDD_RELEASE_URL=file:///missing DDD_CHECKSUM_URL=file:///missing HOME="$UN_HOME" "$UN_MANAGER" uninstall --partial --agent claude --path "$UN_EXPLICIT" --yes
+assert_not_exists "$UN_EXPLICIT/ddd"
+assert [ -f "$UN_EXPLICIT/unrelated.txt" ]
+DDD_RELEASE_URL=file:///missing DDD_CHECKSUM_URL=file:///missing HOME="$UN_HOME" "$UN_MANAGER" uninstall --partial --agent codex --global --yes
+assert_not_exists "$UN_HOME/.agents/skills/ddd"
+assert [ -d "$UN_HOME/.ddd-workflow-kit/skills" ]
+assert [ -f "$UN_HOME/.ddd-workflow-kit/bin/install.sh" ]
+if DDD_RELEASE_URL=file:///missing DDD_CHECKSUM_URL=file:///missing HOME="$UN_HOME" "$UN_MANAGER" uninstall --full; then
+  printf 'test-installer: incomplete full uninstall unexpectedly succeeded\n' >&2; exit 1
+fi
+if HOME="$UN_HOME" "$UN_MANAGER" uninstall --yes; then
+  printf 'test-installer: bare --yes unexpectedly succeeded\n' >&2; exit 1
+fi
+
+UN_ROLLBACK_HOME="$TMP/uninstall-rollback-home"
+mkdir -p "$UN_ROLLBACK_HOME"
+HOME="$UN_ROLLBACK_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent shared,codex --global
+UN_ROLLBACK_MANAGER="$UN_ROLLBACK_HOME/.ddd-workflow-kit/bin/ddd-workflow-kit"
+FAIL_UN_MV="$TMP/failing-uninstall-mv"
+mkdir -p "$FAIL_UN_MV"
+REAL_MV_UNINSTALL=$(command -v mv)
+cat > "$FAIL_UN_MV/mv" <<EOF
+#!/usr/bin/env bash
+"$REAL_MV_UNINSTALL" "\$@"
+case "\$2" in */manifest.json) exit 75 ;; esac
+EOF
+chmod +x "$FAIL_UN_MV/mv"
+if PATH="$FAIL_UN_MV:$PATH" HOME="$UN_ROLLBACK_HOME" "$UN_ROLLBACK_MANAGER" uninstall --partial --agent shared --global --yes; then
+  printf 'test-installer: manifest-write rollback unexpectedly succeeded\n' >&2; exit 1
+fi
+assert [ -L "$UN_ROLLBACK_HOME/.agents/skills/ddd" ]
+assert [ "$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); assert {r["agent"] for r in d["registrations"]} == {"shared","codex"}; print("ok")' "$UN_ROLLBACK_HOME/.ddd-workflow-kit/manifest.json")" = ok ]
+
+UN_CROSS_HOME="$TMP/uninstall-cross-scope-home"
+mkdir -p "$UN_CROSS_HOME"
+HOME="$UN_CROSS_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent shared --global
+HOME="$UN_CROSS_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent claude --path "$UN_CROSS_HOME/.agents/skills"
+UN_CROSS_MANAGER="$UN_CROSS_HOME/.ddd-workflow-kit/bin/ddd-workflow-kit"
+HOME="$UN_CROSS_HOME" "$UN_CROSS_MANAGER" uninstall --partial --agent shared --global --yes
+assert [ -L "$UN_CROSS_HOME/.agents/skills/ddd" ]
+assert [ "$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); r=[r for r in d["registrations"] if r["agent"] == "claude"][0]; l=[l for l in d["links"] if l["path"].endswith("/ddd")][0]; assert r["scope"] == "path" and l["scope"] == "path" and l["agent"] == "claude"; print("ok")' "$UN_CROSS_HOME/.ddd-workflow-kit/manifest.json")" = ok ]
+HOME="$UN_CROSS_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --update
+assert [ "$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); r=[r for r in d["registrations"] if r["agent"] == "claude"][0]; l=[l for l in d["links"] if l["path"].endswith("/ddd")][0]; assert r["scope"] == "path" and l["scope"] == "path" and l["agent"] == "claude"; print("ok")' "$UN_CROSS_HOME/.ddd-workflow-kit/manifest.json")" = ok ]
+
+UN_SELECT_HOME="$TMP/uninstall-selective-preflight-home"
+UN_SELECT_EXPLICIT="$TMP/uninstall-selective-preflight-explicit"
+mkdir -p "$UN_SELECT_HOME" "$UN_SELECT_EXPLICIT"
+HOME="$UN_SELECT_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent shared --global
+HOME="$UN_SELECT_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent claude --path "$UN_SELECT_EXPLICIT"
+printf 'unrelated\n' > "$TMP/selective-unrelated-target"
+rm -f "$UN_SELECT_HOME/.agents/skills/ddd"
+ln -s "$TMP/selective-unrelated-target" "$UN_SELECT_HOME/.agents/skills/ddd"
+HOME="$UN_SELECT_HOME" "$UN_SELECT_HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" uninstall --partial --agent claude --path "$UN_SELECT_EXPLICIT" --yes
+assert_not_exists "$UN_SELECT_EXPLICIT/ddd"
+assert [ "$(readlink "$UN_SELECT_HOME/.agents/skills/ddd")" = "$TMP/selective-unrelated-target" ]
+
+UN_CHANGED_HOME="$TMP/uninstall-changed-home"
+mkdir -p "$UN_CHANGED_HOME"
+HOME="$UN_CHANGED_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent shared,codex --global
+printf 'unrelated\n' > "$TMP/unrelated-target"
+rm -f "$UN_CHANGED_HOME/.agents/skills/ddd"
+ln -s "$TMP/unrelated-target" "$UN_CHANGED_HOME/.agents/skills/ddd"
+if HOME="$UN_CHANGED_HOME" "$UN_CHANGED_HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" uninstall --full --yes; then
+  printf 'test-installer: changed-link full uninstall unexpectedly succeeded\n' >&2; exit 1
+fi
+assert [ "$(readlink "$UN_CHANGED_HOME/.agents/skills/ddd")" = "$TMP/unrelated-target" ]
+assert [ -d "$UN_CHANGED_HOME/.ddd-workflow-kit" ]
+
+UN_FULL_HOME="$TMP/uninstall-full-home"
+UN_FULL_PROJECT="$TMP/uninstall-full-project"
+UN_FULL_EXPLICIT="$TMP/uninstall-full-explicit"
+mkdir -p "$UN_FULL_HOME" "$UN_FULL_PROJECT" "$UN_FULL_EXPLICIT"
+printf 'preserve\n' > "$UN_FULL_PROJECT/keep.txt"
+printf 'preserve\n' > "$UN_FULL_EXPLICIT/keep.txt"
+HOME="$UN_FULL_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent pi --global
+HOME="$UN_FULL_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent codex --project "$UN_FULL_PROJECT"
+HOME="$UN_FULL_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent shared --path "$UN_FULL_EXPLICIT"
+rm -f "$UN_FULL_HOME/.pi/agent/skills/ddd"
+HOME="$UN_FULL_HOME" "$UN_FULL_HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" uninstall --full --yes
+assert_not_exists "$UN_FULL_HOME/.ddd-workflow-kit"
+assert_not_exists "$UN_FULL_HOME/.pi/agent/skills/ddd"
+assert_not_exists "$UN_FULL_PROJECT/.agents/skills/ddd"
+assert_not_exists "$UN_FULL_EXPLICIT/ddd"
+assert [ -f "$UN_FULL_PROJECT/keep.txt" ]
+assert [ -f "$UN_FULL_EXPLICIT/keep.txt" ]
+assert [ -d "$UN_FULL_PROJECT/.agents/skills" ]
+assert [ -d "$UN_FULL_EXPLICIT" ]
+
+UN_FULL_ROLLBACK_HOME="$TMP/uninstall-full-rollback-home"
+mkdir -p "$UN_FULL_ROLLBACK_HOME"
+HOME="$UN_FULL_ROLLBACK_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent pi --global
+FAIL_FULL_RM_BIN="$TMP/failing-full-rm"
+mkdir -p "$FAIL_FULL_RM_BIN"
+cat > "$FAIL_FULL_RM_BIN/rm" <<EOF
+#!/usr/bin/env bash
+for arg in "\$@"; do
+  case "\$arg" in
+    */.ddd-workflow-kit.uninstall-backup.*)
+      if [ -f "\$arg/manifest.json" ]; then
+        "$REAL_RM" "\$arg/manifest.json"
+        exit 74
+      fi
+      ;;
+  esac
+done
+"$REAL_RM" "\$@"
+EOF
+chmod +x "$FAIL_FULL_RM_BIN/rm"
+if PATH="$FAIL_FULL_RM_BIN:$PATH" HOME="$UN_FULL_ROLLBACK_HOME" "$UN_FULL_ROLLBACK_HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" uninstall --full --yes; then
+  printf 'test-installer: partial full-backup deletion unexpectedly succeeded\n' >&2; exit 1
+fi
+assert [ -f "$UN_FULL_ROLLBACK_HOME/.ddd-workflow-kit/manifest.json" ]
+assert [ -x "$UN_FULL_ROLLBACK_HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" ]
+assert [ -L "$UN_FULL_ROLLBACK_HOME/.pi/agent/skills/ddd" ]
+
+UN_REL_HOME="$TMP/uninstall-relative-home"
+UN_REL_ORIGIN="$TMP/uninstall-relative-origin"
+UN_REL_OTHER="$TMP/uninstall-relative-other"
+mkdir -p "$UN_REL_HOME" "$UN_REL_ORIGIN" "$UN_REL_OTHER"
+(cd "$UN_REL_ORIGIN" && HOME="$UN_REL_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent pi --path relative-skills)
+assert [ -L "$UN_REL_ORIGIN/relative-skills/ddd" ]
+UN_REL_MANAGER="$UN_REL_HOME/.ddd-workflow-kit/bin/ddd-workflow-kit"
+(cd "$UN_REL_OTHER" && HOME="$UN_REL_HOME" "$UN_REL_MANAGER" uninstall --partial --agent pi --path "$UN_REL_ORIGIN/relative-skills" --yes)
+assert_not_exists "$UN_REL_ORIGIN/relative-skills/ddd"
+assert [ -f "$UN_REL_HOME/.ddd-workflow-kit/manifest.json" ]
+(cd "$UN_REL_OTHER" && HOME="$UN_REL_HOME" "$UN_REL_MANAGER" uninstall --full --yes)
+assert_not_exists "$UN_REL_HOME/.ddd-workflow-kit"
+
+UN_LEGACY_HOME="$TMP/uninstall-legacy-relative-home"
+mkdir -p "$UN_LEGACY_HOME"
+HOME="$UN_LEGACY_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent pi --global
+python3 - "$UN_LEGACY_HOME/.ddd-workflow-kit/manifest.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+with open(path) as stream:
+    manifest = json.load(stream)
+for item in manifest["registrations"]:
+    item["path"] = "legacy-skills"
+for item in manifest["links"]:
+    item["path"] = "legacy-skills/ddd"
+with open(path, "w") as stream:
+    json.dump(manifest, stream, indent=2, separators=(",", ":"))
+PY
+if (cd "$UN_REL_OTHER" && HOME="$UN_LEGACY_HOME" "$UN_LEGACY_HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" uninstall --full --yes); then
+  printf 'test-installer: legacy relative manifest unexpectedly succeeded\n' >&2; exit 1
+fi
+assert [ -d "$UN_LEGACY_HOME/.ddd-workflow-kit" ]
+assert [ -L "$UN_LEGACY_HOME/.pi/agent/skills/ddd" ]
+
+printf '8. interactive uninstall multi-select, confirmation, and terminal restoration\n'
+if command -v script >/dev/null 2>&1 && script -qec true /dev/null >/dev/null 2>&1; then
+UN_PTY_HOME="$TMP/uninstall-pty-home"
+mkdir -p "$UN_PTY_HOME"
+HOME="$UN_PTY_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent shared,codex --global
+UN_PTY_MANAGER="$UN_PTY_HOME/.ddd-workflow-kit/bin/ddd-workflow-kit"
+UN_PTY_BEFORE="$TMP/uninstall-pty-before"
+UN_PTY_AFTER="$TMP/uninstall-pty-after"
+# Partial, Global, toggle Shared, confirm, then choose Yes.
+(printf '\033[B\n\n \n\033[B\n' | script -qec "stty -g >'$UN_PTY_BEFORE'; HOME='$UN_PTY_HOME' '$UN_PTY_MANAGER' uninstall; stty -g >'$UN_PTY_AFTER'" /dev/null) || { printf 'test-installer: interactive uninstall failed\n' >&2; exit 1; }
+assert [ "$(cat "$UN_PTY_BEFORE")" = "$(cat "$UN_PTY_AFTER")" ]
+assert [ -L "$UN_PTY_HOME/.agents/skills/ddd" ]
+assert [ "$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); assert [r["agent"] for r in d["registrations"]] == ["codex"]; print("ok")' "$UN_PTY_HOME/.ddd-workflow-kit/manifest.json")" = ok ]
+
+UN_PTY_EMPTY_HOME="$TMP/uninstall-pty-empty-home"
+mkdir -p "$UN_PTY_EMPTY_HOME"
+HOME="$UN_PTY_EMPTY_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent shared --global
+UN_PTY_EMPTY_MANAGER="$UN_PTY_EMPTY_HOME/.ddd-workflow-kit/bin/ddd-workflow-kit"
+if (printf '\033[B\n\n\n' | script -qec "HOME='$UN_PTY_EMPTY_HOME' '$UN_PTY_EMPTY_MANAGER' uninstall" /dev/null >/dev/null 2>&1); then
+  printf 'test-installer: empty interactive uninstall unexpectedly succeeded\n' >&2; exit 1
+fi
+assert [ -L "$UN_PTY_EMPTY_HOME/.agents/skills/ddd" ]
+
+UN_PTY_PROJECT_HOME="$TMP/uninstall-pty-project-home"
+UN_PTY_PROJECT="$TMP/uninstall-pty-project"
+UN_PTY_EXPLICIT="$TMP/uninstall-pty-explicit"
+mkdir -p "$UN_PTY_PROJECT_HOME" "$UN_PTY_PROJECT" "$UN_PTY_EXPLICIT"
+HOME="$UN_PTY_PROJECT_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent pi --project "$UN_PTY_PROJECT"
+HOME="$UN_PTY_PROJECT_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent claude --path "$UN_PTY_EXPLICIT"
+UN_PTY_PROJECT_MANAGER="$UN_PTY_PROJECT_HOME/.ddd-workflow-kit/bin/ddd-workflow-kit"
+UN_PTY_PROJECT_BEFORE="$TMP/uninstall-pty-project-before"
+UN_PTY_PROJECT_AFTER="$TMP/uninstall-pty-project-after"
+# Partial, Project, toggle the explicit-path row, confirm Yes.
+(cd "$UN_PTY_PROJECT" && printf '\033[B\n\033[B\n\033[B \n\033[B\n' | script -qec "stty -g >'$UN_PTY_PROJECT_BEFORE'; HOME='$UN_PTY_PROJECT_HOME' '$UN_PTY_PROJECT_MANAGER' uninstall; stty -g >'$UN_PTY_PROJECT_AFTER'" /dev/null) || { printf 'test-installer: interactive explicit-path uninstall failed\n' >&2; exit 1; }
+assert [ "$(cat "$UN_PTY_PROJECT_BEFORE")" = "$(cat "$UN_PTY_PROJECT_AFTER")" ]
+assert [ -L "$UN_PTY_PROJECT/.pi/skills/ddd" ]
+assert_not_exists "$UN_PTY_EXPLICIT/ddd"
+else
+  printf 'test-installer: skipping interactive uninstall cases; compatible script is not available\n'
 fi
 
 printf 'installer integration tests passed\n'
