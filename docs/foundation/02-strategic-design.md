@@ -18,6 +18,8 @@ A **bounded context** is a boundary within which a model and its language have c
 
 A bounded context is a modeling boundary, not automatically a service, database, team, or repository. Those physical boundaries may be useful, but they should follow a justified need such as independent change, ownership, scaling, security, or failure isolation.
 
+A bounded context also has a **public interface**: the commands it accepts, the queries it answers, and the events it publishes. Neighboring contexts depend on this message contract, not on the internal model, and it is expensive to change once other contexts rely on it.
+
 Signals for a boundary include:
 
 - a term has materially different meanings or rules;
@@ -30,14 +32,17 @@ Signals for a boundary include:
 
 A **context map** documents bounded contexts and the relationships between them. It makes dependencies, ownership, and translation visible. Record the direction of influence and the mechanism used for communication; avoid treating a label as proof that integration is healthy.
 
-Common relationship patterns include:
+Common relationship patterns include, ordered from highest to lowest coupling:
 
+- **Partnership:** the two contexts succeed or fail together; a development failure in either one is a delivery failure for both. It calls for coordinated planning, joint management of the integration, and scheduling interdependent features for the same release.
 - **Shared kernel:** contexts share a small model or contract and coordinate changes. This can reduce duplication but increases coordination and coupling.
 - **Customer–supplier:** an upstream context supplies capabilities to a downstream context and considers the downstream needs in planning.
 - **Conformist:** the downstream adopts the upstream model because it has little practical influence or the translation cost is not justified.
 - **Anti-corruption layer:** the downstream translates and isolates an upstream model so it does not shape the downstream domain model.
-- **Open host service / published language:** an upstream exposes a documented protocol or language intended for multiple consumers.
+- **Open host service:** an upstream exposes a documented protocol intended for multiple consumers, rather than negotiating a one-off integration per consumer.
+- **Published language:** a documented shared language, such as iCalendar or vCard, used as the translation medium between contexts; it is often combined with an open host service.
 - **Separate ways:** contexts do not integrate directly when the cost or value of integration is low; duplication can be an intentional trade-off.
+- **Big ball of mud:** a label for a region where model and system quality have broken down; it is not itself a coupling level. Naming it is not a design choice but a warning: the priority is preventing its problems from propagating into other contexts, which motivates using an anti-corruption layer at its edges.
 
 Other relationships may be appropriate. Choose based on ownership, risk, and change patterns rather than applying a catalog mechanically.
 

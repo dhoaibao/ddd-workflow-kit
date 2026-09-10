@@ -23,7 +23,7 @@ Loading or locking an entire object graph may create contention and fragile tran
 Shared tables, ORM navigation, generated models, and direct calls can bypass context boundaries. Make ownership, schemas, contracts, and translation visible even when components share a process.
 
 ### Ignoring operational semantics
-Asynchronous events introduce delivery, ordering, duplication, retries, and failure concerns. Document whether handlers are idempotent, what consistency users see, and how errors are repaired.
+Asynchronous events introduce delivery, ordering, duplication, retries, and failure concerns. Document whether handlers are idempotent, what consistency users see, and how errors are repaired. A common instance is the dual write: saving state and publishing an event as two separate operations can silently lose the event when the process crashes between them; a transactional outbox is the named fix, not an afterthought.
 
 ### Big-bang modeling or migration
 A perfect map is not a prerequisite for learning. Large rewrites hide uncertainty and make rollback difficult. Work in slices with evidence and a reversible path where possible.
@@ -40,6 +40,7 @@ A perfect map is not a prerequisite for learning. Large rewrites hide uncertaint
 ### Tactical
 
 - [ ] Tie each aggregate to named invariants and a consistency need.
+- [ ] Reference other aggregates by identity, not by direct object reference.
 - [ ] Prefer value objects for validated values with value equality.
 - [ ] Keep domain policy independent from persistence and transport details.
 - [ ] Define event and repository failure semantics.

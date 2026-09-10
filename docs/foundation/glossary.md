@@ -4,6 +4,7 @@
 - **Aggregate root:** the object through which an aggregate is accessed and its invariants are coordinated.
 - **Anti-corruption layer:** translation that protects one model from another model's concepts or constraints.
 - **Application service:** use-case orchestration at the application boundary.
+- **Big ball of mud:** a system or model region where boundaries and quality have broken down; the goal is containing its problems, often behind an anti-corruption layer, rather than letting them spread.
 - **Bounded context:** a boundary in which a model and its language have consistent meaning.
 - **Context map:** a map of contexts, ownership, and their integration relationships.
 - **Core subdomain:** a strategically differentiating area of domain knowledge.
@@ -14,7 +15,10 @@
 - **Event sourcing:** treating an ordered event history as the primary record used to rebuild state.
 - **Factory:** a mechanism that encapsulates meaningful creation rules.
 - **Generic subdomain:** a broadly understood capability that may be available as a commodity solution.
+- **Integration event:** an asynchronous, versioned message published across a bounded-context boundary only after the originating state has committed.
 - **Model:** a purposeful representation of domain concepts for a bounded context.
+- **Partnership:** a context relationship in which the two sides succeed or fail together and coordinate planning and releases.
+- **Process manager (saga):** a coordinator that drives a business process through a sequence of local transactions and their compensating transactions on failure.
 - **Repository:** a domain-facing abstraction for obtaining and storing modeled objects.
 - **Specification:** a named, composable business predicate or rule.
 - **Subdomain:** a coherent area of knowledge or capability within a domain.

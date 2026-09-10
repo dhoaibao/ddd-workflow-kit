@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Foundation tactical rules for aggregate design: reference other aggregates by identity, keep one aggregate per transaction, use a domain-question tie-breaker (whose job is it to keep data consistent) to choose transactional versus eventual consistency, resolve dependent aggregates from the application service rather than inside the aggregate, and name the accepted reasons to break the one-aggregate-per-transaction rule.
+- A new `docs/foundation/03-tactical-design.md` "Coordinating across boundaries" section distinguishing domain events from integration events, and naming the transactional outbox and saga/process-manager patterns behind the existing "coordinated asynchronously or by a higher-level process" phrase.
+- Foundation strategic rules: a bounded context's public interface (commands, queries, events) as the expensive-to-change contract neighboring contexts depend on; Partnership and Big ball of mud added to the context-map relationship list, and Published language split out of the combined Open host service bullet, aligning the list with the relationship patterns of the DDD Reference context-mapping chapter.
+- Glossary entries for big ball of mud, integration event, partnership, and process manager (saga); references for Vaughn Vernon's Effective Aggregate Design, the microservices.io saga pattern, and the ddd-crew context-mapping and bounded-context-canvas references.
+
 ### Changed
 
 - Closed two implementer-facing gaps in the tactical/adoption contracts: `ddd-tactical`'s context-model template names an explicit `Consistency boundary` for each invariant, and `ddd-adoption`'s adoption-plan template names a `Target placement` (module/package/path) plus a conditional architecture-fit note for a new boundary/deployable.
