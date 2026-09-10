@@ -8,18 +8,18 @@ The suite ships six packages: the `ddd` orchestrator, which routes one stage at 
 
 Requires Linux or macOS with Bash 3.2 or newer. The installer downloads a checksum-verified release, installs a versioned cache at `~/.ddd-workflow-kit/skills`, and symlinks the packages into the selected agent skill directory. It never clones this repository, modifies shell profiles, or overwrites files it does not manage.
 
-Interactive (prompts for agents and scope):
+Interactive (use ↑/↓ and Space to choose targets, then Enter; scope is a single-select menu):
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/dhoaibao/ddd-workflow-kit/main/install.sh | bash
 ```
 
-Non-interactive, for automation. Supported agents: `claude`, `codex`, `opencode`, `antigravity`, `pi`.
+Non-interactive, for automation. Supported targets: `shared`, `claude`, `codex`, `opencode`, `antigravity`, `pi`. `shared` registers the common `.agents/skills` directory (`~/.agents/skills` globally or `<project>/.agents/skills` locally).
 
 ```bash
 # Register with one or more agents globally
 curl -fsSL https://raw.githubusercontent.com/dhoaibao/ddd-workflow-kit/main/install.sh | \
-  bash -s -- --agent claude,codex --global
+  bash -s -- --agent shared,codex --global
 
 # Register with one agent in a project (omit the path for the current directory)
 curl -fsSL https://raw.githubusercontent.com/dhoaibao/ddd-workflow-kit/main/install.sh | \

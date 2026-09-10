@@ -18,7 +18,7 @@ usage() {
 Usage: install.sh [options]
 
 Install options:
-  --agent NAME[,NAME...]   claude, codex, opencode, antigravity, or pi
+  --agent NAME[,NAME...]   shared, claude, codex, opencode, antigravity, or pi
   --global                 Register skills in the selected agents' global dirs
   --project [PATH]         Register skills in a project (default: current dir)
   --path PATH              Register one explicit skills directory
@@ -47,8 +47,8 @@ safe_field() {
 
 agent_global_path() {
   case "$1" in
+    shared|codex) printf '%s/.agents/skills' "$HOME" ;;
     claude) printf '%s/.claude/skills' "$HOME" ;;
-    codex) printf '%s/.agents/skills' "$HOME" ;;
     opencode) printf '%s/.config/opencode/skills' "$HOME" ;;
     antigravity) printf '%s/.gemini/config/skills' "$HOME" ;;
     pi) printf '%s/.pi/agent/skills' "$HOME" ;;
@@ -58,8 +58,9 @@ agent_global_path() {
 
 agent_project_path() {
   case "$1" in
+    shared|codex) printf '%s/.agents/skills' "$2" ;;
     claude) printf '%s/.claude/skills' "$2" ;;
-    codex|antigravity) printf '%s/.agents/skills' "$2" ;;
+    antigravity) printf '%s/.agents/skills' "$2" ;;
     opencode) printf '%s/.opencode/skills' "$2" ;;
     pi) printf '%s/.pi/skills' "$2" ;;
     *) fail "unknown agent: $1" ;;
@@ -68,7 +69,7 @@ agent_project_path() {
 
 validate_agent() {
   case "$1" in
-    claude|codex|opencode|antigravity|pi) : ;;
+    shared|claude|codex|opencode|antigravity|pi) : ;;
     *) fail "unknown agent: $1" ;;
   esac
 }
@@ -86,50 +87,210 @@ add_agent() {
   done
 }
 
-add_prompt_agents() {
-  answer=$1
-  [ "$answer" = all ] && answer="1,2,3,4,5"
-  case "$answer" in
-    *[!0-9,]*) add_agent "$answer" ;;
+# The selector deliberately uses only Bash builtins and stty. Keeping the
+# terminal state in one small helper makes the interactive path safe on both
+# Bash 3.2 (macOS) and modern Bash (Linux), including interrupted installs.
+selector_restore() {
+  if [ "${SELECTOR_ACTIVE:-0}" -eq 1 ]; then
+    stty "$SELECTOR_STTY_STATE" <"$SELECTOR_TTY" 2>/dev/null || :
+    printf '\033[?25h\033[0m' >"$SELECTOR_TTY" 2>/dev/null || :
+    SELECTOR_ACTIVE=0
+  fi
+  trap - EXIT HUP INT TERM
+}
+
+selector_interrupt() {
+  selector_restore
+  exit 130
+}
+
+selector_begin() {
+  SELECTOR_TTY=$1
+  SELECTOR_STTY_STATE=$(stty -g <"$SELECTOR_TTY") || fail "could not inspect terminal settings"
+  SELECTOR_ACTIVE=1
+  trap 'selector_restore' EXIT
+  trap 'selector_interrupt' HUP INT TERM
+  stty -icanon -echo min 1 time 0 <"$SELECTOR_TTY" || fail "could not configure interactive terminal"
+  printf '\033[?25l' >"$SELECTOR_TTY"
+}
+
+selector_value() {
+  case "$SELECTOR_KIND:$1" in
+    agents:1) printf 'shared' ;;
+    agents:2) printf 'claude' ;;
+    agents:3) printf 'codex' ;;
+    agents:4) printf 'opencode' ;;
+    agents:5) printf 'antigravity' ;;
+    agents:6) printf 'pi' ;;
+    scope:1) printf 'global' ;;
+    scope:2) printf 'project' ;;
+    *) return 1 ;;
+  esac
+}
+
+selector_label() {
+  case "$SELECTOR_KIND:$1" in
+    agents:1) printf 'Shared agents (.agents/skills)' ;;
+    agents:2) printf 'Claude' ;;
+    agents:3) printf 'Codex' ;;
+    agents:4) printf 'OpenCode' ;;
+    agents:5) printf 'Antigravity' ;;
+    agents:6) printf 'Pi' ;;
+    scope:1) printf 'Global (~/.agents/skills or agent default)' ;;
+    scope:2) printf 'Project (a project-local skills directory)' ;;
+    *) return 1 ;;
+  esac
+}
+
+selector_selected() {
+  case "$1" in
+    1) [ "${SELECTOR_SELECTED_1:-0}" -eq 1 ] ;;
+    2) [ "${SELECTOR_SELECTED_2:-0}" -eq 1 ] ;;
+    3) [ "${SELECTOR_SELECTED_3:-0}" -eq 1 ] ;;
+    4) [ "${SELECTOR_SELECTED_4:-0}" -eq 1 ] ;;
+    5) [ "${SELECTOR_SELECTED_5:-0}" -eq 1 ] ;;
+    6) [ "${SELECTOR_SELECTED_6:-0}" -eq 1 ] ;;
+    *) return 1 ;;
+  esac
+}
+
+selector_toggle() {
+  case "$1" in
+    1) SELECTOR_SELECTED_1=$((1 - SELECTOR_SELECTED_1)) ;;
+    2) SELECTOR_SELECTED_2=$((1 - SELECTOR_SELECTED_2)) ;;
+    3) SELECTOR_SELECTED_3=$((1 - SELECTOR_SELECTED_3)) ;;
+    4) SELECTOR_SELECTED_4=$((1 - SELECTOR_SELECTED_4)) ;;
+    5) SELECTOR_SELECTED_5=$((1 - SELECTOR_SELECTED_5)) ;;
+    6) SELECTOR_SELECTED_6=$((1 - SELECTOR_SELECTED_6)) ;;
+  esac
+}
+
+selector_draw() {
+  if [ "${SELECTOR_DRAWN:-0}" -eq 1 ]; then
+    printf '\033[%sA' "$SELECTOR_LINES" >"$SELECTOR_TTY"
+  fi
+  printf '\033[2K\rSelect %s (↑/↓ move, %s, Enter confirm):\n' \
+    "$SELECTOR_TITLE" "$SELECTOR_ACTION" >"$SELECTOR_TTY"
+  if [ "$SELECTOR_KIND" = agents ]; then
+    printf '\033[2K\rSpace toggles targets; Shared agents is the common .agents/skills target.\n' >"$SELECTOR_TTY"
+  else
+    printf '\033[2K\rChoose one scope; project path is requested after confirmation.\n' >"$SELECTOR_TTY"
+  fi
+  index=1
+  while [ "$index" -le "$SELECTOR_COUNT" ]; do
+    cursor=' '
+    [ "$index" -eq "$SELECTOR_CURSOR" ] && cursor='>'
+    if [ "$SELECTOR_KIND" = agents ]; then
+      marker=' '
+      selector_selected "$index" && marker='x'
+      printf '\033[2K\r%s [%s] %s\n' "$cursor" "$marker" "$(selector_label "$index")" >"$SELECTOR_TTY"
+    else
+      printf '\033[2K\r%s %s\n' "$cursor" "$(selector_label "$index")" >"$SELECTOR_TTY"
+    fi
+    index=$((index + 1))
+  done
+  SELECTOR_LINES=$((SELECTOR_COUNT + 2))
+  SELECTOR_DRAWN=1
+}
+
+selector_read_event() {
+  SELECTOR_EVENT=none
+  key=''
+  IFS= read -r -n 1 key <"$SELECTOR_TTY" || return 1
+  case "$key" in
+    '') SELECTOR_EVENT=enter ;;
+    ' ') SELECTOR_EVENT=space ;;
+    q|Q) SELECTOR_EVENT=cancel ;;
     *)
-      oldIFS=$IFS; IFS=','
-      set -f
-      # shellcheck disable=SC2086
-      set -- $answer
-      set +f
-      IFS=$oldIFS
-      for number in "$@"; do
-        case "$number" in
-          1) add_agent claude ;;
-          2) add_agent codex ;;
-          3) add_agent opencode ;;
-          4) add_agent antigravity ;;
-          5) add_agent pi ;;
-          *) fail "agent selection must use numbers 1-5" ;;
-        esac
-      done
+      [ "$key" = "$(printf '\033')" ] || return 0
+      next=''
+      IFS= read -r -n 1 -t 1 next <"$SELECTOR_TTY" || return 0
+      case "$next" in
+        '['|'O')
+          IFS= read -r -n 1 -t 1 next <"$SELECTOR_TTY" || return 0
+          case "$next" in
+            A) SELECTOR_EVENT=up ;;
+            B) SELECTOR_EVENT=down ;;
+          esac
+          ;;
+      esac
       ;;
   esac
 }
 
+prompt_targets() {
+  SELECTOR_KIND=agents
+  SELECTOR_TITLE='agents'
+  SELECTOR_ACTION='Space toggles'
+  SELECTOR_COUNT=6
+  SELECTOR_CURSOR=1
+  SELECTOR_SELECTED_1=0; SELECTOR_SELECTED_2=0; SELECTOR_SELECTED_3=0
+  SELECTOR_SELECTED_4=0; SELECTOR_SELECTED_5=0; SELECTOR_SELECTED_6=0
+  SELECTOR_DRAWN=0
+  selector_begin /dev/tty
+  selector_draw
+  while :; do
+    selector_read_event || { selector_restore; fail 'could not read agent selection'; }
+    case "$SELECTOR_EVENT" in
+      up) [ "$SELECTOR_CURSOR" -gt 1 ] && SELECTOR_CURSOR=$((SELECTOR_CURSOR - 1)) ;;
+      down) [ "$SELECTOR_CURSOR" -lt "$SELECTOR_COUNT" ] && SELECTOR_CURSOR=$((SELECTOR_CURSOR + 1)) ;;
+      space) selector_toggle "$SELECTOR_CURSOR" ;;
+      enter) break ;;
+      cancel) selector_restore; fail 'interactive selection cancelled' ;;
+    esac
+    selector_draw
+  done
+  selector_restore
+  SELECTED_AGENTS=''
+  index=1
+  while [ "$index" -le "$SELECTOR_COUNT" ]; do
+    if selector_selected "$index"; then
+      add_agent "$(selector_value "$index")"
+    fi
+    index=$((index + 1))
+  done
+  [ -n "$SELECTED_AGENTS" ] || fail 'select at least one agent'
+}
+
+prompt_scope() {
+  SELECTOR_KIND=scope
+  SELECTOR_TITLE='scope'
+  SELECTOR_ACTION='Arrow keys choose'
+  SELECTOR_COUNT=2
+  SELECTOR_CURSOR=1
+  SELECTOR_SELECTED_1=0; SELECTOR_SELECTED_2=0
+  SELECTOR_DRAWN=0
+  selector_begin /dev/tty
+  selector_draw
+  while :; do
+    selector_read_event || { selector_restore; fail 'could not read scope selection'; }
+    case "$SELECTOR_EVENT" in
+      up) [ "$SELECTOR_CURSOR" -gt 1 ] && SELECTOR_CURSOR=$((SELECTOR_CURSOR - 1)) ;;
+      down) [ "$SELECTOR_CURSOR" -lt "$SELECTOR_COUNT" ] && SELECTOR_CURSOR=$((SELECTOR_CURSOR + 1)) ;;
+      enter) break ;;
+      space) : ;;
+      cancel) selector_restore; fail 'interactive selection cancelled' ;;
+    esac
+    selector_draw
+  done
+  selector_restore
+  SELECTED_SCOPE=$(selector_value "$SELECTOR_CURSOR")
+}
+
 prompt_selection() {
   tty=/dev/tty
-  [ -r "$tty" ] && [ -w "$tty" ] || fail "interactive selection requires /dev/tty; use --agent and --global/--project/--path"
-  printf 'Agents (enter one or more numbers, comma-separated):\n  1) claude\n  2) codex\n  3) opencode\n  4) antigravity\n  5) pi\nSelection (or names/all): ' >"$tty"
-  IFS= read -r answer <"$tty" || fail "could not read agent selection"
-  add_prompt_agents "$answer"
-  [ -n "$SELECTED_AGENTS" ] || fail "select at least one agent"
-  printf 'Scope (global/project): ' >"$tty"
-  IFS= read -r scope <"$tty" || fail "could not read scope"
-  case "$scope" in
+  [ -r "$tty" ] && [ -w "$tty" ] || fail 'interactive selection requires /dev/tty; use --agent NAME and --global/--project/--path'
+  prompt_targets
+  prompt_scope
+  case "$SELECTED_SCOPE" in
     global) SCOPE=global ;;
     project)
       SCOPE=project
       printf 'Project path (empty for current directory): ' >"$tty"
-      IFS= read -r PROJECT_ROOT <"$tty" || fail "could not read project path"
+      IFS= read -r PROJECT_ROOT <"$tty" || fail 'could not read project path'
       [ -n "$PROJECT_ROOT" ] || PROJECT_ROOT=$PWD
       ;;
-    *) fail "scope must be global or project" ;;
+    *) fail 'internal: invalid scope' ;;
   esac
 }
 

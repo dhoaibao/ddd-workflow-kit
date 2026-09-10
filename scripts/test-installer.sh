@@ -11,7 +11,12 @@ mkdir -p "$HOME"
 assert() { "$@" || { printf 'test-installer: assertion failed: %s\n' "$*" >&2; exit 1; }; }
 assert_not_exists() { [ ! -e "$1" ] && [ ! -L "$1" ]; }
 
-printf '1. global install and manager\n'
+printf '1. global install, shared target, and manager\n'
+bash "$ROOT/install.sh" --source-dir "$ROOT" --agent shared,codex --global
+assert [ -L "$HOME/.agents/skills/ddd" ]
+assert [ "$(find "$ROOT/skills" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')" = "$(find "$HOME/.agents/skills" -mindepth 1 -maxdepth 1 -type l | wc -l | tr -d ' ')" ]
+assert [ "$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); assert any(x["agent"] == "shared,codex" and x["path"].endswith("/.agents/skills/ddd") for x in d["links"]); print("ok")' "$HOME/.ddd-workflow-kit/manifest.json")" = ok ]
+bash "$ROOT/install.sh" --source-dir "$ROOT" --agent pi --global
 bash "$ROOT/install.sh" --source-dir "$ROOT" --agent pi --global
 assert [ -L "$HOME/.pi/agent/skills/ddd" ]
 assert [ -x "$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" ]
@@ -167,10 +172,12 @@ if command -v script >/dev/null 2>&1 && script -qec true /dev/null >/dev/null 2>
   PTY_PROJECT="$TMP/pty project"
   PTY_HOME="$TMP/pty-home"
   mkdir -p "$PTY_PROJECT" "$PTY_HOME"
-  (cd "$PTY_PROJECT" && printf 'pi\nproject\n\n' | script -qec "HOME='$PTY_HOME' bash '$ROOT/install.sh' --source-dir '$ROOT'" /dev/null) || { printf 'test-installer: interactive project install failed\n' >&2; exit 1; }
-  assert [ -L "$PTY_PROJECT/.pi/skills/ddd" ]
+  # Toggle Shared, move to Codex and toggle it, confirm; then choose project.
+  (cd "$PTY_PROJECT" && printf ' \033[B\033[B \n\033[B\n\n' | script -qec "HOME='$PTY_HOME' bash '$ROOT/install.sh' --source-dir '$ROOT'" /dev/null) || { printf 'test-installer: interactive project install failed\n' >&2; exit 1; }
+  assert [ -L "$PTY_PROJECT/.agents/skills/ddd" ]
+  assert [ "$(find "$PTY_PROJECT/.agents/skills" -mindepth 1 -maxdepth 1 -type l | wc -l | tr -d ' ')" = "$(find "$ROOT/skills" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')" ]
   assert [ -d "$PTY_HOME/.ddd-workflow-kit/skills/ddd" ]
-  assert [ "$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); assert any(r["scope"] == "project" for r in d["registrations"]); assert any(l["scope"] == "project" for l in d["links"]); print("ok")' "$PTY_HOME/.ddd-workflow-kit/manifest.json")" = ok ]
+  assert [ "$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); assert any(r["scope"] == "project" for r in d["registrations"]); assert any(l["scope"] == "project" and l["agent"] == "shared,codex" for l in d["links"]); print("ok")' "$PTY_HOME/.ddd-workflow-kit/manifest.json")" = ok ]
 else
   printf 'test-installer: skipping pseudo-TTY case; util-linux script not available\n'
 fi
