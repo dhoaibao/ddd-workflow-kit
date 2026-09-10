@@ -106,7 +106,9 @@ alembic upgrade head                          # this service's own history
 
 ## Dependency and tooling shape
 
-`pyproject.toml`, mirroring the kit's own conventions (not generic FastAPI convention where the two differ). `hdx-domain-kit` pulls in `sqlalchemy[asyncio]`/`asyncpg`/`alembic` transitively, but this service imports SQLAlchemy directly in its own `infrastructure/models.py` (per [the domain skeleton](domain-skeleton.md)) and invokes the `alembic` CLI directly (see "Migration run order" above) — declare them explicitly rather than relying on a 0.1.0 library's transitive graph for a direct import and a direct CLI entry point:
+`pyproject.toml`, mirroring the kit's own conventions (not generic FastAPI convention where the two differ). `hdx-domain-kit` pulls in `sqlalchemy[asyncio]`/`asyncpg`/`alembic` transitively, but this service imports SQLAlchemy directly in its own `infrastructure/models.py` (per [the domain skeleton](domain-skeleton.md)) and invokes the `alembic` CLI directly (see "Migration run order" above) — declare them explicitly rather than relying on a 0.1.0 library's transitive graph for a direct import and a direct CLI entry point.
+
+**`hdx-domain-kit` is not on any public index today** — see [the bootstrap reference](../references/bootstrap.md) item 7 before writing this file. `dependencies` below still names it as an ordinary version constraint; a separate, explicit source declaration is required alongside it, chosen per target from the three named options in that item (git source, local path/wheel, or private index) and recorded in the technical-plan record. This skeleton shows none of the three as a default; do not write a real host or URL into a bootstrapped service from this document, and do not skip the source declaration and let `uv add`/resolution fail as the first sign of the gap.
 
 ```toml
 [project]
@@ -114,7 +116,9 @@ name = "<service-name>"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
-    "hdx-domain-kit==<installed-version>",
+    "hdx-domain-kit==<installed-version>",  # source declared separately —
+                                              # see bootstrap reference item 7;
+                                              # this line alone does not resolve.
     "fastapi>=0.115",
     "sqlalchemy[asyncio]>=2.0.36",
     "asyncpg>=0.30",
@@ -126,6 +130,18 @@ dependencies = [
                                # gives no floor to copy.
 ]
 
+# One of the following, chosen per target and recorded in the technical-plan
+# record — never all three, never silently omitted. See bootstrap reference
+# item 7 for the trade-off of each; none is this skeleton's default.
+#
+# [tool.uv.sources]
+# hdx-domain-kit = { git = "<repository-url>", tag = "<ref>" }   # git source
+# # or: hdx-domain-kit = { path = "<path-to-built-wheel-or-checkout>" }  # local
+#
+# [[tool.uv.index]]                                               # private index
+# name = "<index-name>"
+# url = "<index-url>"
+
 [dependency-groups]
 dev = [
     "pytest>=8.3",
@@ -136,7 +152,7 @@ dev = [
 ]
 
 [build-system]
-requires = ["uv_build>=0.11.7,<0.12.0"]
+requires = ["uv_build>=<installed-uv-version>,<next-minor>"]
 build-backend = "uv_build"
 
 [tool.mypy]
@@ -153,15 +169,18 @@ line-length = 100
 target-version = "py312"
 ```
 
-Every floor above except `pydantic-settings` and `uvicorn` is copied from the kit's own `pyproject.toml` (`fastapi>=0.115`, `sqlalchemy[asyncio]>=2.0.36`, `asyncpg>=0.30`, `alembic>=1.14`, and the whole `dev` group); those two have no kit floor to copy from because the kit does not depend on either, so treat them as unverified and confirm current minimums before bootstrapping rather than trusting the number shown here.
+Every floor above except `pydantic-settings`, `uvicorn`, and `uv_build` is copied from the kit's own `pyproject.toml` (`fastapi>=0.115`, `sqlalchemy[asyncio]>=2.0.36`, `asyncpg>=0.30`, `alembic>=1.14`, and the whole `dev` group); `pydantic-settings`/`uvicorn` have no kit floor to copy from because the kit does not depend on either, so treat them as unverified and confirm current minimums before bootstrapping rather than trusting the number shown here.
 
-Initialize and manage this with `uv` (`uv init`, which produces exactly the `src/` layout and `uv_build` backend above; `uv add <dep>`; `uv add --dev <dep>` or `uv add --group dev <dep>`), matching how the kit manages its own dependencies — do not introduce a second, unrelated dependency manager into a kit-based service without an explicit reason recorded in the technical-plan record.
+`[build-system] requires` is shown as `uv_build>=<installed-uv-version>,<next-minor>` rather than a literal pin: `uv init` generates the build-backend floor from the `uv` version that runs it, not from the kit's own pin, so the correct floor for a given bootstrap run is whatever the locally installed `uv --version` produces — confirm by running `uv init` in a scratch directory first and reading the generated `pyproject.toml` rather than copying a version number out of this document or the kit's `pyproject.toml`.
+
+Initialize and manage this with `uv` (`uv init`, which produces the `src/` layout and a `uv_build` backend pinned to the locally installed `uv` version; `uv add <dep>`; `uv add --dev <dep>` or `uv add --group dev <dep>`), matching how the kit manages its own dependencies — do not introduce a second, unrelated dependency manager into a kit-based service without an explicit reason recorded in the technical-plan record.
 
 ## Non-negotiable rules
 
 - Source lives under `src/<service_name>/`, matching this skeleton's own composition-root imports and `uv init`'s default; do not flatten it to match `tests/fixtures/external_consumer/`'s layout while keeping this skeleton's relative imports — the two are mutually exclusive, pick one and keep every file consistent with it.
 - `alembic.ini`'s `sqlalchemy.url` is never a literal connection string in a committed file — resolved at runtime from the environment only, and the `env.py` guard that enforces this must check falsiness (`if not database_url:`), not `is None`.
 - `sqlalchemy[asyncio]`, `asyncpg`, and `alembic` are declared dependencies, not left to arrive transitively through `hdx-domain-kit`, wherever the service imports or invokes them directly.
+- `hdx-domain-kit`'s dependency source (`[tool.uv.sources]` git/path, or `[[tool.uv.index]]`) is an explicit, per-target, recorded choice — never omitted, and never a hardcoded organization-specific URL written into this package as a default; see bootstrap reference item 7.
 - `authorizer=` is always passed explicitly; never rely on the unstated `AllowAll()` default.
 - `publisher=` is the kit's own `NoopPublisher` when there is genuinely nothing to deliver yet, not a hand-written equivalent — see bootstrap reference item 3 for why the distinction is load-bearing.
 - This service's Alembic `version_table` is named distinctly from the kit's own; its migrations never run before the kit's own infrastructure migrations.

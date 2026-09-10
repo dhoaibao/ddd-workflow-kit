@@ -77,6 +77,22 @@ Never run the consumer's migrations before the kit's; the kit's infrastructure t
 
 **Failure mode of skipping it:** inventing a project shape from generic FastAPI convention that conflicts with how `hdx-domain-kit` itself expects a consumer to be laid out (an installed dependency, not a subpackage of the kit) — see [the service skeleton](../assets/service-skeleton.md) for the decided shape, derived from the kit's own external-consumer test fixture (the only consumer-shaped, installable-package example in the reference repository; `examples/booking/` lives inside the kit's own repo and imports from it directly, so it is not a copyable service shape) plus the kit's own `pyproject.toml` tooling conventions (`uv`, `[dependency-groups]`, `mypy --strict` with the Pydantic plugin, `ruff`, `pytest-asyncio` in `auto` mode).
 
+## 7. Dependency source for `hdx-domain-kit` itself
+
+**What the kit decides:** nothing — it is consumed as a private artifact, not published to any public index. Its own repository remote is a private host, and its own acceptance test for external consumption (`tests/acceptance/test_external_wheel_consumer.py`) installs the package from a wheel it builds itself (`uv build --wheel --out-dir <tmp>/dist`) rather than from any index — that is the kit's own evidence that `uv add hdx-domain-kit` resolves against nothing today.
+
+**What the consumer must decide:** how its own `pyproject.toml` locates `hdx-domain-kit` at all, before any other residue decision in this reference can be acted on. This is a target-preflight blocker, not a detail to fill in during scaffolding: a plan that says "add hdx-domain-kit as a dependency" with no source is incomplete.
+
+**Failure mode of skipping it:** running `uv add hdx-domain-kit` (or writing `dependencies = ["hdx-domain-kit==<version>"]` with no `[tool.uv.sources]`/`[[tool.uv.index]]` entry) and having dependency resolution fail outright, or worse, silently hardcoding one organization's private git URL into a package meant to be portable across consumers who may not share that host or its credentials.
+
+**Decided shape for this reference:** none — this is one of the residue items with more than one reasonable answer, and choosing among them is per-target, not fixed by this package. Name all three real options and their trade-off, and require the technical-plan record to state which one this run uses and why:
+
+- **Git source**, via `[tool.uv.sources]` (`hdx-domain-kit = { git = "<repository-url>", tag = "<ref>" }`) — the shape closest to a real deployed service; requires the target environment to have access to that repository (credentials, network reachability), which is not guaranteed and must be verified, not assumed.
+- **Local path or a locally built wheel** (`uv build --wheel --out-dir <dir>` in the kit's own repository, then a path source pointing at the built artifact, or `uv add <path-to-wheel>`) — provably works with no credentials beyond local filesystem access, mirroring the kit's own acceptance-test pattern exactly, but it is a test-harness pattern, not the shape a deployed service typically ships with; a wheel built this way must not be committed into the consumer repository.
+- **Private package index**, via `[[tool.uv.index]]` — the cleanest shape once more than one consumer exists and an index is already operated, but it requires that index to exist; do not stand one up as part of a single-increment bootstrap.
+
+Do not write any organization's actual private host or URL into this package as a default — that would hardcode one org's access model into a portable skill package. Keep `"hdx-domain-kit==<installed-version>"` in `dependencies` as shown in [the service skeleton](../assets/service-skeleton.md); the source declaration is the separate, explicit, per-target thing this item requires.
+
 ## Explicitly not decided here
 
 These remain named, open decisions returned to the user rather than prescribed by this reference — each is a real choice with more than one reasonable answer, and none is settled by `hdx-domain-kit`'s own decisions:

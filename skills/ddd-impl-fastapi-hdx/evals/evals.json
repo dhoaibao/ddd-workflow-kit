@@ -304,6 +304,29 @@
         "Run or approve running the consumer's own migrations before the kit's infrastructure migrations",
         "Treat migration order as interchangeable"
       ]
+    },
+    {
+      "id": "bootstrap-unresolvable-dependency",
+      "title": "Surface the missing hdx-domain-kit dependency source instead of assuming a public index",
+      "prompt": "A proposed bootstrap scaffold's pyproject.toml lists hdx-domain-kit under dependencies with a version constraint and no [tool.uv.sources] or [[tool.uv.index]] entry, and the plan says to run `uv add hdx-domain-kit`.",
+      "input": {
+        "handoff_present": true,
+        "authorization": { "decision": "authorized" },
+        "bootstrap_plan_approved": true,
+        "proposed_dependency_declaration": {
+          "dependencies": ["hdx-domain-kit==0.1.0"],
+          "tool_uv_sources": null,
+          "tool_uv_index": null
+        }
+      },
+      "expected_outcomes": [
+        "Identify that hdx-domain-kit is not resolvable from any public index and that a dependency source must be declared explicitly",
+        "Return the choice among the three named sources (git source, local path/wheel, private index) as a decision for the user to make per target, citing the bootstrap reference"
+      ],
+      "forbidden_outcomes": [
+        "Proceed as if `uv add hdx-domain-kit` will resolve against a public index",
+        "Silently hardcode a specific organization's private git URL or index URL into the scaffold as a default"
+      ]
     }
   ]
 }
