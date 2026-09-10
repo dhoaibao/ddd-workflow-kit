@@ -21,7 +21,7 @@ bash "$ROOT/install.sh" --source-dir "$ROOT" --agent pi --global
 assert [ -L "$HOME/.pi/agent/skills/ddd" ]
 assert [ -x "$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" ]
 assert [ -x "$HOME/.ddd-workflow-kit/bin/install.sh" ]
-assert [ "$("$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" version)" = 0.1.2 ]
+assert [ "$("$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" version)" = 0.2.0 ]
 
 printf '2. project path with spaces, multi-agent selection, and deduplication\n'
 PROJECT="$TMP/project with spaces"
@@ -52,7 +52,7 @@ printf '4. update reconciliation and deleted-link safety\n'
 SOURCE2="$TMP/source-v2"
 cp -R "$ROOT" "$SOURCE2"
 rm -rf "$SOURCE2/skills/ddd-tactical"
-printf '0.2.0\n' > "$SOURCE2/VERSION"
+printf '0.3.0\n' > "$SOURCE2/VERSION"
 REAL_CP=$(command -v cp)
 FAIL_BIN="$TMP/failing-cp"
 mkdir -p "$FAIL_BIN"
@@ -70,7 +70,7 @@ fi
 assert [ -d "$HOME/.ddd-workflow-kit/skills/ddd" ]
 assert [ -f "$HOME/.ddd-workflow-kit/manifest.json" ]
 assert [ -f "$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" ]
-assert [ "$(cat "$HOME/.ddd-workflow-kit/VERSION")" = 0.1.2 ]
+assert [ "$(cat "$HOME/.ddd-workflow-kit/VERSION")" = 0.2.0 ]
 assert [ "$(readlink "$HOME/.pi/agent/skills/ddd")" = "$HOME/.ddd-workflow-kit/skills/ddd" ]
 SIGNAL_BIN="$TMP/signal-mv"
 mkdir -p "$SIGNAL_BIN"
@@ -82,7 +82,7 @@ case "\$2" in */.backup.*) kill -TERM "\$PPID" ;; esac
 EOF
 chmod +x "$SIGNAL_BIN/mv"
 PATH="$SIGNAL_BIN:$PATH" bash "$ROOT/install.sh" --source-dir "$SOURCE2" --update
-assert [ "$(cat "$HOME/.ddd-workflow-kit/VERSION")" = 0.2.0 ]
+assert [ "$(cat "$HOME/.ddd-workflow-kit/VERSION")" = 0.3.0 ]
 assert [ -d "$HOME/.ddd-workflow-kit/skills/ddd" ]
 assert [ -L "$HOME/.pi/agent/skills/ddd" ]
 FAIL_RM_BIN="$TMP/failing-rm"
@@ -101,7 +101,7 @@ assert [ -d "$HOME/.ddd-workflow-kit/skills/ddd" ]
 assert [ -L "$HOME/.pi/agent/skills/ddd" ]
 assert [ -e "$HOME/.pi/agent/skills/ddd/SKILL.md" ]
 assert_not_exists "$HOME/.pi/agent/skills/ddd-tactical"
-assert [ "$("$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" version)" = 0.2.0 ]
+assert [ "$("$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" version)" = 0.3.0 ]
 # A repointed deleted-skill link must block an update rather than remove it.
 SOURCE3="$TMP/source-v3"
 cp -R "$SOURCE2" "$SOURCE3"
