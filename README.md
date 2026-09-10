@@ -63,6 +63,7 @@ ddd-discover → ddd-strategic → ddd-tactical → ddd-adoption → ddd-review
 
 ## Documentation
 
+- [Changelog](CHANGELOG.md) — release history and notable changes.
 - [DDD foundation](docs/foundation/README.md) — language-neutral concepts, evidence discipline, and adoption guidance.
 - [Skill design](docs/skill-design/README.md) — package contracts, workflows, quality gates, and portability rules.
 - [Implementation history and roadmap](docs/plans/README.md) — ordered implementation record and evaluation history.
