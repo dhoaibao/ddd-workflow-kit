@@ -162,4 +162,17 @@ if DDD_RELEASE_URL="file://$DIST/ddd-workflow-kit.tar.gz" DDD_CHECKSUM_URL="file
 fi
 assert_not_exists "$TMP/checksum-home/.ddd-workflow-kit"
 
+printf '6. interactive project selection through a pseudo-TTY\n'
+if command -v script >/dev/null 2>&1 && script -qec true /dev/null >/dev/null 2>&1; then
+  PTY_PROJECT="$TMP/pty project"
+  PTY_HOME="$TMP/pty-home"
+  mkdir -p "$PTY_PROJECT" "$PTY_HOME"
+  (cd "$PTY_PROJECT" && printf 'pi\nproject\n\n' | script -qec "HOME='$PTY_HOME' bash '$ROOT/install.sh' --source-dir '$ROOT'" /dev/null) || { printf 'test-installer: interactive project install failed\n' >&2; exit 1; }
+  assert [ -L "$PTY_PROJECT/.pi/skills/ddd" ]
+  assert [ -d "$PTY_HOME/.ddd-workflow-kit/skills/ddd" ]
+  assert [ "$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); assert any(r["scope"] == "project" for r in d["registrations"]); assert any(l["scope"] == "project" for l in d["links"]); print("ok")' "$PTY_HOME/.ddd-workflow-kit/manifest.json")" = ok ]
+else
+  printf 'test-installer: skipping pseudo-TTY case; util-linux script not available\n'
+fi
+
 printf 'installer integration tests passed\n'

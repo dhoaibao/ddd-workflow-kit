@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Interactive project-scope selection in `install.sh` now assigns the scope before registering, instead of failing with `internal: invalid scope`; a new pseudo-TTY regression case in `scripts/test-installer.sh` covers the prompt flow end to end.
+
 ## [0.1.1] - 2026-09-10
 
 ### Added

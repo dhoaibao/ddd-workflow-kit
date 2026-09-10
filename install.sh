@@ -124,6 +124,7 @@ prompt_selection() {
   case "$scope" in
     global) SCOPE=global ;;
     project)
+      SCOPE=project
       printf 'Project path (empty for current directory): ' >"$tty"
       IFS= read -r PROJECT_ROOT <"$tty" || fail "could not read project path"
       [ -n "$PROJECT_ROOT" ] || PROJECT_ROOT=$PWD
