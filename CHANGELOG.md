@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Moved the four implemented plan files (`ddd-adoption`, `ddd-review`, `ddd`, `lean-workflow-redesign`) from `docs/plans/active/` to `docs/plans/complete/`, updated `docs/plans/README.md` links accordingly, and widened `scripts/validate-skills.py`'s implementation-handoff guard to resolve the plan across both directories and fail loudly if neither exists.
 - Preserved `ddd-routing-v1` compatibility while adding the `ddd-implementation-gate-v1` extension; legacy target artifacts remain readable and documentation-only/runtime-neutral boundaries remain enforced.
 - Closed authorization-boundary gaps with exact gate schemas, normalized logical authority paths, typed uncertainty routing, separately fielded implementation/decision owners (consistent across adoption, review, gate, and handoff), durable declined-decision markers, immutable pre/post fixture transitions, and exact authorized-index next actions.
 

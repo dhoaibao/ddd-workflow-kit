@@ -2,7 +2,7 @@
 
 ## Current status
 
-The approved [lean workflow redesign](active/lean-workflow-redesign.md) is implemented across all six packages, shared contracts, templates, evaluations, validator, README, roadmap, and changelog. The candidate is documentation-only and runtime-neutral, with one bounded increment as the progress unit. It is ready for independent changed-code review; no commit or push has been performed.
+The approved [lean workflow redesign](complete/lean-workflow-redesign.md) is implemented across all six packages, shared contracts, templates, evaluations, validator, README, roadmap, and changelog. The candidate is documentation-only and runtime-neutral, with one bounded increment as the progress unit. It is ready for independent changed-code review; no commit or push has been performed.
 
 Historical phase-0 and phase-4 records remain preserved. The local sanitized BonVoye-shaped fixture is recorded in [the redesign report](../evaluations/lean-workflow-redesign-v1-report.json); no external BonVoye repository was accessed.
 
@@ -22,7 +22,7 @@ Attempt the deferred live host/model evaluation for the implemented `ddd-discove
 
 ### 1. Implement `ddd-adoption` — completed
 
-The [adoption plan](active/ddd-adoption.md) is implemented at [`skills/ddd-adoption/`](../../skills/ddd-adoption/SKILL.md). It produces documentation-only, incremental, reversible adoption planning for greenfield and brownfield work, with an owned `adoption-plan.md` artifact and an exact handoff to review.
+The [adoption plan](complete/ddd-adoption.md) is implemented at [`skills/ddd-adoption/`](../../skills/ddd-adoption/SKILL.md). It produces documentation-only, incremental, reversible adoption planning for greenfield and brownfield work, with an owned `adoption-plan.md` artifact and an exact handoff to review.
 
 **Dependencies:** validated enough discovery/strategic/tactical context for a bounded slice, or an explicit bounded request that satisfies adoption entry criteria.
 
@@ -30,7 +30,7 @@ The [adoption plan](active/ddd-adoption.md) is implemented at [`skills/ddd-adopt
 
 ### 2. Implement `ddd-review` — completed
 
-The [review plan](active/ddd-review.md) is implemented at [`skills/ddd-review/`](../../skills/ddd-review/SKILL.md). It owns `review.md`, applies fit/provenance/lifecycle/schema/vocabulary/strategic-to-tactical/adoption/cross-artifact gates, preserves disputed facts, and routes stale work backward without silently repairing it.
+The [review plan](complete/ddd-review.md) is implemented at [`skills/ddd-review/`](../../skills/ddd-review/SKILL.md). It owns `review.md`, applies fit/provenance/lifecycle/schema/vocabulary/strategic-to-tactical/adoption/cross-artifact gates, preserves disputed facts, and routes stale work backward without silently repairing it.
 
 **Dependencies:** the review scope and artifacts are identifiable; adoption implementation is not required for review cases that explicitly cover missing or partial adoption artifacts.
 
@@ -38,7 +38,7 @@ The [review plan](active/ddd-review.md) is implemented at [`skills/ddd-review/`]
 
 ### 3. Implement `ddd` last — completed
 
-The [orchestrator plan](active/ddd.md) is implemented at [`skills/ddd/`](../../skills/ddd/SKILL.md). It routes and holds state only: manual fallback returns the exact unchanged request bundle, while normal flow consumes an exact stage result and constructs the next contract-valid request while preserving evidence, provenance, claims, and paths. It uses named activation or exact manual fallback, loops to the earliest invalidated stage, and does not emulate any focused stage.
+The [orchestrator plan](complete/ddd.md) is implemented at [`skills/ddd/`](../../skills/ddd/SKILL.md). It routes and holds state only: manual fallback returns the exact unchanged request bundle, while normal flow consumes an exact stage result and constructs the next contract-valid request while preserving evidence, provenance, claims, and paths. It uses named activation or exact manual fallback, loops to the earliest invalidated stage, and does not emulate any focused stage.
 
 **Dependencies:** all five focused packages exist and their transition/result contracts are stable; adoption and review have passed their gates.
 

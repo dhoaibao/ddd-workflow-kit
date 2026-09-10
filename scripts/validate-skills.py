@@ -1582,8 +1582,13 @@ def validate_forbidden_runtime_references() -> None:
 
 
 def validate_active_plan_handoff_reference() -> None:
-    plan_path = ROOT / "docs/plans/active/lean-workflow-redesign.md"
-    if not plan_path.is_file():
+    candidates = [
+        ROOT / "docs/plans/active/lean-workflow-redesign.md",
+        ROOT / "docs/plans/complete/lean-workflow-redesign.md",
+    ]
+    plan_path = next((path for path in candidates if path.is_file()), None)
+    if plan_path is None:
+        fail(f"{candidates[0]}: lean-workflow-redesign plan not found under docs/plans/active/ or docs/plans/complete/")
         return
     text = plan_path.read_text(encoding="utf-8")
     if "version: implementation-handoff-v1" in text:

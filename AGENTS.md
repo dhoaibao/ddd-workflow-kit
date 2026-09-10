@@ -19,6 +19,7 @@ This repository maintains a reusable, language- and framework-neutral Domain-Dri
 - Target-project modeling artifacts belong under a target project's `docs/ddd/` when a skill is run; this repository's package files describe that behavior and are not product source.
 - Update `README.md` and relevant roadmap/evaluation records when package availability or documented status changes.
 - Before beginning any commit step, update CHANGELOG.md first so the pending change is recorded under [Unreleased].
+- When a plan file under `docs/plans/active/` is implemented and the user confirms it is done, move that plan file to `docs/plans/complete/` and update any relative links that pointed at its old `active/` path.
 
 ### Project-specific constraints and boundaries
 
