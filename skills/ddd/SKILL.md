@@ -1,93 +1,62 @@
 ---
 name: ddd
-description: Route a bounded DDD request through independently invocable discover, strategic, tactical, adoption, and review stages using exact versioned request/result bundles. Use for broad end-to-end DDD flow, direct stage routing, manual fallback, transition state, and earliest-stage invalidation without emulating stage behavior.
+description: Route one bounded DDD increment through discover, strategic, tactical, adoption, and review stages; preserve exact transport state, pause for human ratification, and create one revision-bound implementation handoff without editing product code.
 ---
 
-# DDD routing orchestrator
+# DDD lean orchestrator
 
-Coordinate the five focused DDD stages through versioned request/result bundles. This skill owns routing and workflow state only. It never performs discovery, strategic design, tactical modeling, adoption planning, or review work itself.
+Coordinate the six-stage package set without doing focused-stage work. The unit of progress is one bounded increment, not a complete domain catalogue.
 
 ## Scope and boundaries
 
-Use this orchestrator to:
+Use this package to:
 
-- route a broad request to `ddd-discover` and then one focused stage at a time;
-- validate direct starts against the named focused stage's entry contract;
-- preserve evidence, claim types, provenance, assumptions, open questions, artifact paths, and allowed paths across transitions;
-- return an exact unchanged request when named-stage activation is unavailable;
-- consume a valid stage result, construct the next contract-valid request, and route invalidation to the earliest affected stage;
-- steward only routing/status sections of `docs/ddd/README.md`, while `ddd-review` retains review link and findings stewardship.
+- create and maintain the mandatory `docs/ddd/README.md` index for broad flows;
+- route one `ddd-routing-v1` request at a time through `ddd-discover`, `ddd-strategic`, `ddd-tactical`, `ddd-adoption`, and `ddd-review`;
+- carry the `ddd-implementation-gate-v1` extension from the candidate increment through review;
+- pause at `increment_gate: awaiting-ratification` and record explicit human authorization for one increment;
+- create exactly one `implementation-handoff-v1` at `docs/ddd/implementation-handoff.md` only after authorization;
+- invalidate that handoff when an authority is stale, revision-mismatched, or conflicting.
 
-Do not emulate any focused stage, infer missing facts, repair malformed results, silently alter claims or paths, select deployment topology, edit product code, tests, configuration, schemas, generated output, deployment files, migrations, or unrelated target documents. A result from a focused stage is consumed as returned, not rewritten into a better result.
+The package owns routing/status and authorization sections of the index plus the authorized handoff. `ddd-review` owns only the index decision-queue/latest-review markers and `review.md`; `ddd` preserves those markers. It never invents focused facts, resolves domain policy, edits focused artifacts, or changes product source, tests, configuration, schemas, migrations, deployment files, generated output, or runtime behavior.
 
-## Versioned request contract
+## Transport contracts
 
-Every request is version `ddd-routing-v1` and contains exactly these routing fields plus explicitly versioned extension fields only when a caller supplies them:
+Base requests and results remain version `ddd-routing-v1`. A request has one stage, one objective, scope, artifact records, evidence, claims, provenance, assumptions, open questions, allowed paths, and `return_to`. A valid result has the preserved transport fields plus status, changed artifacts, findings, one handoff or stop, and invalidated stages; a nonterminal modern result may echo objective/scope/artifacts only as the complete exact next-request set, while a terminal result with that optional echo must preserve the prior request inventory. Legacy results may omit the optional echo; the orchestrator then performs the documented merge/preservation. New artifact records may carry lean `state`; map `working`/`decision-needed` to `draft/unvalidated`, `current` to `active/validated`, `stale` to the prior lifecycle plus `stale` validation, and `superseded` to `superseded/stale`. Legacy records without state remain valid.
 
-- `version`: `ddd-routing-v1`;
-- `stage`: exactly one of `ddd-discover`, `ddd-strategic`, `ddd-tactical`, `ddd-adoption`, or `ddd-review`;
-- `objective`: one bounded objective;
-- `scope`: identifiable target project, domain, context, capability, or slice;
-- `artifacts`: artifact records with `path`, `lifecycle`, `validation`, and `availability`, or an empty list for explicit absence;
-- `evidence`: evidence and claim/source records;
-- `claims`: current-behavior, desired-policy/meaning, required-obligation, fact, interpretation, proposal, decision, or assumption records;
-- `provenance`: sources, owners, dates, and validation context;
-- `assumptions`: explicit assumptions;
-- `open_questions`: unresolved questions and owners where known;
-- `allowed_paths`: documentation boundary and ownership constraints;
-- `return_to`: `ddd` or the named caller.
+The optional `ddd-implementation-gate-v1` extension is carried under `extensions.ddd-implementation-gate-v1` and carries exactly one stable `increment_id`, outcome, in-scope/out-of-scope lists, focused return-on-conflict target, target repository/runtime, baseline revision, accountable implementation owner, acceptance signals, containment, assumptions/questions, typed question dispositions with a unique id, exact issue text (bound to `deferred_questions`/`out_of_scope_questions` with no orphans), impact/owner/action/affected paths/revisit trigger, documentation readiness, increment gate, ratification record naming a human decision owner in its own field (which may name the same or a different person than the implementation owner), and authoritative artifact revisions. An authority revision is `sha256:<64 lowercase hex digits>` over exact artifact UTF-8 bytes plus an explicit list of exact H2 headings. Older routing requests remain readable but cannot produce an implementation handoff.
 
-Do not normalize an input request before a manual fallback. An unknown version, stage, required field, path boundary, or extension that changes routing is a protocol error and returns a bounded stop.
+Read [the protocol](references/orchestration-protocol.md), [the artifact contract](references/artifact-contracts.md), and the examples in [request/result assets](assets/request-result-template.md) before routing.
 
-## Versioned result contract
+## Lean artifact profile
 
-A focused-stage result is version `ddd-routing-v1` and contains:
+Before authorization, generate at most the default working set: `README.md`, one selected context, one tactical model, `adoption-plan.md`, and `review.md`. Generate assessment, vision, maps, glossary, extra contexts, or extra models only when a recorded conditional trigger exists. A non-fit flow may stop in the index without downstream artifacts.
 
-- `version` and `stage`;
-- `status`: the exact stage result status, such as `complete`, `partial`, `blocked`, `not-fit-conflict`, `strategic-conflict`, or `protocol-error`;
-- `changed_artifacts`: artifact records with `path`, `lifecycle`, `validation`, and `availability`, or an empty list;
-- `findings`: observable findings or an empty list;
-- `handoff`: one complete next request or `none`;
-- `stop`: a bounded reason, owner, missing evidence/decision, and next action or `none`;
-- `invalidated_stages`: stages invalidated by new evidence, in workflow order;
-- `evidence`, `claims`, `provenance`, `assumptions`, and `open_questions`;
-- `allowed_paths` and `return_to`.
+The index must state the target outcome, selected context/increment, current stage, `documentation_readiness`, `increment_gate`, blocking decision count and queue, exact next human action, current links, and `not authorized` or the handoff link. Preserve user prose and review-owned sections.
 
-Reject malformed or unknown results. Do not repair them, reinterpret a missing field, or simulate the stage that should have produced them. Preserve a protocol finding that identifies the malformed field and stops routing.
+## Deterministic routing
 
-## Entry and deterministic routing
+1. Broad requests start at discovery after scope and evidence boundary are identifiable.
+2. Direct starts are allowed only when that stage's entry evidence is present; otherwise route to the earliest owner.
+3. Emit one stage request at a time and do not emulate the stage.
+4. Consume only complete, known-version results. A malformed result is a bounded `protocol-error` stop; never repair it.
+5. Preserve evidence, claims, provenance, assumptions, open questions, artifact paths, and allowed paths across normal transitions.
+6. On invalidation, mark affected later artifacts `stale`, preserve lifecycle/provenance, and route to the earliest invalidated stage.
 
-1. **Broad request.** Require an identifiable target and objective. Route exactly one request to `ddd-discover`. If scope or objective is missing, stop with the material question and do not invent it.
-2. **Direct discovery.** Require a target/problem scope and evidence boundary; otherwise stop.
-3. **Direct strategic.** Require discovery fit/evidence or an explicit bounded strategic request with meaningful outcome and terms; otherwise route to `ddd-discover`.
-4. **Direct tactical.** Require exactly one validated context, purpose, language, boundary, and strategic relationships; otherwise route to `ddd-strategic`.
-5. **Direct adoption.** Require a bounded outcome, evidence-backed slice, ownership, and adoption constraints; otherwise route to the earliest discovery, strategic, or tactical owner.
-6. **Direct review.** Require named artifacts, identifiable scope, acceptance criteria, and evidence boundary; missing artifacts become review findings rather than reconstructed inputs.
+Manual fallback returns the exact unchanged request object and exact stage name, saying that the stage did not run. Do not normalize, reorder, add defaults, or claim a transition.
 
-Emit one stage request at a time. Do not force every stage: a non-fit discovery result stops with its simpler-path rationale; partial results stop or hand off according to the returned owner and status. Material user choices, unavailable experts, unsafe paths, and missing evidence remain bounded stops.
+## Ratification and handoff
 
-## Manual fallback and normal transition
+Review may return `documentation_readiness: ready` and `increment_gate: awaiting-ratification` only when the named increment has no blocking/invalidating findings, all decision-required items are resolved, boundaries/behavior/invariants/obligations are clear, acceptance and containment fit the risk, remaining uncertainty is explicitly dispositioned, and target/runtime plus accountable implementation owner are named.
 
-If named-stage activation is unavailable, return the exact request object unchanged: same version, field values, list order, claims, provenance, artifact paths, allowed paths, assumptions, open questions, objective, scope, and return target. State the exact manual stage name and say that it did not run. Do not add defaults, reorder lists, change paths, or claim a transition occurred.
+The orchestrator then asks for explicit human ratification of that exact increment. Record the authorized implementation owner separately from the human decision owner, plus the decision, date, stable ID, target repository/runtime/baseline, exact outcome/scope/return contract, accepted artifact revisions, assumptions/questions, typed question dispositions, acceptance signals, and containment limitations. A declined decision also records its reason and remains persisted in the authorization marker; a declined or absent decision creates no handoff. Authorization moves the transport gate to `authorized`.
 
-For normal activation, consume a valid result and construct the next request from the result and routing state. Preserve every evidence, claims, provenance, assumptions, open-question, artifact record, allowed-path, lifecycle, validation, and availability value unless the result explicitly supplies a versioned state update. Routing may change only `stage`, `objective`, and routing metadata required by the next stage's contract; it must not drop or alter domain records. Emit one contract-valid request, never multiple competing requests.
+After authorization, create exactly one `docs/ddd/implementation-handoff.md` using [the handoff template](assets/implementation-handoff-template.md). Reference authoritative sections and exact revisions; do not copy their content. The handoff is the sole implementation entry point and returns conflicts to its named DDD stage.
 
-## Invalidation and stale routing
+## Legacy and safe updates
 
-If `invalidated_stages` is nonempty, use the earliest stage in canonical order `ddd-discover → ddd-strategic → ddd-tactical → ddd-adoption → ddd-review`. Preserve later affected artifacts' lifecycle values, mark their validation state `stale` in routing state, and preserve their paths and provenance. Route the next request to the earliest invalidated stage, include the invalidation evidence and affected dependents, and retain all unchanged claims. Do not restart at an arbitrary later stage or rewrite the invalidated artifact.
+Read legacy metadata and existing artifacts without destructive migration. Inspect paths first, preserve user-authored content, and update only owned index/handoff sections. `current` or `ready` never means authorized. Never overwrite a stale or conflicting authority to make the gate pass.
 
-If the earliest route is ambiguous, return a bounded `partial` or `blocked` stop naming the competing owners, evidence, and decision required. A later stage never silently repairs an earlier stage's boundary or evidence.
+## Result summary
 
-## Index stewardship
-
-The orchestrator may create or update only its owned routing/status sections in `docs/ddd/README.md`, after inspecting the file and confirming section ownership. Preserve user-authored prose, metadata, links, review findings, and review status. Canonical index sections are project/domain scope, current status, artifact index, active contexts, validation summary, open questions, provenance policy, safe-update policy, and a latest-review link. `ddd` owns routing references and current status only; `ddd-review` retains the latest-review link and findings. Do not replace the index or edit focused artifacts.
-
-## Portable routing result
-
-Return a routing result containing version, current stage, status, objective, scope, exact request/result bundle, preserved evidence/claims/provenance, assumptions, open questions, allowed paths, changed index paths if any, findings, handoff or stop, invalidated stages, stale dependents, and `return_to`. A manual fallback includes the unchanged request and exact stage name. A normal transition includes the consumed result identity and one next request. A non-fit or malformed result includes one bounded stop.
-
-The orchestrator never claims that a focused stage ran unless a valid result was actually consumed. It never claims implementation, deployment, migration, or live validation approval. No transition changes product/runtime behavior.
-
-## References and evaluation
-
-Read the [orchestration protocol](references/orchestration-protocol.md) and [orchestration artifact contract](references/artifact-contracts.md) before routing. The request/result examples are in `assets/request-result-template.md`; the index-owned sections are in `assets/ddd-readme-template.md`; package-local cases are in `evals/evals.json`.
+Return the current stage, one increment, status, changed paths, preserved fields, findings/decision queue, readiness/gate pair, stale dependents, exact next action, and whether authorization exists. Static validation is not host/model validation. No implementation, deployment, migration, or release approval is implied.

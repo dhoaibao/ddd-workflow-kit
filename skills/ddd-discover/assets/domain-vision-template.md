@@ -1,56 +1,29 @@
-# Domain vision
+# Domain intent record
 
 | Field | Value |
 | --- | --- |
-| `artifact` | `domain-vision` |
-| `status` | `draft` |
-| `validation` | `unvalidated` |
-| `owner` | `ddd-discover` |
-| `scope` | _domain, project, or capability_ |
-| `provenance` | _sources, contributors, and dates_ |
-| `assumptions` | _explicit assumptions or none recorded_ |
-| `open_questions` | _unresolved questions or none recorded_ |
-| `last_updated` | _YYYY-MM-DD_ |
+| `scope` | _domain, capability, or increment_ |
+| `state` | _working, decision-needed, current, stale, or superseded_ |
 
-## Purpose and scope
+## Material intent
 
-- **Purpose:** _the domain outcome this work supports._
-- **In scope:** _capabilities and workflows._
-- **Excluded scope:** _explicit exclusions._
+- **Purpose/outcome:** _decision-bearing outcome._
+- **In scope:** _selected capability._
+- **Excluded scope:** _what the increment does not address._
 
-## Users and stakeholders
+## Actors and examples
 
-| Actor or stakeholder | Need, decision, or responsibility | Source and validation |
-| --- | --- | --- |
-| _name_ | _need or responsibility_ | _source_ |
-
-## Outcomes and examples
-
-- **Outcome:** _desired result._
-- **Example:** _concrete scenario and observable result._
-- **Counterexample or exception:** _where the rule changes._
-
-## Policies and events
-
-| Claim type | Policy or event | Meaning/effect | Source and status |
+| Actor | Decision/need | Concrete example or exception | Evidence/owner |
 | --- | --- | --- | --- |
-| _desired policy/meaning, current behavior, obligation, or proposal_ | _statement_ | _effect_ | _source_ |
+| _actor_ | _decision_ | _observable example_ | _source_ |
 
-## Strategic-importance hypotheses
+## Policies and strategic hypotheses
 
-- **Hypothesis:** _core, supporting, generic, or unresolved possibility._
-- **Evidence:** _why this is a hypothesis, not a fact._
-- **Revisit signal:** _what could change it._
+| Claim type | Policy/event/hypothesis | Effect on selected increment | Evidence/status |
+| --- | --- | --- | --- |
+| _desired policy/meaning, obligation, current behavior, interpretation, or proposal_ | _statement_ | _impact_ | _source_ |
 
-## Facts versus proposals
+## Next decision
 
-- **Facts:** _claims supported by named evidence._
-- **Interpretations:** _reasoned readings._
-- **Proposals:** _working model or next step._
-- **Assumptions:** _unverified premises._
-
-## Validation record
-
-- **Validation status:** _unvalidated, partially-validated, validated, or stale._
-- **Validated by / date:** _people or evidence._
-- **Gaps:** _remaining uncertainty._
+- **Validation gap:** _only material gap._
+- **Next action:** _owner and smallest evidence/decision._

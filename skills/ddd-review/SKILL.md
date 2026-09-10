@@ -1,96 +1,40 @@
 ---
 name: ddd-review
-description: Review a bounded set of DDD discovery, strategic, tactical, and adoption artifacts for scoped documentation readiness. Use when checking evidence, lifecycle, vocabulary, boundaries, cross-artifact consistency, stale routing, and safe handoff without approving implementation or deployment.
+
+description: Review one named increment and its authority set with rigorous internal gates but concise exception output; separate documentation readiness from ratification and route conflicts to the earliest owner without creating the handoff.
 ---
 
-# DDD documentation review
+# DDD exception review
 
-Review named DDD artifacts against their evidence and contracts. Produce one bounded review result and, when authorized and unambiguous, one additive review document. This skill is independently invocable: it accepts a complete or partial review request and reports findings without reconstructing missing facts.
+Review one named increment, its authority set, and its implementation-gate extension. Think rigorously; emit only findings that change the next action.
 
-## Purpose and boundaries
+## Entry and boundary
 
-Use this skill to:
+Require review scope, named increment, requested/available artifact paths, acceptance criteria, evidence boundary, and allowed review path. Missing artifacts are findings; never reconstruct them. Review owns `docs/ddd/review.md` and only the `decision-queue`/`latest-review` markers in `docs/ddd/README.md`; `ddd` owns and preserves all other index markers. It never edits another stage's authority, resolves domain policy, creates the implementation handoff, or edits product/runtime files.
 
-- establish an identifiable review scope, requested acceptance criteria, and artifact set;
-- check DDD fit, evidence and provenance, lifecycle/schema, vocabulary, strategic-to-tactical prerequisites, adoption safety, and cross-artifact consistency;
-- record observable findings with severity, evidence/provenance, owner, action, status, affected artifact, and earliest stage to revisit;
-- preserve conflicts and stale dependents, routing to the earliest invalidated stage without silently repairing source artifacts;
-- create or update only the review-owned `docs/ddd/review.md` artifact additively;
-- return a portable result that distinguishes documentation readiness from implementation or deployment approval.
+## Internal gates, concise output
 
-Do not invent absent artifacts or facts, rewrite disputed domain claims, take ownership from discovery/strategic/tactical/adoption, edit product code or runtime files, execute migrations, approve deployment, approve implementation, or infer that a bounded context is a service.
+Run fit, evidence/provenance, lifecycle/schema, vocabulary, strategic-to-tactical, adoption safety, cross-artifact consistency, utility, and authority revision checks internally. The output records one sentence summarizing passed checks and only blocking, invalidating, or decision-required findings plus materially relevant accepted/deferred/out-of-scope items. Do not print a full passing table or duplicate artifact inventory.
 
-## Entry criteria and scope
+## Dual readiness and queue
 
-Require:
+Every review records:
 
-- a named review scope and one review objective;
-- requested artifacts and their exact target paths, including explicit missing or partial artifacts;
-- acceptance criteria, permitted documentation paths, and artifact ownership context;
-- available evidence, provenance, lifecycle/validation metadata, assumptions, open questions, and prior findings when supplied.
+```yaml
+documentation_readiness: ready | follow-up | blocked | invalidated
+increment_gate: blocked | awaiting-ratification
+```
 
-A partial or missing artifact set is valid review input but produces findings. An absent artifact is reported by exact path; its contents are never reconstructed. If the review scope is not identifiable, return a bounded stop naming the missing scope, owner, and evidence needed.
+`awaiting-ratification` is allowed only when the increment has no blocking/invalidating findings, decision-required items are resolved, behavior/boundary/invariants/obligations are clear, acceptance/containment are sufficient, all remaining uncertainty has an owner/revisit trigger, and target/runtime plus accountable implementation owner are named. It is not authorization.
 
-The only target-project artifact owned by this stage is `docs/ddd/review.md`. Resolve that exact path under `docs/ddd`, inspect it before writing, preserve user-authored prose and metadata, and make only additive updates to review-owned sections. Refuse source, test, configuration, schema, generated-output, deployment, migration, traversal, and unrelated-document changes. A mixed request may retain a safe review recommendation while explicitly refusing forbidden actions; it must not claim a write occurred unless an allowed update was actually made.
+Consolidate all unresolved issues in one queue with stable ID, exact issue, increment impact, disposition, earliest owner, smallest action, affected paths, and revisit trigger. Allowed dispositions are `blocking`, `invalidating`, `decision-required`, `accepted-assumption`, `deferred`, `out-of-scope`, and `resolved`. A blocker cannot be silently relabeled deferred/out-of-scope; human confirmation and impact rationale are required.
 
-## Finding contract
+## Earliest-owner routing
 
-Every finding is observable and complete. It contains:
+Discovery owns fit/scope/current behavior; strategic owns boundary/language/relationships; tactical owns examples/rules/invariants/consistency; adoption owns target/baseline/owner/acceptance/containment; review owns aggregation. Mark dependents stale and route to the earliest owner. Do not repair source artifacts to pass review.
 
-- `severity`: `info`, `follow-up`, `blocked`, or `invalidated`;
-- `evidence`: the observed statement, missing section, path, example, or gate result;
-- `provenance`: source, owner, date, or an explicit statement that provenance is missing;
-- `owner`: the accountable stage or project owner;
-- `action`: the smallest next action or evidence request;
-- `status`: `open`, `routed`, `accepted`, or `resolved`;
-- `affected_artifact`: exact path or `none` for a scope-level finding;
-- `earliest_stage`: `ddd-discover`, `ddd-strategic`, `ddd-tactical`, `ddd-adoption`, or `ddd-review`.
+## Result
 
-Do not use generic DDD guidance as target-project evidence. Classify substantive claims as current behavior, desired policy/meaning, required obligation, fact, interpretation, proposal, decision, or assumption. Keep current, desired, and required claims separate when they conflict.
+Return named increment/authority set, dual readiness, exception queue, stale routing, accepted/deferred/out-of-scope items that matter, one exact next action, changed review path, and a statement that review readiness is not implementation authorization. Only the orchestrator moves the transport index gate to `authorized` and creates `implementation-handoff-v1` after explicit ratification; this review record remains the evidence of `awaiting-ratification`.
 
-## Ordered review gates
-
-1. **Identify scope.** Confirm the objective, scope, requested artifacts, acceptance criteria, permitted paths, and review depth. Stop if scope cannot be named.
-2. **Inventory artifacts.** Inspect each requested path and metadata. Report missing, partial, stale, superseded, archived, or out-of-scope artifacts; never fill gaps from filenames, code structure, or generic patterns.
-3. **Check fit and evidence.** Verify the DDD-fit decision and simpler alternative where relevant. Check evidence authority, source, provenance, assumptions, open questions, and validation scope. An assumption is not a validated fact.
-4. **Check lifecycle and schema.** Verify artifact status, validation, owner, scope, provenance, assumptions, open questions, last update, and minimum sections. Record exact missing or stale fields.
-5. **Check vocabulary.** Compare terms by context, meaning, examples, owner, source, status, and translation. Same spelling is not same meaning. Preserve conflicts instead of merging them.
-6. **Check strategic-to-tactical prerequisites.** Verify context identity, purpose, owner, boundary, language, relationship direction, tactical scope, commands/scenarios, invariants, consistency, and integration assumptions. Route missing or invalidated strategic facts to `ddd-strategic` or `ddd-discover` as the earliest owner.
-7. **Check adoption safety.** When adoption is in scope, verify bounded slices, owners, dependencies, acceptance signals, compatibility, observability, data/integration/privacy risks, and rollback or containment. Unsafe or missing evidence is a finding, not an approval.
-8. **Check cross-artifact consistency.** Compare claims and links across assessment, vision, language, maps, contexts, models, and adoption plan. Preserve conflicts; mark affected dependents `stale`; route to the earliest stage whose evidence or decision is invalidated. Do not silently repair either side.
-9. **Write the owned review artifact.** If scope and section ownership are clear, create or update only `docs/ddd/review.md` additively with gate results, findings, stale/conflicting artifacts, owners/actions, next step, and chat-summary text. If placement or ownership is ambiguous, stop without writing.
-10. **Return the result.** Emit status `ready`, `follow-up`, `blocked`, or `invalidated`, exact changed paths, findings, gate outcomes, stale routing, assumptions, open questions, and one next stage or bounded stop. `ready` means documentation is coherent for the stated scope only; it never approves implementation, deployment, migration, or release.
-
-## Gate interpretation and stale routing
-
-A gate is `pass`, `follow-up`, `blocked`, or `not-applicable`, with its question, evidence, owner, and revisit trigger. A review aggregates gate failures rather than erasing them. A fit `not-fit` result remains authoritative unless new evidence or explicit approval changes it.
-
-Route to `ddd-discover` for missing fit, scope, current-system, or baseline evidence; to `ddd-strategic` for context purpose, ownership, language, relationship, or boundary conflicts; to `ddd-tactical` for missing commands, scenarios, invariants, model, or consistency decisions; and to `ddd-adoption` for sequencing, compatibility, observability, data reconciliation, or rollback/containment gaps. Route review-owned completeness issues to `ddd-review`.
-
-When a source claim changes or a conflict affects assumptions, list every affected dependent artifact and mark it stale in the result. Preserve its path and provenance. Do not update another stage's artifact to make the review pass. A stale route is complete only when the earliest stage, owner, evidence request, affected artifacts, and revisit trigger are named.
-
-## Documentation-ready result
-
-A `ready` result requires identifiable scope, named artifacts, sufficient evidence and provenance, lifecycle/schema completeness, vocabulary and strategic-to-tactical coherence, adoption safety when applicable, no unresolved blocking cross-artifact conflict, and a complete review record. It may still contain bounded follow-ups if they do not invalidate the stated scope, but every follow-up has an owner and revisit trigger.
-
-The result must state: `ready` is documentation readiness only. It does not authorize implementation, deployment, migration, data cutover, product-code edits, or a microservice split. If any required gate is blocked or the scope is unsafe, return `blocked`, `follow-up`, or `invalidated` instead.
-
-## Portable transition result
-
-Return a result bundle containing:
-
-- `stage`: `ddd-review`;
-- `status`: `ready`, `follow-up`, `blocked`, or `invalidated`;
-- `scope`: named objective, domain/context/slice, review depth, and acceptance criteria;
-- `artifacts`: exact requested, available, missing, stale, and affected paths;
-- `gate_results`: fit, evidence/provenance, lifecycle/schema, vocabulary, strategic-to-tactical, adoption safety, and cross-artifact outcomes;
-- `findings`: complete finding objects using the schema above;
-- `stale_routing`: affected dependents, earliest stage, owner, action, evidence, and revisit trigger;
-- `changed_artifacts`: exact paths and lifecycle/validation status, or an empty list when no write occurred;
-- `assumptions`, `open_questions`, `next_step`, and `return_to`.
-
-A complete result names the exact manual next stage when review is not ready, or states `ddd-review` as the return stage for review-owned follow-up. It never claims that implementation, deployment, migration, or live validation ran.
-
-## References and evaluation
-
-Read the [review method](references/review-method.md) and [review artifact contract](references/artifact-contracts.md) before writing. The review document template is in `assets/review-template.md`; package-local evaluation cases are in `evals/evals.json`.
+Read [the method](references/review-method.md), [the contract](references/artifact-contracts.md), and [the review template](assets/review-template.md) before writing.

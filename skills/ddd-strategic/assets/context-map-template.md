@@ -1,36 +1,25 @@
-# Context map
+# Context relationships
 
 | Field | Value |
 | --- | --- |
-| `artifact` | `context-map` |
-| `status` | `draft` |
-| `validation` | `unvalidated` |
-| `owner` | `ddd-strategic` |
-| `scope` | _domain, project, or capability_ |
-| `provenance` | _sources, contributors, and dates_ |
-| `assumptions` | _explicit assumptions or none recorded_ |
-| `open_questions` | _unresolved questions or none recorded_ |
-| `last_updated` | _YYYY-MM-DD_ |
+| `scope` | _only contexts/relationships touching the selected increment_ |
+| `state` | _working, decision-needed, current, stale, or superseded_ |
 
-A bounded context is a model and language boundary; it is not automatically a deployment service, database, team, or repository.
+Generate this artifact only when two or more contexts and their direction or translation affect the slice. A bounded context is a model/language boundary, not automatically a deployment service.
 
-## Context inventory
+## Touched context inventory
 
-| Context | Purpose/outcome | Boundary in/out | Owner | Language/lifecycle | Status/evidence |
+| Context | Purpose/boundary | Decision owner | Key language/lifecycle | Evidence |
+| --- | --- | --- | --- | --- |
+| _selected context_ | _in/out scope_ | _owner_ | _terms_ | _source_ |
+
+## Touched relationships
+
+| Upstream | Downstream | Direction/contract | Translation | Consistency/failure | Evidence/uncertainty |
 | --- | --- | --- | --- | --- | --- |
-| _name and link_ | _purpose_ | _in/out_ | _decision owner_ | _key meaning/lifecycle_ | _status and source_ |
+| _context_ | _context_ | _ownership and communication_ | _mapping_ | _only material semantics_ | _source_ |
 
-## Relationships
+## Boundary decision
 
-| From/upstream | To/downstream | Direction/ownership | Contract/communication | Translation | Consistency/failure assumptions | Evidence/uncertainty |
-| --- | --- | --- | --- | --- | --- | --- |
-| _context_ | _context_ | _who owns what_ | _mechanism_ | _mapping or none_ | _assumptions_ | _source_ |
-
-Relationship labels are optional shorthand. Describe the observed or proposed relationship rather than applying a catalog mechanically.
-
-## Boundary validation
-
-- **Scenario checks:** _concrete examples._
-- **Change/lifecycle:** _different rates or lifecycles._
-- **Security/availability:** _constraints._
-- **Open questions:** _decision owner and next evidence._
+- **Selected increment consequence:** _why this relationship is needed now._
+- **Unresolved decision:** _only if it blocks the increment._

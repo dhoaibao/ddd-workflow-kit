@@ -44,7 +44,7 @@ The manager also accepts `install` for a new selection, `uninstall` for full or 
 
 ## How it works
 
-Invoke the `ddd` orchestrator for a broad workflow request, or invoke a focused package directly when its entry criteria and evidence are already satisfied. Each stage writes only the artifact sections it owns, preserves existing material, and produces a bounded stop with an explicit handoff when evidence is missing or a boundary is unsafe.
+Invoke the `ddd` orchestrator for a broad workflow request, or invoke a focused package directly when its entry criteria and evidence are already satisfied. The workflow now advances one bounded increment at a time: it writes only decision-, behavior-, boundary-, acceptance-, and risk-bearing content, preserves existing material, and stops with an explicit earliest-owner handoff when evidence or authority is missing.
 
 The canonical flow:
 
@@ -55,11 +55,12 @@ ddd-discover → ddd-strategic → ddd-tactical → ddd-adoption → ddd-review
 | Package | Purpose | Primary output in `docs/ddd/` |
 | --- | --- | --- |
 | [`ddd`](skills/ddd/SKILL.md) | Route requests and transition state across the workflow. | Routing and status sections of `README.md` |
-| [`ddd-discover`](skills/ddd-discover/SKILL.md) | Establish scope, evidence, vocabulary, and DDD fit. | `assessment.md`, initial `domain-vision.md`, discovery contributions to `ubiquitous-language.md` |
-| [`ddd-strategic`](skills/ddd-strategic/SKILL.md) | Define subdomains, bounded contexts, language, and ownership. | `domain-map.md`, `context-map.md`, `contexts/<safe-slug>.md`, `ubiquitous-language.md` |
-| [`ddd-tactical`](skills/ddd-tactical/SKILL.md) | Model one context's behavior, invariants, and consistency. | `models/<context-slug>.md` and additive tactical sections |
-| [`ddd-adoption`](skills/ddd-adoption/SKILL.md) | Plan a bounded, incremental, reversible adoption slice. | `adoption-plan.md` |
-| [`ddd-review`](skills/ddd-review/SKILL.md) | Review artifacts for evidence, boundaries, and readiness. | `review.md` |
+| [`ddd-discover`](skills/ddd-discover/SKILL.md) | Establish the smallest evidence-backed fit decision and material conflicts. | Index decision by default; `assessment.md`, `domain-vision.md`, and language records only on triggers |
+| [`ddd-strategic`](skills/ddd-strategic/SKILL.md) | Define one selected context, touched relationships, and material language/boundaries. | One `contexts/<safe-slug>.md`; maps, glossary, and additional contexts only on triggers |
+| [`ddd-tactical`](skills/ddd-tactical/SKILL.md) | Model one slice's examples, rules, invariants, transitions, and relevant failure semantics. | One `models/<slice-slug>.md`; unused tactical patterns are omitted |
+| [`ddd-adoption`](skills/ddd-adoption/SKILL.md) | Fully specify one candidate increment with target, baseline, implementation owner, outcome/scope, acceptance, and typed uncertainty routing; add containment only when triggered. | `adoption-plan.md` plus the gate extension |
+| [`ddd-review`](skills/ddd-review/SKILL.md) | Run internal quality gates and emit exception findings plus one decision queue. | `review.md` and its README queue/review markers |
+| **After ratification** | A separate human decision owner authorizes one exact increment; `ddd` preserves the accountable implementation owner and records the transport authorization. | `implementation-handoff.md` as the sole implementation entry point |
 
 ## Guarantees and boundaries
 
@@ -67,7 +68,9 @@ ddd-discover → ddd-strategic → ddd-tactical → ddd-adoption → ddd-review
 - **Bounded stops:** missing evidence, conflicting claims, or unsafe paths stop the workflow with a handoff rather than inventing facts.
 - **Additive ownership:** each stage owns only its documented artifact sections; nothing is silently rewritten.
 - **Documentation-only:** no edits to product source, tests, schemas, configuration, migrations, or deployment files.
-- **Scoped reviews:** a `ready` review means documentation readiness for the stated scope only — not implementation, deployment, or release approval.
+- **Scoped reviews:** `documentation_readiness: ready` is separate from `increment_gate: awaiting-ratification`; neither alone authorizes implementation.
+- **Scoped ratification:** a named human decision owner may authorize one exact increment for the accountable implementation owner; only then can `ddd` create one revision-bound `implementation-handoff-v1`.
+- **Legacy compatibility:** existing target artifacts remain readable and are never silently rewritten.
 
 ## Documentation
 
@@ -75,7 +78,8 @@ ddd-discover → ddd-strategic → ddd-tactical → ddd-adoption → ddd-review
 - [DDD foundation](docs/foundation/README.md) — language-neutral concepts, evidence discipline, and adoption guidance.
 - [Skill design](docs/skill-design/README.md) — package contracts, workflows, quality gates, and portability rules.
 - [Implementation history and roadmap](docs/plans/README.md) — ordered implementation record and evaluation history.
-- [Phase-4 evaluation report](docs/evaluations/phase-4-report.json) — live results, hashes, limitations, and residual risks.
+- [Lean redesign evaluation report](docs/evaluations/lean-workflow-redesign-v1-report.json) — local sanitized BonVoye-shaped fixture and limitations.
+- [Phase-4 evaluation report](docs/evaluations/phase-4-report.json) — historical live results, hashes, limitations, and residual risks.
 
 ## Development
 
@@ -85,4 +89,4 @@ Validate the repository's packages, links, and evaluation cases:
 python3 scripts/validate-skills.py
 ```
 
-The recorded suite evidence covers 59 cases: 29 phase-0 cases carried forward under matching package and evaluation hashes, plus 30 phase-4 live cases across adoption, review, and orchestration, all passing. Static validation covers repository conventions only and does not establish compatibility with every host; live results are model- and host-dependent. See the [phase-4 report](docs/evaluations/phase-4-report.json) for commands, hashes, and limitations.
+The current deterministic suite validates the six lean packages, their shared contracts, 15 redesign acceptance cases, package links/H1s/runtime neutrality, and a local sanitized BonVoye-shaped fixture. Historical phase-0 and phase-4 records remain unchanged. Static validation covers repository conventions and fixture behavior only; it does not establish compatibility with every host/model or an external project.

@@ -1,59 +1,60 @@
 # DDD artifact index
 
-This template defines the canonical sections for `docs/ddd/README.md`. The orchestrator owns only routing/status markers; `ddd-review` owns the latest-review link and findings marker. Preserve user-authored prose outside those markers.
+For broad flows, create `docs/ddd/README.md` before downstream artifacts. Keep it concise and preserve user-authored prose outside owned markers.
 
-## Project and domain scope
+## Target outcome and selected increment
 
-<!-- ddd-owned:project-scope:start -->
-_State the project/domain scope and source boundary._
-<!-- ddd-owned:project-scope:end -->
+<!-- ddd-owned:outcome:start -->
+- **Target outcome:** _one bounded outcome._
+- **Selected context/slice:** _one context and stable increment ID._
+<!-- ddd-owned:outcome:end -->
 
-## Current status
+## Workflow status
 
 <!-- ddd-owned:routing-status:start -->
-_Record current stage, routing status, lifecycle/validation summary, and next action._
+- **Current stage:** _stage._
+- **documentation_readiness:** _ready, follow-up, blocked, or invalidated._
+- **increment_gate:** _blocked, awaiting-ratification, or authorized._
+- **Blocking decisions:** _count and queue link._
+- **Exact next human action:** _one action._
 <!-- ddd-owned:routing-status:end -->
 
-## Artifact index
+## Current artifacts
 
 <!-- ddd-owned:artifact-index:start -->
-| Artifact | Owner | Lifecycle | Validation | Path |
-| --- | --- | --- | --- | --- |
-| _artifact_ | _stage_ | _status_ | _status_ | _docs/ddd/path_ |
+| Path | Owner | State | Why it exists |
+| --- | --- | --- | --- |
+| _docs/ddd/path_ | _stage_ | _working/current/stale_ | _decision, behavior, boundary, acceptance, or risk_ |
 <!-- ddd-owned:artifact-index:end -->
 
-## Active contexts
+## Decision queue
 
-<!-- ddd-owned:active-contexts:start -->
-_List active contexts and their owners, or `none recorded`._
-<!-- ddd-owned:active-contexts:end -->
+<!-- ddd-review-owned:decision-queue:start -->
+<!-- ddd-review may update this marker and latest-review marker only after validating its review result; ddd preserves both. -->
+No open decisions for the selected increment.
 
-## Validation summary
+<!-- Conditional fragment: only when the increment has an unresolved finding or decision, replace the line above with this exact table shape and one row per open item; do not render the table otherwise:
+| ID | Issue | Increment impact | Disposition | Status | Owner | Required action | Affected paths | Revisit trigger |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| DQ-001 | issue | impact | blocking/invalidating/decision-required/accepted-assumption/deferred/out-of-scope/resolved | open/resolved/deferred/closed, legal for its disposition | owner | smallest action | paths | trigger |
+-->
+<!-- ddd-review-owned:decision-queue:end -->
 
-<!-- ddd-owned:validation-summary:start -->
-_Record scoped gate results and evidence references._
-<!-- ddd-owned:validation-summary:end -->
+## Authorization
 
-## Open questions
+<!-- ddd-owned:authorization:start -->
+<!-- ddd owns routing/status and authorization markers; ddd-review owns only decision-queue/latest-review markers. -->
+- **Ratification:** _not requested, pending, declined, or authorized for one increment._
+- **Implementation handoff:** `not authorized` or `docs/ddd/implementation-handoff.md`.
 
-<!-- ddd-owned:open-questions:start -->
-_List unresolved questions, owners, and revisit triggers._
-<!-- ddd-owned:open-questions:end -->
+<!-- Conditional fragment: only when the ratification state is declined, add these two lines here in this exact form; do not render them otherwise:
+- **Declined decision:** decision, named human, date, target/baseline identity, and reason.
+- **declined decision persisted record:** decision, owner, date, increment ID, target repository/runtime/baseline, and reason are retained in this marker.
+-->
+<!-- ddd-owned:authorization:end -->
 
-## Provenance policy
-
-<!-- ddd-owned:provenance-policy:start -->
-_State how facts, desired meanings, obligations, proposals, and assumptions retain sources and dates._
-<!-- ddd-owned:provenance-policy:end -->
-
-## Safe-update policy
-
-<!-- ddd-owned:safe-update-policy:start -->
-_State additive ownership and the documentation-only boundary._
-<!-- ddd-owned:safe-update-policy:end -->
-
-## Latest review
+## Review link
 
 <!-- ddd-review-owned:latest-review:start -->
-_Link the latest `docs/ddd/review.md` and summarize review status/findings. `ddd` must preserve this section._
+- Review artifact: `docs/ddd/review.md` — documentation readiness, increment gate, and one next action.
 <!-- ddd-review-owned:latest-review:end -->

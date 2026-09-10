@@ -1,0 +1,412 @@
+{
+  "schema_version": "bonvoye-shaped-characterization-fixture-v1",
+  "external_access": false,
+  "selected_context": "storytelling-experience",
+  "increment_id": "storytelling-characterization-v1",
+  "materialized_pre_authorization": [
+    "docs/evaluations/bonvoye-shaped/pre/docs/ddd/README.md",
+    "docs/evaluations/bonvoye-shaped/pre/docs/ddd/contexts/storytelling-experience.md",
+    "docs/evaluations/bonvoye-shaped/pre/docs/ddd/models/storytelling-experience.md",
+    "docs/evaluations/bonvoye-shaped/pre/docs/ddd/adoption-plan.md",
+    "docs/evaluations/bonvoye-shaped/pre/docs/ddd/review.md"
+  ],
+  "materialized_post_authorization": [
+    "docs/evaluations/bonvoye-shaped/post/docs/ddd/README.md",
+    "docs/evaluations/bonvoye-shaped/post/docs/ddd/contexts/storytelling-experience.md",
+    "docs/evaluations/bonvoye-shaped/post/docs/ddd/models/storytelling-experience.md",
+    "docs/evaluations/bonvoye-shaped/post/docs/ddd/adoption-plan.md",
+    "docs/evaluations/bonvoye-shaped/post/docs/ddd/review.md",
+    "docs/evaluations/bonvoye-shaped/post/docs/ddd/implementation-handoff.md"
+  ],
+  "authority_sections": {
+    "docs/evaluations/bonvoye-shaped/post/docs/ddd/adoption-plan.md": [
+      "Increment identity and outcome",
+      "Dependencies and acceptance"
+    ],
+    "docs/evaluations/bonvoye-shaped/post/docs/ddd/models/storytelling-experience.md": [
+      "Outcome and examples",
+      "Commands, rules, and transitions",
+      "Invariants and current-versus-desired delta"
+    ],
+    "docs/evaluations/bonvoye-shaped/post/docs/ddd/contexts/storytelling-experience.md": [
+      "Purpose and boundary",
+      "Key terms and scenarios"
+    ]
+  },
+  "cases": [
+    {
+      "id": "entitled-in-range-online-start",
+      "input": {
+        "entitled": true,
+        "readiness": "ready",
+        "channel": "online",
+        "proximity": "in-range",
+        "state": "not-started"
+      },
+      "expected_output": {
+        "decision": "start",
+        "state": "started"
+      }
+    },
+    {
+      "id": "entitlement-rejection",
+      "input": {
+        "entitled": false,
+        "readiness": "ready",
+        "channel": "online",
+        "proximity": "in-range",
+        "state": "not-started"
+      },
+      "expected_output": {
+        "decision": "reject",
+        "reason": "entitlement"
+      }
+    },
+    {
+      "id": "readiness-rejection",
+      "input": {
+        "entitled": true,
+        "readiness": "not-ready",
+        "channel": "online",
+        "proximity": "in-range",
+        "state": "not-started"
+      },
+      "expected_output": {
+        "decision": "reject",
+        "reason": "readiness"
+      }
+    },
+    {
+      "id": "duplicate-start",
+      "input": {
+        "entitled": true,
+        "readiness": "ready",
+        "channel": "online",
+        "proximity": "in-range",
+        "state": "started"
+      },
+      "expected_output": {
+        "decision": "reject",
+        "reason": "duplicate-start"
+      }
+    },
+    {
+      "id": "explicit-completion",
+      "input": {
+        "entitled": true,
+        "readiness": "ready",
+        "channel": "online",
+        "proximity": "in-range",
+        "state": "started",
+        "completion": "explicit"
+      },
+      "expected_output": {
+        "decision": "complete",
+        "state": "completed"
+      }
+    },
+    {
+      "id": "duplicate-completion",
+      "input": {
+        "entitled": true,
+        "readiness": "ready",
+        "channel": "online",
+        "proximity": "in-range",
+        "state": "completed",
+        "completion": "explicit"
+      },
+      "expected_output": {
+        "decision": "reject",
+        "reason": "duplicate-completion"
+      }
+    },
+    {
+      "id": "executable-proximity-profiles",
+      "profiles": [
+        "in-range-online",
+        "out-of-range-online"
+      ],
+      "input": {
+        "entitled": true,
+        "readiness": "ready",
+        "channel": "online",
+        "state": "not-started"
+      },
+      "expected_output": {
+        "in-range-online": "start",
+        "out-of-range-online": "reject-proximity"
+      }
+    }
+  ],
+  "authority_revisions": [
+    {
+      "path": "docs/evaluations/bonvoye-shaped/post/docs/ddd/adoption-plan.md",
+      "target_path": "docs/ddd/adoption-plan.md",
+      "sections": [
+        "Increment identity and outcome",
+        "Dependencies and acceptance"
+      ],
+      "revision": "sha256:75650f46598857463a1d0674d149f264c7b4df7daa52ce41e8bb9e5ddb2a1d8b",
+      "role": "scope-and-delivery"
+    },
+    {
+      "path": "docs/evaluations/bonvoye-shaped/post/docs/ddd/models/storytelling-experience.md",
+      "target_path": "docs/ddd/models/storytelling-experience.md",
+      "sections": [
+        "Outcome and examples",
+        "Commands, rules, and transitions",
+        "Invariants and current-versus-desired delta"
+      ],
+      "revision": "sha256:598d832c1a1032430d03658123e7dc9abd273a79a30dc1110edf2cacd3eaf6d7",
+      "role": "behavior"
+    },
+    {
+      "path": "docs/evaluations/bonvoye-shaped/post/docs/ddd/contexts/storytelling-experience.md",
+      "target_path": "docs/ddd/contexts/storytelling-experience.md",
+      "sections": [
+        "Purpose and boundary",
+        "Key terms and scenarios"
+      ],
+      "revision": "sha256:3b49180aa0fa360af57288de177e9342671e180a425eca5d9a7ed173dfe38a88",
+      "role": "boundary"
+    }
+  ],
+  "gate_before_authorization": {
+    "documentation_readiness": "ready",
+    "increment_gate": "awaiting-ratification",
+    "implementation_handoff": false
+  },
+  "gate_after_authorization": {
+    "documentation_readiness": "ready",
+    "increment_gate": "authorized",
+    "implementation_handoff": true
+  },
+  "gate_before_envelope": {
+    "version": "ddd-implementation-gate-v1",
+    "increment_id": "storytelling-characterization-v1",
+    "target": {
+      "repository": "sanitized fixture",
+      "runtime": "documentation oracle",
+      "baseline_revision": "fixture-baseline-v1"
+    },
+    "owner": "named implementation owner",
+    "outcome": "characterize one bounded storytelling slice",
+    "in_scope": [
+      "seven deterministic characterization scenarios"
+    ],
+    "out_of_scope": [
+      "product behavior changes",
+      "future publishing topology"
+    ],
+    "return_on_conflict": "ddd-tactical",
+    "acceptance_signals": [
+      "all seven characterization cases match their exact Given/When/Then outputs"
+    ],
+    "containment": [
+      "stop on any authority, oracle, or scope mismatch"
+    ],
+    "accepted_assumptions": [],
+    "deferred_questions": [
+      "future publishing topology"
+    ],
+    "out_of_scope_questions": [],
+    "question_dispositions": [
+      {
+        "id": "Q-001",
+        "disposition": "deferred",
+        "status": "deferred",
+        "impact": "none for this bounded slice",
+        "owner": "named product owner",
+        "action": "record as later hypothesis",
+        "affected_artifacts": [],
+        "revisit_trigger": "next publishing increment",
+        "issue": "future publishing topology"
+      }
+    ],
+    "documentation_readiness": "ready",
+    "authoritative_revisions": [
+      {
+        "path": "docs/ddd/adoption-plan.md",
+        "sections": [
+          "Increment identity and outcome",
+          "Dependencies and acceptance"
+        ],
+        "revision": "sha256:75650f46598857463a1d0674d149f264c7b4df7daa52ce41e8bb9e5ddb2a1d8b",
+        "role": "scope-and-delivery"
+      },
+      {
+        "path": "docs/ddd/models/storytelling-experience.md",
+        "sections": [
+          "Outcome and examples",
+          "Commands, rules, and transitions",
+          "Invariants and current-versus-desired delta"
+        ],
+        "revision": "sha256:598d832c1a1032430d03658123e7dc9abd273a79a30dc1110edf2cacd3eaf6d7",
+        "role": "behavior"
+      },
+      {
+        "path": "docs/ddd/contexts/storytelling-experience.md",
+        "sections": [
+          "Purpose and boundary",
+          "Key terms and scenarios"
+        ],
+        "revision": "sha256:3b49180aa0fa360af57288de177e9342671e180a425eca5d9a7ed173dfe38a88",
+        "role": "boundary"
+      }
+    ],
+    "increment_gate": "awaiting-ratification",
+    "ratification": {
+      "state": "pending"
+    }
+  },
+  "gate_after_envelope": {
+    "version": "ddd-implementation-gate-v1",
+    "increment_id": "storytelling-characterization-v1",
+    "target": {
+      "repository": "sanitized fixture",
+      "runtime": "documentation oracle",
+      "baseline_revision": "fixture-baseline-v1"
+    },
+    "owner": "named implementation owner",
+    "outcome": "characterize one bounded storytelling slice",
+    "in_scope": [
+      "seven deterministic characterization scenarios"
+    ],
+    "out_of_scope": [
+      "product behavior changes",
+      "future publishing topology"
+    ],
+    "return_on_conflict": "ddd-tactical",
+    "acceptance_signals": [
+      "all seven characterization cases match their exact Given/When/Then outputs"
+    ],
+    "containment": [
+      "stop on any authority, oracle, or scope mismatch"
+    ],
+    "accepted_assumptions": [],
+    "deferred_questions": [
+      "future publishing topology"
+    ],
+    "out_of_scope_questions": [],
+    "question_dispositions": [
+      {
+        "id": "Q-001",
+        "disposition": "deferred",
+        "status": "deferred",
+        "impact": "none for this bounded slice",
+        "owner": "named product owner",
+        "action": "record as later hypothesis",
+        "affected_artifacts": [],
+        "revisit_trigger": "next publishing increment",
+        "issue": "future publishing topology"
+      }
+    ],
+    "documentation_readiness": "ready",
+    "authoritative_revisions": [
+      {
+        "path": "docs/ddd/adoption-plan.md",
+        "sections": [
+          "Increment identity and outcome",
+          "Dependencies and acceptance"
+        ],
+        "revision": "sha256:75650f46598857463a1d0674d149f264c7b4df7daa52ce41e8bb9e5ddb2a1d8b",
+        "role": "scope-and-delivery"
+      },
+      {
+        "path": "docs/ddd/models/storytelling-experience.md",
+        "sections": [
+          "Outcome and examples",
+          "Commands, rules, and transitions",
+          "Invariants and current-versus-desired delta"
+        ],
+        "revision": "sha256:598d832c1a1032430d03658123e7dc9abd273a79a30dc1110edf2cacd3eaf6d7",
+        "role": "behavior"
+      },
+      {
+        "path": "docs/ddd/contexts/storytelling-experience.md",
+        "sections": [
+          "Purpose and boundary",
+          "Key terms and scenarios"
+        ],
+        "revision": "sha256:3b49180aa0fa360af57288de177e9342671e180a425eca5d9a7ed173dfe38a88",
+        "role": "boundary"
+      }
+    ],
+    "increment_gate": "authorized",
+    "ratification": {
+      "state": "authorized",
+      "record": {
+        "decision": "authorized",
+        "owner": "named decision owner",
+        "date": "2026-09-10",
+        "increment_id": "storytelling-characterization-v1",
+        "target_repository": "sanitized fixture",
+        "target_runtime": "documentation oracle",
+        "baseline_revision": "fixture-baseline-v1",
+        "outcome": "characterize one bounded storytelling slice",
+        "in_scope": [
+          "seven deterministic characterization scenarios"
+        ],
+        "out_of_scope": [
+          "product behavior changes",
+          "future publishing topology"
+        ],
+        "return_on_conflict": "ddd-tactical",
+        "accepted_revisions": [
+          {
+            "path": "docs/ddd/adoption-plan.md",
+            "sections": [
+              "Increment identity and outcome",
+              "Dependencies and acceptance"
+            ],
+            "revision": "sha256:75650f46598857463a1d0674d149f264c7b4df7daa52ce41e8bb9e5ddb2a1d8b",
+            "role": "scope-and-delivery"
+          },
+          {
+            "path": "docs/ddd/models/storytelling-experience.md",
+            "sections": [
+              "Outcome and examples",
+              "Commands, rules, and transitions",
+              "Invariants and current-versus-desired delta"
+            ],
+            "revision": "sha256:598d832c1a1032430d03658123e7dc9abd273a79a30dc1110edf2cacd3eaf6d7",
+            "role": "behavior"
+          },
+          {
+            "path": "docs/ddd/contexts/storytelling-experience.md",
+            "sections": [
+              "Purpose and boundary",
+              "Key terms and scenarios"
+            ],
+            "revision": "sha256:3b49180aa0fa360af57288de177e9342671e180a425eca5d9a7ed173dfe38a88",
+            "role": "boundary"
+          }
+        ],
+        "accepted_assumptions": [],
+        "deferred_questions": [
+          "future publishing topology"
+        ],
+        "out_of_scope_questions": [],
+        "question_dispositions": [
+          {
+            "id": "Q-001",
+            "disposition": "deferred",
+            "status": "deferred",
+            "impact": "none for this bounded slice",
+            "owner": "named product owner",
+            "action": "record as later hypothesis",
+            "affected_artifacts": [],
+            "revisit_trigger": "next publishing increment",
+            "issue": "future publishing topology"
+          }
+        ],
+        "acceptance_signals": [
+          "all seven characterization cases match their exact Given/When/Then outputs"
+        ],
+        "containment_limitations": [
+          "stop on any authority, oracle, or scope mismatch"
+        ]
+      }
+    }
+  }
+}

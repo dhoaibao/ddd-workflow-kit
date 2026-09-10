@@ -1,105 +1,214 @@
-# Artifact contracts
+# Lean artifact contracts
 
-A future implementation writes modeling artifacts under `docs/ddd/`. These are repository documents for shared understanding, not generated source code. The contracts below define the minimum shape and safe lifecycle.
+The workflow writes selective, documentation-only aids under a target project's `docs/ddd/`. A paragraph, field, or table is permitted only when removing it would change a decision, implementation behavior, boundary/contract, verification signal, or material risk.
 
-## Common metadata contract
+## Lean metadata contract
 
-Every artifact begins with a human-readable title followed by a metadata table containing, at minimum:
+New artifacts use this small contract:
 
 | Field | Requirement |
 | --- | --- |
-| `artifact` | Stable artifact type and, for scoped artifacts, context/model identifier. |
-| `status` | Lifecycle status: `draft`, `active`, `superseded`, or `archived`. |
-| `validation` | Validation status: `unvalidated`, `partially-validated`, `validated`, or `stale`. |
-| `owner` | Skill/stage or named project owner responsible for the next update. |
-| `scope` | Domain, context, model, or adoption slice covered. |
-| `provenance` | Evidence sources, contributors, and dates sufficient to trace claims. |
-| `assumptions` | Explicit assumptions; use `none recorded` when empty. |
-| `open_questions` | Unresolved questions or `none recorded`. |
-| `last_updated` | Date of the latest substantive update. |
+| `scope` | Bounded context, capability, or selected increment covered by the artifact. |
+| `state` | `working`, `decision-needed`, `current`, `stale`, or `superseded`. |
+| `owner` | Conditional: include only when a named person or role must decide, validate, or act. |
 
-The body must distinguish **facts**, **interpretations**, **proposals**, and **decisions**. A claim without provenance is an assumption or proposal, never an established fact. Validation records should name the evidence or reviewers and may be partial.
+The path and H1 identify the artifact; do not repeat `artifact`. Do not maintain separate document lifecycle and validation axes. Record evidence next to material claims. Omit empty assumptions, questions, and `not applicable` rows. Repository history supplies update identity when available. `current` never authorizes implementation.
 
-## Lifecycle and validation
+Legacy artifacts with `artifact`, `status`, `validation`, `provenance`, `assumptions`, `open_questions`, or `last_updated` remain readable. New output does not silently migrate or rewrite them. A legacy artifact is treated as `stale` when new evidence invalidates it, not as authorized work.
 
-- `draft` means the document is being shaped and may be incomplete.
-- `active` means it is the current working agreement for its scope; it may still contain open questions.
-- `superseded` means a newer artifact replaces it; retain a link to the replacement and the reason.
-- `archived` means it is retained for historical context and must not guide new decisions.
-- `unvalidated` means no relevant expert or behavioral check has occurred.
-- `partially-validated` means some claims or scenarios have been checked.
-- `validated` means the stated scope has been checked against the named evidence; it does not mean universally true.
-- `stale` means new evidence may invalidate the artifact; downstream users must not treat it as current until reviewed.
+## Lean state compatibility with `ddd-routing-v1`
 
-A strategic change that affects tactical assumptions marks affected tactical and adoption artifacts `stale`. A changed fact does not silently rewrite historical provenance.
+Legacy transport artifact records retain `lifecycle` and `validation`. A new lean artifact may additionally carry `state`; its deterministic compatibility mapping is:
 
-## Artifact inventory and minimum schemas
+| Lean `state` | Legacy `lifecycle` | Legacy `validation` |
+| --- | --- | --- |
+| `working` | `draft` | `unvalidated` |
+| `decision-needed` | `draft` | `unvalidated` |
+| `current` | `active` | `validated` |
+| `stale` | preserve prior lifecycle (`draft`, `active`, `superseded`, or `archived`) | `stale` |
+| `superseded` | `superseded` | `stale` |
 
-### `docs/ddd/README.md`
+On normal transition, preserve `state` and the mapped legacy values. Invalidation preserves the prior lifecycle (including `draft` or `active`) and changes lean `state` to `stale` plus legacy validation to `stale`; a stale record is therefore not forced to `active`. Legacy records without `state` remain valid; focused stages must not invent a lean state when reading them.
 
-**Owner:** `ddd` with `ddd-review` stewardship. **Purpose:** index the artifact set and explain scope. **Minimum sections:** project/domain scope; current status; artifact index; active contexts; validation summary; open questions; provenance policy; safe-update policy; link to the latest `review.md`.
+## Utility and authority rules
 
-### `docs/ddd/assessment.md`
+- Prefer concrete examples over generic DDD teaching.
+- Link to one authoritative statement instead of copying it.
+- Keep current behavior, desired behavior, obligations, decisions, and assumptions separate only when the distinction affects the selected increment.
+- Fully specify one bounded increment; later work stays a short hypothesis.
+- Tactical patterns are conditional decisions. Omit unused pattern sections rather than emitting empty or `not-needed` rows.
+- Evidence beside a claim includes source/owner where material; unsupported inference remains a proposal or assumption.
+- Existing target documents are preserved. Updates are additive and limited to the owning stage's sections.
+- No skill edits product source, tests, configuration, schema, migration, deployment, generated output, or runtime behavior.
 
-**Owner:** `ddd-discover`. **Minimum sections:** desired outcomes; complexity/change-risk signals; DDD-fit decision (`fit`, `limited-fit`, or `not-fit`); evidence table; current-system mode (`greenfield`, `brownfield`, or `mixed`); constraints; assumptions; open questions; next-stage recommendation. A `not-fit` result should explain the simpler approach to prefer.
+## Default and conditional artifact profile
 
-### `docs/ddd/domain-vision.md`
+For one selected slice, before authorization the default set is at most:
 
-**Owner:** `ddd-discover`, with strategic updates by `ddd-strategic`. **Minimum sections:** domain purpose and scope; users/stakeholders; outcomes; major policies/events; strategic importance hypotheses; excluded scope; facts versus proposals; validation record.
+1. `docs/ddd/README.md` — outcome, selected context/increment, workflow state, readiness/gate, decision queue, next action, and current links.
+2. `docs/ddd/contexts/<context-slug>.md` — selected purpose, boundary, owner, key terms, and touched relationships.
+3. `docs/ddd/models/<slice-slug>.md` — examples, rules, invariants, behavior delta, and required integration semantics.
+4. `docs/ddd/adoption-plan.md` — one complete candidate increment.
+5. `docs/ddd/review.md` — exception-based readiness, gate, routed findings, and next action.
 
-### `docs/ddd/ubiquitous-language.md`
+Only after explicit ratification may the orchestrator add `docs/ddd/implementation-handoff.md`.
 
-**Owner:** `ddd-strategic`, informed by discovery and reviewed by `ddd-review`. **Minimum sections:** term; context; definition; examples/non-examples; source; status (`proposed`, `accepted`, `conflicted`, or `retired`); owner; conflict/translation notes. Same spelling does not imply same meaning across contexts.
+Conditional artifacts are generated only for a recorded trigger:
 
-### `docs/ddd/domain-map.md`
+| Artifact | Trigger |
+| --- | --- |
+| `assessment.md` | DDD fit is disputed, evidence-heavy, limited, or needs a durable decision record. |
+| `domain-vision.md` | Outcome, stakeholders, or strategic intent is absent or materially disputed. |
+| `domain-map.md` | Classification changes investment, sourcing, or ownership. |
+| `context-map.md` | Multiple contexts and relationship direction/translation affect the selected slice. |
+| `ubiquitous-language.md` | Terms are reused, overloaded, or materially conflicted. |
+| Additional context/model file | Another context or tactical slice is selected or required by a current relationship. |
 
-**Owner:** `ddd-strategic`. **Minimum sections:** domain and subdomains; core/supporting/generic classification with rationale; capabilities/outcomes; ownership; evidence; unresolved classifications; links to contexts. Classifications remain hypotheses until validated.
+A non-fit flow may stop with its decision in the index. It must not create downstream artifacts merely to complete a sequence.
 
-### `docs/ddd/context-map.md`
+## Owned artifact contracts
 
-**Owner:** `ddd-strategic`. **Minimum sections:** context inventory; each context's purpose, owner, language, and lifecycle; relationship direction; relationship type or description; contracts and translation; consistency/failure assumptions; evidence; unresolved boundaries. It must state that a bounded context is not automatically a deployment service.
+### Index: `docs/ddd/README.md`
 
-### `docs/ddd/contexts/`
+The broad-flow index is mandatory and should fit on one screen where practical. It records target outcome; selected context and increment; current stage; `documentation_readiness`; `increment_gate`; blocking decision count and queue; exact next human action; current artifact links; and a handoff link or `not authorized`. `ddd` owns routing/status and authorization sections; `ddd-review` owns only the README decision-queue/latest-review markers plus `review.md`.
 
-**Owner:** `ddd-strategic`, with review by `ddd-review`. **One document per context. Minimum sections:** context identity and purpose; boundary in/out; stakeholders/owner; language; key workflows; invariants to protect; upstream/downstream relationships; data/consistency assumptions; validation and open questions. Context files must link to the context map rather than duplicate it as an authority.
+### Context
 
-### `docs/ddd/models/`
+Require purpose and business-decision owner; explicit in/out boundary; and key slice terms. Add touched upstream/downstream relationships and translation responsibility only when a material relationship trigger exists; add unresolved boundary decisions only when they block the increment. Do not reproduce a whole context map.
 
-**Owner:** `ddd-tactical`. **One document per modeled context or slice. Minimum sections:** scope; commands/use cases; entities; value objects; aggregate roots and invariants; repositories; domain/application services; specifications; factories; domain events; integration translations; examples; optional CQRS/event-sourcing decision and rationale; assumptions; validation gaps. Patterns may be marked `not-needed` with evidence.
+### Tactical model
 
-### `docs/ddd/adoption-plan.md`
+Require selected outcome; success/failure examples; commands/use cases; rules/invariants; relevant transitions; current-versus-desired differences; integration/consistency failure semantics; blocking decisions and evidence. Include entities, value objects, aggregates, repositories, services, specifications, factories, events, CQRS, or event sourcing only when a named problem requires them.
 
-**Owner:** `ddd-adoption`. **Minimum sections:** mode; target outcome; first slice; ordered increments; dependencies; acceptance signals; ownership; risks; rollback/containment; data/integration/privacy considerations; decision points; explicit product-code boundary. It must distinguish recommendation from execution.
+### Adoption plan
 
-### `docs/ddd/review.md`
+Require stable `increment_id`; repository/runtime and baseline; intended outcome and concrete change; in/out scope; accountable implementation owner; dependencies; observable acceptance; and stop conditions. Add material risk/containment, a decision queue, and accepted/deferred questions only when their recorded triggers affect this increment. Later increments are hypotheses.
 
-**Owner:** `ddd-review`. **Minimum sections:** review scope/date; artifact and validation summary; DDD-fit result; quality-gate results; findings by severity; stale/conflicting artifacts; required owner/action; earliest stage to revisit; next step; chat-summary text. A ready result means documentation is coherent for its stated scope, not that implementation is approved.
+### Review
 
-## Safe create and update behavior
+Review runs all relevant checks internally but emits exceptions only. It reports one increment and authority set; `documentation_readiness`; `increment_gate`; blocking/invalidating/decision-required findings; relevant accepted/deferred/out-of-scope items; earliest-owner routing; and one exact next action. Passed checks are one sentence, not a repeated gate table.
 
-1. Inspect whether the target path and its scope already exist.
-2. Create only missing artifacts within the agreed `docs/ddd/` boundary.
-3. Preserve existing prose, metadata, links, and user ownership by default.
-4. Update only sections owned by the active skill, using additive or explicitly labeled revisions.
-5. Never delete, rename, or replace a user-authored artifact without explicit approval.
-6. If existing facts conflict with new evidence, record the conflict, provenance, and `stale` status; do not choose silently.
-7. Keep a replacement link and reason when an artifact is superseded.
-8. Do not edit product source, tests, configuration, generated files, or deployment artifacts.
-9. If the requested change exceeds the boundary or cannot be made safely, stop and report the exact path and decision needed.
+## Decision queue
 
-## Ownership matrix
+`ddd-review` consolidates one queue with these fields:
 
-| Artifact | Discover | Strategic | Tactical | Adoption | Review |
-| --- | --- | --- | --- | --- | --- |
-| `README.md` | consult | consult | consult | consult | steward |
-| `assessment.md` | own | consult | consult | consult | validate |
-| `domain-vision.md` | own initial | update | consult | consult | validate |
-| `ubiquitous-language.md` | contribute | own | contribute | consult | validate |
-| `domain-map.md` | consult | own | consult | consult | validate |
-| `context-map.md` | consult | own | consult | consult | validate |
-| `contexts/` | consult | own | contribute | consult | validate |
-| `models/` | consult | consult | own | consult | validate |
-| `adoption-plan.md` | consult | consult | contribute | own | validate |
-| `review.md` | consult | consult | consult | consult | own |
+| Field | Meaning |
+| --- | --- |
+| ID | Stable reference. |
+| Issue | Exact conflict, missing decision, or missing evidence. |
+| Increment impact | Why it affects or does not affect the selected increment. |
+| Disposition | `blocking`, `invalidating`, `decision-required`, `accepted-assumption`, `deferred`, `out-of-scope`, or `resolved`. |
+| Owner | Earliest owning stage and named human role where known. |
+| Required decision/evidence | Smallest next action. |
+| Affected artifacts | Exact paths. |
+| Revisit trigger | Evidence or future increment that reopens it. |
 
-`ddd` coordinates but does not silently take ownership from a focused stage. Review may annotate any artifact with findings but does not rewrite the domain model.
+A blocker cannot become `deferred` or `out-of-scope` without human confirmation and impact rationale. The earliest owner asks the smallest related question set and updates only its owned artifact.
+
+## Readiness, ratification, and handoff
+
+Every review records documentation readiness and its review gate, never an unqualified `ready`:
+
+```yaml
+documentation_readiness: ready | follow-up | blocked | invalidated
+increment_gate: blocked | awaiting-ratification
+```
+
+After explicit human ratification, `ddd` separately records the transport/index gate as `authorized`; review-owned `review.md` remains the awaiting-ratification evidence.
+
+`awaiting-ratification` requires no blocking/invalidating finding; resolved decision-required items; clear boundary, behavior, invariants, and obligations; sufficient acceptance and containment; explicit treatment of remaining uncertainty; and named target repository/runtime and accountable implementation owner. The state order is `blocked` with `not-yet-requested|declined`, `awaiting-ratification` with `pending`, then `authorized` with `authorized`; only explicit human ratification moves the separate gate to `authorized`.
+
+The gate names the accountable implementation owner; the ratification record names the human decision owner in its own field (may equal or differ from the implementation owner), decision (`authorized` or `declined`), date, increment ID, target repository/runtime/baseline, accepted artifact revisions, accepted assumptions, deferred/out-of-scope questions, typed question dispositions with a unique `id`, exact `issue` text, owner/action/revisit trigger, and a status legal for its disposition; a `deferred` issue must appear exactly in `deferred_questions`, an `out-of-scope` issue exactly in `out_of_scope_questions`, and an `accepted-assumption` issue exactly in `accepted_assumptions`, with no orphan strings in any of the three lists and no disposition-less list entries. Acceptance signals and containment limitations are also required. `out_of_scope` may be an empty list when the increment has no material exclusion beyond its `in_scope` statement; this is a deliberate permissiveness, not an omission. Every list is typed and bound exactly to the gate and generated handoff. Ratification does not validate every source document.
+
+Each disposition's `status` is legal only for its `disposition`, exactly as follows:
+
+| Disposition | Legal status |
+| --- | --- |
+| `blocking` | `open`, `resolved` |
+| `invalidating` | `open`, `resolved` |
+| `decision-required` | `open`, `resolved` |
+| `accepted-assumption` | `resolved` |
+| `deferred` | `deferred` |
+| `out-of-scope` | `closed` |
+| `resolved` | `resolved` |
+
+A disposition `id` is unique within the gate. `blocking`, `invalidating`, and `decision-required` items must reach `resolved` before the gate can be `awaiting-ratification` or `authorized`.
+
+`implementation-handoff-v1` is owned by `ddd` at `docs/ddd/implementation-handoff.md` and is created only after `increment_gate: authorized` plus explicit authorization. It references exact authoritative sections and revisions rather than copying them. `authority-revision-v1` is `sha256:<64 lowercase hex digits>` computed over exact artifact UTF-8 bytes; `sections` lists exact H2 headings and consumers require both the digest and headings to match. The target baseline revision is separate.
+
+```yaml
+version: implementation-handoff-v1
+authorization:
+  decision: authorized
+  owner: named decision owner
+  date: YYYY-MM-DD
+  increment_id: stable-id
+  target_repository: repository identity
+  target_runtime: runtime identity
+  baseline_revision: exact revision
+  accepted_revisions:
+    - path: docs/ddd/adoption-plan.md
+      sections: [Increment identity and outcome, Dependencies and acceptance]
+      revision: sha256:<64 lowercase hex digits>
+      role: scope-and-delivery
+  accepted_assumptions: []
+  deferred_questions: []
+  out_of_scope_questions: []
+  question_dispositions:
+    - id: Q-001
+      disposition: resolved
+      status: resolved
+      issue: later hypothesis candidate
+      impact: no impact on this increment
+      owner: named product owner
+      action: record as later hypothesis
+      affected_artifacts: []
+      revisit_trigger: next publishing increment
+  acceptance_signals: [observable signal]
+  containment_limitations: [stop/rollback limit]
+  outcome: bounded outcome
+  in_scope: [one named behavior]
+  out_of_scope: [product/runtime changes]
+  return_on_conflict: ddd-tactical
+implementation_owner: named implementation owner
+increment:
+  id: stable-id
+  outcome: bounded outcome
+target:
+  repository: repository identity
+  runtime: runtime identity
+  baseline_revision: exact revision
+authoritative_artifacts:
+  - path: docs/ddd/adoption-plan.md
+    sections: [Increment identity and outcome, Dependencies and acceptance]
+    revision: sha256:<64 lowercase hex digits>
+    role: scope-and-delivery
+in_scope: [one named behavior]
+out_of_scope: [product/runtime changes]
+accepted_assumptions: []
+deferred_questions: []
+out_of_scope_questions: []
+question_dispositions:
+  - id: Q-001
+    disposition: resolved
+    status: resolved
+    issue: later hypothesis candidate
+    impact: no impact on this increment
+    owner: named product owner
+    action: record as later hypothesis
+    affected_artifacts: []
+    revisit_trigger: next publishing increment
+acceptance_signals: [observable signal]
+containment: [stop/rollback limit]
+return_on_conflict: ddd-tactical
+```
+
+`authorization.accepted_revisions` must equal `authoritative_artifacts` exactly, including `sections` and `role`, not only path and revision. A handoff is invalid when authorization is missing, a listed artifact is stale, a revision no longer matches, a listed H2 heading is absent, or authorities conflict.
+
+## Coding-agent consumption
+
+A downstream coding workflow reads, in order: the handoff; the selected adoption increment; referenced tactical examples/rules/invariants; referenced context boundary/relationships; only explicitly listed strategic/vocabulary material; existing source/tests; and a repository-specific technical plan before editing. It implements only the authorized increment and returns to the named DDD stage when authority changes, sources are stale or conflict, behavior is absent, a new decision appears, or scope expands.
+
+## Safe create/update behavior
+
+Inspect existing paths first. Create only missing owned documents. Preserve user prose, legacy metadata, links, and provenance. Never delete, rename, or replace without explicit approval. Record conflicts instead of choosing silently. Reject unsafe paths and all product/runtime mutations.

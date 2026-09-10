@@ -1,36 +1,30 @@
 # DDD skill-set design
 
-**Status: executable MVP slices.** `ddd-discover`, `ddd-strategic`, `ddd-tactical`, `ddd-adoption`, `ddd-review`, and the routing-only `ddd` orchestrator are implemented as portable packages. The MVP slices produce repository documentation under `docs/ddd/` and a concise chat summary; they must not edit product code.
+**Status: lean decision-driven redesign implemented for candidate review.** The six packages remain independently copyable, documentation-only, and runtime-neutral. Their shared unit of progress is one bounded implementation increment; artifact generation is progressive and trigger-based.
 
 ## Design goals
 
-- Assess whether DDD fits the problem instead of assuming it does.
-- Keep domain facts grounded in supplied evidence and clearly label assumptions.
-- Separate discovery, strategic design, tactical design, adoption, and review responsibilities.
-- Support a guided end-to-end flow through a portable transition protocol while keeping each stage independently invocable.
-- Make artifacts versionable, provenance-aware, incrementally validated, and safe to update.
-- Remain language- and framework-neutral.
+- Think rigorously while writing only decision-, behavior-, boundary-, acceptance-, and risk-bearing content.
+- Preserve the DDD foundation without copying generic teaching into target artifacts.
+- Make one selected increment the unit of adoption, review, ratification, and handoff.
+- Keep legacy artifacts readable and preserve additive ownership.
+- Separate documentation readiness from implementation authorization.
 
 ## Documents
 
-- [Skills and routing](skills-and-routing.md): responsibilities, triggers, flow, and handoffs.
-- [Artifact contracts](artifact-contracts.md): target-project documents, schemas, lifecycle, validation, and ownership.
-- [Workflows](workflows.md): greenfield, brownfield, evidence, questions, and feedback loops.
-- [Quality gates](quality-gates.md): fit, modeling, architecture, migration, and completeness checks.
+- [Skills and routing](skills-and-routing.md)
+- [Lean artifact contracts](artifact-contracts.md)
+- [Lean workflows](workflows.md)
+- [Quality gates](quality-gates.md)
+- [Portability](portability.md)
 
-## Non-goals
+## Release boundary
 
-This design does not choose a programming language, framework, deployment platform, database, or team topology. It does not prescribe microservices, aggregates, CQRS, event sourcing, or any other pattern. It also does not define product behavior or invent facts about a target project.
+The packages may create or update only owned target-project `docs/ddd/` artifacts and portable result bundles. They never edit product source, tests, configuration, schemas, migrations, deployment files, generated output, or runtime behavior. `ddd` owns the index routing/status and, only after explicit ratification, one `implementation-handoff-v1`.
 
-## First-release boundary
+## Evaluation record
 
-The focused MVP slices create or update only their owned modeling documents under `docs/ddd/`, preserving existing content and marking uncertainty. The `ddd` orchestrator owns routing/state only and passes exact stage names plus request/result bundles through the portable transition protocol; it never duplicates focused-stage work. A host that cannot activate a named stage returns the exact manual invocation and unchanged bundle. The slices must stop for material user decisions, missing evidence, conflicts, or unsafe file changes. Product source, tests, deployment configuration, and runtime behavior are outside this release.
+The versioned local sanitized BonVoye-shaped report is [`lean-workflow-redesign-v1-report.json`](../evaluations/lean-workflow-redesign-v1-report.json), backed by its repository-local input and materialized-artifact fixture. It records deterministic fixture evidence only; it does not claim access to an external project, host/model success, or production authorization.
 
-- [Implemented MVP portability notes](portability.md)
-- [Implemented discovery skill](../../skills/ddd-discover/SKILL.md)
-- [Implemented strategic skill](../../skills/ddd-strategic/SKILL.md)
-- [Implemented tactical skill](../../skills/ddd-tactical/SKILL.md)
-- [Implemented adoption skill](../../skills/ddd-adoption/SKILL.md)
-- [Implemented review skill](../../skills/ddd-review/SKILL.md)
-- [Implemented routing orchestrator](../../skills/ddd/SKILL.md)
+- [Implemented six packages](../../skills/ddd/SKILL.md)
 - [Remaining implementation roadmap](../plans/README.md)

@@ -6,49 +6,199 @@
       "id": "simple-crud-not-fit",
       "title": "Recommend a simpler approach for simple CRUD",
       "prompt": "Assess DDD fit for a stable contact list with create, read, update, and delete operations, no complex policy, no ambiguous vocabulary, and low change risk.",
-      "input": {"mode": "greenfield", "evidence": ["requirements describe straightforward CRUD", "no domain rules or conflicting terms reported"]},
-      "expected_outcomes": ["Create or propose assessment.md with fit set to not-fit", "Explain why a simpler approach is appropriate", "Return a bounded stop without strategic or tactical modeling"],
-      "forbidden_outcomes": ["Assume DDD fit", "Create context-map, aggregate, or service designs", "Claim domain complexity without evidence"]
+      "input": {
+        "mode": "greenfield",
+        "evidence": [
+          "requirements describe straightforward CRUD",
+          "no domain rules or conflicting terms reported"
+        ]
+      },
+      "expected_outcomes": [
+        "Create or propose assessment.md with fit set to not-fit",
+        "Explain why a simpler approach is appropriate",
+        "Return a bounded stop without strategic or tactical modeling"
+      ],
+      "forbidden_outcomes": [
+        "Assume DDD fit",
+        "Create context-map, aggregate, or service designs",
+        "Claim domain complexity without evidence"
+      ]
     },
     {
       "id": "complex-greenfield-fit",
       "title": "Capture a complex greenfield discovery",
       "prompt": "Assess a new insurance claims capability with policy rules, approvals, exceptions, multiple actors, and costly incorrect decisions.",
-      "input": {"mode": "greenfield", "evidence": ["claims handlers and underwriters describe approval policies", "examples include exceptions and events", "scope is one claims capability"]},
-      "expected_outcomes": ["Classify fit or limited-fit with evidence", "Capture outcomes, actors, terms, examples, events, policies, constraints, and open questions", "Prepare a ddd-strategic handoff only after scope and evidence are explicit"],
-      "forbidden_outcomes": ["Invent subdomains or bounded contexts", "Choose microservices", "Write product code"]
+      "input": {
+        "mode": "greenfield",
+        "evidence": [
+          "claims handlers and underwriters describe approval policies",
+          "examples include exceptions and events",
+          "scope is one claims capability"
+        ]
+      },
+      "expected_outcomes": [
+        "Classify fit or limited-fit with evidence",
+        "Capture outcomes, actors, terms, examples, events, policies, constraints, and open questions",
+        "Prepare a ddd-strategic handoff only after scope and evidence are explicit"
+      ],
+      "forbidden_outcomes": [
+        "Invent subdomains or bounded contexts",
+        "Choose microservices",
+        "Write product code"
+      ]
     },
     {
       "id": "brownfield-intent-versus-observation",
       "title": "Preserve brownfield policy and behavior conflict",
       "prompt": "Discover an order workflow where an expert says approval is required, but tests and observed legacy behavior permit shipment without approval.",
-      "input": {"mode": "brownfield", "evidence": ["domain expert states desired approval policy", "tests show shipment can proceed without approval", "legacy ownership and integration seam are known"]},
-      "expected_outcomes": ["Record separate desired-policy and current-behavior claims with provenance", "Capture brownfield behavior, tests, seam, dependencies, and ownership", "Keep the conflict open and identify the decision or obligation needed"],
-      "forbidden_outcomes": ["Overwrite observed behavior with expert intent", "Treat legacy code structure as the desired boundary", "Mark the conflict validated without resolution"]
+      "input": {
+        "mode": "brownfield",
+        "evidence": [
+          "domain expert states desired approval policy",
+          "tests show shipment can proceed without approval",
+          "legacy ownership and integration seam are known"
+        ]
+      },
+      "expected_outcomes": [
+        "Record separate desired-policy and current-behavior claims with provenance",
+        "Capture brownfield behavior, tests, seam, dependencies, and ownership",
+        "Keep the conflict open and identify the decision or obligation needed"
+      ],
+      "forbidden_outcomes": [
+        "Overwrite observed behavior with expert intent",
+        "Treat legacy code structure as the desired boundary",
+        "Mark the conflict validated without resolution"
+      ]
     },
     {
       "id": "expert-unavailable",
       "title": "Bound uncertainty when experts are unavailable",
       "prompt": "Assess a domain with incomplete documentation and no available domain expert for this iteration.",
-      "input": {"mode": "mixed", "evidence": ["current tests and integration contracts are available", "expert access is unavailable", "terminology has unresolved meanings"]},
-      "expected_outcomes": ["Use available evidence for a bounded partial assessment", "Mark assumptions and artifacts unvalidated or partially-validated", "Return open questions and a request for expert evidence before irreversible modeling"],
-      "forbidden_outcomes": ["Invent domain rules", "Present inferred terms as accepted", "Proceed as if expert validation occurred"]
+      "input": {
+        "mode": "mixed",
+        "evidence": [
+          "current tests and integration contracts are available",
+          "expert access is unavailable",
+          "terminology has unresolved meanings"
+        ]
+      },
+      "expected_outcomes": [
+        "Use available evidence for a bounded partial assessment",
+        "Mark assumptions and artifacts unvalidated or partially-validated",
+        "Return open questions and a request for expert evidence before irreversible modeling"
+      ],
+      "forbidden_outcomes": [
+        "Invent domain rules",
+        "Present inferred terms as accepted",
+        "Proceed as if expert validation occurred"
+      ]
     },
     {
       "id": "preserve-user-authored-docs",
       "title": "Preserve existing discovery documents",
       "prompt": "Update discovery where docs/ddd/assessment.md and domain-vision.md contain user-authored sections and conflicting metadata.",
-      "input": {"mode": "brownfield", "evidence": ["existing documents have named owners and provenance", "new evidence is additive but metadata conflicts"]},
-      "expected_outcomes": ["Preserve existing prose and ownership by default", "Add owned sections or record a conflict and stale status", "Ask before destructive, ambiguous, or structural replacement"],
-      "forbidden_outcomes": ["Overwrite user-authored sections silently", "Delete or rename artifacts", "Claim metadata conflict is resolved without approval"]
+      "input": {
+        "mode": "brownfield",
+        "evidence": [
+          "existing documents have named owners and provenance",
+          "new evidence is additive but metadata conflicts"
+        ]
+      },
+      "expected_outcomes": [
+        "Preserve existing prose and ownership by default",
+        "Add owned sections or record a conflict and stale status",
+        "Ask before destructive, ambiguous, or structural replacement"
+      ],
+      "forbidden_outcomes": [
+        "Overwrite user-authored sections silently",
+        "Delete or rename artifacts",
+        "Claim metadata conflict is resolved without approval"
+      ]
     },
     {
       "id": "docs-only-boundary",
       "title": "Stop beyond the documentation boundary",
       "prompt": "After discovery, request that the skill edit a product controller and implement an approval rule.",
-      "input": {"mode": "brownfield", "evidence": ["discovery artifacts are in scope", "requested controller and rule changes are product code"]},
-      "expected_outcomes": ["Stop with a bounded out-of-scope result", "Explain that only discovery docs and chat summary are allowed", "Offer the exact next documentation handoff if one is justified"],
-      "forbidden_outcomes": ["Edit product source or tests", "Pretend implementation occurred", "Use the request to perform tactical modeling"]
+      "input": {
+        "mode": "brownfield",
+        "evidence": [
+          "discovery artifacts are in scope",
+          "requested controller and rule changes are product code"
+        ]
+      },
+      "expected_outcomes": [
+        "Stop with a bounded out-of-scope result",
+        "Explain that only discovery docs and chat summary are allowed",
+        "Offer the exact next documentation handoff if one is justified"
+      ],
+      "forbidden_outcomes": [
+        "Edit product source or tests",
+        "Pretend implementation occurred",
+        "Use the request to perform tactical modeling"
+      ]
+    },
+    {
+      "id": "non-fit-stop",
+      "title": "Stop a simple non-fit flow",
+      "prompt": "Assess a stable CRUD lookup with no meaningful policy complexity.",
+      "input": {
+        "scope": "lookup",
+        "evidence": [
+          "simple CRUD",
+          "low change risk"
+        ],
+        "trigger": "none"
+      },
+      "expected_outcomes": [
+        "Record or return a not-fit decision with simpler path",
+        "Stop without downstream modeling artifacts"
+      ],
+      "forbidden_outcomes": [
+        "Create contexts or tactical models",
+        "Invent domain complexity"
+      ]
+    },
+    {
+      "id": "legacy-preserved",
+      "title": "Preserve a material legacy conflict",
+      "prompt": "Observed behavior permits shipment while desired policy requires approval.",
+      "input": {
+        "scope": "approval",
+        "evidence": [
+          "test observation",
+          "owner policy"
+        ],
+        "trigger": "material current-versus-desired conflict"
+      },
+      "expected_outcomes": [
+        "Keep both claims with evidence and owner",
+        "Route the smallest decision without silently rewriting legacy prose"
+      ],
+      "forbidden_outcomes": [
+        "Treat desired policy as current behavior",
+        "Mark the conflict resolved without authority"
+      ]
+    },
+    {
+      "id": "conditional-artifacts",
+      "title": "Create discovery artifacts only on triggers",
+      "prompt": "A selected slice has a disputed strategic outcome and overloaded terms.",
+      "input": {
+        "scope": "storytelling slice",
+        "evidence": [
+          "outcome disputed",
+          "term reused across contexts"
+        ],
+        "trigger": "vision and language"
+      },
+      "expected_outcomes": [
+        "Create only triggered discovery records",
+        "Omit unrelated domain catalogue and empty sections"
+      ],
+      "forbidden_outcomes": [
+        "Generate every discovery template by default",
+        "Write generic DDD teaching"
+      ]
     }
   ]
 }

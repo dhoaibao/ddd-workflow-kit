@@ -6,73 +6,288 @@
       "id": "insufficient-discovery",
       "title": "Return to discovery when evidence is weak",
       "prompt": "Run strategic design with a discovery result that has no meaningful outcome, sparse vocabulary, and no concrete scenarios.",
-      "input": {"fit": "fit", "evidence": ["one vague capability label"]},
-      "expected_outcomes": ["Return the exact ddd-discover handoff or bounded stop", "Identify missing outcome, vocabulary, and evidence", "Do not create validated contexts"],
-      "forbidden_outcomes": ["Invent boundaries", "Proceed to tactical design", "Treat a vague label as adequate evidence"]
+      "input": {
+        "fit": "fit",
+        "evidence": [
+          "one vague capability label"
+        ]
+      },
+      "expected_outcomes": [
+        "Return the exact ddd-discover handoff or bounded stop",
+        "Identify missing outcome, vocabulary, and evidence",
+        "Do not create validated contexts"
+      ],
+      "forbidden_outcomes": [
+        "Invent boundaries",
+        "Proceed to tactical design",
+        "Treat a vague label as adequate evidence"
+      ]
     },
     {
       "id": "subdomain-classification",
       "title": "Classify subdomains as hypotheses",
       "prompt": "Map a claims domain with evidence that fraud detection differentiates the business, billing supports operations, and identity is a commodity capability.",
-      "input": {"fit": "fit", "outcome": "decide and settle claims", "evidence": ["expert rationale and examples for each capability"]},
-      "expected_outcomes": ["Record core, supporting, and generic classifications with rationale", "Keep each classification a proposed or validated hypothesis with evidence and revisit signals", "Produce a domain map without designing aggregates"],
-      "forbidden_outcomes": ["State classifications as universal facts", "Infer microservices from classifications", "Invent unsupported capabilities"]
+      "input": {
+        "fit": "fit",
+        "outcome": "decide and settle claims",
+        "evidence": [
+          "expert rationale and examples for each capability"
+        ]
+      },
+      "expected_outcomes": [
+        "Record core, supporting, and generic classifications with rationale",
+        "Keep each classification a proposed or validated hypothesis with evidence and revisit signals",
+        "Produce a domain map without designing aggregates"
+      ],
+      "forbidden_outcomes": [
+        "State classifications as universal facts",
+        "Infer microservices from classifications",
+        "Invent unsupported capabilities"
+      ]
     },
     {
       "id": "overloaded-language",
       "title": "Preserve context-specific meanings",
       "prompt": "Strategically model a project where account means a billing relationship in one area and an authenticated identity in another.",
-      "input": {"fit": "fit", "outcome": "manage customer access and billing", "evidence": ["billing and identity owners define different meanings"]},
-      "expected_outcomes": ["Record separate term meanings by context", "Add conflict or translation notes and provenance", "Avoid forcing one global definition"],
-      "forbidden_outcomes": ["Merge meanings because spelling matches", "Call the term universally validated", "Use the conflict to choose a deployment architecture"]
+      "input": {
+        "fit": "fit",
+        "outcome": "manage customer access and billing",
+        "evidence": [
+          "billing and identity owners define different meanings"
+        ]
+      },
+      "expected_outcomes": [
+        "Record separate term meanings by context",
+        "Add conflict or translation notes and provenance",
+        "Avoid forcing one global definition"
+      ],
+      "forbidden_outcomes": [
+        "Merge meanings because spelling matches",
+        "Call the term universally validated",
+        "Use the conflict to choose a deployment architecture"
+      ]
     },
     {
       "id": "context-not-microservice",
       "title": "Keep bounded context distinct from deployment",
       "prompt": "Define a bounded context for underwriting when the requester suggests making every context a microservice.",
-      "input": {"fit": "fit", "outcome": "evaluate risk", "evidence": ["underwriting has coherent policy language and decision ownership"]},
-      "expected_outcomes": ["Define a model/language boundary with rationale", "State that deployment is a separate decision", "Evaluate operational evidence before recommending a service split"],
-      "forbidden_outcomes": ["Automatically create a microservice boundary", "Choose a database or team", "Treat current modules as domain truth"]
+      "input": {
+        "fit": "fit",
+        "outcome": "evaluate risk",
+        "evidence": [
+          "underwriting has coherent policy language and decision ownership"
+        ]
+      },
+      "expected_outcomes": [
+        "Define a model/language boundary with rationale",
+        "State that deployment is a separate decision",
+        "Evaluate operational evidence before recommending a service split"
+      ],
+      "forbidden_outcomes": [
+        "Automatically create a microservice boundary",
+        "Choose a database or team",
+        "Treat current modules as domain truth"
+      ]
     },
     {
       "id": "directional-relationship",
       "title": "Record relationship direction and translation",
       "prompt": "Map a policy context that supplies approved limits to a settlement context that consumes them.",
-      "input": {"fit": "fit", "outcome": "settle approved claims", "evidence": ["policy owns limit decisions", "settlement translates approved-limit data", "delivery failure is retried"]},
-      "expected_outcomes": ["Record policy as upstream and settlement as downstream", "Document ownership, contract, translation, consistency, and failure assumptions", "Preserve uncertainty where communication details are unknown"],
-      "forbidden_outcomes": ["Reverse relationship direction without evidence", "Apply a relationship label mechanically", "Hide delivery or translation assumptions"]
+      "input": {
+        "fit": "fit",
+        "outcome": "settle approved claims",
+        "evidence": [
+          "policy owns limit decisions",
+          "settlement translates approved-limit data",
+          "delivery failure is retried"
+        ]
+      },
+      "expected_outcomes": [
+        "Record policy as upstream and settlement as downstream",
+        "Document ownership, contract, translation, consistency, and failure assumptions",
+        "Preserve uncertainty where communication details are unknown"
+      ],
+      "forbidden_outcomes": [
+        "Reverse relationship direction without evidence",
+        "Apply a relationship label mechanically",
+        "Hide delivery or translation assumptions"
+      ]
     },
     {
       "id": "preserve-strategic-docs",
       "title": "Preserve user-authored strategic artifacts",
       "prompt": "Update a domain map and context map that contain user-authored sections, a filename collision, an ambiguous traversal-like context label, and an unclear ownership change.",
-      "input": {"fit": "fit", "outcome": "clarify one capability boundary", "evidence": ["existing documents have owners and provenance", "new proposal conflicts with a context filename", "a proposed label normalizes ambiguously or resembles path traversal"]},
-      "expected_outcomes": ["Preserve existing content and ownership", "Ask before destructive, ambiguous, structural changes, collision replacement, or unsafe slug normalization", "Use additive sections and record conflicts or stale status", "Verify a resolved context path stays directly under docs/ddd/contexts before writing"],
-      "forbidden_outcomes": ["Overwrite or rename a context silently", "Delete user-authored rationale", "Claim ownership changed without approval", "Write a context artifact outside docs/ddd/contexts"]
+      "input": {
+        "fit": "fit",
+        "outcome": "clarify one capability boundary",
+        "evidence": [
+          "existing documents have owners and provenance",
+          "new proposal conflicts with a context filename",
+          "a proposed label normalizes ambiguously or resembles path traversal"
+        ]
+      },
+      "expected_outcomes": [
+        "Preserve existing content and ownership",
+        "Ask before destructive, ambiguous, structural changes, collision replacement, or unsafe slug normalization",
+        "Use additive sections and record conflicts or stale status",
+        "Verify a resolved context path stays directly under docs/ddd/contexts before writing"
+      ],
+      "forbidden_outcomes": [
+        "Overwrite or rename a context silently",
+        "Delete user-authored rationale",
+        "Claim ownership changed without approval",
+        "Write a context artifact outside docs/ddd/contexts"
+      ]
     },
     {
       "id": "downstream-invalidation",
       "title": "Invalidate downstream assumptions after new evidence",
       "prompt": "New evidence shows two proposed contexts share a consistency invariant previously modeled as independent.",
-      "input": {"fit": "fit", "outcome": "approve and settle claims", "evidence": ["new domain-expert scenario requires immediate shared consistency", "existing tactical and adoption assumptions are independent"]},
-      "expected_outcomes": ["Mark affected tactical and adoption stages or artifacts stale", "Record the new evidence and boundary uncertainty", "Route review back to strategic design before tactical work continues"],
-      "forbidden_outcomes": ["Silently rewrite tactical artifacts", "Claim boundaries remain validated without review", "Ignore the consistency evidence"]
+      "input": {
+        "fit": "fit",
+        "outcome": "approve and settle claims",
+        "evidence": [
+          "new domain-expert scenario requires immediate shared consistency",
+          "existing tactical and adoption assumptions are independent"
+        ]
+      },
+      "expected_outcomes": [
+        "Mark affected tactical and adoption stages or artifacts stale",
+        "Record the new evidence and boundary uncertainty",
+        "Route review back to strategic design before tactical work continues"
+      ],
+      "forbidden_outcomes": [
+        "Silently rewrite tactical artifacts",
+        "Claim boundaries remain validated without review",
+        "Ignore the consistency evidence"
+      ]
     },
     {
       "id": "not-fit-conflict",
       "title": "Do not override discovery non-fit",
       "prompt": "A discovery result says not-fit for a simple catalog, but a requester asks for bounded contexts without new evidence.",
-      "input": {"fit": "not-fit", "outcome": "maintain a simple catalog", "evidence": ["stable CRUD and no complex policy"]},
-      "expected_outcomes": ["Preserve the not-fit result", "Return a bounded decision request or exact ddd-discover handoff", "Require new evidence or explicit user direction before strategic modeling"],
-      "forbidden_outcomes": ["Silently override not-fit", "Create contexts to satisfy the request", "Present generic DDD guidance as project evidence"]
+      "input": {
+        "fit": "not-fit",
+        "outcome": "maintain a simple catalog",
+        "evidence": [
+          "stable CRUD and no complex policy"
+        ]
+      },
+      "expected_outcomes": [
+        "Preserve the not-fit result",
+        "Return a bounded decision request or exact ddd-discover handoff",
+        "Require new evidence or explicit user direction before strategic modeling"
+      ],
+      "forbidden_outcomes": [
+        "Silently override not-fit",
+        "Create contexts to satisfy the request",
+        "Present generic DDD guidance as project evidence"
+      ]
     },
     {
       "id": "select-one-ready-context",
       "title": "Select one context for tactical handoff",
       "prompt": "Two bounded contexts are sufficiently validated for a strategic objective, but the next tactical slice must be bounded to one context.",
-      "input": {"fit": "fit", "outcome": "approve and settle claims", "contexts": [{"name": "Policy", "validation": "validated"}, {"name": "Settlement", "validation": "validated"}], "objective_priority": "settle the currently approved claim flow", "evidence": ["the objective prioritizes settlement for this slice", "both contexts have concrete scenarios and ownership"]},
-      "expected_outcomes": ["Select exactly one context using the explicit objective and evidence", "Emit a ddd-tactical request for the selected context only", "Record the other ready context without including it in the tactical bundle"],
-      "forbidden_outcomes": ["Emit a multi-context tactical request", "Pretend the other context is unvalidated", "Choose silently when the objective or user priority does not support a material selection"]
+      "input": {
+        "fit": "fit",
+        "outcome": "approve and settle claims",
+        "contexts": [
+          {
+            "name": "Policy",
+            "validation": "validated"
+          },
+          {
+            "name": "Settlement",
+            "validation": "validated"
+          }
+        ],
+        "objective_priority": "settle the currently approved claim flow",
+        "evidence": [
+          "the objective prioritizes settlement for this slice",
+          "both contexts have concrete scenarios and ownership"
+        ]
+      },
+      "expected_outcomes": [
+        "Select exactly one context using the explicit objective and evidence",
+        "Emit a ddd-tactical request for the selected context only",
+        "Record the other ready context without including it in the tactical bundle"
+      ],
+      "forbidden_outcomes": [
+        "Emit a multi-context tactical request",
+        "Pretend the other context is unvalidated",
+        "Choose silently when the objective or user priority does not support a material selection"
+      ]
+    },
+    {
+      "id": "one-context-slice",
+      "title": "Select one context and omit unrelated documents",
+      "prompt": "Model one Storytelling Experience slice while other contexts are not required by a current relationship.",
+      "input": {
+        "outcome": "characterize storytelling behavior",
+        "selected_context": "storytelling-experience",
+        "evidence": [
+          "one bounded slice",
+          "no current cross-context dependency"
+        ],
+        "conditional_triggers": []
+      },
+      "expected_outcomes": [
+        "Create one selected context with explicit boundary and owner",
+        "Omit unrelated contexts and untriggered maps"
+      ],
+      "forbidden_outcomes": [
+        "Generate a whole-domain context catalogue",
+        "Select multiple tactical contexts"
+      ]
+    },
+    {
+      "id": "conditional-strategic-artifacts",
+      "title": "Trigger strategic artifacts only when needed",
+      "prompt": "Two contexts exchange a translated contract that affects the selected increment and an overloaded term changes the boundary.",
+      "input": {
+        "outcome": "translate approved story metadata",
+        "selected_context": "storytelling-experience",
+        "evidence": [
+          "directional relationship",
+          "overloaded term"
+        ],
+        "conditional_triggers": [
+          "context-map",
+          "ubiquitous-language"
+        ]
+      },
+      "expected_outcomes": [
+        "Record only touched relationship direction and translation",
+        "Create conditional map/language records with evidence"
+      ],
+      "forbidden_outcomes": [
+        "Invent unrelated context documents",
+        "Treat a bounded context as a deployment service"
+      ]
+    },
+    {
+      "id": "boundary-conflict-stale",
+      "title": "Route a changed boundary to the earliest owner",
+      "prompt": "New evidence invalidates the selected context boundary and downstream tactical assumptions.",
+      "input": {
+        "outcome": "reserve a story slot",
+        "selected_context": "storytelling-experience",
+        "evidence": [
+          "immediate invariant crosses boundary"
+        ],
+        "downstream": [
+          "models/storytelling-experience.md",
+          "adoption-plan.md"
+        ]
+      },
+      "expected_outcomes": [
+        "Preserve the conflict and mark downstream artifacts stale",
+        "Route to strategic with owner, evidence, action, and revisit trigger"
+      ],
+      "forbidden_outcomes": [
+        "Silently rewrite tactical artifacts",
+        "Continue to adoption as if boundary remained current"
+      ]
     }
   ]
 }

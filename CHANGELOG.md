@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Lean decision-driven DDD workflow across all six packages: one bounded increment, conditional artifacts, lean metadata, exception-based review, a consolidated decision queue, explicit human ratification, and revision-bound `implementation-handoff-v1` authorization.
+- Local sanitized BonVoye-shaped redesign evaluation report covering one Storytelling Experience context, seven deterministic fixture scenarios, pre/post-authorization artifact profiles, and static-validation limitations.
+
+### Changed
+
+- Preserved `ddd-routing-v1` compatibility while adding the `ddd-implementation-gate-v1` extension; legacy target artifacts remain readable and documentation-only/runtime-neutral boundaries remain enforced.
+- Closed authorization-boundary gaps with exact gate schemas, normalized logical authority paths, typed uncertainty routing, separately fielded implementation/decision owners (consistent across adoption, review, gate, and handoff), durable declined-decision markers, immutable pre/post fixture transitions, and exact authorized-index next actions.
+
 ## [0.2.0] - 2026-09-10
 
 ### Added

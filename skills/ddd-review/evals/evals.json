@@ -7,90 +7,996 @@
       "category": "fit",
       "title": "Preserve a non-fit discovery result",
       "prompt": "Review an assessment that says a simple CRUD workflow is not a DDD fit.",
-      "input": {"entry_status": "complete", "review_scope": "claims lookup workflow", "requested_artifacts": ["docs/ddd/assessment.md"], "available_artifacts": ["docs/ddd/assessment.md"], "evidence": ["assessment records simple CRUD and low change risk"], "acceptance_criteria": ["Preserve the non-fit result with rationale"], "allowed_paths": ["docs/ddd/review.md"], "return_to": "ddd-review", "artifact_summaries": [{"path": "docs/ddd/assessment.md", "status": "active", "validation": "validated", "owner": "ddd-discover", "provenance": "workflow evidence"}], "gate_results": {"fit": "pass", "provenance": "pass", "lifecycle_schema": "pass", "vocabulary": "not-applicable", "strategic_tactical": "not-applicable", "adoption_safety": "not-applicable", "cross_artifact": "pass"}, "findings": [{"severity": "info", "evidence": "Assessment records simple CRUD and low change risk", "provenance": "assessment.md", "owner": "ddd-discover", "action": "Prefer the simpler approach", "status": "accepted", "affected_artifact": "docs/ddd/assessment.md", "earliest_stage": "ddd-discover"}]},
-      "expected_outcomes": ["Preserve the not-fit decision and its evidence", "Do not force contexts or tactical patterns", "Return documentation readiness only if the scoped review is coherent"],
-      "forbidden_outcomes": ["Override not-fit without new evidence", "Invent domain complexity", "Approve implementation"]
+      "input": {
+        "entry_status": "complete",
+        "review_scope": "claims lookup workflow",
+        "requested_artifacts": [
+          "docs/ddd/assessment.md"
+        ],
+        "available_artifacts": [
+          "docs/ddd/assessment.md"
+        ],
+        "evidence": [
+          "assessment records simple CRUD and low change risk"
+        ],
+        "acceptance_criteria": [
+          "Preserve the non-fit result with rationale"
+        ],
+        "allowed_paths": [
+          "docs/ddd/review.md"
+        ],
+        "return_to": "ddd-review",
+        "artifact_summaries": [
+          {
+            "path": "docs/ddd/assessment.md",
+            "status": "active",
+            "validation": "validated",
+            "owner": "ddd-discover",
+            "provenance": "workflow evidence"
+          }
+        ],
+        "gate_results": {
+          "fit": "pass",
+          "provenance": "pass",
+          "lifecycle_schema": "pass",
+          "vocabulary": "not-applicable",
+          "strategic_tactical": "not-applicable",
+          "adoption_safety": "not-applicable",
+          "cross_artifact": "pass"
+        },
+        "findings": [
+          {
+            "severity": "info",
+            "evidence": "Assessment records simple CRUD and low change risk",
+            "provenance": "assessment.md",
+            "owner": "ddd-discover",
+            "action": "Prefer the simpler approach",
+            "status": "accepted",
+            "affected_artifact": "docs/ddd/assessment.md",
+            "earliest_stage": "ddd-discover"
+          }
+        ]
+      },
+      "expected_outcomes": [
+        "Preserve the not-fit decision and its evidence",
+        "Do not force contexts or tactical patterns",
+        "Return documentation readiness only if the scoped review is coherent"
+      ],
+      "forbidden_outcomes": [
+        "Override not-fit without new evidence",
+        "Invent domain complexity",
+        "Approve implementation"
+      ]
     },
     {
       "id": "provenance-gap",
       "category": "provenance",
       "title": "Report an unsupported claim",
       "prompt": "Review a domain claim marked as fact without a source, owner, or validation record.",
-      "input": {"entry_status": "complete", "review_scope": "approval policy evidence", "requested_artifacts": ["docs/ddd/domain-vision.md"], "available_artifacts": ["docs/ddd/domain-vision.md"], "evidence": ["claim has no source or validation"], "acceptance_criteria": ["Find the provenance gap"], "allowed_paths": ["docs/ddd/review.md"], "return_to": "ddd-discover", "artifact_summaries": [{"path": "docs/ddd/domain-vision.md", "status": "draft", "validation": "unvalidated", "owner": "ddd-discover", "provenance": "missing"}], "gate_results": {"fit": "follow-up", "provenance": "blocked", "lifecycle_schema": "follow-up", "vocabulary": "not-applicable", "strategic_tactical": "not-applicable", "adoption_safety": "not-applicable", "cross_artifact": "follow-up"}, "findings": [{"severity": "blocked", "evidence": "Claim is labeled fact but has no source, owner, or validation", "provenance": "Missing in domain-vision.md", "owner": "ddd-discover", "action": "Collect source and validate the claim", "status": "routed", "affected_artifact": "docs/ddd/domain-vision.md", "earliest_stage": "ddd-discover"}]},
-      "expected_outcomes": ["Record a complete provenance finding", "Route to discovery without marking the claim validated", "Preserve the unsupported claim as unresolved"],
-      "forbidden_outcomes": ["Promote the claim to fact", "Invent a source", "Silently rewrite domain vision"]
+      "input": {
+        "entry_status": "complete",
+        "review_scope": "approval policy evidence",
+        "requested_artifacts": [
+          "docs/ddd/domain-vision.md"
+        ],
+        "available_artifacts": [
+          "docs/ddd/domain-vision.md"
+        ],
+        "evidence": [
+          "claim has no source or validation"
+        ],
+        "acceptance_criteria": [
+          "Find the provenance gap"
+        ],
+        "allowed_paths": [
+          "docs/ddd/review.md"
+        ],
+        "return_to": "ddd-discover",
+        "artifact_summaries": [
+          {
+            "path": "docs/ddd/domain-vision.md",
+            "status": "draft",
+            "validation": "unvalidated",
+            "owner": "ddd-discover",
+            "provenance": "missing"
+          }
+        ],
+        "gate_results": {
+          "fit": "follow-up",
+          "provenance": "blocked",
+          "lifecycle_schema": "follow-up",
+          "vocabulary": "not-applicable",
+          "strategic_tactical": "not-applicable",
+          "adoption_safety": "not-applicable",
+          "cross_artifact": "follow-up"
+        },
+        "findings": [
+          {
+            "severity": "blocked",
+            "evidence": "Claim is labeled fact but has no source, owner, or validation",
+            "provenance": "Missing in domain-vision.md",
+            "owner": "ddd-discover",
+            "action": "Collect source and validate the claim",
+            "status": "routed",
+            "affected_artifact": "docs/ddd/domain-vision.md",
+            "earliest_stage": "ddd-discover"
+          }
+        ]
+      },
+      "expected_outcomes": [
+        "Record a complete provenance finding",
+        "Route to discovery without marking the claim validated",
+        "Preserve the unsupported claim as unresolved"
+      ],
+      "forbidden_outcomes": [
+        "Promote the claim to fact",
+        "Invent a source",
+        "Silently rewrite domain vision"
+      ]
     },
     {
       "id": "lifecycle-schema-gap",
       "category": "lifecycle/schema",
       "title": "Find missing metadata and stale lifecycle",
       "prompt": "Review a context model with missing owner and open-questions metadata and validation status stale after a boundary change.",
-      "input": {"entry_status": "complete", "review_scope": "Claims tactical model", "requested_artifacts": ["docs/ddd/models/claims.md"], "available_artifacts": ["docs/ddd/models/claims.md"], "evidence": ["owner and open_questions fields are absent", "boundary changed after model update"], "acceptance_criteria": ["Identify missing schema and stale status"], "allowed_paths": ["docs/ddd/review.md"], "return_to": "ddd-tactical", "artifact_summaries": [{"path": "docs/ddd/models/claims.md", "status": "active", "validation": "stale", "owner": "missing", "provenance": "boundary decision record"}], "gate_results": {"fit": "pass", "provenance": "pass", "lifecycle_schema": "blocked", "vocabulary": "follow-up", "strategic_tactical": "blocked", "adoption_safety": "follow-up", "cross_artifact": "blocked"}, "findings": [{"severity": "invalidated", "evidence": "Boundary changed and model validation is stale", "provenance": "context-map change record", "owner": "ddd-strategic", "action": "Revalidate boundary, then refresh tactical owner and open questions", "status": "routed", "affected_artifact": "docs/ddd/models/claims.md", "earliest_stage": "ddd-strategic"}]},
-      "expected_outcomes": ["Report exact missing lifecycle/schema fields", "Mark the model stale rather than silently repairing it", "Route to the earliest affected strategic stage"],
-      "forbidden_outcomes": ["Mark stale work active without evidence", "Fill metadata from inference", "Approve tactical readiness"]
+      "input": {
+        "entry_status": "complete",
+        "review_scope": "Claims tactical model",
+        "requested_artifacts": [
+          "docs/ddd/models/claims.md"
+        ],
+        "available_artifacts": [
+          "docs/ddd/models/claims.md"
+        ],
+        "evidence": [
+          "owner and open_questions fields are absent",
+          "boundary changed after model update"
+        ],
+        "acceptance_criteria": [
+          "Identify missing schema and stale status"
+        ],
+        "allowed_paths": [
+          "docs/ddd/review.md"
+        ],
+        "return_to": "ddd-tactical",
+        "artifact_summaries": [
+          {
+            "path": "docs/ddd/models/claims.md",
+            "status": "active",
+            "validation": "stale",
+            "owner": "missing",
+            "provenance": "boundary decision record"
+          }
+        ],
+        "gate_results": {
+          "fit": "pass",
+          "provenance": "pass",
+          "lifecycle_schema": "blocked",
+          "vocabulary": "follow-up",
+          "strategic_tactical": "blocked",
+          "adoption_safety": "follow-up",
+          "cross_artifact": "blocked"
+        },
+        "findings": [
+          {
+            "severity": "invalidated",
+            "evidence": "Boundary changed and model validation is stale",
+            "provenance": "context-map change record",
+            "owner": "ddd-strategic",
+            "action": "Revalidate boundary, then refresh tactical owner and open questions",
+            "status": "routed",
+            "affected_artifact": "docs/ddd/models/claims.md",
+            "earliest_stage": "ddd-strategic"
+          }
+        ]
+      },
+      "expected_outcomes": [
+        "Report exact missing lifecycle/schema fields",
+        "Mark the model stale rather than silently repairing it",
+        "Route to the earliest affected strategic stage"
+      ],
+      "forbidden_outcomes": [
+        "Mark stale work active without evidence",
+        "Fill metadata from inference",
+        "Approve tactical readiness"
+      ]
     },
     {
       "id": "vocabulary-conflict",
       "category": "vocabulary",
       "title": "Preserve context-specific meanings",
       "prompt": "Review the term Account where Billing means a payer relationship and Identity means a login identity.",
-      "input": {"entry_status": "complete", "review_scope": "Account vocabulary across Billing and Identity", "requested_artifacts": ["docs/ddd/ubiquitous-language.md", "docs/ddd/context-map.md"], "available_artifacts": ["docs/ddd/ubiquitous-language.md", "docs/ddd/context-map.md"], "evidence": ["two owners define Account differently"], "acceptance_criteria": ["Preserve definitions and require translation"], "allowed_paths": ["docs/ddd/review.md"], "return_to": "ddd-strategic", "artifact_summaries": [{"path": "docs/ddd/ubiquitous-language.md", "status": "active", "validation": "partially-validated", "owner": "ddd-strategic", "provenance": "Billing and Identity owners"}, {"path": "docs/ddd/context-map.md", "status": "active", "validation": "partially-validated", "owner": "ddd-strategic", "provenance": "relationship notes"}], "gate_results": {"fit": "pass", "provenance": "pass", "lifecycle_schema": "pass", "vocabulary": "blocked", "strategic_tactical": "follow-up", "adoption_safety": "not-applicable", "cross_artifact": "follow-up"}, "findings": [{"severity": "follow-up", "evidence": "Account has distinct payer and login meanings", "provenance": "Billing and Identity owner statements", "owner": "ddd-strategic", "action": "Record translations and confirm relationship direction", "status": "routed", "affected_artifact": "docs/ddd/ubiquitous-language.md", "earliest_stage": "ddd-strategic"}]},
-      "expected_outcomes": ["Keep both meanings with owners and provenance", "Require explicit translation or relationship notes", "Route vocabulary ownership to strategic design"],
-      "forbidden_outcomes": ["Merge meanings by spelling", "Invent a shared Account model", "Approve tactical integration"]
+      "input": {
+        "entry_status": "complete",
+        "review_scope": "Account vocabulary across Billing and Identity",
+        "requested_artifacts": [
+          "docs/ddd/ubiquitous-language.md",
+          "docs/ddd/context-map.md"
+        ],
+        "available_artifacts": [
+          "docs/ddd/ubiquitous-language.md",
+          "docs/ddd/context-map.md"
+        ],
+        "evidence": [
+          "two owners define Account differently"
+        ],
+        "acceptance_criteria": [
+          "Preserve definitions and require translation"
+        ],
+        "allowed_paths": [
+          "docs/ddd/review.md"
+        ],
+        "return_to": "ddd-strategic",
+        "artifact_summaries": [
+          {
+            "path": "docs/ddd/ubiquitous-language.md",
+            "status": "active",
+            "validation": "partially-validated",
+            "owner": "ddd-strategic",
+            "provenance": "Billing and Identity owners"
+          },
+          {
+            "path": "docs/ddd/context-map.md",
+            "status": "active",
+            "validation": "partially-validated",
+            "owner": "ddd-strategic",
+            "provenance": "relationship notes"
+          }
+        ],
+        "gate_results": {
+          "fit": "pass",
+          "provenance": "pass",
+          "lifecycle_schema": "pass",
+          "vocabulary": "blocked",
+          "strategic_tactical": "follow-up",
+          "adoption_safety": "not-applicable",
+          "cross_artifact": "follow-up"
+        },
+        "findings": [
+          {
+            "severity": "follow-up",
+            "evidence": "Account has distinct payer and login meanings",
+            "provenance": "Billing and Identity owner statements",
+            "owner": "ddd-strategic",
+            "action": "Record translations and confirm relationship direction",
+            "status": "routed",
+            "affected_artifact": "docs/ddd/ubiquitous-language.md",
+            "earliest_stage": "ddd-strategic"
+          }
+        ]
+      },
+      "expected_outcomes": [
+        "Keep both meanings with owners and provenance",
+        "Require explicit translation or relationship notes",
+        "Route vocabulary ownership to strategic design"
+      ],
+      "forbidden_outcomes": [
+        "Merge meanings by spelling",
+        "Invent a shared Account model",
+        "Approve tactical integration"
+      ]
     },
     {
       "id": "strategic-to-tactical-gap",
       "category": "strategic-to-tactical",
       "title": "Route missing context boundary evidence",
       "prompt": "Review a tactical model whose context purpose is present but whose strategic boundary and relationship direction are not validated.",
-      "input": {"entry_status": "complete", "review_scope": "Claims tactical model", "requested_artifacts": ["docs/ddd/models/claims.md", "docs/ddd/context-map.md"], "available_artifacts": ["docs/ddd/models/claims.md", "docs/ddd/context-map.md"], "evidence": ["model exists but context boundary is a proposal"], "acceptance_criteria": ["Do not approve tactical readiness"], "allowed_paths": ["docs/ddd/review.md"], "return_to": "ddd-strategic", "artifact_summaries": [{"path": "docs/ddd/models/claims.md", "status": "draft", "validation": "partially-validated", "owner": "ddd-tactical", "provenance": "scenario notes"}, {"path": "docs/ddd/context-map.md", "status": "draft", "validation": "unvalidated", "owner": "ddd-strategic", "provenance": "proposal only"}], "gate_results": {"fit": "pass", "provenance": "follow-up", "lifecycle_schema": "follow-up", "vocabulary": "follow-up", "strategic_tactical": "blocked", "adoption_safety": "not-applicable", "cross_artifact": "blocked"}, "findings": [{"severity": "blocked", "evidence": "Context boundary and relationship direction are proposals only", "provenance": "context-map.md validation record", "owner": "ddd-strategic", "action": "Validate boundary and relationship before tactical review", "status": "routed", "affected_artifact": "docs/ddd/context-map.md", "earliest_stage": "ddd-strategic"}]},
-      "expected_outcomes": ["Route to strategic or discovery as the earliest owner", "Keep tactical work provisional", "Do not reconstruct the boundary from the model"],
-      "forbidden_outcomes": ["Approve tactical readiness", "Infer context from model filename", "Silently update context map"]
+      "input": {
+        "entry_status": "complete",
+        "review_scope": "Claims tactical model",
+        "requested_artifacts": [
+          "docs/ddd/models/claims.md",
+          "docs/ddd/context-map.md"
+        ],
+        "available_artifacts": [
+          "docs/ddd/models/claims.md",
+          "docs/ddd/context-map.md"
+        ],
+        "evidence": [
+          "model exists but context boundary is a proposal"
+        ],
+        "acceptance_criteria": [
+          "Do not approve tactical readiness"
+        ],
+        "allowed_paths": [
+          "docs/ddd/review.md"
+        ],
+        "return_to": "ddd-strategic",
+        "artifact_summaries": [
+          {
+            "path": "docs/ddd/models/claims.md",
+            "status": "draft",
+            "validation": "partially-validated",
+            "owner": "ddd-tactical",
+            "provenance": "scenario notes"
+          },
+          {
+            "path": "docs/ddd/context-map.md",
+            "status": "draft",
+            "validation": "unvalidated",
+            "owner": "ddd-strategic",
+            "provenance": "proposal only"
+          }
+        ],
+        "gate_results": {
+          "fit": "pass",
+          "provenance": "follow-up",
+          "lifecycle_schema": "follow-up",
+          "vocabulary": "follow-up",
+          "strategic_tactical": "blocked",
+          "adoption_safety": "not-applicable",
+          "cross_artifact": "blocked"
+        },
+        "findings": [
+          {
+            "severity": "blocked",
+            "evidence": "Context boundary and relationship direction are proposals only",
+            "provenance": "context-map.md validation record",
+            "owner": "ddd-strategic",
+            "action": "Validate boundary and relationship before tactical review",
+            "status": "routed",
+            "affected_artifact": "docs/ddd/context-map.md",
+            "earliest_stage": "ddd-strategic"
+          }
+        ]
+      },
+      "expected_outcomes": [
+        "Route to strategic or discovery as the earliest owner",
+        "Keep tactical work provisional",
+        "Do not reconstruct the boundary from the model"
+      ],
+      "forbidden_outcomes": [
+        "Approve tactical readiness",
+        "Infer context from model filename",
+        "Silently update context map"
+      ]
     },
     {
       "id": "adoption-safety-gap",
       "category": "adoption safety",
       "title": "Block an unsafe adoption increment",
       "prompt": "Review an adoption plan that names a first slice but lacks an accountable owner, acceptance signal, and rollback or containment path.",
-      "input": {"entry_status": "complete", "review_scope": "Claims adoption first slice", "requested_artifacts": ["docs/ddd/adoption-plan.md"], "available_artifacts": ["docs/ddd/adoption-plan.md"], "evidence": ["first slice has no owner or containment"], "acceptance_criteria": ["Block unsafe adoption readiness"], "allowed_paths": ["docs/ddd/review.md"], "return_to": "ddd-adoption", "artifact_summaries": [{"path": "docs/ddd/adoption-plan.md", "status": "draft", "validation": "partially-validated", "owner": "ddd-adoption", "provenance": "tactical handoff"}], "gate_results": {"fit": "pass", "provenance": "pass", "lifecycle_schema": "follow-up", "vocabulary": "not-applicable", "strategic_tactical": "pass", "adoption_safety": "blocked", "cross_artifact": "follow-up"}, "findings": [{"severity": "blocked", "evidence": "First slice lacks accountable owner, acceptance signal, and rollback/containment", "provenance": "adoption-plan.md increment table", "owner": "ddd-adoption", "action": "Name owner, observable acceptance, and containment before review", "status": "routed", "affected_artifact": "docs/ddd/adoption-plan.md", "earliest_stage": "ddd-adoption"}]},
-      "expected_outcomes": ["Block adoption safety readiness with complete evidence and action", "Route to ddd-adoption without approving execution", "Keep the plan documentation-only"],
-      "forbidden_outcomes": ["Call the increment safe", "Approve migration or implementation", "Invent rollback evidence"]
+      "input": {
+        "entry_status": "complete",
+        "review_scope": "Claims adoption first slice",
+        "requested_artifacts": [
+          "docs/ddd/adoption-plan.md"
+        ],
+        "available_artifacts": [
+          "docs/ddd/adoption-plan.md"
+        ],
+        "evidence": [
+          "first slice has no owner or containment"
+        ],
+        "acceptance_criteria": [
+          "Block unsafe adoption readiness"
+        ],
+        "allowed_paths": [
+          "docs/ddd/review.md"
+        ],
+        "return_to": "ddd-adoption",
+        "artifact_summaries": [
+          {
+            "path": "docs/ddd/adoption-plan.md",
+            "status": "draft",
+            "validation": "partially-validated",
+            "owner": "ddd-adoption",
+            "provenance": "tactical handoff"
+          }
+        ],
+        "gate_results": {
+          "fit": "pass",
+          "provenance": "pass",
+          "lifecycle_schema": "follow-up",
+          "vocabulary": "not-applicable",
+          "strategic_tactical": "pass",
+          "adoption_safety": "blocked",
+          "cross_artifact": "follow-up"
+        },
+        "findings": [
+          {
+            "severity": "blocked",
+            "evidence": "First slice lacks accountable owner, acceptance signal, and rollback/containment",
+            "provenance": "adoption-plan.md increment table",
+            "owner": "ddd-adoption",
+            "action": "Name owner, observable acceptance, and containment before review",
+            "status": "routed",
+            "affected_artifact": "docs/ddd/adoption-plan.md",
+            "earliest_stage": "ddd-adoption"
+          }
+        ]
+      },
+      "expected_outcomes": [
+        "Block adoption safety readiness with complete evidence and action",
+        "Route to ddd-adoption without approving execution",
+        "Keep the plan documentation-only"
+      ],
+      "forbidden_outcomes": [
+        "Call the increment safe",
+        "Approve migration or implementation",
+        "Invent rollback evidence"
+      ]
     },
     {
       "id": "cross-artifact-stale-routing",
       "category": "cross-artifact conflict/stale routing",
       "title": "Mark dependents stale and route backward",
       "prompt": "Review a strategic boundary conflict that invalidates a tactical model and adoption plan.",
-      "input": {"entry_status": "complete", "review_scope": "Claims context boundary and downstream artifacts", "requested_artifacts": ["docs/ddd/context-map.md", "docs/ddd/models/claims.md", "docs/ddd/adoption-plan.md"], "available_artifacts": ["docs/ddd/context-map.md", "docs/ddd/models/claims.md", "docs/ddd/adoption-plan.md"], "evidence": ["strategic owner changed boundary", "tactical and adoption assumptions use the old boundary"], "acceptance_criteria": ["Preserve conflict and mark dependents stale"], "allowed_paths": ["docs/ddd/review.md"], "return_to": "ddd-strategic", "artifact_summaries": [{"path": "docs/ddd/context-map.md", "status": "active", "validation": "partially-validated", "owner": "ddd-strategic", "provenance": "owner decision"}, {"path": "docs/ddd/models/claims.md", "status": "active", "validation": "validated", "owner": "ddd-tactical", "provenance": "prior boundary"}, {"path": "docs/ddd/adoption-plan.md", "status": "active", "validation": "validated", "owner": "ddd-adoption", "provenance": "prior tactical handoff"}], "gate_results": {"fit": "pass", "provenance": "pass", "lifecycle_schema": "pass", "vocabulary": "follow-up", "strategic_tactical": "blocked", "adoption_safety": "blocked", "cross_artifact": "blocked"}, "findings": [{"severity": "invalidated", "evidence": "New strategic boundary conflicts with tactical and adoption assumptions", "provenance": "strategic owner decision", "owner": "ddd-strategic", "action": "Revalidate boundary and mark downstream artifacts stale", "status": "routed", "affected_artifact": "docs/ddd/models/claims.md", "earliest_stage": "ddd-strategic"}, {"severity": "invalidated", "evidence": "Adoption slice depends on stale tactical boundary", "provenance": "adoption-plan.md dependency record", "owner": "ddd-adoption", "action": "Pause sequencing until tactical model is revalidated", "status": "routed", "affected_artifact": "docs/ddd/adoption-plan.md", "earliest_stage": "ddd-strategic"}], "stale_routing": {"affected_artifacts": ["docs/ddd/models/claims.md", "docs/ddd/adoption-plan.md"], "earliest_stage": "ddd-strategic", "owner": "ddd-strategic", "action": "Revalidate boundary and then downstream assumptions", "evidence": "Owner decision conflicts with downstream artifacts", "revisit_trigger": "Validated boundary and relationship evidence"}},
-      "expected_outcomes": ["Preserve the conflict without silent repair", "Mark tactical and adoption dependents stale", "Route to the earliest strategic owner with a revisit trigger"],
-      "forbidden_outcomes": ["Rewrite the model to match the map", "Leave dependents active", "Route only to the latest stage"]
+      "input": {
+        "entry_status": "complete",
+        "review_scope": "Claims context boundary and downstream artifacts",
+        "requested_artifacts": [
+          "docs/ddd/context-map.md",
+          "docs/ddd/models/claims.md",
+          "docs/ddd/adoption-plan.md"
+        ],
+        "available_artifacts": [
+          "docs/ddd/context-map.md",
+          "docs/ddd/models/claims.md",
+          "docs/ddd/adoption-plan.md"
+        ],
+        "evidence": [
+          "strategic owner changed boundary",
+          "tactical and adoption assumptions use the old boundary"
+        ],
+        "acceptance_criteria": [
+          "Preserve conflict and mark dependents stale"
+        ],
+        "allowed_paths": [
+          "docs/ddd/review.md"
+        ],
+        "return_to": "ddd-strategic",
+        "artifact_summaries": [
+          {
+            "path": "docs/ddd/context-map.md",
+            "status": "active",
+            "validation": "partially-validated",
+            "owner": "ddd-strategic",
+            "provenance": "owner decision"
+          },
+          {
+            "path": "docs/ddd/models/claims.md",
+            "status": "active",
+            "validation": "validated",
+            "owner": "ddd-tactical",
+            "provenance": "prior boundary"
+          },
+          {
+            "path": "docs/ddd/adoption-plan.md",
+            "status": "active",
+            "validation": "validated",
+            "owner": "ddd-adoption",
+            "provenance": "prior tactical handoff"
+          }
+        ],
+        "gate_results": {
+          "fit": "pass",
+          "provenance": "pass",
+          "lifecycle_schema": "pass",
+          "vocabulary": "follow-up",
+          "strategic_tactical": "blocked",
+          "adoption_safety": "blocked",
+          "cross_artifact": "blocked"
+        },
+        "findings": [
+          {
+            "severity": "invalidated",
+            "evidence": "New strategic boundary conflicts with tactical and adoption assumptions",
+            "provenance": "strategic owner decision",
+            "owner": "ddd-strategic",
+            "action": "Revalidate boundary and mark downstream artifacts stale",
+            "status": "routed",
+            "affected_artifact": "docs/ddd/models/claims.md",
+            "earliest_stage": "ddd-strategic"
+          },
+          {
+            "severity": "invalidated",
+            "evidence": "Adoption slice depends on stale tactical boundary",
+            "provenance": "adoption-plan.md dependency record",
+            "owner": "ddd-adoption",
+            "action": "Pause sequencing until tactical model is revalidated",
+            "status": "routed",
+            "affected_artifact": "docs/ddd/adoption-plan.md",
+            "earliest_stage": "ddd-strategic"
+          }
+        ],
+        "stale_routing": {
+          "affected_artifacts": [
+            "docs/ddd/models/claims.md",
+            "docs/ddd/adoption-plan.md"
+          ],
+          "earliest_stage": "ddd-strategic",
+          "owner": "ddd-strategic",
+          "action": "Revalidate boundary and then downstream assumptions",
+          "evidence": "Owner decision conflicts with downstream artifacts",
+          "revisit_trigger": "Validated boundary and relationship evidence"
+        }
+      },
+      "expected_outcomes": [
+        "Preserve the conflict without silent repair",
+        "Mark tactical and adoption dependents stale",
+        "Route to the earliest strategic owner with a revisit trigger"
+      ],
+      "forbidden_outcomes": [
+        "Rewrite the model to match the map",
+        "Leave dependents active",
+        "Route only to the latest stage"
+      ]
     },
     {
       "id": "missing-artifact",
       "category": "missing artifact",
       "title": "Report a missing requested artifact",
       "prompt": "Review a requested context model that does not exist while the scope and expected path are known.",
-      "input": {"entry_status": "incomplete", "review_scope": "Claims tactical model", "requested_artifacts": ["docs/ddd/models/claims.md"], "available_artifacts": [], "evidence": ["requested path does not exist"], "acceptance_criteria": ["Report exact missing path without reconstruction"], "allowed_paths": ["docs/ddd/review.md"], "return_to": "ddd-tactical", "missing_artifacts": ["docs/ddd/models/claims.md"], "missing_fields": ["artifact_contents"], "findings": [{"severity": "blocked", "evidence": "Requested path docs/ddd/models/claims.md is absent", "provenance": "filesystem inventory", "owner": "ddd-tactical", "action": "Create or supply the owned model before review", "status": "routed", "affected_artifact": "docs/ddd/models/claims.md", "earliest_stage": "ddd-tactical"}]},
-      "expected_outcomes": ["Report the exact missing artifact path", "Route to the owning stage", "Do not infer or generate missing content"],
-      "forbidden_outcomes": ["Reconstruct the model", "Mark the missing artifact validated", "Approve readiness"]
+      "input": {
+        "entry_status": "incomplete",
+        "review_scope": "Claims tactical model",
+        "requested_artifacts": [
+          "docs/ddd/models/claims.md"
+        ],
+        "available_artifacts": [],
+        "evidence": [
+          "requested path does not exist"
+        ],
+        "acceptance_criteria": [
+          "Report exact missing path without reconstruction"
+        ],
+        "allowed_paths": [
+          "docs/ddd/review.md"
+        ],
+        "return_to": "ddd-tactical",
+        "missing_artifacts": [
+          "docs/ddd/models/claims.md"
+        ],
+        "missing_fields": [
+          "artifact_contents"
+        ],
+        "findings": [
+          {
+            "severity": "blocked",
+            "evidence": "Requested path docs/ddd/models/claims.md is absent",
+            "provenance": "filesystem inventory",
+            "owner": "ddd-tactical",
+            "action": "Create or supply the owned model before review",
+            "status": "routed",
+            "affected_artifact": "docs/ddd/models/claims.md",
+            "earliest_stage": "ddd-tactical"
+          }
+        ]
+      },
+      "expected_outcomes": [
+        "Report the exact missing artifact path",
+        "Route to the owning stage",
+        "Do not infer or generate missing content"
+      ],
+      "forbidden_outcomes": [
+        "Reconstruct the model",
+        "Mark the missing artifact validated",
+        "Approve readiness"
+      ]
     },
     {
       "id": "ready-documentation",
       "category": "ready",
       "title": "Return scoped documentation readiness",
       "prompt": "Review a named Claims slice whose assessment, language, context, tactical model, and adoption plan pass all scoped gates.",
-      "input": {"entry_status": "complete", "review_scope": "Claims approval slice", "requested_artifacts": ["docs/ddd/assessment.md", "docs/ddd/ubiquitous-language.md", "docs/ddd/context-map.md", "docs/ddd/contexts/claims.md", "docs/ddd/models/claims.md", "docs/ddd/adoption-plan.md"], "available_artifacts": ["docs/ddd/assessment.md", "docs/ddd/ubiquitous-language.md", "docs/ddd/context-map.md", "docs/ddd/contexts/claims.md", "docs/ddd/models/claims.md", "docs/ddd/adoption-plan.md"], "evidence": ["validated fit", "provenance-backed claims", "complete lifecycle metadata", "validated boundary and invariant", "owned bounded adoption slice with containment"], "acceptance_criteria": ["Establish documentation readiness for Claims approval"], "allowed_paths": ["docs/ddd/review.md"], "return_to": "ddd-review", "artifact_summaries": [{"path": "docs/ddd/assessment.md", "status": "active", "validation": "validated", "owner": "ddd-discover", "provenance": "discovery evidence"}, {"path": "docs/ddd/ubiquitous-language.md", "status": "active", "validation": "validated", "owner": "ddd-strategic", "provenance": "owner review"}, {"path": "docs/ddd/context-map.md", "status": "active", "validation": "validated", "owner": "ddd-strategic", "provenance": "boundary evidence"}, {"path": "docs/ddd/contexts/claims.md", "status": "active", "validation": "validated", "owner": "ddd-strategic", "provenance": "context evidence"}, {"path": "docs/ddd/models/claims.md", "status": "active", "validation": "validated", "owner": "ddd-tactical", "provenance": "invariant scenarios"}, {"path": "docs/ddd/adoption-plan.md", "status": "active", "validation": "validated", "owner": "ddd-adoption", "provenance": "bounded plan"}], "gate_results": {"fit": "pass", "provenance": "pass", "lifecycle_schema": "pass", "vocabulary": "pass", "strategic_tactical": "pass", "adoption_safety": "pass", "cross_artifact": "pass"}, "findings": []},
-      "expected_outcomes": ["Return ready for the named documentation scope", "Include named artifacts, evidence, all gate outcomes, and an explicit next step", "State that ready is documentation readiness only and no implementation or deployment approval occurred"],
-      "forbidden_outcomes": ["Claim implementation approved", "Claim deployment or migration approved", "Claim the domain model is final"]
+      "input": {
+        "entry_status": "complete",
+        "review_scope": "Claims approval slice",
+        "requested_artifacts": [
+          "docs/ddd/assessment.md",
+          "docs/ddd/ubiquitous-language.md",
+          "docs/ddd/context-map.md",
+          "docs/ddd/contexts/claims.md",
+          "docs/ddd/models/claims.md",
+          "docs/ddd/adoption-plan.md"
+        ],
+        "available_artifacts": [
+          "docs/ddd/assessment.md",
+          "docs/ddd/ubiquitous-language.md",
+          "docs/ddd/context-map.md",
+          "docs/ddd/contexts/claims.md",
+          "docs/ddd/models/claims.md",
+          "docs/ddd/adoption-plan.md"
+        ],
+        "evidence": [
+          "validated fit",
+          "provenance-backed claims",
+          "complete lifecycle metadata",
+          "validated boundary and invariant",
+          "owned bounded adoption slice with containment"
+        ],
+        "acceptance_criteria": [
+          "Establish documentation readiness for Claims approval"
+        ],
+        "allowed_paths": [
+          "docs/ddd/review.md"
+        ],
+        "return_to": "ddd-review",
+        "artifact_summaries": [
+          {
+            "path": "docs/ddd/assessment.md",
+            "status": "active",
+            "validation": "validated",
+            "owner": "ddd-discover",
+            "provenance": "discovery evidence"
+          },
+          {
+            "path": "docs/ddd/ubiquitous-language.md",
+            "status": "active",
+            "validation": "validated",
+            "owner": "ddd-strategic",
+            "provenance": "owner review"
+          },
+          {
+            "path": "docs/ddd/context-map.md",
+            "status": "active",
+            "validation": "validated",
+            "owner": "ddd-strategic",
+            "provenance": "boundary evidence"
+          },
+          {
+            "path": "docs/ddd/contexts/claims.md",
+            "status": "active",
+            "validation": "validated",
+            "owner": "ddd-strategic",
+            "provenance": "context evidence"
+          },
+          {
+            "path": "docs/ddd/models/claims.md",
+            "status": "active",
+            "validation": "validated",
+            "owner": "ddd-tactical",
+            "provenance": "invariant scenarios"
+          },
+          {
+            "path": "docs/ddd/adoption-plan.md",
+            "status": "active",
+            "validation": "validated",
+            "owner": "ddd-adoption",
+            "provenance": "bounded plan"
+          }
+        ],
+        "gate_results": {
+          "fit": "pass",
+          "provenance": "pass",
+          "lifecycle_schema": "pass",
+          "vocabulary": "pass",
+          "strategic_tactical": "pass",
+          "adoption_safety": "pass",
+          "cross_artifact": "pass"
+        },
+        "findings": []
+      },
+      "expected_outcomes": [
+        "Return ready for the named documentation scope",
+        "Include named artifacts, evidence, all gate outcomes, and an explicit next step",
+        "State that ready is documentation readiness only and no implementation or deployment approval occurred"
+      ],
+      "forbidden_outcomes": [
+        "Claim implementation approved",
+        "Claim deployment or migration approved",
+        "Claim the domain model is final"
+      ]
     },
     {
       "id": "docs-only-boundary",
       "category": "docs-only",
       "title": "Refuse product and deployment changes",
       "prompt": "The requester asks review to edit src/claims.py and approve a deployment while also asking for review.md.",
-      "input": {"entry_status": "incomplete", "review_scope": "Claims approval slice", "requested_artifacts": ["docs/ddd/review.md"], "available_artifacts": [], "evidence": ["request mixes documentation review with forbidden product and deployment actions"], "acceptance_criteria": ["Keep review documentation-only"], "allowed_paths": ["docs/ddd/review.md"], "requested_paths": ["docs/ddd/review.md", "src/claims.py", "deploy/production.yaml"], "requested_actions": ["edit product source", "approve deployment"], "missing_fields": ["safe review-only scope"], "return_to": "ddd-review", "findings": [{"severity": "blocked", "evidence": "Request includes src/claims.py and deploy/production.yaml", "provenance": "request", "owner": "requester", "action": "Remove forbidden actions and resubmit documentation-only scope", "status": "open", "affected_artifact": "none", "earliest_stage": "ddd-review"}]},
-      "expected_outcomes": ["Refuse product and deployment changes", "Keep the permitted review artifact boundary explicit", "Return a bounded documentation-only stop without claiming a write"],
-      "forbidden_outcomes": ["Edit product source", "Approve deployment", "Claim review.md was written"]
+      "input": {
+        "entry_status": "incomplete",
+        "review_scope": "Claims approval slice",
+        "requested_artifacts": [
+          "docs/ddd/review.md"
+        ],
+        "available_artifacts": [],
+        "evidence": [
+          "request mixes documentation review with forbidden product and deployment actions"
+        ],
+        "acceptance_criteria": [
+          "Keep review documentation-only"
+        ],
+        "allowed_paths": [
+          "docs/ddd/review.md"
+        ],
+        "requested_paths": [
+          "docs/ddd/review.md",
+          "src/claims.py",
+          "deploy/production.yaml"
+        ],
+        "requested_actions": [
+          "edit product source",
+          "approve deployment"
+        ],
+        "missing_fields": [
+          "safe review-only scope"
+        ],
+        "return_to": "ddd-review",
+        "findings": [
+          {
+            "severity": "blocked",
+            "evidence": "Request includes src/claims.py and deploy/production.yaml",
+            "provenance": "request",
+            "owner": "requester",
+            "action": "Remove forbidden actions and resubmit documentation-only scope",
+            "status": "open",
+            "affected_artifact": "none",
+            "earliest_stage": "ddd-review"
+          }
+        ]
+      },
+      "expected_outcomes": [
+        "Refuse product and deployment changes",
+        "Keep the permitted review artifact boundary explicit",
+        "Return a bounded documentation-only stop without claiming a write"
+      ],
+      "forbidden_outcomes": [
+        "Edit product source",
+        "Approve deployment",
+        "Claim review.md was written"
+      ]
+    },
+    {
+      "id": "review-exception-summary",
+      "title": "Summarize passing gates and emit exceptions",
+      "prompt": "Review a bounded storytelling increment where most gates pass but one acceptance signal is missing.",
+      "input": {
+        "increment_id": "storytelling-characterization-v1",
+        "authority_set": [
+          "adoption-plan",
+          "model",
+          "context"
+        ],
+        "gate_results": {
+          "fit": "pass",
+          "provenance": "pass",
+          "lifecycle_schema": "pass",
+          "vocabulary": "pass",
+          "strategic_tactical": "pass",
+          "adoption_safety": "follow-up",
+          "cross_artifact": "pass"
+        },
+        "finding": "acceptance signal missing",
+        "entry_status": "complete",
+        "review_scope": "storytelling-characterization-v1 review",
+        "requested_artifacts": [
+          "docs/ddd/review.md"
+        ],
+        "available_artifacts": [
+          "docs/ddd/review.md"
+        ],
+        "evidence": [
+          "local fixture evidence"
+        ],
+        "acceptance_criteria": [
+          "preserve one increment gate"
+        ],
+        "allowed_paths": [
+          "docs/ddd/review.md"
+        ],
+        "return_to": "ddd-review",
+        "findings": [],
+        "artifact_summaries": [
+          {
+            "path": "docs/ddd/review.md",
+            "status": "working",
+            "validation": "partially-validated",
+            "owner": "ddd-review",
+            "provenance": "local fixture"
+          }
+        ]
+      },
+      "expected_outcomes": [
+        "Record dual readiness and one exception queue item",
+        "Summarize passed gates instead of printing a full pass table"
+      ],
+      "forbidden_outcomes": [
+        "Emit an unqualified ready",
+        "Duplicate every artifact/evidence ledger",
+        "Authorize implementation"
+      ],
+      "category": "adoption safety"
+    },
+    {
+      "id": "documentation-ready-gate-blocked",
+      "title": "Separate documentation readiness from a blocked increment",
+      "prompt": "Documents are coherent, but target runtime and accountable owner are missing.",
+      "input": {
+        "increment_id": "storytelling-characterization-v1",
+        "documentation_readiness": "ready",
+        "increment_gate": "blocked",
+        "missing": [
+          "target runtime",
+          "accountable owner"
+        ],
+        "entry_status": "complete",
+        "review_scope": "storytelling-characterization-v1 review",
+        "requested_artifacts": [
+          "docs/ddd/review.md"
+        ],
+        "available_artifacts": [
+          "docs/ddd/review.md"
+        ],
+        "evidence": [
+          "local fixture evidence"
+        ],
+        "acceptance_criteria": [
+          "preserve one increment gate"
+        ],
+        "allowed_paths": [
+          "docs/ddd/review.md"
+        ],
+        "return_to": "ddd-review",
+        "findings": [],
+        "artifact_summaries": [
+          {
+            "path": "docs/ddd/review.md",
+            "status": "working",
+            "validation": "partially-validated",
+            "owner": "ddd-review",
+            "provenance": "local fixture"
+          }
+        ],
+        "gate_results": {
+          "fit": "pass",
+          "provenance": "pass",
+          "lifecycle_schema": "pass",
+          "vocabulary": "pass",
+          "strategic_tactical": "pass",
+          "adoption_safety": "follow-up",
+          "cross_artifact": "follow-up"
+        }
+      },
+      "expected_outcomes": [
+        "Keep documentation_readiness separate from increment_gate",
+        "Keep the increment blocked and name one next action"
+      ],
+      "forbidden_outcomes": [
+        "Treat ready documentation as implementation authorization",
+        "Set awaiting-ratification without target and owner"
+      ],
+      "category": "adoption safety"
+    },
+    {
+      "id": "consolidated-decision-queue",
+      "title": "Consolidate findings by earliest owner",
+      "prompt": "Discovery, strategic, and adoption each have related unresolved questions for one increment.",
+      "input": {
+        "increment_id": "storytelling-characterization-v1",
+        "findings": [
+          {
+            "severity": "follow-up",
+            "evidence": "term conflict affects increment review",
+            "provenance": "local fixture",
+            "owner": "ddd-discover",
+            "action": "route smallest question",
+            "status": "routed",
+            "affected_artifact": "docs/ddd/README.md",
+            "earliest_stage": "ddd-discover"
+          }
+        ],
+        "owners": [
+          "ddd-discover",
+          "ddd-strategic",
+          "ddd-adoption"
+        ],
+        "entry_status": "incomplete",
+        "review_scope": "storytelling-characterization-v1 review",
+        "requested_artifacts": [
+          "docs/ddd/review.md"
+        ],
+        "available_artifacts": [
+          "docs/ddd/review.md"
+        ],
+        "evidence": [
+          "local fixture evidence"
+        ],
+        "acceptance_criteria": [
+          "preserve one increment gate"
+        ],
+        "allowed_paths": [
+          "docs/ddd/review.md"
+        ],
+        "return_to": "ddd-review",
+        "missing_fields": [
+          "human confirmation"
+        ]
+      },
+      "expected_outcomes": [
+        "Create one queue with impact, disposition, owner, action, affected paths, and revisit trigger",
+        "Route each issue to its earliest owner"
+      ],
+      "forbidden_outcomes": [
+        "Scatter duplicate questions across artifacts",
+        "Let a later stage decide domain policy"
+      ],
+      "category": "fit"
+    },
+    {
+      "id": "blocking-not-reclassified",
+      "title": "Require confirmation before deferring a blocker",
+      "prompt": "A missing invariant blocks the selected increment and a requester asks review to mark it out of scope.",
+      "input": {
+        "increment_id": "storytelling-characterization-v1",
+        "finding": "missing invariant changes acceptance",
+        "requested_disposition": "out-of-scope",
+        "human_confirmation": false,
+        "entry_status": "incomplete",
+        "review_scope": "storytelling-characterization-v1 review",
+        "requested_artifacts": [
+          "docs/ddd/review.md"
+        ],
+        "available_artifacts": [
+          "docs/ddd/review.md"
+        ],
+        "evidence": [
+          "local fixture evidence"
+        ],
+        "acceptance_criteria": [
+          "preserve one increment gate"
+        ],
+        "allowed_paths": [
+          "docs/ddd/review.md"
+        ],
+        "return_to": "ddd-review",
+        "findings": [],
+        "missing_fields": [
+          "human confirmation"
+        ]
+      },
+      "expected_outcomes": [
+        "Keep the item blocking or decision-required",
+        "Require human confirmation and impact rationale before reclassification"
+      ],
+      "forbidden_outcomes": [
+        "Silently relabel the blocker deferred",
+        "Hide the invariant from the queue"
+      ],
+      "category": "adoption safety"
+    },
+    {
+      "id": "deferred-out-of-scope",
+      "title": "Disposition unrelated questions explicitly",
+      "prompt": "A later-context question does not affect the selected storytelling increment and has an assigned revisit trigger.",
+      "input": {
+        "increment_id": "storytelling-characterization-v1",
+        "question": "future publishing topology",
+        "impact": "no effect on this increment",
+        "owner": "ddd-strategic",
+        "revisit_trigger": "publishing context selected",
+        "entry_status": "incomplete",
+        "review_scope": "storytelling-characterization-v1 review",
+        "requested_artifacts": [
+          "docs/ddd/review.md"
+        ],
+        "available_artifacts": [
+          "docs/ddd/review.md"
+        ],
+        "evidence": [
+          "local fixture evidence"
+        ],
+        "acceptance_criteria": [
+          "preserve one increment gate"
+        ],
+        "allowed_paths": [
+          "docs/ddd/review.md"
+        ],
+        "return_to": "ddd-review",
+        "findings": [],
+        "missing_fields": [
+          "human confirmation"
+        ]
+      },
+      "expected_outcomes": [
+        "Record deferred or out-of-scope with owner and revisit trigger",
+        "Keep the unrelated question from blocking this increment"
+      ],
+      "forbidden_outcomes": [
+        "Delete the question",
+        "Use deferred to hide a behavior or acceptance blocker"
+      ],
+      "category": "fit"
     }
   ]
 }

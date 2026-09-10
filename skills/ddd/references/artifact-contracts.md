@@ -1,51 +1,29 @@
-# Orchestration artifact contracts
+# Orchestrator artifact contracts
 
-## Versioned request
+## Index
 
-A request is a JSON-like portable object with `version: ddd-routing-v1` and these required fields:
+`docs/ddd/README.md` is mandatory for broad flows and should fit on one screen where practical. It contains target outcome; selected context and increment; current stage; `documentation_readiness`; `increment_gate`; blocking decision count and queue; exact next human action; current artifact links; and `implementation-handoff.md` or `not authorized`.
 
-| Field | Contract |
-| --- | --- |
-| `stage` | One focused stage name |
-| `objective` | One bounded objective |
-| `scope` | Identifiable target/domain/context/slice |
-| `artifacts` | Artifact records with `path`, `lifecycle`, `validation`, and `availability`; empty list is explicit absence |
-| `evidence` | Evidence records |
-| `claims` | Claim-type-aware records |
-| `provenance` | Sources, owners, dates, and validation context |
-| `assumptions` | Explicit assumptions |
-| `open_questions` | Unresolved questions |
-| `allowed_paths` | Documentation boundary and ownership constraints |
-| `return_to` | `ddd` or named caller |
+`ddd` owns routing/status and authorization sections. `ddd-review` owns only the README `decision-queue` and `latest-review` markers plus `review.md`; `ddd` preserves those markers. Existing user prose and legacy metadata remain intact.
 
-The request is valid only when all required fields are present and routing-affecting values are known. Manual fallback returns the exact original object without normalization.
+## Lean state compatibility
 
-## Versioned result
+A `ddd-routing-v1` artifact record may carry optional `state`. Map it deterministically: `working` and `decision-needed` → `draft/unvalidated`; `current` → `active/validated`; `stale` → its prior lifecycle plus `stale` validation; `superseded` → `superseded/stale`. Invalidation preserves lifecycle, sets `state: stale`, and sets legacy validation to `stale`. Legacy records without `state` remain valid.
 
-A result has `version`, `stage`, `status`, `changed_artifacts`, `findings`, `handoff`, `stop`, `invalidated_stages`, `evidence`, `claims`, `provenance`, `assumptions`, `open_questions`, `allowed_paths`, and `return_to`. `changed_artifacts` uses the same artifact-record schema as `artifacts`; `handoff` is one complete request or `none`; `stop` is one bounded reason/owner/action object or `none`.
+## Gate extension
 
-The orchestrator preserves evidence, claims, provenance, assumptions, open questions, artifact records including path/lifecycle/validation/availability, and allowed paths from a valid result. Invalidation preserves lifecycle and changes validation to `stale` for affected dependents. It may add routing metadata and stale state but cannot rewrite those values.
+`ddd-implementation-gate-v1` is a transport envelope carried under `extensions.ddd-implementation-gate-v1` from adoption through review; it is not persisted inside the adoption authority whose bytes it hashes. It must name stable ID, target repository/runtime, exact baseline, accountable implementation owner, outcome/in-out scope/return contract, acceptance, conditional containment, assumptions/questions, typed question dispositions with a unique id, exact issue text bound to the deferred/out-of-scope/accepted-assumption lists (no orphans, no disposition-less entries), impact/owner/action/affected paths/revisit trigger, readiness, gate, ratification state/record with a human decision owner in its own field (may equal or differ from the implementation owner), and authority revisions. It cannot authorize work by itself.
 
-## Routing state
+Each disposition's `status` is legal only for its `disposition`: `blocking`/`invalidating`/`decision-required` allow `open` or `resolved`; `accepted-assumption` and `resolved` require `resolved`; `deferred` requires `deferred`; `out-of-scope` requires `closed`. `blocking`, `invalidating`, and `decision-required` items must be `resolved` before the gate can be `awaiting-ratification` or `authorized`.
 
-Routing state records current stage, objective, scope, consumed result identity, pending request, invalidated stages in canonical order, stale dependent paths, findings, and next action. Unknown or malformed state stops with a protocol finding. The state does not own focused artifacts.
+`authority-revision-v1` is `sha256:<64 lowercase hex digits>` computed over the exact artifact UTF-8 bytes. Each authority also lists exact H2 section headings. Consumers compare both the digest and section presence; target baseline revision is separate.
 
-## Index ownership
+## Handoff
 
-The only target artifact the orchestrator may update is `docs/ddd/README.md`, and only its routing/status sections. The canonical index contains:
+`docs/ddd/implementation-handoff.md` is created only when review returns `increment_gate: awaiting-ratification` and a human authorizes that exact increment, moving the gate to `authorized`. It uses `implementation-handoff-v1`, names the accountable implementation owner separately from the human authorization owner, one increment/outcome, target/baseline, exact authoritative artifact paths/sections/revisions/roles, in/out scope, accepted assumptions, typed question dispositions with routing fields, deferred questions, acceptance signals, containment, and `return_on_conflict`.
 
-1. project/domain scope;
-2. current status;
-3. artifact index;
-4. active contexts;
-5. validation summary;
-6. open questions;
-7. provenance policy;
-8. safe-update policy;
-9. latest review link and findings.
-
-`ddd` owns routing/status markers. `ddd-review` owns the latest review link and findings marker. Preserve all other content and never replace the index wholesale.
+The handoff is invalid when authorization is missing, a source is stale, a revision differs, or authorities conflict. A changed source never silently updates the handoff.
 
 ## Boundary
 
-No request or result grants permission to edit product source, tests, configuration, schemas, generated output, deployment files, migrations, or unrelated docs. The orchestrator passes allowed paths through unchanged and refuses outside-scope requests.
+Routing and handoff records never permit product source, tests, configuration, schemas, migrations, deployment files, generated output, runtime behavior, or unrelated documentation changes. Legacy artifacts are read without destructive migration.

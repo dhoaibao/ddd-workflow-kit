@@ -1,43 +1,26 @@
 # Skill portability
 
-This document records portability decisions for the executable focused slices. Each package follows the public Agent Skills shape while keeping behavior and outputs platform-neutral.
+The six packages are portable documentation skills. They do not require a programming language, framework, vendor, database, host, model, deployment topology, or runtime API.
 
 ## Package contract
 
-Each executable package, currently `skills/ddd/`, `skills/ddd-discover/`, `skills/ddd-strategic/`, `skills/ddd-tactical/`, `skills/ddd-adoption/`, and `skills/ddd-review/`, has a required root `SKILL.md`, optional `references/` and `assets/` directories, and a package-local evaluation file under `evals/`. The skill name is lowercase, uses letters, numbers, and hyphens, and matches its directory name. Its description states both what the skill does and when to use it.
+Each package has a root `SKILL.md`, package-local references/assets/evals, and only relative links inside its own package. A package can be copied independently. The validator checks simple frontmatter, links, one-level references, one H1 per Markdown file, required assets, evaluation shape, and forbidden host/machine/runtime-specific references.
 
-The skill instructions do not depend on a particular host, command runner, language framework, model vendor, or activation mechanism. Relative links resolve from the package root. Reference documents remain one level below `references/` so a host can discover them without recursive package conventions.
+## Transport and activation
 
-## Activation and transitions
-
-A host may activate `ddd`, `ddd-discover`, `ddd-strategic`, `ddd-tactical`, `ddd-adoption`, or `ddd-review` directly when its trigger matches. Each skill receives a user goal or stage request, target scope, evidence boundary, permitted paths, and existing artifact context. The orchestrator returns routing state and portable request/result bundles; focused stages return repository artifact changes plus a portable result bundle containing:
-
-- `stage`: the exact package name;
-- `status`: a stage-specific bounded result such as `complete`, `partial`, `blocked`, `not-fit-conflict`, or `strategic-conflict`;
-- `scope` and `changed_artifacts`;
-- evidence, assumptions, open questions, and validation state;
-- a `handoff` with exact next stage and request bundle, or a bounded stop;
-- `invalidated_stages` when later work is stale.
-
-The future `ddd` orchestrator owns routing/state and may pass unchanged bundles between focused stages. A host without named-stage activation returns the exact manual stage name and unchanged bundle; it does not emulate the next skill or claim it ran. Each package remains independently useful when no orchestrator exists.
+`ddd-routing-v1` remains the compatibility transport. The explicitly versioned `ddd-implementation-gate-v1` extension carries one increment ID, target/runtime, baseline, owner, acceptance, containment, dual readiness, ratification, and authority revisions from adoption through review and orchestration. A host without named activation receives the exact manual stage name and unchanged request bundle; no package claims that an unavailable stage ran.
 
 ## File and artifact boundary
 
-The focused slices create or update only their owned strategic, tactical, or discovery documents under `docs/ddd/`:
+- `ddd` owns only `docs/ddd/README.md` routing/status markers and the authorized `docs/ddd/implementation-handoff.md`.
+- discovery conditionally owns assessment/vision/language decision records;
+- strategic owns one selected context and only triggered maps/glossary/additional contexts;
+- tactical owns one model and evidence-backed additive tactical notes;
+- adoption owns one adoption plan;
+- review owns one exception-based review and decision queue.
 
-- discovery owns `assessment.md`, `domain-vision.md`, and initial language sections;
-- strategic owns `domain-map.md`, `context-map.md`, `contexts/<safe-slug>.md`, and strategic language/vision sections;
-- tactical owns `models/<validated-context-slug>.md` plus additive tactical sections in the selected context and language documents;
-- adoption owns `adoption-plan.md` and only its adoption-owned sections;
-- review owns `review.md` and only its review-owned sections;
-- `ddd` owns only routing/status sections of `README.md`; review retains its latest-review link and findings.
+Every stage preserves existing files, reads legacy metadata, uses additive owned sections, and returns stale/conflict routes instead of rewriting another stage's authority.
 
-Each preserves existing files, uses additive owned sections, records provenance and validation state, and asks before destructive or ambiguous updates. Tactical work does not alter context maps or strategic boundaries; boundary conflicts return to strategic design. No focused slice edits product source, tests, configuration, generated output, schemas, or deployment files.
+## Validation scope
 
-## Source and validation scope
-
-The package shape and description requirements are based on the [Agent Skills specification](https://agentskills.io/specification). Instruction-writing guidance is informed by [skill creation best practices](https://agentskills.io/skill-creation/best-practices), and evaluation design by [evaluating skills](https://agentskills.io/skill-creation/evaluating-skills).
-
-The repository validator checks a deterministic subset of those requirements per package: frontmatter delimiters and simple required scalars, name/directory and length rules, description length, the recommended instruction length, relative-file containment, one-level references, package-specific assets/evals, evaluation structure, and forbidden runtime-specific or machine-local paths. It intentionally does not claim full YAML or host compatibility validation and does not reject unknown optional fields merely because it does not interpret them.
-
-The optional official `skills-ref` validator was unavailable in this environment and was not installed. That is a validation gap, not a reason to invent compatibility fields or claim full conformance.
+`python3 scripts/validate-skills.py` is deterministic repository-convention coverage. It validates package isolation, links, H1 counts, runtime neutrality, lean contract markers, evaluation cases, handoff/ratification markers, and the local sanitized fixture. It does not establish live host/model behavior or external-project effectiveness. No external BonVoye repository is accessed by this redesign.

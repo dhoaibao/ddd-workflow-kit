@@ -1,44 +1,22 @@
-# Bounded context
+# Selected bounded context
 
 | Field | Value |
 | --- | --- |
-| `artifact` | `context` |
-| `status` | `draft` |
-| `validation` | `unvalidated` |
-| `owner` | `ddd-strategic` |
-| `scope` | _domain, capability, or context_ |
-| `provenance` | _sources, contributors, and dates_ |
-| `assumptions` | _explicit assumptions or none recorded_ |
-| `open_questions` | _unresolved questions or none recorded_ |
-| `last_updated` | _YYYY-MM-DD_ |
+| `scope` | _one selected capability/increment_ |
+| `state` | _working, decision-needed, current, stale, or superseded_ |
 
-This package template is subordinate to the [context-map contract](context-map-template.md). When materialized at `docs/ddd/contexts/<safe-slug>.md`, the emitted artifact must contain this Markdown link (shown as code): `[Context map](../context-map.md)`. That link is the artifact's authority and relationship facts must not be duplicated here.
+## Purpose and boundary
 
-## Identity and purpose
+- **Purpose/outcome:** _decision-bearing purpose._
+- **Decision owner:** _who owns policy meaning._
+- **In scope:** _terms, workflow, capability, and current slice._
+- **Out of scope:** _neighboring behavior._
 
-- **Name:** _context name and safe slug (lowercase ASCII letters/digits with single hyphens; reject ambiguous or unsafe labels)._
-- **Purpose/outcome:** _what this model supports._
-- **Decision owner:** _stakeholder or team responsible for domain decisions._
-- **Boundary in:** _capabilities, terms, and workflows included._
-- **Boundary out:** _explicit exclusions._
+## Key terms and scenarios
 
-## Language and scenarios
+| Term or scenario | Meaning/behavior that affects the increment | Evidence/owner |
+| --- | --- | --- |
+| _term/scenario_ | _concrete meaning or boundary consequence_ | _source_ |
 
-- **Language:** _context-specific terms and meanings._
-- **Key workflow/scenario:** _concrete scenario._
-- **Policy difference:** _why this context's model differs._
-
-## Invariants to investigate
-
-- _Candidate invariant, evidence, and unresolved question._
-
-## Relationships
-
-| Direction | Other context | Ownership/contract | Translation | Consistency/failure assumption | Evidence |
-| --- | --- | --- | --- | --- | --- |
-| _upstream/downstream_ | _context_ | _who decides and how_ | _mapping_ | _assumption_ | _source_ |
-
-## Validation and open questions
-
-- **Validation:** _unvalidated, partially-validated, validated, or stale with evidence._
-- **Open questions:** _owner and next evidence._
+<!-- Conditional fragment: emit `## Touched relationships` only when a material relationship is selected; otherwise omit it. If emitted, record direction, other context, ownership/translation, consistency/failure assumption, and evidence. -->
+<!-- Conditional fragment: emit `## Blocking boundary decisions` only when an unresolved decision blocks this increment; otherwise omit it and route any queue item to the earliest owner. -->

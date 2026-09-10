@@ -1,0 +1,420 @@
+{
+  "schema_version": "lean-workflow-redesign-v1",
+  "kind": "local-sanitized-bonvoye-shaped-evaluation",
+  "external_access": false,
+  "host_model": "not-run; deterministic repository fixture oracle",
+  "fixture_path": "docs/evaluations/bonvoye-shaped-lean-fixture.json",
+  "oracle": "validator executes the seven-case decision oracle and compares observed outputs to fixture inputs",
+  "bonvoye_shaped_fixture": {
+    "selected_context": "storytelling-experience",
+    "increment_id": "storytelling-characterization-v1",
+    "pre_authorization_artifacts": [
+      "docs/ddd/README.md",
+      "docs/ddd/contexts/storytelling-experience.md",
+      "docs/ddd/models/storytelling-experience.md",
+      "docs/ddd/adoption-plan.md",
+      "docs/ddd/review.md"
+    ],
+    "post_authorization_artifacts": [
+      "docs/ddd/README.md",
+      "docs/ddd/contexts/storytelling-experience.md",
+      "docs/ddd/models/storytelling-experience.md",
+      "docs/ddd/adoption-plan.md",
+      "docs/ddd/review.md",
+      "docs/ddd/implementation-handoff.md"
+    ],
+    "characterization_cases": [
+      "entitled-in-range-online-start",
+      "entitlement-rejection",
+      "readiness-rejection",
+      "duplicate-start",
+      "explicit-completion",
+      "duplicate-completion",
+      "executable-proximity-profiles"
+    ],
+    "executable_proximity_profiles": [
+      "in-range-online",
+      "out-of-range-online"
+    ],
+    "materialized_pre_authorization": [
+      "docs/evaluations/bonvoye-shaped/pre/docs/ddd/README.md",
+      "docs/evaluations/bonvoye-shaped/pre/docs/ddd/contexts/storytelling-experience.md",
+      "docs/evaluations/bonvoye-shaped/pre/docs/ddd/models/storytelling-experience.md",
+      "docs/evaluations/bonvoye-shaped/pre/docs/ddd/adoption-plan.md",
+      "docs/evaluations/bonvoye-shaped/pre/docs/ddd/review.md"
+    ],
+    "materialized_post_authorization": [
+      "docs/evaluations/bonvoye-shaped/post/docs/ddd/README.md",
+      "docs/evaluations/bonvoye-shaped/post/docs/ddd/contexts/storytelling-experience.md",
+      "docs/evaluations/bonvoye-shaped/post/docs/ddd/models/storytelling-experience.md",
+      "docs/evaluations/bonvoye-shaped/post/docs/ddd/adoption-plan.md",
+      "docs/evaluations/bonvoye-shaped/post/docs/ddd/review.md",
+      "docs/evaluations/bonvoye-shaped/post/docs/ddd/implementation-handoff.md"
+    ],
+    "authority_revisions": [
+      {
+        "path": "docs/evaluations/bonvoye-shaped/post/docs/ddd/adoption-plan.md",
+        "target_path": "docs/ddd/adoption-plan.md",
+        "sections": [
+          "Increment identity and outcome",
+          "Dependencies and acceptance"
+        ],
+        "revision": "sha256:75650f46598857463a1d0674d149f264c7b4df7daa52ce41e8bb9e5ddb2a1d8b",
+        "role": "scope-and-delivery"
+      },
+      {
+        "path": "docs/evaluations/bonvoye-shaped/post/docs/ddd/models/storytelling-experience.md",
+        "target_path": "docs/ddd/models/storytelling-experience.md",
+        "sections": [
+          "Outcome and examples",
+          "Commands, rules, and transitions",
+          "Invariants and current-versus-desired delta"
+        ],
+        "revision": "sha256:598d832c1a1032430d03658123e7dc9abd273a79a30dc1110edf2cacd3eaf6d7",
+        "role": "behavior"
+      },
+      {
+        "path": "docs/evaluations/bonvoye-shaped/post/docs/ddd/contexts/storytelling-experience.md",
+        "target_path": "docs/ddd/contexts/storytelling-experience.md",
+        "sections": [
+          "Purpose and boundary",
+          "Key terms and scenarios"
+        ],
+        "revision": "sha256:3b49180aa0fa360af57288de177e9342671e180a425eca5d9a7ed173dfe38a88",
+        "role": "boundary"
+      }
+    ],
+    "gate_before_authorization": {
+      "documentation_readiness": "ready",
+      "increment_gate": "awaiting-ratification",
+      "implementation_handoff": false
+    },
+    "handoff_rule": "no handoff before explicit authorization; one handoff for one increment after authorization",
+    "gate_after_authorization": {
+      "documentation_readiness": "ready",
+      "increment_gate": "authorized",
+      "implementation_handoff": true
+    },
+    "gate_before_envelope": {
+      "version": "ddd-implementation-gate-v1",
+      "increment_id": "storytelling-characterization-v1",
+      "target": {
+        "repository": "sanitized fixture",
+        "runtime": "documentation oracle",
+        "baseline_revision": "fixture-baseline-v1"
+      },
+      "owner": "named implementation owner",
+      "outcome": "characterize one bounded storytelling slice",
+      "in_scope": [
+        "seven deterministic characterization scenarios"
+      ],
+      "out_of_scope": [
+        "product behavior changes",
+        "future publishing topology"
+      ],
+      "return_on_conflict": "ddd-tactical",
+      "acceptance_signals": [
+        "all seven characterization cases match their exact Given/When/Then outputs"
+      ],
+      "containment": [
+        "stop on any authority, oracle, or scope mismatch"
+      ],
+      "accepted_assumptions": [],
+      "deferred_questions": [
+        "future publishing topology"
+      ],
+      "out_of_scope_questions": [],
+      "question_dispositions": [
+        {
+          "id": "Q-001",
+          "disposition": "deferred",
+          "status": "deferred",
+          "impact": "none for this bounded slice",
+          "owner": "named product owner",
+          "action": "record as later hypothesis",
+          "affected_artifacts": [],
+          "revisit_trigger": "next publishing increment",
+          "issue": "future publishing topology"
+        }
+      ],
+      "documentation_readiness": "ready",
+      "authoritative_revisions": [
+        {
+          "path": "docs/ddd/adoption-plan.md",
+          "sections": [
+            "Increment identity and outcome",
+            "Dependencies and acceptance"
+          ],
+          "revision": "sha256:75650f46598857463a1d0674d149f264c7b4df7daa52ce41e8bb9e5ddb2a1d8b",
+          "role": "scope-and-delivery"
+        },
+        {
+          "path": "docs/ddd/models/storytelling-experience.md",
+          "sections": [
+            "Outcome and examples",
+            "Commands, rules, and transitions",
+            "Invariants and current-versus-desired delta"
+          ],
+          "revision": "sha256:598d832c1a1032430d03658123e7dc9abd273a79a30dc1110edf2cacd3eaf6d7",
+          "role": "behavior"
+        },
+        {
+          "path": "docs/ddd/contexts/storytelling-experience.md",
+          "sections": [
+            "Purpose and boundary",
+            "Key terms and scenarios"
+          ],
+          "revision": "sha256:3b49180aa0fa360af57288de177e9342671e180a425eca5d9a7ed173dfe38a88",
+          "role": "boundary"
+        }
+      ],
+      "increment_gate": "awaiting-ratification",
+      "ratification": {
+        "state": "pending"
+      }
+    },
+    "gate_after_envelope": {
+      "version": "ddd-implementation-gate-v1",
+      "increment_id": "storytelling-characterization-v1",
+      "target": {
+        "repository": "sanitized fixture",
+        "runtime": "documentation oracle",
+        "baseline_revision": "fixture-baseline-v1"
+      },
+      "owner": "named implementation owner",
+      "outcome": "characterize one bounded storytelling slice",
+      "in_scope": [
+        "seven deterministic characterization scenarios"
+      ],
+      "out_of_scope": [
+        "product behavior changes",
+        "future publishing topology"
+      ],
+      "return_on_conflict": "ddd-tactical",
+      "acceptance_signals": [
+        "all seven characterization cases match their exact Given/When/Then outputs"
+      ],
+      "containment": [
+        "stop on any authority, oracle, or scope mismatch"
+      ],
+      "accepted_assumptions": [],
+      "deferred_questions": [
+        "future publishing topology"
+      ],
+      "out_of_scope_questions": [],
+      "question_dispositions": [
+        {
+          "id": "Q-001",
+          "disposition": "deferred",
+          "status": "deferred",
+          "impact": "none for this bounded slice",
+          "owner": "named product owner",
+          "action": "record as later hypothesis",
+          "affected_artifacts": [],
+          "revisit_trigger": "next publishing increment",
+          "issue": "future publishing topology"
+        }
+      ],
+      "documentation_readiness": "ready",
+      "authoritative_revisions": [
+        {
+          "path": "docs/ddd/adoption-plan.md",
+          "sections": [
+            "Increment identity and outcome",
+            "Dependencies and acceptance"
+          ],
+          "revision": "sha256:75650f46598857463a1d0674d149f264c7b4df7daa52ce41e8bb9e5ddb2a1d8b",
+          "role": "scope-and-delivery"
+        },
+        {
+          "path": "docs/ddd/models/storytelling-experience.md",
+          "sections": [
+            "Outcome and examples",
+            "Commands, rules, and transitions",
+            "Invariants and current-versus-desired delta"
+          ],
+          "revision": "sha256:598d832c1a1032430d03658123e7dc9abd273a79a30dc1110edf2cacd3eaf6d7",
+          "role": "behavior"
+        },
+        {
+          "path": "docs/ddd/contexts/storytelling-experience.md",
+          "sections": [
+            "Purpose and boundary",
+            "Key terms and scenarios"
+          ],
+          "revision": "sha256:3b49180aa0fa360af57288de177e9342671e180a425eca5d9a7ed173dfe38a88",
+          "role": "boundary"
+        }
+      ],
+      "increment_gate": "authorized",
+      "ratification": {
+        "state": "authorized",
+        "record": {
+          "decision": "authorized",
+          "owner": "named decision owner",
+          "date": "2026-09-10",
+          "increment_id": "storytelling-characterization-v1",
+          "target_repository": "sanitized fixture",
+          "target_runtime": "documentation oracle",
+          "baseline_revision": "fixture-baseline-v1",
+          "outcome": "characterize one bounded storytelling slice",
+          "in_scope": [
+            "seven deterministic characterization scenarios"
+          ],
+          "out_of_scope": [
+            "product behavior changes",
+            "future publishing topology"
+          ],
+          "return_on_conflict": "ddd-tactical",
+          "accepted_revisions": [
+            {
+              "path": "docs/ddd/adoption-plan.md",
+              "sections": [
+                "Increment identity and outcome",
+                "Dependencies and acceptance"
+              ],
+              "revision": "sha256:75650f46598857463a1d0674d149f264c7b4df7daa52ce41e8bb9e5ddb2a1d8b",
+              "role": "scope-and-delivery"
+            },
+            {
+              "path": "docs/ddd/models/storytelling-experience.md",
+              "sections": [
+                "Outcome and examples",
+                "Commands, rules, and transitions",
+                "Invariants and current-versus-desired delta"
+              ],
+              "revision": "sha256:598d832c1a1032430d03658123e7dc9abd273a79a30dc1110edf2cacd3eaf6d7",
+              "role": "behavior"
+            },
+            {
+              "path": "docs/ddd/contexts/storytelling-experience.md",
+              "sections": [
+                "Purpose and boundary",
+                "Key terms and scenarios"
+              ],
+              "revision": "sha256:3b49180aa0fa360af57288de177e9342671e180a425eca5d9a7ed173dfe38a88",
+              "role": "boundary"
+            }
+          ],
+          "accepted_assumptions": [],
+          "deferred_questions": [
+            "future publishing topology"
+          ],
+          "out_of_scope_questions": [],
+          "question_dispositions": [
+            {
+              "id": "Q-001",
+              "disposition": "deferred",
+              "status": "deferred",
+              "impact": "none for this bounded slice",
+              "owner": "named product owner",
+              "action": "record as later hypothesis",
+              "affected_artifacts": [],
+              "revisit_trigger": "next publishing increment",
+              "issue": "future publishing topology"
+            }
+          ],
+          "acceptance_signals": [
+            "all seven characterization cases match their exact Given/When/Then outputs"
+          ],
+          "containment_limitations": [
+            "stop on any authority, oracle, or scope mismatch"
+          ]
+        }
+      }
+    }
+  },
+  "runs": [
+    {
+      "id": "entitled-in-range-online-start",
+      "observed_output": {
+        "decision": "start",
+        "state": "started"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "entitlement-rejection",
+      "observed_output": {
+        "decision": "reject",
+        "reason": "entitlement"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "readiness-rejection",
+      "observed_output": {
+        "decision": "reject",
+        "reason": "readiness"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "duplicate-start",
+      "observed_output": {
+        "decision": "reject",
+        "reason": "duplicate-start"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "explicit-completion",
+      "observed_output": {
+        "decision": "complete",
+        "state": "completed"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "duplicate-completion",
+      "observed_output": {
+        "decision": "reject",
+        "reason": "duplicate-completion"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "executable-proximity-profiles",
+      "observed_output": {
+        "in-range-online": "start",
+        "out-of-range-online": "reject-proximity"
+      },
+      "status": "pass"
+    }
+  ],
+  "checks": {
+    "fixture_inputs_present": true,
+    "seven_characterization_cases": true,
+    "both_executable_proximity_profiles": true,
+    "observed_outputs_match_expected": true,
+    "materialized_artifacts": true,
+    "authority_revisions_real": true,
+    "queue_and_gate_materialized": true,
+    "handoff_materialized": true,
+    "index_present": true,
+    "one_selected_context": true,
+    "unrelated_contexts_omitted": true,
+    "one_candidate_increment": true,
+    "exception_queue": true,
+    "dual_readiness": true,
+    "no_handoff_before_authorization": true,
+    "one_handoff_after_authorization": true,
+    "documentation_only": true,
+    "no_external_project_access": true,
+    "post_index_authorized": true,
+    "handoff_structured": true,
+    "review_owned_state_preserved": true,
+    "logical_handoff_paths": true,
+    "examples_materialized": true,
+    "pre_review_contract_complete": true,
+    "gate_envelope_bound": true,
+    "no_trigger_sections_absent": true,
+    "provenance_citations": true,
+    "declined_decision_recorded": true
+  },
+  "limitations": [
+    "This is a repository-local sanitized fixture, not a run against an external BonVoye repository.",
+    "Static validation and deterministic fixture assertions do not establish live host/model effectiveness.",
+    "No implementation, deployment, migration, or release authorization is represented for the repository itself."
+  ]
+}

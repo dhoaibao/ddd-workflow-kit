@@ -2,7 +2,9 @@
 
 ## Current status
 
-The repository has reviewed, committed focused MVP packages for all five focused stages plus the routing-only `ddd` orchestrator. Phase 3 is implemented; phase 4 full-suite transition and currentness evaluation is complete for candidate review.
+The approved [lean workflow redesign](active/lean-workflow-redesign.md) is implemented across all six packages, shared contracts, templates, evaluations, validator, README, roadmap, and changelog. The candidate is documentation-only and runtime-neutral, with one bounded increment as the progress unit. It is ready for independent changed-code review; no commit or push has been performed.
+
+Historical phase-0 and phase-4 records remain preserved. The local sanitized BonVoye-shaped fixture is recorded in [the redesign report](../evaluations/lean-workflow-redesign-v1-report.json); no external BonVoye repository was accessed.
 
 The roadmap is grounded in the [skill routing design](../skill-design/skills-and-routing.md), [workflow rules](../skill-design/workflows.md), [artifact contracts](../skill-design/artifact-contracts.md), [quality gates](../skill-design/quality-gates.md), and [portability notes](../skill-design/portability.md).
 
