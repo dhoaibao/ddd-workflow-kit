@@ -8,6 +8,7 @@
 - increment_id: storytelling-characterization-v1
 - target repository/runtime: sanitized fixture / documentation oracle
 - baseline revision: fixture-baseline-v1
+- target placement: services/storytelling-experience
 - outcome: characterize one bounded storytelling slice
 - in scope: seven deterministic characterization scenarios
 - out of scope: product behavior changes and future publishing topology

@@ -4,7 +4,7 @@ New model output uses `scope` and `state`; add `owner` only when a named role mu
 
 ## Required model content
 
-The selected model includes only the selected outcome, representative success/failure examples, commands/use cases, rules/invariants, relevant state transitions, current-versus-desired differences, and integration/consistency failure semantics. Each material decision cites evidence near the claim.
+The selected model includes only the selected outcome, representative success/failure examples, commands/use cases, rules/invariants, relevant state transitions, current-versus-desired differences, the smallest consistency boundary that protects each invariant, and integration/consistency failure semantics. Each material decision cites evidence near the claim.
 
 Entities, value objects, aggregates, repositories, services, specifications, factories, events, CQRS, and event sourcing are conditional. A pattern section appears only for a named problem and records evidence, cost, simpler alternative, and revisit trigger. Unused patterns have no row.
 

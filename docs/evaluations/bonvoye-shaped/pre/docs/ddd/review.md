@@ -12,8 +12,8 @@
 - return on conflict: ddd-tactical
 - target repository/runtime: sanitized fixture / documentation oracle
 - baseline revision: fixture-baseline-v1
-- authority: `docs/ddd/adoption-plan.md` — H2 `Increment identity and outcome`, `Dependencies and acceptance` — revision `sha256:75650f46598857463a1d0674d149f264c7b4df7daa52ce41e8bb9e5ddb2a1d8b`
-- authority: `docs/ddd/models/storytelling-experience.md` — H2 `Outcome and examples`, `Commands, rules, and transitions`, `Invariants and current-versus-desired delta` — revision `sha256:598d832c1a1032430d03658123e7dc9abd273a79a30dc1110edf2cacd3eaf6d7`
+- authority: `docs/ddd/adoption-plan.md` — H2 `Increment identity and outcome`, `Dependencies and acceptance` — revision `sha256:98d7176671b0c792e9d4f25096e19a53bb7194e7b61dc2036e033ac77f798291`
+- authority: `docs/ddd/models/storytelling-experience.md` — H2 `Outcome and examples`, `Commands, rules, and transitions`, `Invariants and current-versus-desired delta` — revision `sha256:f392cb6a5710f8731329bd078d2e16c12c44d7d0315a1cb9b9d564310f6f4819`
 - authority: `docs/ddd/contexts/storytelling-experience.md` — H2 `Purpose and boundary`, `Key terms and scenarios` — revision `sha256:3b49180aa0fa360af57288de177e9342671e180a425eca5d9a7ed173dfe38a88`
 
 ## Readiness

@@ -20,7 +20,7 @@ Each disposition's `status` is legal only for its `disposition`: `blocking`/`inv
 
 ## Handoff
 
-`docs/ddd/implementation-handoff.md` is created only when review returns `increment_gate: awaiting-ratification` and a human authorizes that exact increment, moving the gate to `authorized`. It uses `implementation-handoff-v1`, names the accountable implementation owner separately from the human authorization owner, one increment/outcome, target/baseline, exact authoritative artifact paths/sections/revisions/roles, in/out scope, accepted assumptions, typed question dispositions with routing fields, deferred questions, acceptance signals, containment, and `return_on_conflict`.
+`docs/ddd/implementation-handoff.md` is created only when review returns `increment_gate: awaiting-ratification` and a human authorizes that exact increment, moving the gate to `authorized`. It uses `implementation-handoff-v1`, names the accountable implementation owner separately from the human authorization owner, one increment/outcome, target/baseline/placement, exact authoritative artifact paths/sections/revisions/roles, in/out scope, accepted assumptions, typed question dispositions with routing fields, deferred questions, acceptance signals, containment, and `return_on_conflict`. Each of these fields appears exactly once; `authorization` records only the ratifying decision, owner, and date, not a second copy of the scope/target/evidence it ratified.
 
 The handoff is invalid when authorization is missing, a source is stale, a revision differs, or authorities conflict. A changed source never silently updates the handoff.
 

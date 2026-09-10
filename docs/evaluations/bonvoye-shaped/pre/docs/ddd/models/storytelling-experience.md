@@ -23,4 +23,4 @@ The selected commands are start and complete. The seven fixture inputs and expec
 
 ## Invariants and current-versus-desired delta
 
-A story starts only when entitled, ready, in range, online, and not already started. Completion is explicit and occurs only once. This fixture records desired characterization behavior without changing product code.
+A story starts only when entitled, ready, in range, online, and not already started. Completion is explicit and occurs only once. Consistency boundary: the single per-learner, per-story progress record is the smallest boundary that enforces the start/complete transition; no other aggregate co-manages it. This fixture records desired characterization behavior without changing product code.

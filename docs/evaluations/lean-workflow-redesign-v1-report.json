@@ -8,6 +8,7 @@
   "bonvoye_shaped_fixture": {
     "selected_context": "storytelling-experience",
     "increment_id": "storytelling-characterization-v1",
+    "target_placement": "services/storytelling-experience",
     "pre_authorization_artifacts": [
       "docs/ddd/README.md",
       "docs/ddd/contexts/storytelling-experience.md",
@@ -59,7 +60,7 @@
           "Increment identity and outcome",
           "Dependencies and acceptance"
         ],
-        "revision": "sha256:75650f46598857463a1d0674d149f264c7b4df7daa52ce41e8bb9e5ddb2a1d8b",
+        "revision": "sha256:98d7176671b0c792e9d4f25096e19a53bb7194e7b61dc2036e033ac77f798291",
         "role": "scope-and-delivery"
       },
       {
@@ -70,7 +71,7 @@
           "Commands, rules, and transitions",
           "Invariants and current-versus-desired delta"
         ],
-        "revision": "sha256:598d832c1a1032430d03658123e7dc9abd273a79a30dc1110edf2cacd3eaf6d7",
+        "revision": "sha256:f392cb6a5710f8731329bd078d2e16c12c44d7d0315a1cb9b9d564310f6f4819",
         "role": "behavior"
       },
       {
@@ -145,7 +146,7 @@
             "Increment identity and outcome",
             "Dependencies and acceptance"
           ],
-          "revision": "sha256:75650f46598857463a1d0674d149f264c7b4df7daa52ce41e8bb9e5ddb2a1d8b",
+          "revision": "sha256:98d7176671b0c792e9d4f25096e19a53bb7194e7b61dc2036e033ac77f798291",
           "role": "scope-and-delivery"
         },
         {
@@ -155,7 +156,7 @@
             "Commands, rules, and transitions",
             "Invariants and current-versus-desired delta"
           ],
-          "revision": "sha256:598d832c1a1032430d03658123e7dc9abd273a79a30dc1110edf2cacd3eaf6d7",
+          "revision": "sha256:f392cb6a5710f8731329bd078d2e16c12c44d7d0315a1cb9b9d564310f6f4819",
           "role": "behavior"
         },
         {
@@ -223,7 +224,7 @@
             "Increment identity and outcome",
             "Dependencies and acceptance"
           ],
-          "revision": "sha256:75650f46598857463a1d0674d149f264c7b4df7daa52ce41e8bb9e5ddb2a1d8b",
+          "revision": "sha256:98d7176671b0c792e9d4f25096e19a53bb7194e7b61dc2036e033ac77f798291",
           "role": "scope-and-delivery"
         },
         {
@@ -233,7 +234,7 @@
             "Commands, rules, and transitions",
             "Invariants and current-versus-desired delta"
           ],
-          "revision": "sha256:598d832c1a1032430d03658123e7dc9abd273a79a30dc1110edf2cacd3eaf6d7",
+          "revision": "sha256:f392cb6a5710f8731329bd078d2e16c12c44d7d0315a1cb9b9d564310f6f4819",
           "role": "behavior"
         },
         {
@@ -273,7 +274,7 @@
                 "Increment identity and outcome",
                 "Dependencies and acceptance"
               ],
-              "revision": "sha256:75650f46598857463a1d0674d149f264c7b4df7daa52ce41e8bb9e5ddb2a1d8b",
+              "revision": "sha256:98d7176671b0c792e9d4f25096e19a53bb7194e7b61dc2036e033ac77f798291",
               "role": "scope-and-delivery"
             },
             {
@@ -283,7 +284,7 @@
                 "Commands, rules, and transitions",
                 "Invariants and current-versus-desired delta"
               ],
-              "revision": "sha256:598d832c1a1032430d03658123e7dc9abd273a79a30dc1110edf2cacd3eaf6d7",
+              "revision": "sha256:f392cb6a5710f8731329bd078d2e16c12c44d7d0315a1cb9b9d564310f6f4819",
               "role": "behavior"
             },
             {

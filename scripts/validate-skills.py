@@ -1425,8 +1425,10 @@ def validate_materialized_fixture() -> None:
     if set(handoff_payload) != required_handoff or handoff_payload["version"] != "implementation-handoff-v1":
         fail(f"{ROOT / handoff_path}: structured handoff fields are incomplete")
     auth = handoff_payload["authorization"]
-    if not isinstance(auth, dict) or set(auth) != IMPLEMENTATION_GATE_RATIFICATION_RECORD_KEYS:
-        fail(f"{ROOT / handoff_path}: authorization must contain exactly the ratification record fields, with no unknown or missing keys")
+    if not isinstance(auth, dict) or set(auth) != {"decision", "owner", "date"}:
+        fail(f"{ROOT / handoff_path}: authorization must contain exactly decision, owner, and date, with no second copy of the ratified target/scope/evidence")
+    if auth.get("decision") != "authorized" or not isinstance(auth.get("owner"), str) or not auth["owner"].strip() or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(auth.get("date"))):
+        fail(f"{ROOT / handoff_path}: authorization decision/owner/date is invalid")
     if not isinstance(handoff_payload.get("increment"), dict) or set(handoff_payload["increment"]) != {"id", "outcome"}:
         fail(f"{ROOT / handoff_path}: increment must contain exactly id and outcome")
     for artifact in handoff_payload.get("authoritative_artifacts", []):
@@ -1434,6 +1436,11 @@ def validate_materialized_fixture() -> None:
             fail(f"{ROOT / handoff_path}: authoritative_artifacts entries must contain exactly path, sections, revision, and role")
     if not isinstance(handoff_payload.get("implementation_owner"), str) or not handoff_payload["implementation_owner"].strip():
         fail(f"{ROOT / handoff_path}: implementation_owner must be a named accountable implementation owner")
+    handoff_target = handoff_payload.get("target")
+    if not isinstance(handoff_target, dict) or set(handoff_target) != {"repository", "runtime", "baseline_revision", "placement"} or not all(isinstance(handoff_target.get(key), str) and handoff_target[key].strip() for key in ("repository", "runtime", "baseline_revision", "placement")):
+        fail(f"{ROOT / handoff_path}: target must contain exactly repository, runtime, baseline_revision, and placement")
+    if handoff_target["placement"] != fixture.get("target_placement"):
+        fail(f"{ROOT / handoff_path}: target placement is not bound to the ratified adoption plan")
     gate_before = fixture.get("gate_before_envelope")
     gate_after = fixture.get("gate_after_envelope")
     if not isinstance(gate_before, dict) or not isinstance(gate_after, dict) or gate_before.get("increment_gate") != "awaiting-ratification" or gate_before.get("ratification", {}).get("state") != "pending" or gate_after.get("increment_gate") != "authorized" or gate_after.get("ratification", {}).get("state") != "authorized":
@@ -1483,19 +1490,18 @@ def validate_materialized_fixture() -> None:
         except ValidationError:
             continue
         fail(f"{fixture_path}: transition mutation {mutation_name} unexpectedly passed")
-    if auth.get("decision") != "authorized" or auth.get("increment_id") != fixture["increment_id"] or auth.get("target_repository") != handoff_payload["target"]["repository"] or auth.get("target_runtime") != handoff_payload["target"]["runtime"] or auth.get("baseline_revision") != handoff_payload["target"]["baseline_revision"]:
-        fail(f"{ROOT / handoff_path}: authorization does not bind the full target")
-    if gate_after["target"] != handoff_payload["target"] or gate_after["increment_id"] != handoff_payload["increment"]["id"] or gate_after["owner"] != handoff_payload.get("implementation_owner") or auth.get("owner") != gate_after["ratification"].get("record", {}).get("owner"):
+    if handoff_payload["increment"]["id"] != fixture["increment_id"]:
+        fail(f"{ROOT / handoff_path}: handoff increment id is not bound to the fixture")
+    if gate_after["target"] != {key: handoff_target[key] for key in ("repository", "runtime", "baseline_revision")} or gate_after["increment_id"] != handoff_payload["increment"]["id"] or gate_after["owner"] != handoff_payload.get("implementation_owner") or auth.get("owner") != gate_after["ratification"].get("record", {}).get("owner"):
         fail(f"{ROOT / handoff_path}: target, increment, implementation owner, or decision owner is not bound to the ratified gate")
-    if not isinstance(auth.get("owner"), str) or not auth["owner"].strip():
-        fail(f"{ROOT / handoff_path}: decision owner must be a named human, independent of whether it equals the implementation owner")
-    if auth != gate_after["ratification"].get("record"):
-        fail(f"{ROOT / handoff_path}: authorization must equal the ratified gate's decision record exactly")
+    record = gate_after["ratification"].get("record", {})
+    if auth.get("decision") != record.get("decision") or auth.get("owner") != record.get("owner") or auth.get("date") != record.get("date"):
+        fail(f"{ROOT / handoff_path}: authorization decision/owner/date must equal the ratified gate's decision record exactly")
     for field in ("outcome", "in_scope", "out_of_scope", "return_on_conflict", "accepted_assumptions", "deferred_questions", "out_of_scope_questions", "question_dispositions", "acceptance_signals"):
         handoff_value = handoff_payload["increment"]["outcome"] if field == "outcome" else handoff_payload[field]
-        if handoff_value != gate_after[field] or auth[field] != gate_after[field]:
+        if handoff_value != gate_after[field]:
             fail(f"{ROOT / handoff_path}: {field} is not bound to the ratified gate")
-    if auth.get("containment_limitations") != gate_after["containment"] or handoff_payload["containment"] != gate_after["containment"]:
+    if handoff_payload["containment"] != gate_after["containment"]:
         fail(f"{ROOT / handoff_path}: containment is not bound to the ratified gate")
     if handoff_payload["increment"]["outcome"] != gate_after["outcome"]:
         fail(f"{ROOT / handoff_path}: increment outcome is not bound to the ratified gate")
@@ -1509,21 +1515,12 @@ def validate_materialized_fixture() -> None:
         else: candidate[field] = value
         if bound_to_gate(candidate, gate_after):
             fail(f"{ROOT / handoff_path}: handoff mutation {field} was not rejected by gate binding")
-    report_by_target = {item["target_path"]: item for item in report_fixture["authority_revisions"]}
-    accepted_paths = [item.get("path") for item in auth["accepted_revisions"]]
     handoff_authority_paths = [item.get("path") for item in handoff_payload["authoritative_artifacts"]]
-    if any(not isinstance(path, str) or not path.startswith("docs/ddd/") or ".." in path for path in accepted_paths + handoff_authority_paths) or len(set(accepted_paths)) != len(accepted_paths) or len(set(handoff_authority_paths)) != len(handoff_authority_paths):
+    if any(not isinstance(path, str) or not path.startswith("docs/ddd/") or ".." in path for path in handoff_authority_paths) or len(set(handoff_authority_paths)) != len(handoff_authority_paths):
         fail(f"{ROOT / handoff_path}: logical authority paths must be unique and contained under docs/ddd")
-    if {item["path"]: item["revision"] for item in auth["accepted_revisions"]} != {path: item["revision"] for path, item in report_by_target.items()}:
-        fail(f"{ROOT / handoff_path}: accepted logical revisions do not equal the report target-path authority set")
     expected_handoff_authorities = [{"path": item["target_path"], "sections": item["sections"], "revision": item["revision"], "role": item["role"]} for item in report_fixture["authority_revisions"]]
     if handoff_payload["authoritative_artifacts"] != expected_handoff_authorities or gate_after["authoritative_revisions"] != expected_handoff_authorities:
         fail(f"{ROOT / handoff_path}: logical authoritative artifact set is not exact or not bound to the gate")
-    for field in ("accepted_assumptions", "deferred_questions", "out_of_scope_questions", "question_dispositions", "acceptance_signals"):
-        if auth[field] != handoff_payload[field]:
-            fail(f"{ROOT / handoff_path}: authorization {field} is not bound to the handoff")
-    if auth["containment_limitations"] != handoff_payload["containment"]:
-        fail(f"{ROOT / handoff_path}: authorization containment is not bound to the handoff")
     if set(handoff_payload["characterization_cases"]) != {case["id"] for case in fixture["cases"]}:
         fail(f"{ROOT / handoff_path}: handoff does not name all seven characterization cases")
     model_path = next(path for path in authorities if path.endswith("/models/storytelling-experience.md"))

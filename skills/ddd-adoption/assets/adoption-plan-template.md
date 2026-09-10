@@ -12,6 +12,9 @@ This is documentation, not implementation, migration, deployment, or release app
 - **increment_id:** _stable-id._
 - **Target repository/runtime:** _identity._
 - **Baseline revision:** _exact revision._
+- **Target placement:** _module/package/path in the target repository._
+<!-- Conditional fragment: add only when this increment needs a new boundary/deployable; otherwise omit. -->
+<!-- If triggered: **Architecture fit:** the new boundary/deployable and its rationale. -->
 - **Intended outcome:** _bounded outcome._
 - **Concrete change:** _one candidate change._
 - **In scope:** _behavior._

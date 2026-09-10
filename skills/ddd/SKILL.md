@@ -51,7 +51,7 @@ Review may return `documentation_readiness: ready` and `increment_gate: awaiting
 
 The orchestrator then asks for explicit human ratification of that exact increment. Record the authorized implementation owner separately from the human decision owner, plus the decision, date, stable ID, target repository/runtime/baseline, exact outcome/scope/return contract, accepted artifact revisions, assumptions/questions, typed question dispositions, acceptance signals, and containment limitations. A declined decision also records its reason and remains persisted in the authorization marker; a declined or absent decision creates no handoff. Authorization moves the transport gate to `authorized`.
 
-After authorization, create exactly one `docs/ddd/implementation-handoff.md` using [the handoff template](assets/implementation-handoff-template.md). Reference authoritative sections and exact revisions; do not copy their content. The handoff is the sole implementation entry point and returns conflicts to its named DDD stage.
+After authorization, create exactly one `docs/ddd/implementation-handoff.md` using [the handoff template](assets/implementation-handoff-template.md). The handoff records the ratified decision, owner, and date once under `authorization`, and its target, scope, and evidence fields once at the top level; it never carries a second copy of the same ratified value. Its target additionally names `placement` (module/package/path in the target repository), taken from the ratified adoption plan. Reference authoritative sections and exact revisions; do not copy their content. The handoff is the sole implementation entry point and returns conflicts to its named DDD stage.
 
 ## Legacy and safe updates
 

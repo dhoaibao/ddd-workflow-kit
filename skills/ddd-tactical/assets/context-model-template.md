@@ -27,9 +27,9 @@
 
 ## Invariants and current-versus-desired delta
 
-| Invariant | Evidence/owner | Immediate/eventual consistency | Failure consequence | Current behavior | Desired behavior |
-| --- | --- | --- | --- | --- | --- |
-| _invariant_ | _source_ | _why_ | _what must not happen_ | _observed_ | _required_ |
+| Invariant | Evidence/owner | Immediate/eventual consistency | Consistency boundary | Failure consequence | Current behavior | Desired behavior |
+| --- | --- | --- | --- | --- | --- | --- |
+| _invariant_ | _source_ | _why_ | _smallest boundary/aggregate that protects this invariant_ | _what must not happen_ | _observed_ | _required_ |
 
 <!-- Conditional fragment: omit this entire section when no relationship, async, external-contract, concurrency, privacy, data, or brownfield trigger exists. -->
 ## Relevant integration semantics

@@ -78,11 +78,11 @@ Require purpose and business-decision owner; explicit in/out boundary; and key s
 
 ### Tactical model
 
-Require selected outcome; success/failure examples; commands/use cases; rules/invariants; relevant transitions; current-versus-desired differences; integration/consistency failure semantics; blocking decisions and evidence. Include entities, value objects, aggregates, repositories, services, specifications, factories, events, CQRS, or event sourcing only when a named problem requires them.
+Require selected outcome; success/failure examples; commands/use cases; rules/invariants; relevant transitions; current-versus-desired differences; the smallest consistency boundary protecting each invariant; integration/consistency failure semantics; blocking decisions and evidence. Include entities, value objects, aggregates, repositories, services, specifications, factories, events, CQRS, or event sourcing only when a named problem requires them.
 
 ### Adoption plan
 
-Require stable `increment_id`; repository/runtime and baseline; intended outcome and concrete change; in/out scope; accountable implementation owner; dependencies; observable acceptance; and stop conditions. Add material risk/containment, a decision queue, and accepted/deferred questions only when their recorded triggers affect this increment. Later increments are hypotheses.
+Require stable `increment_id`; repository/runtime and baseline; target placement (module/package/path in the target repository); intended outcome and concrete change; in/out scope; accountable implementation owner; dependencies; observable acceptance; and stop conditions. Add material risk/containment, a decision queue, an architecture-fit note, and accepted/deferred questions only when their recorded triggers affect this increment. Later increments are hypotheses.
 
 ### Review
 
@@ -142,34 +142,6 @@ authorization:
   decision: authorized
   owner: named decision owner
   date: YYYY-MM-DD
-  increment_id: stable-id
-  target_repository: repository identity
-  target_runtime: runtime identity
-  baseline_revision: exact revision
-  accepted_revisions:
-    - path: docs/ddd/adoption-plan.md
-      sections: [Increment identity and outcome, Dependencies and acceptance]
-      revision: sha256:<64 lowercase hex digits>
-      role: scope-and-delivery
-  accepted_assumptions: []
-  deferred_questions: []
-  out_of_scope_questions: []
-  question_dispositions:
-    - id: Q-001
-      disposition: resolved
-      status: resolved
-      issue: later hypothesis candidate
-      impact: no impact on this increment
-      owner: named product owner
-      action: record as later hypothesis
-      affected_artifacts: []
-      revisit_trigger: next publishing increment
-  acceptance_signals: [observable signal]
-  containment_limitations: [stop/rollback limit]
-  outcome: bounded outcome
-  in_scope: [one named behavior]
-  out_of_scope: [product/runtime changes]
-  return_on_conflict: ddd-tactical
 implementation_owner: named implementation owner
 increment:
   id: stable-id
@@ -178,6 +150,7 @@ target:
   repository: repository identity
   runtime: runtime identity
   baseline_revision: exact revision
+  placement: module/package/path in the target repository
 authoritative_artifacts:
   - path: docs/ddd/adoption-plan.md
     sections: [Increment identity and outcome, Dependencies and acceptance]
@@ -203,7 +176,7 @@ containment: [stop/rollback limit]
 return_on_conflict: ddd-tactical
 ```
 
-`authorization.accepted_revisions` must equal `authoritative_artifacts` exactly, including `sections` and `role`, not only path and revision. A handoff is invalid when authorization is missing, a listed artifact is stale, a revision no longer matches, a listed H2 heading is absent, or authorities conflict.
+Every scope, target, and evidence field is recorded exactly once; `authorization` names only the decision, owner, and date, not a second copy. `target.repository`, `target.runtime`, and `target.baseline_revision` must equal the ratified gate's target; `target.placement` names the module/package/path for this increment, taken from the ratified adoption plan. A handoff is invalid when authorization is missing, a listed artifact is stale, a revision no longer matches, a listed H2 heading is absent, or authorities conflict.
 
 ## Coding-agent consumption
 

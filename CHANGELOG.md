@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Closed two implementer-facing gaps in the tactical/adoption contracts: `ddd-tactical`'s context-model template names an explicit `Consistency boundary` for each invariant, and `ddd-adoption`'s adoption-plan template names a `Target placement` (module/package/path) plus a conditional architecture-fit note for a new boundary/deployable.
+- Collapsed `implementation-handoff-v1`'s literal duplication: `authorization` now records only the human `decision`, `owner`, and `date`; every scope, target, and evidence field (including the new `target.placement`) is recorded exactly once at the top level instead of twice, shrinking the template from 102 to 67 lines with no loss of tamper-detection strength. Synced `docs/skill-design/artifact-contracts.md`, `skills/ddd/SKILL.md`, `skills/ddd/references/artifact-contracts.md`, and `scripts/validate-skills.py`'s materialized-fixture gate-binding checks; regenerated the BonVoye-shaped fixture's `adoption-plan.md`, `models/storytelling-experience.md`, `review.md`, and `implementation-handoff.md` (pre/post) with recomputed `sha256` authority revisions.
+
 ## [0.3.0] - 2026-09-10
 
 ### Added
