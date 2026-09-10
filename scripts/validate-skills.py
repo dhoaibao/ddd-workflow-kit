@@ -37,7 +37,11 @@ TACTICAL_ASSETS = {"context-model-template.md"}
 ADOPTION_ASSETS = {"adoption-plan-template.md"}
 REVIEW_ASSETS = {"review-template.md"}
 ORCHESTRATOR_ASSETS = {"request-result-template.md", "ddd-readme-template.md", "implementation-handoff-template.md"}
-IMPLEMENTATION_FASTAPI_HDX_ASSETS = {"implementation-record-template.md", "domain-skeleton.md"}
+IMPLEMENTATION_FASTAPI_HDX_ASSETS = {
+    "implementation-record-template.md",
+    "domain-skeleton.md",
+    "service-skeleton.md",
+}
 PACKAGE_REQUIREMENTS = {
     "ddd-discover": {"assets": DISCOVERY_ASSETS, "minimum_evals": 6},
     "ddd-strategic": {"assets": STRATEGIC_ASSETS, "minimum_evals": 7},

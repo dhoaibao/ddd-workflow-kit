@@ -506,7 +506,9 @@ mkdir -p "$LEGACY_HOME"
 HOME="$LEGACY_HOME" bash "$ROOT/install.sh" --source-dir "$ROOT" --agent pi --global
 sed -i.bak '/"skills":/d' "$LEGACY_HOME/.ddd-workflow-kit/manifest.json" && rm -f "$LEGACY_HOME/.ddd-workflow-kit/manifest.json.bak"
 LEGACY_SRC="$TMP/legacy-skills-header-src"
-cp -R "$ROOT" "$LEGACY_SRC"
+mkdir -p "$LEGACY_SRC"
+cp "$ROOT/install.sh" "$ROOT/VERSION" "$ROOT/PACKAGES" "$LEGACY_SRC/"
+cp -R "$ROOT/skills" "$LEGACY_SRC/skills"
 rm -rf "$LEGACY_SRC/skills/ddd-discover"
 HOME="$LEGACY_HOME" bash "$ROOT/install.sh" --source-dir "$LEGACY_SRC" --update
 assert_not_exists "$LEGACY_HOME/.pi/agent/skills/ddd-discover"

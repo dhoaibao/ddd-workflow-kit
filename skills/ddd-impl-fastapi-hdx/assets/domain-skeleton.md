@@ -1,6 +1,6 @@
 # Domain skeleton (canonical layout)
 
-A minimal, host-neutral layout for one bounded-context domain package under an existing `HdxApplication` composition root, matching the kit's documented folder convention and its acyclic-import decision for the builder. Names other than the fixed module names below are illustrative placeholders, not literal requirements. Always confirm the installed kit version's actual layout/API during target preflight; treat a mismatch as a stop, not a silent adaptation.
+A minimal, host-neutral layout for one bounded-context domain package under an existing `HdxApplication` composition root, matching `examples/booking/` (the kit's canonical worked example) and its acyclic-import decision for the builder — not the human-facing folder-name table in `docs/ARCHITECTURE.md` §5 (`entities/`, `value_objects/`, `commands/`, `queries/`, `events/`, `policies/`, `states/`, `handlers/`), which names a different, equally valid convention the kit does not mechanically enforce either way. Following the worked example is the better default because it is the shape the kit's own decision records (0016, 0018) were written against; do not diff this skeleton against §5 and treat a difference as a defect. Names other than the fixed module names below are illustrative placeholders, not literal requirements. Always confirm the installed kit version's actual layout/API during target preflight; treat a mismatch as a stop, not a silent adaptation.
 
 ## A domain with commands/queries (handler domain)
 
@@ -74,6 +74,10 @@ A domain with no commands/queries of its own has no builder and no router; it de
                   # event_consumers=(EventConsumerDefinition(...),)); imports
                   # the producer's IntegrationEvent class by name, never a
                   # string event-name literal.
+  infrastructure/
+    models.py       # SQLAlchemy model(s) for this consumer's own projection
+                     # table(s) — a consumer domain still owns its schema even
+                     # though it has no commands/queries/router of its own.
 ```
 
 ## Non-negotiable structural rules

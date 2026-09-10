@@ -34,6 +34,8 @@ curl -fsSL https://raw.githubusercontent.com/dhoaibao/ddd-workflow-kit/main/inst
   bash -s -- --agent pi --global --skill ddd-impl-fastapi-hdx
 ```
 
+Optional-package selection is recorded once per local install state (`~/.ddd-workflow-kit/manifest.json`), not per destination: opting into `ddd-impl-fastapi-hdx` for one agent also links it for the next agent or scope you register on the same machine unless you explicitly pass a narrower `--skill` on that later run.
+
 To refresh every registration later, preserving the prior package selection:
 
 ```bash
