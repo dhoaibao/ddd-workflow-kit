@@ -15,7 +15,7 @@ printf '1. global install and manager\n'
 bash "$ROOT/install.sh" --source-dir "$ROOT" --agent pi --global
 assert [ -L "$HOME/.pi/agent/skills/ddd" ]
 assert [ -x "$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" ]
-assert [ "$("$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" version)" = 0.1.0 ]
+assert [ "$("$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" version)" = 0.1.1 ]
 
 printf '2. project path with spaces, multi-agent selection, and deduplication\n'
 PROJECT="$TMP/project with spaces"
@@ -64,7 +64,7 @@ fi
 assert [ -d "$HOME/.ddd-workflow-kit/skills/ddd" ]
 assert [ -f "$HOME/.ddd-workflow-kit/manifest.json" ]
 assert [ -f "$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" ]
-assert [ "$(cat "$HOME/.ddd-workflow-kit/VERSION")" = 0.1.0 ]
+assert [ "$(cat "$HOME/.ddd-workflow-kit/VERSION")" = 0.1.1 ]
 assert [ "$(readlink "$HOME/.pi/agent/skills/ddd")" = "$HOME/.ddd-workflow-kit/skills/ddd" ]
 SIGNAL_BIN="$TMP/signal-mv"
 mkdir -p "$SIGNAL_BIN"
