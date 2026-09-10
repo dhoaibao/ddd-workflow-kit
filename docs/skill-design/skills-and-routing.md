@@ -1,6 +1,6 @@
 # Skills and routing
 
-The six portable packages are `ddd`, `ddd-discover`, `ddd-strategic`, `ddd-tactical`, `ddd-adoption`, and `ddd-review`. They preserve the documentation-only/runtime-neutral boundary and use one bounded increment as the unit of progress.
+The suite ships two package classes, listed in the release-root `PACKAGES` manifest. Six `document`-class packages — `ddd`, `ddd-discover`, `ddd-strategic`, `ddd-tactical`, `ddd-adoption`, and `ddd-review` — install by default, preserve the documentation-only/runtime-neutral boundary, and use one bounded increment as the unit of progress. `implementation`-class packages (currently `ddd-impl-fastapi-hdx`) are explicit opt-in installs that write target-project code for one ratified increment; see [Implementation packages](#implementation-packages).
 
 ## Shared rules
 
@@ -57,3 +57,9 @@ Review checks all gates internally and emits exceptions. It records `documentati
 ## Consumption contract
 
 A downstream coding workflow reads the exact authorized handoff first, then only listed increment, tactical, boundary, and strategic sources, followed by current source/tests and a technical plan. Any changed revision, stale authority, conflicting source, new domain decision, or scope expansion returns to the named DDD stage.
+
+## Implementation packages
+
+An `implementation`-class package is a separate, opt-in, stack-specific consumer of `docs/ddd/implementation-handoff.md`; it is the only package class that writes target-project product code and tests. It never touches the document-workflow stages, the `ddd-routing-v1`/`ddd-implementation-gate-v1` transport, or another package's owned artifact. `ddd` names only the generic consumption contract above; it does not link to or assume any specific implementation package.
+
+`ddd-impl-fastapi-hdx` is the first such package: it implements one ratified increment in a target Python/FastAPI repository built on `hdx-domain-kit`. It verifies the handoff's authorization, authority revisions, and required headings before writing anything; may autonomously write domain code and tests for the ratified increment; gates migrations, composition-root edits, and dependency/config changes on explicit per-run approval; and owns exactly one target-project artifact, `docs/ddd/implementation/<increment-id>.md`.

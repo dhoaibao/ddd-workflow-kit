@@ -1,6 +1,6 @@
 # Lean artifact contracts
 
-The workflow writes selective, documentation-only aids under a target project's `docs/ddd/`. A paragraph, field, or table is permitted only when removing it would change a decision, implementation behavior, boundary/contract, verification signal, or material risk.
+The document workflow (the six `document`-class packages) writes selective, documentation-only aids under a target project's `docs/ddd/`. A paragraph, field, or table is permitted only when removing it would change a decision, implementation behavior, boundary/contract, verification signal, or material risk. An installed `implementation`-class package's target-repository code and tests are outside this documentation-only contract; see [Implementation-owned artifact](#implementation-owned-artifact).
 
 ## Lean metadata contract
 
@@ -181,6 +181,10 @@ Every scope, target, and evidence field is recorded exactly once; `authorization
 ## Coding-agent consumption
 
 A downstream coding workflow reads, in order: the handoff; the selected adoption increment; referenced tactical examples/rules/invariants; referenced context boundary/relationships; only explicitly listed strategic/vocabulary material; existing source/tests; and a repository-specific technical plan before editing. It implements only the authorized increment and returns to the named DDD stage when authority changes, sources are stale or conflict, behavior is absent, a new decision appears, or scope expands.
+
+## Implementation-owned artifact
+
+An installed implementation-class package (for example `ddd-impl-fastapi-hdx`) is one consumer of the handoff. It owns exactly one target-project artifact per increment, `docs/ddd/implementation/<increment-id>.md`, namespaced under `implementation/` so it never collides with the `ddd`-owned `docs/ddd/implementation-handoff.md`. That record carries the repository-specific technical plan, the files touched, checks run, gated items proposed/approved, and any deviation from the handoff. It never edits the handoff or any other document-workflow artifact.
 
 ## Safe create/update behavior
 

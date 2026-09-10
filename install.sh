@@ -24,6 +24,8 @@ Install options:
   --global                 Register skills in the selected agents' global dirs
   --project [PATH]         Register skills in a project (default: current dir)
   --path PATH              Register one explicit skills directory
+  --skill NAME[,NAME...]   Select packages to link, or 'all'; default is every
+                           document-class package (see PACKAGES)
   --update                 Refresh every registration in the existing manifest
   --source-dir PATH        Use a local release directory (maintainer/testing)
   --help                   Show this help
@@ -320,6 +322,50 @@ interactive_close() {
   fi
 }
 
+prompt_skills() {
+  previous_extra=$(previous_implementation_selection)
+  selector_reset
+  SELECTOR_TITLE='optional packages'
+  SELECTOR_ACTION='Space toggles'
+  SELECTOR_HINT='Space toggles optional implementation packages; document packages install by default.'
+  SELECTOR_MULTI=1
+  oldIFS=$IFS; IFS=' '
+  for name in $IMPLEMENTATION_SKILL_NAMES; do
+    [ -n "$name" ] || continue
+    selector_add_option "$(package_label "$name")" "$name"
+  done
+  IFS=$oldIFS
+  # Pre-check packages already selected in a prior install/update so that
+  # accepting the default does not silently drop them.
+  index=1
+  while [ "$index" -le "$SELECTOR_COUNT" ]; do
+    case " $previous_extra " in *" $(selector_value "$index") "*) selector_toggle "$index" ;; esac
+    index=$((index + 1))
+  done
+  selector_begin /dev/tty
+  selector_draw
+  while :; do
+    selector_read_event || { selector_restore; fail 'could not read package selection'; }
+    case "$SELECTOR_EVENT" in
+      up) [ "$SELECTOR_CURSOR" -gt 1 ] && SELECTOR_CURSOR=$((SELECTOR_CURSOR - 1)) ;;
+      down) [ "$SELECTOR_CURSOR" -lt "$SELECTOR_COUNT" ] && SELECTOR_CURSOR=$((SELECTOR_CURSOR + 1)) ;;
+      space) selector_toggle "$SELECTOR_CURSOR" ;;
+      enter) break ;;
+      cancel) selector_restore; fail 'interactive selection cancelled' ;;
+    esac
+    selector_draw
+  done
+  selector_restore
+  SELECTED_IMPL_FROM_PROMPT=''
+  index=1
+  while [ "$index" -le "$SELECTOR_COUNT" ]; do
+    if selector_selected "$index"; then
+      SELECTED_IMPL_FROM_PROMPT="$SELECTED_IMPL_FROM_PROMPT $(selector_value "$index")"
+    fi
+    index=$((index + 1))
+  done
+}
+
 prompt_selection() {
   tty=/dev/tty
   [ -r "$tty" ] && [ -w "$tty" ] || fail 'interactive selection requires /dev/tty; use --agent NAME and --global/--project/--path'
@@ -335,6 +381,12 @@ prompt_selection() {
       ;;
     *) fail 'internal: invalid scope' ;;
   esac
+  SELECTED_IMPL_FROM_PROMPT=''
+  PROMPT_SKILLS_RAN=0
+  if [ -n "$IMPLEMENTATION_SKILL_NAMES" ]; then
+    prompt_skills
+    PROMPT_SKILLS_RAN=1
+  fi
   interactive_close
 }
 
@@ -357,7 +409,7 @@ validate_archive_listing() {
   while IFS= read -r entry; do
     case "$entry" in
       /*|../*|*/../*|*/..|.*|*/./*|*/.|*/.*|*'\n'*|*'\r'*) fail "unsafe release archive entry: $entry" ;;
-      install.sh|VERSION|skills|skills/*) : ;;
+      install.sh|VERSION|PACKAGES|skills|skills/*) : ;;
       *) fail "unexpected release archive entry: $entry" ;;
     esac
   done <<EOF
@@ -395,14 +447,82 @@ prepare_download_source() {
   tar -xzf "$archive" -C "$extract" || fail "cannot extract release archive"
   bad_member=$(find "$extract" -type l -print -quit)
   [ -z "$bad_member" ] || fail "release archive contains a symlink: $bad_member"
-  [ -f "$extract/install.sh" ] && [ -f "$extract/VERSION" ] && [ -d "$extract/skills" ] || fail "release archive is missing required files"
+  [ -f "$extract/install.sh" ] && [ -f "$extract/VERSION" ] && [ -f "$extract/PACKAGES" ] && [ -d "$extract/skills" ] || fail "release archive is missing required files"
   SOURCE_DIR=$extract
+}
+
+# Parses the release's PACKAGES manifest (name<TAB>class<TAB>label) into
+# PACKAGE_LINES plus the DOCUMENT_SKILL_NAMES/IMPLEMENTATION_SKILL_NAMES
+# selection groups. Rows naming a package with no matching skills/ directory
+# are ignored here; scripts/validate-skills.py enforces the exact 1:1 match.
+load_package_classes() {
+  packages_file="$1/PACKAGES"
+  PACKAGE_LINES=""
+  DOCUMENT_SKILL_NAMES=""
+  IMPLEMENTATION_SKILL_NAMES=""
+  while IFS= read -r line || [ -n "$line" ]; do
+    [ -n "$line" ] || continue
+    name=$(printf '%s' "$line" | awk -F '\t' '{print $1}')
+    class=$(printf '%s' "$line" | awk -F '\t' '{print $2}')
+    label=$(printf '%s' "$line" | awk -F '\t' '{print $3}')
+    [ -n "$name" ] && [ -n "$class" ] || fail "PACKAGES manifest has an invalid row: $line"
+    case " $SKILL_NAMES " in *" $name "*) : ;; *) continue ;; esac
+    PACKAGE_LINES="$PACKAGE_LINES$(printf '%s\t%s\t%s' "$name" "$class" "$label")
+"
+    case "$class" in
+      document) DOCUMENT_SKILL_NAMES="$DOCUMENT_SKILL_NAMES $name" ;;
+      implementation) IMPLEMENTATION_SKILL_NAMES="$IMPLEMENTATION_SKILL_NAMES $name" ;;
+      *) fail "PACKAGES manifest has an unknown class for $name: $class" ;;
+    esac
+  done < "$packages_file"
+  [ -n "$DOCUMENT_SKILL_NAMES" ] || fail "PACKAGES manifest names no document-class package"
+}
+
+package_label() {
+  wanted=$1
+  oldIFS=$IFS; IFS=$'\n'
+  for line in $PACKAGE_LINES; do
+    [ -n "$line" ] || continue
+    name=$(printf '%s' "$line" | awk -F '\t' '{print $1}')
+    [ "$name" = "$wanted" ] || continue
+    printf '%s' "$line" | awk -F '\t' '{print $3}'
+    IFS=$oldIFS
+    return 0
+  done
+  IFS=$oldIFS
+  printf '%s' "$wanted"
+}
+
+# Names the implementation-class packages selected by an existing manifest,
+# if any. Used so a fresh, non-interactive install that only names an agent
+# (no --skill) does not silently drop a previously opted-in optional
+# package from unrelated destinations, and so the interactive prompt starts
+# with previously-selected optional packages pre-checked.
+previous_implementation_selection() {
+  result=""
+  if [ -f "$MANIFEST" ]; then
+    previous=$(manifest_header_field skills)
+    if [ -n "$previous" ]; then
+      oldIFS=$IFS; IFS=','
+      # shellcheck disable=SC2086
+      set -- $previous
+      IFS=$oldIFS
+      for name in "$@"; do
+        [ -n "$name" ] || continue
+        case " $IMPLEMENTATION_SKILL_NAMES " in *" $name "*) : ;; *) continue ;; esac
+        case " $result " in *" $name "*) continue ;; esac
+        result="$result $name"
+      done
+    fi
+  fi
+  printf '%s' "$result"
 }
 
 validate_source() {
   [ -d "$1/skills" ] || fail "source has no skills directory: $1"
   [ -f "$1/VERSION" ] || fail "source has no VERSION file: $1"
   [ -f "$1/install.sh" ] || fail "source has no install.sh: $1"
+  [ -f "$1/PACKAGES" ] || fail "source has no PACKAGES manifest: $1"
   bad_member=$(find "$1/skills" -type l -print -quit)
   [ -z "$bad_member" ] || fail "source contains a symlink: $bad_member"
   VERSION=$(awk 'NF {print $1; exit}' "$1/VERSION")
@@ -415,6 +535,7 @@ validate_source() {
     SKILL_NAMES="$SKILL_NAMES $skill"
   done
   [ -n "$SKILL_NAMES" ] || fail "source contains no skills"
+  load_package_classes "$1"
 }
 
 # Read one compact manifest object. The manifest is generated by this script;
@@ -574,7 +695,7 @@ preflight_links() {
   for line in $OLD_LINK_LINES; do
     [ -n "$line" ] || continue
     skill=$(field "$line" skill); path=$(field "$line" path); target=$(field "$line" target)
-    case " $SKILL_NAMES " in *" $skill "*) continue ;; esac
+    case " $SELECTED_SKILLS " in *" $skill "*) continue ;; esac
     if [ -e "$path" ] || [ -L "$path" ]; then
       [ -L "$path" ] || fail "deleted skill collision is not a symlink: $path"
       actual=$(readlink "$path") || fail "cannot inspect deleted skill link: $path"
@@ -587,9 +708,10 @@ preflight_links() {
   for record in $DEST_LINES; do
     [ -n "$record" ] || continue
     dest=$(printf '%s' "$record" | awk -F '\t' '{print $1}')
-    for skill_dir in "$SOURCE_DIR/skills"/*; do
-      [ -d "$skill_dir" ] || continue
-      skill=$(basename "$skill_dir"); path="$dest/$skill"
+    skillIFS=$IFS; IFS=' '
+    for skill in $SELECTED_SKILLS; do
+      [ -n "$skill" ] || continue
+      path="$dest/$skill"
       if [ -e "$path" ] || [ -L "$path" ]; then
         [ -L "$path" ] || fail "refusing to overwrite unmanaged path: $path"
         actual=$(readlink "$path") || fail "cannot inspect existing link: $path"
@@ -598,6 +720,7 @@ preflight_links() {
         [ -n "$oldline" ] && [ "$actual" = "$oldtarget" ] || fail "refusing to repoint unmanaged or repointed link: $path"
       fi
     done
+    IFS=$skillIFS
   done
   IFS=$oldIFS
 }
@@ -615,11 +738,21 @@ registered_agents_for_dest() {
   printf '%s' "$result"
 }
 
+join_comma() {
+  result=""
+  for item in $1; do
+    [ -n "$item" ] || continue
+    [ -n "$result" ] && result="$result,$item" || result=$item
+  done
+  printf '%s' "$result"
+}
+
 write_manifest() {
   destination=$1
   tmp="$destination.tmp.$$"
+  skills_csv=$(join_comma "$SELECTED_SKILLS")
   {
-    printf '{\n  "schema": 1,\n  "version": "%s",\n  "source": "%s",\n  "registrations": [\n' "$(json_escape "$VERSION")" "$(json_escape "$SOURCE_URL")"
+    printf '{\n  "schema": 1,\n  "version": "%s",\n  "source": "%s",\n  "skills": "%s",\n  "registrations": [\n' "$(json_escape "$VERSION")" "$(json_escape "$SOURCE_URL")" "$(json_escape "$skills_csv")"
     first=1
     oldIFS=$IFS; IFS=$'\n'
     for record in $REG_LINES; do
@@ -636,12 +769,14 @@ write_manifest() {
       [ -n "$destination_record" ] || continue
       dest=$(printf '%s' "$destination_record" | awk -F '\t' '{print $1}'); scope=$(printf '%s' "$destination_record" | awk -F '\t' '{print $2}'); root=$(printf '%s' "$destination_record" | awk -F '\t' '{print $3}')
       agents=$(registered_agents_for_dest "$dest")
-      for skill_dir in "$SOURCE_DIR/skills"/*; do
-        [ -d "$skill_dir" ] || continue
-        skill=$(basename "$skill_dir"); path="$dest/$skill"; target="$CACHE_DIR/$skill"
+      skillIFS=$IFS; IFS=' '
+      for skill in $SELECTED_SKILLS; do
+        [ -n "$skill" ] || continue
+        path="$dest/$skill"; target="$CACHE_DIR/$skill"
         [ "$first" -eq 1 ] || printf ',\n'; first=0
         printf '    {"agent":"%s","scope":"%s","project_root":"%s","skill":"%s","path":"%s","target":"%s"}' "$(json_escape "$agents")" "$(json_escape "$scope")" "$(json_escape "$root")" "$(json_escape "$skill")" "$(json_escape "$path")" "$(json_escape "$target")"
       done
+      IFS=$skillIFS
     done
     IFS=$oldIFS
     printf '\n  ]\n}\n'
@@ -668,7 +803,7 @@ validate_archive() {
   while IFS= read -r entry; do
     case "\$entry" in
       /*|../*|*/../*|*/..|.*|*/./*|*/.|*/.*) echo "ddd-workflow-kit: unsafe release archive entry: \$entry" >&2; exit 1 ;;
-      install.sh|VERSION|skills|skills/*) : ;;
+      install.sh|VERSION|PACKAGES|skills|skills/*) : ;;
       *) echo "ddd-workflow-kit: unsafe release archive entry: \$entry" >&2; exit 1 ;;
     esac
   done <<LISTING
@@ -709,6 +844,86 @@ write_cached_installer() {
   mv "$tmp" "$INSTALLER" || fail "cannot install cached installer"
 }
 
+build_selected_skills_from_arg() {
+  SELECTED_SKILLS=""
+  if [ "$SKILL_ARG" = all ]; then
+    SELECTED_SKILLS=$SKILL_NAMES
+    return
+  fi
+  oldIFS=$IFS; IFS=','
+  # shellcheck disable=SC2086
+  set -- $SKILL_ARG
+  IFS=$oldIFS
+  for name in "$@"; do
+    [ -n "$name" ] || continue
+    case " $SKILL_NAMES " in *" $name "*) : ;; *) fail "unknown --skill package: $name" ;; esac
+    case " $SELECTED_SKILLS " in *" $name "*) continue ;; esac
+    SELECTED_SKILLS="$SELECTED_SKILLS $name"
+  done
+}
+
+# Every document-class package is always part of the selection; --skill and
+# the interactive prompt only add or remove optional implementation-class
+# packages on top of that baseline.
+ensure_document_baseline() {
+  for name in $DOCUMENT_SKILL_NAMES; do
+    [ -n "$name" ] || continue
+    case " $SELECTED_SKILLS " in *" $name "*) continue ;; esac
+    SELECTED_SKILLS="$SELECTED_SKILLS $name"
+  done
+}
+
+# Resolves which skills get symlinked this run. Explicit --skill always wins
+# and replaces any previously-selected optional packages; otherwise an
+# update preserves the manifest's prior selection (falling back to every
+# previously-linked skill for a manifest written before package classes
+# existed); a fresh interactive install adds any optional implementation
+# packages chosen in the prompt; anything else defaults to every
+# document-class package. Document-class packages are never deselectable.
+resolve_selected_skills() {
+  if [ -n "$SKILL_ARG" ]; then
+    build_selected_skills_from_arg
+    ensure_document_baseline
+    return
+  fi
+  if [ "$UPDATE" -eq 1 ]; then
+    [ -f "$MANIFEST" ] || fail "cannot update before an install"
+    previous=$(manifest_header_field skills)
+    SELECTED_SKILLS=""
+    if [ -n "$previous" ]; then
+      oldIFS=$IFS; IFS=','
+      # shellcheck disable=SC2086
+      set -- $previous
+      IFS=$oldIFS
+      for name in "$@"; do
+        [ -n "$name" ] || continue
+        case " $SKILL_NAMES " in *" $name "*) : ;; *) continue ;; esac
+        case " $SELECTED_SKILLS " in *" $name "*) continue ;; esac
+        SELECTED_SKILLS="$SELECTED_SKILLS $name"
+      done
+    else
+      oldIFS=$IFS; IFS=$'\n'
+      for line in $OLD_LINK_LINES; do
+        [ -n "$line" ] || continue
+        skill=$(field "$line" skill)
+        case " $SKILL_NAMES " in *" $skill "*) : ;; *) continue ;; esac
+        case " $SELECTED_SKILLS " in *" $skill "*) continue ;; esac
+        SELECTED_SKILLS="$SELECTED_SKILLS $skill"
+      done
+      IFS=$oldIFS
+    fi
+    ensure_document_baseline
+    return
+  fi
+  SELECTED_SKILLS="$DOCUMENT_SKILL_NAMES"
+  if [ "$PROMPT_SKILLS_RAN" -eq 1 ]; then
+    SELECTED_SKILLS="$SELECTED_SKILLS${SELECTED_IMPL_FROM_PROMPT:-}"
+  else
+    previous_extra=$(previous_implementation_selection)
+    [ -z "$previous_extra" ] || SELECTED_SKILLS="$SELECTED_SKILLS $previous_extra"
+  fi
+}
+
 install_release() {
   validate_source "$SOURCE_DIR"
   mkdir -p "$STATE_DIR/bin"
@@ -729,6 +944,7 @@ install_release() {
   SOURCE_URL=${DDD_SOURCE_URL:-${DDD_RELEASE_URL:-$RELEASE_URL_DEFAULT}}
   load_old_links
   load_old_registrations
+  resolve_selected_skills
   if [ "$UPDATE" -eq 1 ]; then
     [ -f "$MANIFEST" ] || fail "cannot update before an install"
     build_registrations_from_old_links
@@ -804,7 +1020,7 @@ install_release() {
   for line in $OLD_LINK_LINES; do
     [ -n "$line" ] || continue
     skill=$(field "$line" skill); path=$(field "$line" path); target=$(field "$line" target)
-    case " $SKILL_NAMES " in *" $skill "*) continue ;; esac
+    case " $SELECTED_SKILLS " in *" $skill "*) continue ;; esac
     if [ -L "$path" ]; then rm -f "$path"; REMOVED_LINKS="$REMOVED_LINKS$(printf '%s\t%s' "$path" "$target")
 "; fi
   done
@@ -815,9 +1031,10 @@ install_release() {
     [ -n "$record" ] || continue
     dest=$(printf '%s' "$record" | awk -F '\t' '{print $4}')
     mkdir -p "$dest" || fail "cannot create skills directory: $dest"
-    for skill_dir in "$SOURCE_DIR/skills"/*; do
-      [ -d "$skill_dir" ] || continue
-      skill=$(basename "$skill_dir"); path="$dest/$skill"; target="$CACHE_DIR/$skill"
+    skillIFS=$IFS; IFS=' '
+    for skill in $SELECTED_SKILLS; do
+      [ -n "$skill" ] || continue
+      path="$dest/$skill"; target="$CACHE_DIR/$skill"
       if [ -L "$path" ]; then
         actual=$(readlink "$path")
         [ "$actual" = "$target" ] || { oldline=$(old_link_for_path "$path"); oldtarget=$(field "$oldline" target); [ -n "$oldline" ] && [ "$actual" = "$oldtarget" ] || fail "refusing to repoint unmanaged link: $path"; }
@@ -829,6 +1046,7 @@ install_release() {
         fail "refusing to overwrite unmanaged path: $path"
       fi
     done
+    IFS=$skillIFS
   done
   IFS=$oldIFS
   printf '%s\n' 'links-updated' >> "$JOURNAL"
@@ -1102,6 +1320,7 @@ uninstall_preflight_links() {
 uninstall_manifest_setup() {
   UNINSTALL_MANIFEST_VERSION=$(manifest_header_field version)
   UNINSTALL_MANIFEST_SOURCE=$(manifest_header_field source)
+  UNINSTALL_MANIFEST_SKILLS=$(manifest_header_field skills)
   [ -n "$UNINSTALL_MANIFEST_VERSION" ] || fail 'manifest has no version'
   [ -n "$UNINSTALL_MANIFEST_SOURCE" ] || fail 'manifest has no source'
 }
@@ -1109,7 +1328,7 @@ uninstall_manifest_setup() {
 write_uninstall_manifest() {
   UNINSTALL_MANIFEST_TMP="$MANIFEST.tmp.$$"
   {
-    printf '{\n  "schema": 1,\n  "version": "%s",\n  "source": "%s",\n  "registrations": [\n' "$(json_escape "$UNINSTALL_MANIFEST_VERSION")" "$(json_escape "$UNINSTALL_MANIFEST_SOURCE")"
+    printf '{\n  "schema": 1,\n  "version": "%s",\n  "source": "%s",\n  "skills": "%s",\n  "registrations": [\n' "$(json_escape "$UNINSTALL_MANIFEST_VERSION")" "$(json_escape "$UNINSTALL_MANIFEST_SOURCE")" "$(json_escape "$UNINSTALL_MANIFEST_SKILLS")"
     first=1
     oldIFS=$IFS; IFS=$'\n'
     for record in $UNINSTALL_REMAINING_REG_LINES; do
@@ -1309,6 +1528,7 @@ if [ "${1:-}" = uninstall ]; then
 fi
 ORIGINAL_ARGS=( "$@" )
 SOURCE_DIR=""; UPDATE=0; SELECTED_AGENTS=""; SCOPE=""; PROJECT_ROOT=""; EXPLICIT_PATH=""
+SKILL_ARG=""; SELECTED_IMPL_FROM_PROMPT=""; PROMPT_SKILLS_RAN=0
 UNINSTALL_MODE=""; FULL_FLAG=0; PARTIAL_FLAG=0; YES_FLAG=0
 UNINSTALL_AGENTS=""; UNINSTALL_FILTER_SCOPE=""; UNINSTALL_FILTER_ROOT=""; UNINSTALL_FILTER_DEST=""
 while [ "$#" -gt 0 ]; do
@@ -1322,6 +1542,7 @@ while [ "$#" -gt 0 ]; do
     --yes) YES_FLAG=1; shift ;;
     --update) UPDATE=1; shift ;;
     --source-dir) [ "$#" -ge 2 ] || fail "--source-dir requires a path"; SOURCE_DIR=$2; shift 2 ;;
+    --skill) [ "$#" -ge 2 ] || fail "--skill requires a value"; SKILL_ARG=$2; shift 2 ;;
     --help|-h) usage; exit 0 ;;
     *) fail "unknown option: $1" ;;
   esac
@@ -1334,6 +1555,7 @@ fi
 if [ "$COMMAND" = uninstall ]; then
   [ -z "$SOURCE_DIR" ] || fail '--source-dir is only valid for install or update'
   [ "$UPDATE" -eq 0 ] || fail '--update is incompatible with uninstall'
+  [ -z "$SKILL_ARG" ] || fail '--skill is only valid for install or update'
   UNINSTALL_AGENTS=$SELECTED_AGENTS
   if [ "$FULL_FLAG" -eq 1 ] || [ "$PARTIAL_FLAG" -eq 1 ]; then
     [ "$FULL_FLAG" -eq 0 ] || [ "$PARTIAL_FLAG" -eq 0 ] || fail 'choose only one uninstall mode'
@@ -1377,6 +1599,11 @@ fi
 
 [ -d "$SOURCE_DIR" ] || fail "source directory does not exist: $SOURCE_DIR"
 if [ -z "$SELECTED_AGENTS" ] || [ -z "$SCOPE" ]; then
-  if [ "$UPDATE" -eq 1 ]; then :; else prompt_selection; fi
+  if [ "$UPDATE" -eq 1 ]; then :; else
+    # Populates SKILL_NAMES/PACKAGE_LINES for the prompt below; install_release
+    # calls validate_source again, which is idempotent (pure re-parse, no writes).
+    validate_source "$SOURCE_DIR"
+    prompt_selection
+  fi
 fi
 install_release

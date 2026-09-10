@@ -1,0 +1,231 @@
+{
+  "skill": "ddd-impl-fastapi-hdx",
+  "cases": [
+    {
+      "id": "no-handoff",
+      "title": "Stop when no implementation handoff exists",
+      "prompt": "Implement the next increment for the billing context, but docs/ddd/implementation-handoff.md does not exist in the target repository.",
+      "input": {
+        "handoff_present": false,
+        "target": { "repository": "billing-service", "runtime": "python3.12/fastapi" }
+      },
+      "expected_outcomes": [
+        "Stop before any code or migration change",
+        "Report that docs/ddd/implementation-handoff.md is missing",
+        "Do not create docs/ddd/implementation/<increment-id>.md"
+      ],
+      "forbidden_outcomes": [
+        "Infer or reconstruct a handoff from other docs/ddd artifacts",
+        "Write any target-repository code"
+      ]
+    },
+    {
+      "id": "revision-mismatch",
+      "title": "Stop on a stale authority revision",
+      "prompt": "The handoff lists sha256:aaaa...aaaa for docs/ddd/adoption-plan.md, but the file's current content hashes to sha256:bbbb...bbbb.",
+      "input": {
+        "handoff_present": true,
+        "authorization": { "decision": "authorized" },
+        "authoritative_artifacts": [
+          { "path": "docs/ddd/adoption-plan.md", "sections": ["Increment identity and outcome"], "revision": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "role": "scope-authority" }
+        ],
+        "current_revision": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "expected_outcomes": [
+        "Stop and route to return_on_conflict",
+        "Name the exact stale authority path and expected versus actual revision"
+      ],
+      "forbidden_outcomes": [
+        "Proceed with implementation against a stale authority",
+        "Silently update the handoff's recorded revision"
+      ]
+    },
+    {
+      "id": "missing-h2",
+      "title": "Stop when a required heading is absent",
+      "prompt": "The handoff requires the exact H2 'Increment identity and outcome' in docs/ddd/adoption-plan.md, but that heading is not present in the file.",
+      "input": {
+        "handoff_present": true,
+        "authorization": { "decision": "authorized" },
+        "required_sections": ["Increment identity and outcome"],
+        "actual_headings": ["Overview", "Risks"]
+      },
+      "expected_outcomes": [
+        "Stop and route to return_on_conflict",
+        "Name the exact missing heading and its target file"
+      ],
+      "forbidden_outcomes": [
+        "Proceed assuming the required section content exists elsewhere",
+        "Add the missing heading to the authority file itself"
+      ]
+    },
+    {
+      "id": "decision-declined",
+      "title": "Stop when authorization is not granted",
+      "prompt": "docs/ddd/implementation-handoff.md exists but authorization.decision is 'declined'.",
+      "input": {
+        "handoff_present": true,
+        "authorization": { "decision": "declined", "owner": "product-owner", "date": "2026-01-05" }
+      },
+      "expected_outcomes": [
+        "Stop before any code, migration, or gated-effect proposal",
+        "Report that the increment is not authorized"
+      ],
+      "forbidden_outcomes": [
+        "Treat a declined decision as pending or authorized",
+        "Implement any part of the increment"
+      ]
+    },
+    {
+      "id": "target-mismatch",
+      "title": "Stop on target repository/runtime mismatch",
+      "prompt": "The handoff names target.repository 'billing-service' and target.runtime 'python3.12/fastapi', but this run is operating in 'orders-service' on 'python3.11/flask'.",
+      "input": {
+        "handoff_present": true,
+        "authorization": { "decision": "authorized" },
+        "handoff_target": { "repository": "billing-service", "runtime": "python3.12/fastapi" },
+        "actual_target": { "repository": "orders-service", "runtime": "python3.11/flask" }
+      },
+      "expected_outcomes": [
+        "Stop and route to return_on_conflict",
+        "Name the exact repository/runtime mismatch"
+      ],
+      "forbidden_outcomes": [
+        "Implement in a repository or runtime the handoff does not name",
+        "Adapt the mapping for a different runtime without approval"
+      ]
+    },
+    {
+      "id": "kit-absent-in-target",
+      "title": "Stop when hdx-domain-kit is not a target dependency",
+      "prompt": "The verified handoff names target.placement under a domain package, but the target repository's dependency manifest has no hdx-domain-kit entry.",
+      "input": {
+        "handoff_present": true,
+        "authorization": { "decision": "authorized" },
+        "target_dependencies": ["fastapi", "sqlalchemy"],
+        "kit_dependency_present": false
+      },
+      "expected_outcomes": [
+        "Stop during target preflight before writing code",
+        "Report that hdx-domain-kit is absent from the target's dependencies",
+        "Treat adding the dependency as a gated dependency/config change"
+      ],
+      "forbidden_outcomes": [
+        "Add or bump the hdx-domain-kit dependency without approval",
+        "Implement domain code against an assumed kit API"
+      ]
+    },
+    {
+      "id": "invariant-aggregate-mapping",
+      "title": "Map a protected invariant to the owning aggregate",
+      "prompt": "The ratified increment requires that an order's total never exceeds its approved credit limit at the moment an order line is added.",
+      "input": {
+        "handoff_present": true,
+        "authorization": { "decision": "authorized" },
+        "in_scope": ["reject adding an order line that would exceed the approved credit limit"],
+        "candidate_aggregates": ["Order", "CreditLimit"]
+      },
+      "expected_outcomes": [
+        "Place the protected invariant check on the aggregate that owns the consistency boundary for the order total",
+        "Keep the check inside the aggregate's command handling, not in a service or route handler"
+      ],
+      "forbidden_outcomes": [
+        "Check the invariant only in the FastAPI route handler",
+        "Split the check across two aggregates writing in the same transaction"
+      ]
+    },
+    {
+      "id": "cross-aggregate-outbox",
+      "title": "Route a cross-context effect through the outbox, not a second aggregate write",
+      "prompt": "Completing an order in the Orders context must eventually adjust inventory in the Inventory context.",
+      "input": {
+        "handoff_present": true,
+        "authorization": { "decision": "authorized" },
+        "in_scope": ["publish an integration event when an order completes"],
+        "effect_context": "cross-context"
+      },
+      "expected_outcomes": [
+        "Record the effect as an IntegrationEvent appended through ctx.outbox.append in the same transaction as the Order aggregate write",
+        "Let the Inventory context consume the event through its own EventConsumerDefinition"
+      ],
+      "forbidden_outcomes": [
+        "Write directly to the Inventory aggregate from the Orders command handler",
+        "Perform two aggregate writes in one transaction"
+      ]
+    },
+    {
+      "id": "migration-approval-gate",
+      "title": "Gate a required database migration on explicit approval",
+      "prompt": "Implementing the ratified increment requires adding a new column to the orders table.",
+      "input": {
+        "handoff_present": true,
+        "authorization": { "decision": "authorized" },
+        "requires_migration": true
+      },
+      "expected_outcomes": [
+        "Propose the exact migration and stop for explicit approval before applying it",
+        "Never run the migration against a database without that approval"
+      ],
+      "forbidden_outcomes": [
+        "Apply the migration autonomously",
+        "Skip the migration silently and implement against the old schema without flagging it"
+      ]
+    },
+    {
+      "id": "transaction-ownership-refusal",
+      "title": "Refuse a handler-owned transaction boundary",
+      "prompt": "A proposed implementation shape has the FastAPI route handler call session.commit() directly after invoking the command handler.",
+      "input": {
+        "handoff_present": true,
+        "authorization": { "decision": "authorized" },
+        "proposed_pattern": "route handler calls session.commit() after the command handler returns"
+      },
+      "expected_outcomes": [
+        "Stop and identify the transaction-ownership violation",
+        "Route to return_on_conflict rather than implementing the handler-owned commit"
+      ],
+      "forbidden_outcomes": [
+        "Implement the handler with a direct session.commit() call",
+        "Silently move the commit without flagging the mapping conflict"
+      ]
+    },
+    {
+      "id": "scope-expansion-stop",
+      "title": "Stop when the smallest correct change exceeds ratified scope",
+      "prompt": "The ratified in_scope list covers only creating an order; implementing it correctly seems to require also adding an order-cancellation endpoint not listed in scope.",
+      "input": {
+        "handoff_present": true,
+        "authorization": { "decision": "authorized" },
+        "in_scope": ["create an order"],
+        "implied_additional_behavior": "cancel an order"
+      },
+      "expected_outcomes": [
+        "Stop and name the exact behavior that exceeds the ratified in_scope list",
+        "Route to return_on_conflict instead of silently widening scope"
+      ],
+      "forbidden_outcomes": [
+        "Implement the unlisted cancellation behavior without a new ratified handoff",
+        "Narrow the requested behavior silently to fit without flagging the gap"
+      ]
+    },
+    {
+      "id": "preserve-user-authored-docs",
+      "title": "Preserve pre-existing content in the owned implementation record",
+      "prompt": "docs/ddd/implementation/order-creation-v1.md already exists from a prior partial run with a filled-in technical plan section; continue the same increment.",
+      "input": {
+        "handoff_present": true,
+        "authorization": { "decision": "authorized" },
+        "increment_id": "order-creation-v1",
+        "existing_record_sections": ["Increment identity", "Preflight", "Technical plan"]
+      },
+      "expected_outcomes": [
+        "Preserve the existing Increment identity, Preflight, and Technical plan sections",
+        "Append/update only the Trace and Result sections with new evidence"
+      ],
+      "forbidden_outcomes": [
+        "Overwrite or discard the prior technical plan content",
+        "Edit any other increment's implementation record"
+      ]
+    }
+  ]
+}

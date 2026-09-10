@@ -2,7 +2,9 @@
 
 ## Current status
 
-The approved [lean workflow redesign](complete/lean-workflow-redesign.md) is implemented across all six packages, shared contracts, templates, evaluations, validator, README, roadmap, and changelog. The candidate is documentation-only and runtime-neutral, with one bounded increment as the progress unit. It is ready for independent changed-code review; no commit or push has been performed.
+The approved [lean workflow redesign](complete/lean-workflow-redesign.md) is implemented across all six document-class packages, shared contracts, templates, evaluations, validator, README, roadmap, and changelog; that candidate is documentation-only and runtime-neutral, with one bounded increment as the progress unit.
+
+The approved [`ddd-impl-fastapi-hdx` plan](complete/ddd-impl-fastapi-hdx.md) adds the suite's first `implementation`-class package, an opt-in FastAPI/`hdx-domain-kit` implementation package gated by a ratified `docs/ddd/implementation-handoff.md`. It is implemented, package-validated, and independently reviewed (READY WITH FOLLOW-UPS across two rounds).
 
 Historical phase-0 and phase-4 records remain preserved. The local sanitized BonVoye-shaped fixture is recorded in [the redesign report](../evaluations/lean-workflow-redesign-v1-report.json); no external BonVoye repository was accessed.
 
@@ -54,9 +56,17 @@ Exercise focused-stage invocation, orchestrated routing, package isolation, port
 
 **Exit criteria:** all local checks pass, normal transitions construct contract-valid requests from stage results, manual fallbacks preserve unchanged requests, invalidation loops reach the earliest affected stage, documentation accurately distinguishes implemented, reviewed, and deferred work, and residual risks are recorded.
 
+### 5. Implement `ddd-impl-fastapi-hdx` — completed
+
+The [implementation-package plan](complete/ddd-impl-fastapi-hdx.md) is implemented at [`skills/ddd-impl-fastapi-hdx/`](../../skills/ddd-impl-fastapi-hdx/SKILL.md), with the `PACKAGES` package-class manifest, a `scripts/validate-skills.py` class/write-boundary gate, an optional `install.sh --skill` selection path (default document-class install unchanged), and synchronized `docs/skill-design/` and `README.md`/`AGENTS.md` boundary docs. It verifies a ratified `docs/ddd/implementation-handoff.md`'s authorization, authority revisions, and required headings before writing; may autonomously write target-repository domain code/tests for the ratified increment; gates migrations, composition-root edits, and dependency/config changes on explicit per-run approval; and owns exactly one target-project artifact, `docs/ddd/implementation/<increment-id>.md`.
+
+**Dependencies:** the six document-class packages and their `implementation-handoff-v1` transport are stable; an existing `HdxApplication` composition root in the target repository (bootstrap is an approval-gated conditional, not the default path).
+
+**Exit criteria:** `scripts/validate-skills.py` reports seven packages plus the `PACKAGES` manifest check; `scripts/test-installer.sh` passes including default/`--skill`/update/deselect/unknown-package/archive-listing cases; a built release installs 6 links by default and 7 with `--skill ddd-impl-fastapi-hdx`; no unqualified suite-wide `documentation-only` claim remains in `README.md`/`AGENTS.md`/`docs/`. An end-to-end trial against a scratch consumer FastAPI/`hdx-domain-kit` repository is explicitly out of scope for this increment and needs separate user approval.
+
 ## Shared exit gates
 
-Every implementation phase must preserve the documentation-only boundary, package-local self-containment, relative-link integrity, one H1 per Markdown file, deterministic package validation, evidence provenance, safe additive updates, and explicit stop behavior. A focused stage owns its artifact; the orchestrator coordinates but does not take ownership. A review result is scoped documentation readiness, not permission to edit product code.
+Every document-workflow implementation phase must preserve the documentation-only boundary, package-local self-containment, relative-link integrity, one H1 per Markdown file, deterministic package validation, evidence provenance, safe additive updates, and explicit stop behavior. A focused stage owns its artifact; the orchestrator coordinates but does not take ownership. A review result is scoped documentation readiness, not permission to edit product code. The `implementation`-class package instead preserves a class-scoped write boundary: autonomous domain code/tests for the ratified increment only, approval-gated migrations/composition-root/dependency changes, and its own single owned target-project artifact.
 
 ## Residual risks and decisions
 
@@ -64,4 +74,5 @@ Every implementation phase must preserve the documentation-only boundary, packag
 - Existing target documents may contain conflicting current, desired, and required claims; no plan may collapse them silently.
 - Brownfield work may lack ownership, characterization, compatibility, or rollback evidence; the correct result is a bounded stop or earlier-stage handoff.
 - Static validation cannot substitute for official host/model execution or unavailable optional tooling.
-- The first release remains language-, framework-, deployment-, and database-neutral; no plan assumes a microservice topology.
+- The first release's document-class packages remain language-, framework-, deployment-, and database-neutral; no plan assumes a microservice topology.
+- `hdx-domain-kit` is unpublished and moving (0.1.0); `ddd-impl-fastapi-hdx` cites decisions and relies on target-repo preflight rather than hardcoding its API surface.

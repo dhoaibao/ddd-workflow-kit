@@ -9,6 +9,7 @@ VERSION_FILE="$ROOT/VERSION"
 VERSION=$(awk 'NF {print $1; exit}' "$VERSION_FILE")
 [ -n "$VERSION" ] || { printf 'build-release: VERSION is empty\n' >&2; exit 1; }
 [ -f "$ROOT/install.sh" ] || { printf 'build-release: missing install.sh\n' >&2; exit 1; }
+[ -f "$ROOT/PACKAGES" ] || { printf 'build-release: missing PACKAGES\n' >&2; exit 1; }
 [ -d "$ROOT/skills" ] || { printf 'build-release: missing skills directory\n' >&2; exit 1; }
 bad_member=$(find "$ROOT/skills" -type l -print -quit)
 [ -z "$bad_member" ] || { printf 'build-release: skills tree contains a symlink: %s\n' "$bad_member" >&2; exit 1; }
@@ -24,9 +25,10 @@ trap 'rm -rf "$tmp"' EXIT HUP INT TERM
 # Copy only the release contract; no docs, .git metadata, evaluations, or scripts.
 cp "$ROOT/install.sh" "$tmp/install.sh"
 cp "$VERSION_FILE" "$tmp/VERSION"
+cp "$ROOT/PACKAGES" "$tmp/PACKAGES"
 cp -R "$ROOT/skills" "$tmp/skills"
 
-tar -czf "$archive" -C "$tmp" install.sh VERSION skills
+tar -czf "$archive" -C "$tmp" install.sh VERSION PACKAGES skills
 if command -v sha256sum >/dev/null 2>&1; then
   sha256sum "$archive" | awk '{print $1 "  ddd-workflow-kit.tar.gz"}' > "$checksum"
 elif command -v shasum >/dev/null 2>&1; then

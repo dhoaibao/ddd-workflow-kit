@@ -1,0 +1,7 @@
+ddd	document	DDD workflow orchestrator
+ddd-discover	document	DDD discovery
+ddd-strategic	document	DDD strategic design
+ddd-tactical	document	DDD tactical modeling
+ddd-adoption	document	DDD adoption planning
+ddd-review	document	DDD artifact review
+ddd-impl-fastapi-hdx	implementation	FastAPI + hdx-domain-kit implementation

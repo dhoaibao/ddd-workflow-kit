@@ -37,6 +37,7 @@ TACTICAL_ASSETS = {"context-model-template.md"}
 ADOPTION_ASSETS = {"adoption-plan-template.md"}
 REVIEW_ASSETS = {"review-template.md"}
 ORCHESTRATOR_ASSETS = {"request-result-template.md", "ddd-readme-template.md", "implementation-handoff-template.md"}
+IMPLEMENTATION_FASTAPI_HDX_ASSETS = {"implementation-record-template.md", "domain-skeleton.md"}
 PACKAGE_REQUIREMENTS = {
     "ddd-discover": {"assets": DISCOVERY_ASSETS, "minimum_evals": 6},
     "ddd-strategic": {"assets": STRATEGIC_ASSETS, "minimum_evals": 7},
@@ -44,7 +45,10 @@ PACKAGE_REQUIREMENTS = {
     "ddd-adoption": {"assets": ADOPTION_ASSETS, "minimum_evals": 10},
     "ddd-review": {"assets": REVIEW_ASSETS, "minimum_evals": 10},
     "ddd": {"assets": ORCHESTRATOR_ASSETS, "minimum_evals": 10},
+    "ddd-impl-fastapi-hdx": {"assets": IMPLEMENTATION_FASTAPI_HDX_ASSETS, "minimum_evals": 10},
 }
+PACKAGE_MANIFEST_CLASSES = {"document", "implementation"}
+IMPLEMENTATION_BOUNDARY_MARKERS = ("write boundary", "approval-gated", "migration")
 TACTICAL_PREREQUISITE_STOP_CASES = {"missing-strategic-prerequisites", "select-one-context"}
 ADOPTION_CASE_CATEGORIES = {
     "greenfield slice", "brownfield baseline", "missing rollback", "ownership gap",
@@ -1578,6 +1582,45 @@ def validate_forbidden_runtime_references() -> None:
             fail(f"{path}: forbidden runtime-specific or machine-local reference: {match.group(0)!r}")
 
 
+def validate_packages_manifest(skill_dirs: list[Path]) -> dict[str, str]:
+    path = ROOT / "PACKAGES"
+    if not path.is_file():
+        fail(f"{path}: repository PACKAGES manifest is missing")
+    skill_names = {skill_root.name for skill_root in skill_dirs}
+    classes: dict[str, str] = {}
+    for lineno, raw_line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        line = raw_line.strip("\n")
+        if not line.strip():
+            continue
+        fields = line.split("\t")
+        if len(fields) != 3:
+            fail(f"{path}:{lineno}: expected exactly name<TAB>class<TAB>label")
+        name, package_class, label = fields
+        if not NAME_RE.fullmatch(name):
+            fail(f"{path}:{lineno}: package name must be lowercase alphanumeric words joined by hyphens: {name!r}")
+        if name in classes:
+            fail(f"{path}:{lineno}: duplicate package name: {name}")
+        if package_class not in PACKAGE_MANIFEST_CLASSES:
+            fail(f"{path}:{lineno}: unknown package class {package_class!r} for {name}")
+        if not label.strip():
+            fail(f"{path}:{lineno}: package {name} has an empty label")
+        classes[name] = package_class
+    missing_from_manifest = sorted(skill_names - classes.keys())
+    if missing_from_manifest:
+        fail(f"{path}: missing manifest row(s) for skill package(s): {', '.join(missing_from_manifest)}")
+    extra_in_manifest = sorted(classes.keys() - skill_names)
+    if extra_in_manifest:
+        fail(f"{path}: manifest names package(s) with no matching skills/ directory: {', '.join(extra_in_manifest)}")
+    return classes
+
+
+def validate_implementation_write_boundary(skill_root: Path) -> None:
+    text = (skill_root / "SKILL.md").read_text(encoding="utf-8").lower()
+    missing = [marker for marker in IMPLEMENTATION_BOUNDARY_MARKERS if marker not in text]
+    if missing:
+        fail(f"{skill_root / 'SKILL.md'}: implementation package must state its write boundary and approval gates; missing: {', '.join(missing)}")
+
+
 def validate_active_plan_handoff_reference() -> None:
     candidates = [
         ROOT / "docs/plans/active/lean-workflow-redesign.md",
@@ -1604,6 +1647,10 @@ def main() -> int:
         for skill_root in skill_dirs:
             validate_skill(skill_root)
             validate_evals(skill_root)
+        package_classes = validate_packages_manifest(skill_dirs)
+        for skill_root in skill_dirs:
+            if package_classes[skill_root.name] == "implementation":
+                validate_implementation_write_boundary(skill_root)
         tactical_eval_path = SKILLS_ROOT / "ddd-tactical" / "evals" / "evals.json"
         if tactical_eval_path.is_file():
             tactical_root = SKILLS_ROOT / "ddd-tactical"
@@ -1640,7 +1687,7 @@ def main() -> int:
     except ValidationError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
-    print(f"validated {len(skill_dirs)} skill package(s), historical and lean evals, contracts, references, assets, fixture, links, H1s, and runtime-neutral paths")
+    print(f"validated {len(skill_dirs)} skill package(s) plus the PACKAGES manifest, historical and lean evals, contracts, references, assets, fixture, links, H1s, and runtime-neutral paths")
     print("scope: deterministic repository/fixture/schema coverage; live host/model compatibility and external-project effectiveness are not claimed")
     return 0
 

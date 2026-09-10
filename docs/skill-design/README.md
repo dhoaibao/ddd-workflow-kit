@@ -1,6 +1,6 @@
 # DDD skill-set design
 
-**Status: lean decision-driven redesign implemented for candidate review.** The six packages remain independently copyable, documentation-only, and runtime-neutral. Their shared unit of progress is one bounded implementation increment; artifact generation is progressive and trigger-based.
+**Status: lean decision-driven redesign implemented for candidate review.** The six `document`-class packages remain independently copyable, documentation-only, and runtime-neutral; their shared unit of progress is one bounded implementation increment, and artifact generation is progressive and trigger-based. One `implementation`-class package, `ddd-impl-fastapi-hdx`, is an explicit opt-in install that writes target-project code for a single ratified increment; see [Skills and routing](skills-and-routing.md#implementation-packages).
 
 ## Design goals
 
@@ -20,7 +20,7 @@
 
 ## Release boundary
 
-The packages may create or update only owned target-project `docs/ddd/` artifacts and portable result bundles. They never edit product source, tests, configuration, schemas, migrations, deployment files, generated output, or runtime behavior. `ddd` owns the index routing/status and, only after explicit ratification, one `implementation-handoff-v1`.
+The release boundary is class-scoped. `document`-class packages may create or update only owned target-project `docs/ddd/` artifacts and portable result bundles; they never edit product source, tests, configuration, schemas, migrations, deployment files, generated output, or runtime behavior. `ddd` owns the index routing/status and, only after explicit ratification, one `implementation-handoff-v1`. The one `implementation`-class package writes target-project domain code and tests for a single ratified increment, with migrations, composition-root edits, and dependency/config changes approval-gated per run; it owns only its own `docs/ddd/implementation/<increment-id>.md` record and never touches the document-workflow artifacts.
 
 ## Evaluation record
 

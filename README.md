@@ -1,8 +1,8 @@
 # DDD Workflow Kit
 
-A portable, language-, framework-, and runtime-neutral skill suite for evidence-backed Domain-Driven Design work. The skills are documentation-only: they create and review DDD planning artifacts under a target project's `docs/ddd/` directory and never edit product code, tests, configuration, or runtime behavior.
+A portable skill suite for evidence-backed Domain-Driven Design work. Six `document`-class packages are language-, framework-, and runtime-neutral and documentation-only: they create and review DDD planning artifacts under a target project's `docs/ddd/` directory and never edit product code, tests, configuration, or runtime behavior. One opt-in `implementation`-class package, `ddd-impl-fastapi-hdx`, implements one ratified increment as target-project code and tests for a declared stack.
 
-The suite ships six packages: the `ddd` orchestrator, which routes one stage at a time, plus five focused stages for discovery, strategic design, tactical modeling, adoption planning, and artifact review.
+The suite ships seven packages by default install and opt-in: the `ddd` orchestrator, which routes one document-workflow stage at a time; five focused document-workflow stages for discovery, strategic design, tactical modeling, adoption planning, and artifact review; and the opt-in `ddd-impl-fastapi-hdx` implementation package. See the release-root `PACKAGES` manifest for the exact class of each package.
 
 ## Install
 
@@ -26,7 +26,15 @@ curl -fsSL https://raw.githubusercontent.com/dhoaibao/ddd-workflow-kit/main/inst
   bash -s -- --agent pi --project /path/to/project
 ```
 
-Use `--path /some/skills-directory` to register a single explicit destination. To refresh every registration later:
+Use `--path /some/skills-directory` to register a single explicit destination. Document-class packages install by default; add `--skill NAME[,NAME...]` (or `--skill all`) to also opt into an implementation-class package such as `ddd-impl-fastapi-hdx`:
+
+```bash
+# Also install the opt-in FastAPI + hdx-domain-kit implementation package
+curl -fsSL https://raw.githubusercontent.com/dhoaibao/ddd-workflow-kit/main/install.sh | \
+  bash -s -- --agent pi --global --skill ddd-impl-fastapi-hdx
+```
+
+To refresh every registration later, preserving the prior package selection:
 
 ```bash
 ~/.ddd-workflow-kit/bin/ddd-workflow-kit update
@@ -61,13 +69,14 @@ ddd-discover → ddd-strategic → ddd-tactical → ddd-adoption → ddd-review
 | [`ddd-adoption`](skills/ddd-adoption/SKILL.md) | Fully specify one candidate increment with target, baseline, implementation owner, outcome/scope, acceptance, and typed uncertainty routing; add containment only when triggered. | `adoption-plan.md` plus the gate extension |
 | [`ddd-review`](skills/ddd-review/SKILL.md) | Run internal quality gates and emit exception findings plus one decision queue. | `review.md` and its README queue/review markers |
 | **After ratification** | A separate human decision owner authorizes one exact increment; `ddd` preserves the accountable implementation owner and records the transport authorization. | `implementation-handoff.md` as the sole implementation entry point |
+| [`ddd-impl-fastapi-hdx`](skills/ddd-impl-fastapi-hdx/SKILL.md) *(opt-in)* | Implement one ratified increment as target-project FastAPI/`hdx-domain-kit` code and tests, after verifying the handoff's authorization and authority revisions. | `docs/ddd/implementation/<increment-id>.md` |
 
 ## Guarantees and boundaries
 
 - **Evidence and provenance:** claims distinguish current behavior, desired meaning, obligations, facts, interpretations, and assumptions; sources, validation state, and open questions stay visible.
 - **Bounded stops:** missing evidence, conflicting claims, or unsafe paths stop the workflow with a handoff rather than inventing facts.
 - **Additive ownership:** each stage owns only its documented artifact sections; nothing is silently rewritten.
-- **Documentation-only:** no edits to product source, tests, schemas, configuration, migrations, or deployment files.
+- **Class-scoped write boundary:** the six `document`-class packages make no edits to product source, tests, schemas, configuration, migrations, or deployment files. The opt-in `implementation`-class package may write target-repository domain code and tests for the ratified increment only, with migrations, composition-root edits, and dependency/config changes approval-gated per run.
 - **Scoped reviews:** `documentation_readiness: ready` is separate from `increment_gate: awaiting-ratification`; neither alone authorizes implementation.
 - **Scoped ratification:** a named human decision owner may authorize one exact increment for the accountable implementation owner; only then can `ddd` create one revision-bound `implementation-handoff-v1`.
 - **Legacy compatibility:** existing target artifacts remain readable and are never silently rewritten.
@@ -89,4 +98,4 @@ Validate the repository's packages, links, and evaluation cases:
 python3 scripts/validate-skills.py
 ```
 
-The current deterministic suite validates the six lean packages, their shared contracts, 15 redesign acceptance cases, package links/H1s/runtime neutrality, and a local sanitized BonVoye-shaped fixture. Historical phase-0 and phase-4 records remain unchanged. Static validation covers repository conventions and fixture behavior only; it does not establish compatibility with every host/model or an external project.
+The current deterministic suite validates the seven packages (six `document`-class, one `implementation`-class) plus the `PACKAGES` manifest, their shared contracts, 15 redesign acceptance cases, package links/H1s/runtime neutrality, and a local sanitized BonVoye-shaped fixture. Historical phase-0 and phase-4 records remain unchanged. Static validation covers repository conventions and fixture behavior only; it does not establish compatibility with every host/model or an external project, and it does not evaluate an implementation package's target-repository output.
