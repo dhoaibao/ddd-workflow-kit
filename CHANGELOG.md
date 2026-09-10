@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-09-10
+
 ### Added
 
 - Lean decision-driven DDD workflow across all six packages: one bounded increment, conditional artifacts, lean metadata, exception-based review, a consolidated decision queue, explicit human ratification, and revision-bound `implementation-handoff-v1` authorization.
@@ -53,7 +55,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deterministic package validation via `scripts/validate-skills.py` and a recorded suite of 59 evaluation cases (29 phase-0 carried forward, 30 phase-4 live), with documented limitations: static validation covers repository conventions only and live results are model- and host-dependent.
 - A checksum-verified `curl` installer that downloads a release into a versioned cache at `~/.ddd-workflow-kit/skills` and symlinks packages into agent skill directories, a `ddd-workflow-kit` manager with `install`, `update`, and `version` commands, and tag-triggered release automation.
 
-[Unreleased]: https://github.com/dhoaibao/ddd-workflow-kit/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/dhoaibao/ddd-workflow-kit/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/dhoaibao/ddd-workflow-kit/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/dhoaibao/ddd-workflow-kit/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/dhoaibao/ddd-workflow-kit/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/dhoaibao/ddd-workflow-kit/compare/v0.1.0...v0.1.1
