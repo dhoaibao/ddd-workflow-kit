@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Contributor rule requiring `CHANGELOG.md` updates before any commit step, recording pending changes under `Unreleased`.
+
 ## [0.1.0] - 2026-09-10
 
 ### Added

@@ -18,6 +18,7 @@ This repository maintains a reusable, language- and framework-neutral Domain-Dri
 - The implemented release is documentation-only: focused stages own their documented `docs/ddd/` artifacts, while `ddd` owns routing/status state and `ddd-review` owns review state. Use the package-local contracts and templates as the source of truth for ownership.
 - Target-project modeling artifacts belong under a target project's `docs/ddd/` when a skill is run; this repository's package files describe that behavior and are not product source.
 - Update `README.md` and relevant roadmap/evaluation records when package availability or documented status changes.
+- Before beginning any commit step, update CHANGELOG.md first so the pending change is recorded under [Unreleased].
 
 ### Project-specific constraints and boundaries
 
