@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A first-class `shared` install target for the global or project-local `.agents/skills` directory, with physical-link deduplication when compatible named agents share that destination.
 - Dependency-free Bash 3.2 interactive arrow selectors for agent targets and scope, including multi-select target toggles and terminal-state restoration.
 - Full and registration-scoped uninstall flows with confirmation-by-default, shared-destination preservation, exact-link safety checks, and rollback protection.
+- Changelog-backed release-note extraction for tag releases, preserving the matching version section as the complete GitHub release description.
 
 ### Fixed
 

@@ -115,6 +115,85 @@ assert [ "$(readlink "$HOME/.pi/agent/skills/ddd-review")" = "$TMP/unrelated" ]
 rm -f "$HOME/.pi/agent/skills/ddd-review"
 
 printf '5. release archive contents and checksum failure\n'
+NOTES_FIXTURE="$TMP/release-notes-fixture.md"
+cat > "$NOTES_FIXTURE" <<'EOF'
+# Changelog
+
+## [1.2.30] - 2026-01-01
+### Added
+- wrong adjacent release
+
+## [1.2.3] - 2026-02-02
+
+### Added
+- first release bullet
+
+### Fixed
+- second release bullet
+
+## [2.0.0]
+### Added
+- undated release bullet
+EOF
+NOTES_EXPECTED="$TMP/release-notes-expected.md"
+cat > "$NOTES_EXPECTED" <<'EOF'
+### Added
+- first release bullet
+
+### Fixed
+- second release bullet
+EOF
+bash "$ROOT/scripts/extract-release-notes.sh" 1.2.3 "$NOTES_FIXTURE" > "$TMP/release-notes.md"
+assert cmp "$NOTES_EXPECTED" "$TMP/release-notes.md"
+cat > "$TMP/undated-expected.md" <<'EOF'
+### Added
+- undated release bullet
+EOF
+bash "$ROOT/scripts/extract-release-notes.sh" 2.0.0 "$NOTES_FIXTURE" > "$TMP/undated-release-notes.md"
+assert cmp "$TMP/undated-expected.md" "$TMP/undated-release-notes.md"
+if bash "$ROOT/scripts/extract-release-notes.sh" 1.2.4 "$NOTES_FIXTURE" >/dev/null 2>&1; then
+  printf 'test-installer: missing release-notes section unexpectedly succeeded\n' >&2; exit 1
+fi
+cat > "$TMP/empty-release-notes.md" <<'EOF'
+## [3.0.0] - 2026-03-03
+
+## [2.0.0]
+### Added
+- later content
+EOF
+if bash "$ROOT/scripts/extract-release-notes.sh" 3.0.0 "$TMP/empty-release-notes.md" >/dev/null 2>&1; then
+  printf 'test-installer: empty release-notes section unexpectedly succeeded\n' >&2; exit 1
+fi
+cat > "$TMP/malformed-release-notes.md" <<'EOF'
+## [4.0.0] - not-a-date
+### Added
+- malformed date
+
+## [5.0.0] -
+### Added
+- missing date
+EOF
+if bash "$ROOT/scripts/extract-release-notes.sh" 4.0.0 "$TMP/malformed-release-notes.md" >/dev/null 2>&1; then
+  printf 'test-installer: malformed dated release-notes section unexpectedly succeeded\n' >&2; exit 1
+fi
+if bash "$ROOT/scripts/extract-release-notes.sh" 5.0.0 "$TMP/malformed-release-notes.md" >/dev/null 2>&1; then
+  printf 'test-installer: empty dated release-notes section unexpectedly succeeded\n' >&2; exit 1
+fi
+cat > "$TMP/missing-delimiter-release-notes.md" <<'EOF'
+## [6.0.0]-2026-06-06
+### Added
+- missing pre-delimiter space
+
+## [7.0.0] -2026-07-07
+### Added
+- missing post-delimiter space
+EOF
+if bash "$ROOT/scripts/extract-release-notes.sh" 6.0.0 "$TMP/missing-delimiter-release-notes.md" >/dev/null 2>&1; then
+  printf 'test-installer: missing pre-delimiter space unexpectedly succeeded\n' >&2; exit 1
+fi
+if bash "$ROOT/scripts/extract-release-notes.sh" 7.0.0 "$TMP/missing-delimiter-release-notes.md" >/dev/null 2>&1; then
+  printf 'test-installer: missing post-delimiter space unexpectedly succeeded\n' >&2; exit 1
+fi
 DIST="$TMP/dist"
 bash "$ROOT/scripts/build-release.sh" "$DIST"
 BOOT_HOME="$TMP/bootstrap-home"
