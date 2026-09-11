@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Slimmed `README.md` from 103 to 53 lines by relocating the installer/manager reference material (manager commands, uninstall prompt defaults and automation flag, interactive Project uninstall's registration-row listing, and the full optional-package selection-state explanation) verbatim in substance to a new `docs/installer.md`, leaving a one-clause pointer from README's `--skill` mention.
+
 ## [0.4.0] - 2026-09-11
 
 ### Added
