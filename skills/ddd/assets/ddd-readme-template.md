@@ -9,14 +9,23 @@ For broad flows, create `docs/ddd/README.md` before downstream artifacts. Keep i
 - **Selected context/slice:** _one context and stable increment ID._
 <!-- ddd-owned:outcome:end -->
 
-## Workflow status
+## Status
 
 <!-- ddd-owned:routing-status:start -->
+**What's happening:** _one plain-language sentence describing the current stage and why._
+
+**Next action:** _one plain-language action for the human._
+
+<details>
+<summary>Machine state (for tooling)</summary>
+
 - **Current stage:** _stage._
 - **documentation_readiness:** _ready, follow-up, blocked, or invalidated._
 - **increment_gate:** _blocked, awaiting-ratification, or authorized._
 - **Blocking decisions:** _count and queue link._
 - **Exact next human action:** _one action._
+
+</details>
 <!-- ddd-owned:routing-status:end -->
 
 ## Current artifacts

@@ -2,6 +2,10 @@
 
 The canonical flow remains `ddd-discover → ddd-strategic → ddd-tactical → ddd-adoption → ddd-review`, but progress is one bounded implementation increment, not completion of an artifact catalogue.
 
+## Guided run
+
+The user invokes `ddd` once per bounded increment and never names a stage directly; the five focused stages are internal routing targets. The invocation is idempotent and resumable: `ddd` reads `docs/ddd/README.md` when it exists, resumes at its recorded current stage, and auto-chains discover through review within that one invocation rather than waiting for a separate turn per stage. Auto-chaining stops only at a bounded gate (missing evidence, non-fit, invalidation, malformed result, or `increment_gate: awaiting-ratification`), and every stop surfaces as the index's single plain-language next action.
+
 ## Orchestrated flow
 
 The orchestrator creates the mandatory index, carries `ddd-routing-v1`, and carries the explicitly versioned `ddd-implementation-gate-v1` extension from adoption through review. It emits one stage request at a time. A non-fit result stops with the simpler path. A focused stage never silently repairs an earlier owner's evidence.

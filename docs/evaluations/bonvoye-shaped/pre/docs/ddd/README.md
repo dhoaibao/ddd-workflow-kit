@@ -7,14 +7,23 @@
 - **Selected context/slice:** storytelling-experience / storytelling-characterization-v1.
 <!-- ddd-owned:outcome:end -->
 
-## Workflow status
+## Status
 
 <!-- ddd-owned:routing-status:start -->
+**What's happening:** Documentation is ready; review is waiting for a human to ratify or decline this increment.
+
+**Next action:** Ratify this increment or decline it.
+
+<details>
+<summary>Machine state (for tooling)</summary>
+
 - **Current stage:** ddd-review.
 documentation_readiness: ready
 increment_gate: awaiting-ratification
 - **Blocking decisions:** 0.
 - **Exact next human action:** ratify this increment or decline it.
+
+</details>
 <!-- ddd-owned:routing-status:end -->
 
 ## Current artifacts

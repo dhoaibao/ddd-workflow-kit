@@ -7,14 +7,23 @@
 - **Selected context/slice:** storytelling-experience / storytelling-characterization-v1.
 <!-- ddd-owned:outcome:end -->
 
-## Workflow status
+## Status
 
 <!-- ddd-owned:routing-status:start -->
+**What's happening:** This increment is authorized; the implementation handoff is ready to start a coding-agent run.
+
+**Next action:** Start a coding-agent run from `docs/ddd/implementation-handoff.md` and create a repository-specific technical plan before editing.
+
+<details>
+<summary>Machine state (for tooling)</summary>
+
 - **Current stage:** ddd (authorized handoff).
 documentation_readiness: ready
 increment_gate: authorized
 - **Blocking decisions:** 0.
 - **Exact next human action:** start a coding-agent run from `docs/ddd/implementation-handoff.md` and create a repository-specific technical plan before editing.
+
+</details>
 <!-- ddd-owned:routing-status:end -->
 
 ## Current artifacts

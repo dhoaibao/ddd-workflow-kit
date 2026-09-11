@@ -70,7 +70,7 @@ A non-fit flow may stop with its decision in the index. It must not create downs
 
 ### Index: `docs/ddd/README.md`
 
-The broad-flow index is mandatory and should fit on one screen where practical. It records target outcome; selected context and increment; current stage; `documentation_readiness`; `increment_gate`; blocking decision count and queue; exact next human action; current artifact links; and a handoff link or `not authorized`. `ddd` owns routing/status and authorization sections; `ddd-review` owns only the README decision-queue/latest-review markers plus `review.md`.
+The broad-flow index is mandatory and should fit on one screen where practical. Its Status section leads with a plain-language "what's happening" summary and one plain-language next action, with the machine fields demoted into a collapsible block per [the index template](../../skills/ddd/assets/ddd-readme-template.md). It records target outcome; selected context and increment; current stage; `documentation_readiness`; `increment_gate`; blocking decision count and queue; exact next human action; current artifact links; and a handoff link or `not authorized`. `ddd` owns routing/status and authorization sections; `ddd-review` owns only the README decision-queue/latest-review markers plus `review.md`.
 
 ### Context
 

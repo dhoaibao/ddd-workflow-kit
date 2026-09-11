@@ -14,16 +14,16 @@ Non-interactively, pass `--agent NAME[,NAME...]` (`shared`, `claude`, `codex`, `
 
 ## How it works
 
-`ddd-discover → ddd-strategic → ddd-tactical → ddd-adoption → ddd-review`
+Run [`ddd`](skills/ddd/SKILL.md) once per bounded increment — it is the only package you invoke directly. It reads or creates `docs/ddd/README.md`, resumes from the recorded stage, and auto-chains `ddd-discover → ddd-strategic → ddd-tactical → ddd-adoption → ddd-review` internally within that one invocation, pausing only for a decision that needs a human. New to the workflow? Start with [`docs/getting-started.md`](docs/getting-started.md).
 
 | Package | Purpose | Primary output in `docs/ddd/` |
 | --- | --- | --- |
-| [`ddd`](skills/ddd/SKILL.md) | Route requests and transition state across the workflow. | Routing and status sections of `README.md` |
-| [`ddd-discover`](skills/ddd-discover/SKILL.md) | Establish the smallest evidence-backed fit decision and material conflicts. | Index decision by default; `assessment.md`, `domain-vision.md`, and language records added when needed |
-| [`ddd-strategic`](skills/ddd-strategic/SKILL.md) | Define one selected context, its relationships, and key terms/boundaries. | One `contexts/<safe-slug>.md`; maps, glossary, and additional contexts when needed |
-| [`ddd-tactical`](skills/ddd-tactical/SKILL.md) | Model one slice's examples, rules, invariants, transitions, and relevant failure semantics. | One `models/<slice-slug>.md`; unused tactical patterns are omitted |
-| [`ddd-adoption`](skills/ddd-adoption/SKILL.md) | Fully specify one candidate increment: target, baseline, owner, scope, acceptance. | `adoption-plan.md` plus the gate extension |
-| [`ddd-review`](skills/ddd-review/SKILL.md) | Run internal quality gates and emit exception findings plus one decision queue. | `review.md` and its README queue/review markers |
+| [`ddd`](skills/ddd/SKILL.md) — the one entry point | Route requests and transition state across the workflow. | Routing and status sections of `README.md` |
+| [`ddd-discover`](skills/ddd-discover/SKILL.md) *(internal stage)* | Establish the smallest evidence-backed fit decision and material conflicts. | Index decision by default; `assessment.md`, `domain-vision.md`, and language records added when needed |
+| [`ddd-strategic`](skills/ddd-strategic/SKILL.md) *(internal stage)* | Define one selected context, its relationships, and key terms/boundaries. | One `contexts/<safe-slug>.md`; maps, glossary, and additional contexts when needed |
+| [`ddd-tactical`](skills/ddd-tactical/SKILL.md) *(internal stage)* | Model one slice's examples, rules, invariants, transitions, and relevant failure semantics. | One `models/<slice-slug>.md`; unused tactical patterns are omitted |
+| [`ddd-adoption`](skills/ddd-adoption/SKILL.md) *(internal stage)* | Fully specify one candidate increment: target, baseline, owner, scope, acceptance. | `adoption-plan.md` plus the gate extension |
+| [`ddd-review`](skills/ddd-review/SKILL.md) *(internal stage)* | Run internal quality gates and emit exception findings plus one decision queue. | `review.md` and its README queue/review markers |
 | **After ratification** | A separate human decision owner authorizes one exact increment; `ddd` preserves the accountable implementation owner and records the transport authorization. | `implementation-handoff.md` as the sole implementation entry point |
 | [`ddd-impl-fastapi-hdx`](skills/ddd-impl-fastapi-hdx/SKILL.md) *(opt-in)* | Implement one ratified increment as target-project FastAPI/`hdx-domain-kit` code and tests. | `docs/ddd/implementation/<increment-id>.md` |
 
@@ -37,6 +37,7 @@ Non-interactively, pass `--agent NAME[,NAME...]` (`shared`, `claude`, `codex`, `
 
 ## Documentation
 
+- [Getting started](docs/getting-started.md) — a newcomer walkthrough of the one `ddd` entry point, end to end.
 - [Changelog](CHANGELOG.md) — release history and notable changes.
 - [DDD foundation](docs/foundation/README.md) — language-neutral concepts, evidence discipline, and adoption guidance.
 - [Skill design](docs/skill-design/README.md) — package contracts, workflows, quality gates, and portability rules.

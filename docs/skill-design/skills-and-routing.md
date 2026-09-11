@@ -45,7 +45,9 @@ Review checks all gates internally and emits exceptions. It records `documentati
 
 ## Routing
 
-| Signal | Primary package | Route backward when |
+Users invoke only `ddd`; see [Guided run](../../skills/ddd/SKILL.md#guided-run). The signals and packages below are `ddd`'s internal routing targets for one auto-chained invocation, not separate user entry points.
+
+| Signal | Primary package (internal routing) | Route backward when |
 | --- | --- | --- |
 | Fit, scope, current behavior, terminology | `ddd-discover` | evidence is absent or non-fit |
 | Context, boundary, language, relationship | `ddd-strategic` | ownership or direction is disputed |

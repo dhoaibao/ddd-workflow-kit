@@ -26,13 +26,19 @@ Base requests and results remain version `ddd-routing-v1`. A request has one sta
 
 The optional `ddd-implementation-gate-v1` extension is carried under `extensions.ddd-implementation-gate-v1` and carries exactly one stable `increment_id`, outcome, in-scope/out-of-scope lists, focused return-on-conflict target, target repository/runtime, baseline revision, accountable implementation owner, acceptance signals, containment, assumptions/questions, typed question dispositions with a unique id, exact issue text (bound to `deferred_questions`/`out_of_scope_questions` with no orphans), impact/owner/action/affected paths/revisit trigger, documentation readiness, increment gate, ratification record naming a human decision owner in its own field (which may name the same or a different person than the implementation owner), and authoritative artifact revisions. An authority revision is `sha256:<64 lowercase hex digits>` over exact artifact UTF-8 bytes plus an explicit list of exact H2 headings. Older routing requests remain readable but cannot produce an implementation handoff.
 
-Read [the protocol](references/orchestration-protocol.md), [the artifact contract](references/artifact-contracts.md), and the examples in [request/result assets](assets/request-result-template.md) before routing.
+Read [the protocol](references/orchestration-protocol.md), [the artifact contract](references/artifact-contracts.md), the examples in [request/result assets](assets/request-result-template.md), and [the index template](assets/ddd-readme-template.md) before routing.
+
+## Guided run
+
+This package is the one user-facing entry point; the five focused stages are internal routing targets, never named by the user. Each invocation is idempotent and resumable: read `docs/ddd/README.md` first when it exists, resume at its recorded current stage, and continue routing through discover, strategic, tactical, adoption, and review in canonical order within that same invocation instead of waiting for a separate turn per stage. Re-running an invocation against unchanged state reproduces the same status rather than repeating completed stage work.
+
+Auto-chaining stops only at a bounded gate: missing evidence, a non-fit result, an invalidation, a malformed result, or `increment_gate: awaiting-ratification`. Surface every stop as the index's single next action so the human's next step is never hidden behind an internal stage name.
 
 ## Lean artifact profile
 
 Before authorization, generate at most the default working set: `README.md`, one selected context, one tactical model, `adoption-plan.md`, and `review.md`. Generate assessment, vision, maps, glossary, extra contexts, or extra models only when a recorded conditional trigger exists. A non-fit flow may stop in the index without downstream artifacts.
 
-The index must state the target outcome, selected context/increment, current stage, `documentation_readiness`, `increment_gate`, blocking decision count and queue, exact next human action, current links, and `not authorized` or the handoff link. Preserve user prose and review-owned sections.
+The index must state a plain-language "what's happening" summary and one plain-language next action, plus the target outcome, selected context/increment, current stage, `documentation_readiness`, `increment_gate`, blocking decision count and queue, exact next human action, current links, and `not authorized` or the handoff link; render the plain-language pair and the machine fields per [the index template](assets/ddd-readme-template.md). Preserve user prose and review-owned sections.
 
 ## Deterministic routing
 

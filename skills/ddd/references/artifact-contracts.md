@@ -2,7 +2,7 @@
 
 ## Index
 
-`docs/ddd/README.md` is mandatory for broad flows and should fit on one screen where practical. It contains target outcome; selected context and increment; current stage; `documentation_readiness`; `increment_gate`; blocking decision count and queue; exact next human action; current artifact links; and `implementation-handoff.md` or `not authorized`.
+`docs/ddd/README.md` is mandatory for broad flows and should fit on one screen where practical. Its Status section leads with a plain-language "what's happening" summary and one plain-language next action, with the machine fields demoted into a collapsible block per [the index template](../assets/ddd-readme-template.md). It contains target outcome; selected context and increment; current stage; `documentation_readiness`; `increment_gate`; blocking decision count and queue; exact next human action; current artifact links; and `implementation-handoff.md` or `not authorized`.
 
 `ddd` owns routing/status and authorization sections. `ddd-review` owns only the README `decision-queue` and `latest-review` markers plus `review.md`; `ddd` preserves those markers. Existing user prose and legacy metadata remain intact.
 

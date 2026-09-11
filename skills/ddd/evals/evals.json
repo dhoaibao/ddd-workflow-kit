@@ -1938,6 +1938,165 @@
       "forbidden_outcomes": [
         "Drop the current artifact inventory"
       ]
+    },
+    {
+      "id": "resume-from-index",
+      "category": "lean contract",
+      "title": "Resume a guided run from the existing index",
+      "prompt": "A user invokes ddd again for the same increment; docs/ddd/README.md already exists and records a later current stage.",
+      "input": {
+        "entry_status": "complete",
+        "request": {
+          "version": "ddd-routing-v1",
+          "stage": "ddd-tactical",
+          "objective": "continue one bounded increment",
+          "scope": "storytelling-experience",
+          "artifacts": [],
+          "evidence": [
+            "existing index evidence"
+          ],
+          "claims": [
+            "proposal: one bounded increment"
+          ],
+          "provenance": [
+            "docs/ddd/README.md"
+          ],
+          "assumptions": [],
+          "open_questions": [],
+          "allowed_paths": [
+            "docs/ddd/"
+          ],
+          "return_to": "ddd"
+        },
+        "existing_index_present": true,
+        "recorded_current_stage": "ddd-tactical",
+        "guided_run": true,
+        "idempotent_reinvocation": true
+      },
+      "expected_outcomes": [
+        "Read docs/ddd/README.md before routing",
+        "Resume at the current stage recorded in the index",
+        "Reproduce the same status on an unchanged re-invocation instead of repeating completed stage work"
+      ],
+      "forbidden_outcomes": [
+        "Ignore the existing index",
+        "Restart discovery when the index already shows a later stage",
+        "Ask the user which stage to run"
+      ]
+    },
+    {
+      "id": "no-stage-naming-required",
+      "category": "lean contract",
+      "title": "Auto-chain every stage within one invocation",
+      "prompt": "A user issues one broad ddd invocation naming only a bounded outcome; the orchestrator must auto-chain discover through review within that single invocation until a bounded stop, without the user naming any stage.",
+      "input": {
+        "entry_status": "complete",
+        "request": {
+          "version": "ddd-routing-v1",
+          "stage": "ddd-discover",
+          "objective": "bound one storytelling increment",
+          "scope": "storytelling-experience",
+          "artifacts": [],
+          "evidence": [
+            "requester outcome"
+          ],
+          "claims": [
+            "proposal: one bounded increment"
+          ],
+          "provenance": [
+            "local request"
+          ],
+          "assumptions": [],
+          "open_questions": [],
+          "allowed_paths": [
+            "docs/ddd/"
+          ],
+          "return_to": "ddd"
+        },
+        "user_named_stage": false,
+        "auto_chain": true,
+        "single_invocation": true,
+        "route_sequence": [
+          "ddd-discover",
+          "ddd-strategic",
+          "ddd-tactical",
+          "ddd-adoption",
+          "ddd-review"
+        ]
+      },
+      "expected_outcomes": [
+        "Auto-chain discover through review within one invocation",
+        "Never require the user to name a stage",
+        "Stop only at a bounded gate such as missing evidence or awaiting-ratification"
+      ],
+      "forbidden_outcomes": [
+        "Ask the user to pick a stage",
+        "Require a separate invocation per stage",
+        "Skip a stage silently"
+      ]
+    },
+    {
+      "id": "markers-preserved-under-new-status-block",
+      "category": "lean contract",
+      "title": "Preserve ownership markers under the plain-language Status block",
+      "prompt": "The index's plain-language Status section and collapsible machine-state block replace the old Workflow status wording, but every ddd-owned and ddd-review-owned marker comment stays byte-for-byte unchanged.",
+      "input": {
+        "entry_status": "complete",
+        "request": {
+          "version": "ddd-routing-v1",
+          "stage": "ddd-review",
+          "objective": "record routing status",
+          "scope": "artifact index",
+          "artifacts": [
+            {
+              "path": "docs/ddd/README.md",
+              "lifecycle": "active",
+              "validation": "validated",
+              "availability": "available"
+            }
+          ],
+          "evidence": [
+            "current routing state"
+          ],
+          "claims": [
+            "fact: markers remain owned"
+          ],
+          "provenance": [
+            "stage contracts"
+          ],
+          "assumptions": [],
+          "open_questions": [],
+          "allowed_paths": [
+            "docs/ddd/README.md"
+          ],
+          "return_to": "ddd"
+        },
+        "markers": [
+          "ddd-owned:outcome:start",
+          "ddd-owned:outcome:end",
+          "ddd-owned:routing-status:start",
+          "ddd-owned:routing-status:end",
+          "ddd-owned:artifact-index:start",
+          "ddd-owned:artifact-index:end",
+          "ddd-review-owned:decision-queue:start",
+          "ddd-review-owned:decision-queue:end",
+          "ddd-owned:authorization:start",
+          "ddd-owned:authorization:end",
+          "ddd-review-owned:latest-review:start",
+          "ddd-review-owned:latest-review:end"
+        ],
+        "markers_byte_preserved": true
+      },
+      "expected_outcomes": [
+        "Preserve every ddd-owned and ddd-review-owned marker comment byte-for-byte",
+        "Add the plain-language Status text and machine-state details block inside the unchanged routing-status marker",
+        "Keep documentation_readiness and increment_gate values inside the machine-state block"
+      ],
+      "forbidden_outcomes": [
+        "Rename or remove an ownership marker",
+        "Move machine state outside its owned marker",
+        "Drop documentation_readiness or increment_gate from the index"
+      ]
     }
   ]
 }

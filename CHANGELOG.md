@@ -7,8 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- A newcomer walkthrough, `docs/getting-started.md`, describing the single `ddd` entry point end to end (install, first run, the two decision moments, the opt-in implementation package, and the machine-state fields that matter), linked from `README.md`.
+
 ### Changed
 
+- Made `ddd` behave as one idempotent, resumable, auto-chaining entry point instead of a per-stage router the user must invoke stage by stage: it now reads `docs/ddd/README.md` first, resumes at the recorded stage, and auto-chains discover through review within one invocation, stopping only at a bounded gate (`skills/ddd/SKILL.md`'s new "Guided run" section, `references/orchestration-protocol.md`'s "Normal transitions", and `docs/skill-design/workflows.md`'s new "Guided run" section).
+- Replaced the index template's machine-only "Workflow status" section with a plain-language "Status" section (`skills/ddd/assets/ddd-readme-template.md`): a human-readable "What's happening"/"Next action" pair up front, with `documentation_readiness`/`increment_gate` and the rest of the machine fields demoted into a collapsible "Machine state" block inside the same unchanged `ddd-owned:routing-status` marker. `skills/ddd/SKILL.md`'s and both `artifact-contracts.md`'s index-content enumerations now name the plain-language pair as a normative index field, not only the template asset, and `SKILL.md` now links the index template. Regenerated the BonVoye-shaped fixture's pre/post `docs/ddd/README.md` to match and updated `scripts/validate-skills.py`'s exact pre-to-post authorization transition assertions accordingly.
+- Documented the five focused stage packages as `ddd`'s internal routing targets rather than separate user entry points in `docs/skill-design/skills-and-routing.md`'s routing table and `README.md`'s "How it works" table, with `README.md` now pointing new users at `docs/getting-started.md` first.
+- Added three new `ddd` eval cases — `resume-from-index`, `no-stage-naming-required`, and `markers-preserved-under-new-status-block` — covering guided-run resumption, no stage naming by the user, and marker byte-preservation under the new Status block.
 - Slimmed `README.md` from 103 to 53 lines by relocating the installer/manager reference material (manager commands, uninstall prompt defaults and automation flag, interactive Project uninstall's registration-row listing, and the full optional-package selection-state explanation) verbatim in substance to a new `docs/installer.md`, leaving a one-clause pointer from README's `--skill` mention.
 
 ## [0.4.0] - 2026-09-11

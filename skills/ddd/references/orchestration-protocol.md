@@ -49,7 +49,7 @@ An authority revision uses `authority-revision-v1`: read the exact artifact as U
 
 ## Normal transitions
 
-Validate the result, copy preserved evidence/claims/provenance/assumptions/questions/allowed paths, apply explicit versioned state updates, merge `changed_artifacts` by path into the prior artifact inventory, and emit one next request. Preserve artifact lifecycle and revision identity. Never emit competing requests or silently fill missing facts.
+Validate the result, copy preserved evidence/claims/provenance/assumptions/questions/allowed paths, apply explicit versioned state updates, merge `changed_artifacts` by path into the prior artifact inventory, and emit one next request. Preserve artifact lifecycle and revision identity. Never emit competing requests or silently fill missing facts. These transitions continue automatically within the same guided-run invocation until a bounded stop; the orchestrator does not wait for a new user turn between stages.
 
 ## Manual fallback
 
