@@ -6,6 +6,8 @@
 
 The plan contains stable `increment_id`; target repository/runtime and baseline revision; target placement (module/package/path in the target repository); intended outcome/change; in/out behavior; accountable implementation owner; dependencies; observable acceptance; stop conditions; and typed question dispositions with impact, owner, action, affected paths, and revisit trigger. Add material risk/containment and an architecture-fit note only when their recorded triggers exist; later increments are hypotheses without exhaustive tables.
 
+Baseline revision requires an existing git repository with at least one commit. For a greenfield target with zero commits, this is a bounded stop: ask the operator to create the first commit (typically the one holding the ratified DDD artifacts) and record its exact revision, never a sentinel placeholder.
+
 Adoption emits `ddd-implementation-gate-v1` as a result extension with target, baseline, implementation owner, outcome/scope/return contract, acceptance, conditional containment, question dispositions, readiness, gate, and authority revisions. `ddd` carries it and performs human ratification; it never authorizes execution here.
 
 ## Safe and legacy behavior

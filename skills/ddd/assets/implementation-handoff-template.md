@@ -1,6 +1,6 @@
 # Implementation handoff
 
-This artifact is owned by `ddd` and is valid only after explicit human authorization for one increment. It is the sole implementation entry point. Do not create it for `current`, `ready`, or `awaiting-ratification` without the complete ratification record. `authority-revision-v1` is `sha256:<64 lowercase hex digits>` over exact artifact UTF-8 bytes; each `sections` value is an exact H2 heading and both digest and heading presence are checked.
+This artifact is owned by `ddd` and is valid only after explicit human authorization for one increment. It is the sole implementation entry point. Do not create it for `current`, `ready`, or `awaiting-ratification` without the complete ratification record. `authority-revision-v1` is `sha256:<64 lowercase hex digits>` over exact artifact UTF-8 bytes; each `sections` value is an exact H2 heading and both digest and heading presence are checked. Every `sections` entry is quoted: an unquoted flow-list entry with an internal comma (a real H2 heading can contain one, e.g. "Commands, rules, and transitions") silently mis-splits under a YAML parser.
 
 ```yaml
 version: implementation-handoff-v1
@@ -19,15 +19,15 @@ target:
   placement: module/package/path in the target repository
 authoritative_artifacts:
   - path: docs/ddd/adoption-plan.md
-    sections: [Increment identity and outcome, Dependencies and acceptance]
+    sections: ["Increment identity and outcome", "Dependencies and acceptance"]
     revision: sha256:<64 lowercase hex digits>
     role: scope-and-delivery
   - path: docs/ddd/models/storytelling-experience.md
-    sections: [Outcome and examples, Commands, rules, and transitions, Invariants and current-versus-desired delta]
+    sections: ["Outcome and examples", "Commands, rules, and transitions", "Invariants and current-versus-desired delta"]
     revision: sha256:<64 lowercase hex digits>
     role: behavior
   - path: docs/ddd/contexts/storytelling-experience.md
-    sections: [Purpose and boundary, Key terms and scenarios]
+    sections: ["Purpose and boundary", "Key terms and scenarios"]
     revision: sha256:<64 lowercase hex digits>
     role: boundary
 in_scope: [one named behavior]

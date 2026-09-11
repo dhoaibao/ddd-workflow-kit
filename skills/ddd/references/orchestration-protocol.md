@@ -45,6 +45,8 @@ The extension is scoped to one increment and is carried under `extensions.ddd-im
 
 An authority revision uses `authority-revision-v1`: read the exact artifact as UTF-8 bytes, compute lowercase SHA-256, and serialize `revision` as `sha256:<64 lowercase hex digits>`. `sections` lists the exact H2 headings used by the authority. Consumers require both a matching digest and every listed heading; the repository baseline revision is a separate target field. Uncommitted artifacts therefore remain portable and comparable.
 
+`target.baseline_revision` is always an exact revision in an existing git repository with at least one commit, never a sentinel like `none` or `uninitialized`. A greenfield target has no commits until one is made; `ddd-adoption` stops and asks the operator to create the first commit (typically the one holding the ratified DDD artifacts) rather than inventing or omitting the value.
+
 ## Normal transitions
 
 Validate the result, copy preserved evidence/claims/provenance/assumptions/questions/allowed paths, apply explicit versioned state updates, merge `changed_artifacts` by path into the prior artifact inventory, and emit one next request. Preserve artifact lifecycle and revision identity. Never emit competing requests or silently fill missing facts.

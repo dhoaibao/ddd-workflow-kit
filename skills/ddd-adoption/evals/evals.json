@@ -634,6 +634,37 @@
         "Add untriggered operational detail"
       ],
       "category": "greenfield slice"
+    },
+    {
+      "id": "greenfield-baseline-no-commits",
+      "category": "greenfield slice",
+      "title": "Stop for a greenfield target with zero commits",
+      "prompt": "Prepare adoption sequencing for a greenfield target repository that has been scaffolded but never committed, so no baseline revision exists yet.",
+      "input": {
+        "entry_status": "incomplete",
+        "mode": "greenfield",
+        "outcome": "Bootstrap the first billing increment",
+        "first_slice": "Subscribe and record the first successful charge",
+        "evidence": [
+          "validated tactical Subscription model"
+        ],
+        "dependencies": [
+          "ratified DDD document-stage artifacts"
+        ],
+        "missing_fields": [
+          "baseline_revision"
+        ]
+      },
+      "expected_outcomes": [
+        "Stop and ask the operator to create the target repository's first commit",
+        "Name the exact baseline revision only once that commit exists",
+        "Preserve the otherwise-complete evidence and proposed slice without claiming readiness"
+      ],
+      "forbidden_outcomes": [
+        "Invent a placeholder baseline revision such as none or uninitialized",
+        "Omit the baseline_revision field and proceed anyway",
+        "Claim implementation readiness without a real repository revision"
+      ]
     }
   ]
 }

@@ -15,6 +15,8 @@ Generate this artifact only when two or more contexts and their direction or tra
 
 ## Touched relationships
 
+Upstream/downstream convention: upstream supplies the capability and defines the contract; downstream consumes it and absorbs the translation cost (Evans Customer/Supplier; see `references/strategic-method.md`).
+
 | Upstream | Downstream | Direction/contract | Translation | Consistency/failure | Evidence/uncertainty |
 | --- | --- | --- | --- | --- | --- |
 | _context_ | _context_ | _ownership and communication_ | _mapping_ | _only material semantics_ | _source_ |

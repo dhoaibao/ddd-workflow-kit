@@ -167,13 +167,35 @@ testpaths = ["tests"]
 [tool.ruff]
 line-length = 100
 target-version = "py312"
+extend-exclude = ["migrations/versions"]   # generated Alembic output; the
+                                            # kit excludes its own equivalent
+                                            # directory the same way
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["B008"]  # Depends() in default args is the FastAPI convention
 ```
+
+`select`/`ignore` live under `[tool.ruff.lint]`, not the deprecated top-level `[tool.ruff]` keys — current `ruff` warns on the deprecated form, and the kit's own `pyproject.toml` already uses `[tool.ruff.lint]`. Without `B008` ignored, every FastAPI route using `Depends(...)` as a default argument (the pattern this skeleton and [the domain skeleton](domain-skeleton.md) both use throughout) is flagged. Without the `migrations/versions/` exclude, hand-written Alembic migration files (see "Migration run order" above) are linted/format-checked as if they were hand-authored source, when nothing in this skeleton asks anyone to keep generated migration files ruff-clean by hand; the kit answers this the same way for its own generated migrations (`extend-exclude` in its `pyproject.toml`), and this skeleton follows that same answer rather than a scoped `ruff check src` invocation that would leave the directory permanently unchecked.
 
 Every floor above except `pydantic-settings`, `uvicorn`, and `uv_build` is copied from the kit's own `pyproject.toml` (`fastapi>=0.115`, `sqlalchemy[asyncio]>=2.0.36`, `asyncpg>=0.30`, `alembic>=1.14`, and the whole `dev` group); `pydantic-settings`/`uvicorn` have no kit floor to copy from because the kit does not depend on either, so treat them as unverified and confirm current minimums before bootstrapping rather than trusting the number shown here.
 
 `[build-system] requires` is shown as `uv_build>=<installed-uv-version>,<next-minor>` rather than a literal pin: `uv init` generates the build-backend floor from the `uv` version that runs it, not from the kit's own pin, so the correct floor for a given bootstrap run is whatever the locally installed `uv --version` produces — confirm by running `uv init` in a scratch directory first and reading the generated `pyproject.toml` rather than copying a version number out of this document or the kit's `pyproject.toml`.
 
 Initialize and manage this with `uv` (`uv init`, which produces the `src/` layout and a `uv_build` backend pinned to the locally installed `uv` version; `uv add <dep>`; `uv add --dev <dep>` or `uv add --group dev <dep>`), matching how the kit manages its own dependencies — do not introduce a second, unrelated dependency manager into a kit-based service without an explicit reason recorded in the technical-plan record.
+
+## Verification commands
+
+```bash
+uv run pytest tests/unit                 # no database required
+uv run pytest tests/integration          # requires a configured database
+uv run pytest tests/acceptance           # requires a configured database
+uv run ruff check .
+uv run ruff format --check .
+uv run mypy src                          # not `mypy src tests`
+```
+
+`mypy --strict` (set in `[tool.mypy]` above) runs against `src` only. Widening the invocation to `mypy --strict src tests` fails on this skeleton's own layout with mypy's duplicate-module error (`Duplicate module named "conftest"`): [bootstrap reference item 5](../references/bootstrap.md) names integration and acceptance as the two DB-backed test tiers, and once both have their own `conftest.py` with no `__init__.py` anywhere under `tests/` and no `explicit_package_bases` configured, mypy cannot tell the two `conftest.py` modules apart — a layout consequence, not a defect in the code being checked. Either add `__init__.py` to each test-tier directory or pass `--explicit-package-bases` if `tests/` needs to be included; do not treat the resulting error as a code problem to chase.
 
 ## Non-negotiable rules
 

@@ -84,6 +84,8 @@ Require selected outcome; success/failure examples; commands/use cases; rules/in
 
 Require stable `increment_id`; repository/runtime and baseline; target placement (module/package/path in the target repository); intended outcome and concrete change; in/out scope; accountable implementation owner; dependencies; observable acceptance; and stop conditions. Add material risk/containment, a decision queue, an architecture-fit note, and accepted/deferred questions only when their recorded triggers affect this increment. Later increments are hypotheses.
 
+Baseline revision requires an existing git repository with at least one commit; it is never a sentinel like `none` or `uninitialized`. A greenfield target with zero commits is a bounded stop: `ddd-adoption` asks the operator to create the first commit (typically the one holding the ratified DDD artifacts) and records its exact revision.
+
 ### Review
 
 Review runs all relevant checks internally but emits exceptions only. It reports one increment and authority set; `documentation_readiness`; `increment_gate`; blocking/invalidating/decision-required findings; relevant accepted/deferred/out-of-scope items; earliest-owner routing; and one exact next action. Passed checks are one sentence, not a repeated gate table.
@@ -134,7 +136,7 @@ Each disposition's `status` is legal only for its `disposition`, exactly as foll
 
 A disposition `id` is unique within the gate. `blocking`, `invalidating`, and `decision-required` items must reach `resolved` before the gate can be `awaiting-ratification` or `authorized`.
 
-`implementation-handoff-v1` is owned by `ddd` at `docs/ddd/implementation-handoff.md` and is created only after `increment_gate: authorized` plus explicit authorization. It references exact authoritative sections and revisions rather than copying them. `authority-revision-v1` is `sha256:<64 lowercase hex digits>` computed over exact artifact UTF-8 bytes; `sections` lists exact H2 headings and consumers require both the digest and headings to match. The target baseline revision is separate.
+`implementation-handoff-v1` is owned by `ddd` at `docs/ddd/implementation-handoff.md` and is created only after `increment_gate: authorized` plus explicit authorization. It references exact authoritative sections and revisions rather than copying them. `authority-revision-v1` is `sha256:<64 lowercase hex digits>` computed over exact artifact UTF-8 bytes; `sections` lists exact H2 headings and consumers require both the digest and headings to match. Every `sections` entry is quoted: an unquoted flow-list entry with an internal comma (a real H2 heading can contain one) silently mis-splits under a YAML parser. The target baseline revision is separate.
 
 ```yaml
 version: implementation-handoff-v1
@@ -153,7 +155,7 @@ target:
   placement: module/package/path in the target repository
 authoritative_artifacts:
   - path: docs/ddd/adoption-plan.md
-    sections: [Increment identity and outcome, Dependencies and acceptance]
+    sections: ["Increment identity and outcome", "Dependencies and acceptance"]
     revision: sha256:<64 lowercase hex digits>
     role: scope-and-delivery
 in_scope: [one named behavior]

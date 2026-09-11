@@ -16,12 +16,16 @@ Adoption owns only `docs/ddd/adoption-plan.md`. It never executes migrations, ed
 ## One-increment workflow
 
 1. Assign a stable `increment_id`.
-2. Name target repository/runtime and exact baseline revision before implementation readiness.
+2. Name target repository/runtime and exact baseline revision before implementation readiness. A greenfield target must first become a git repository with at least one commit (the revision holding its ratified DDD artifacts); with no commits, stop and ask the operator to create one, since baseline revision is never invented, omitted, or back-dated and creating that first commit is an operator action, not a skill action.
 3. State intended outcome, concrete change, in-scope and excluded behavior.
 4. Name accountable implementation owner, dependencies, observable acceptance signals, and stop conditions; add material risk and containment/rollback only when a trigger exists.
 5. Classify questions as `blocking`, `invalidating`, `decision-required`, `accepted-assumption`, `deferred`, `out-of-scope`, or `resolved`; retain impact and revisit trigger.
 6. Keep later increments short hypotheses.
 7. Emit the `ddd-implementation-gate-v1` result extension and exactly one `ddd-review` request only when the candidate is complete; `ddd` carries the extension and performs ratification/authorization. Never claim authorization.
+
+## Greenfield baseline
+
+A target repository must exist as a git repository with at least one commit before a baseline revision can be recorded. A brand-new target has no product history to reconcile with, but it still needs an exact revision: the commit containing the ratified DDD artifacts that authorize the increment (for example, the revision produced immediately after human ratification, before any implementation file exists). If the target has zero commits, this is a bounded stop: ask the operator to create the first commit, then record its exact revision. Never substitute a sentinel value (`none`, `uninitialized`, or similar) for a missing baseline.
 
 ## Brownfield and trigger depth
 

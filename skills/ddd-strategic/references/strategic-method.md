@@ -12,6 +12,8 @@ Use coherent language, policy, lifecycle, decision ownership, and consistency ne
 
 For each touched relationship record upstream/downstream direction, contract/communication, translation responsibility, consistency/failure assumption, and evidence. Avoid mechanical relationship labels.
 
+Upstream/downstream convention (Evans Customer/Supplier): the upstream context supplies the capability and defines the contract; the downstream context consumes it and absorbs the translation cost, considering the downstream's needs in its own planning. Direction follows who defines the contract and who adapts to it, not deployment order, call direction, or which context is "bigger".
+
 ## Conditional depth
 
 Generate maps, glossary, and additional context files only when a current relationship, classification decision, or language conflict requires them. A single-context slice should not generate unrelated documents.

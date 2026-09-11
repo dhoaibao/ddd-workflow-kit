@@ -1576,6 +1576,55 @@ def validate_materialized_fixture() -> None:
             fail(f"{report_path}: deterministic oracle mismatch for {case['id']}")
 
 
+HANDOFF_TEMPLATE_SECTION_TARGETS = (
+    (re.compile(r"/adoption-plan\.md$"), ("ddd-adoption", "adoption-plan-template.md")),
+    (re.compile(r"/models/[^/]+\.md$"), ("ddd-tactical", "context-model-template.md")),
+    (re.compile(r"/contexts/[^/]+\.md$"), ("ddd-strategic", "context-template.md")),
+)
+
+
+def validate_handoff_template_sections() -> None:
+    """Regression gate for F-B2: the implementation-handoff-v1 template's own
+    illustrative ``sections`` YAML, not only a materialized fixture, must
+    list real H2 headings of the stage template each authoritative artifact
+    corresponds to. A prior version used an unquoted flow-list whose
+    comma-bearing heading silently mis-split under a YAML parser and was
+    never checked against real content because coverage only ever validated
+    a pre-fixed fixture -- this closes that gap by checking the template
+    itself, the artifact a real run actually copies."""
+    template_path = SKILLS_ROOT / "ddd" / "assets" / "implementation-handoff-template.md"
+    text = template_path.read_text(encoding="utf-8")
+    artifact_count = len(re.findall(r"^  - path: \S+", text, flags=re.MULTILINE))
+    entries = re.findall(r"- path: (\S+)\s*\n\s*sections: \[(.*?)\]", text)
+    if not entries:
+        fail(f"{template_path}: no authoritative_artifacts sections entries found to validate")
+        return
+    if len(entries) != artifact_count:
+        fail(f"{template_path}: found {artifact_count} authoritative_artifacts entries but only matched {len(entries)} single-line sections values (a multi-line or reformatted sections list would be silently skipped)")
+        return
+    for path_value, raw_sections in entries:
+        target = next(
+            (
+                SKILLS_ROOT / skill_name / "assets" / asset_name
+                for pattern, (skill_name, asset_name) in HANDOFF_TEMPLATE_SECTION_TARGETS
+                if pattern.search(path_value)
+            ),
+            None,
+        )
+        if target is None:
+            fail(f"{template_path}: unrecognized authoritative artifact path pattern: {path_value}")
+            continue
+        quoted_sections = re.findall(r'"([^"]*)"', raw_sections)
+        unquoted_remainder = re.sub(r'"[^"]*"', "", raw_sections).replace(",", "").strip()
+        if not quoted_sections or unquoted_remainder:
+            fail(f"{template_path}: sections for {path_value} must be double-quoted YAML flow-list entries, not {raw_sections!r}")
+            continue
+        headings = set(re.findall(r"^##\s+(.+)$", target.read_text(encoding="utf-8"), flags=re.MULTILINE))
+        missing = [section for section in quoted_sections if section not in headings]
+        if missing:
+            fail(f"{template_path}: sections for {path_value} are not real H2 headings of {target}: {missing}")
+
+
 def validate_forbidden_runtime_references() -> None:
     for path in sorted((ROOT / "skills").rglob("*")):
         if not path.is_file() or path.suffix not in {".md", ".json"}:
@@ -1685,6 +1734,7 @@ def main() -> int:
         validate_lean_contracts()
         validate_sanitized_fixture()
         validate_materialized_fixture()
+        validate_handoff_template_sections()
         validate_active_plan_handoff_reference()
         validate_repository_markdown()
         validate_forbidden_runtime_references()
