@@ -21,7 +21,7 @@ bash "$ROOT/install.sh" --source-dir "$ROOT" --agent pi --global
 assert [ -L "$HOME/.pi/agent/skills/ddd" ]
 assert [ -x "$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" ]
 assert [ -x "$HOME/.ddd-workflow-kit/bin/install.sh" ]
-assert [ "$("$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" version)" = 0.4.0 ]
+assert [ "$("$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" version)" = 0.5.0 ]
 
 printf '2. project path with spaces, multi-agent selection, and deduplication\n'
 PROJECT="$TMP/project with spaces"
@@ -78,7 +78,7 @@ assert [ -f "$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" ]
 # The injected backup failure above made this update fail, so VERSION must
 # still be the real, pre-update, $ROOT-sourced version -- not SOURCE2's
 # fixed fixture value below, which is only ever reached by a completed update.
-assert [ "$(cat "$HOME/.ddd-workflow-kit/VERSION")" = 0.4.0 ]
+assert [ "$(cat "$HOME/.ddd-workflow-kit/VERSION")" = 0.5.0 ]
 assert [ "$(readlink "$HOME/.pi/agent/skills/ddd")" = "$HOME/.ddd-workflow-kit/skills/ddd" ]
 SIGNAL_BIN="$TMP/signal-mv"
 mkdir -p "$SIGNAL_BIN"
