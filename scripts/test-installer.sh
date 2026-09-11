@@ -21,7 +21,7 @@ bash "$ROOT/install.sh" --source-dir "$ROOT" --agent pi --global
 assert [ -L "$HOME/.pi/agent/skills/ddd" ]
 assert [ -x "$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" ]
 assert [ -x "$HOME/.ddd-workflow-kit/bin/install.sh" ]
-assert [ "$("$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" version)" = 0.3.0 ]
+assert [ "$("$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" version)" = 0.4.0 ]
 
 printf '2. project path with spaces, multi-agent selection, and deduplication\n'
 PROJECT="$TMP/project with spaces"
@@ -52,6 +52,11 @@ printf '4. update reconciliation and deleted-link safety\n'
 SOURCE2="$TMP/source-v2"
 cp -R "$ROOT" "$SOURCE2"
 rm -rf "$SOURCE2/skills/ddd-tactical"
+# Deliberately a fixed, different-from-$ROOT version, not the current release:
+# this exercises --update actually overwriting VERSION with the source's
+# declared value. Keep this literal independent of $ROOT/VERSION at every
+# release; bumping it in lockstep would make the just-installed and
+# just-updated-to versions identical and silently stop testing that path.
 printf '0.3.0\n' > "$SOURCE2/VERSION"
 REAL_CP=$(command -v cp)
 FAIL_BIN="$TMP/failing-cp"
@@ -70,7 +75,10 @@ fi
 assert [ -d "$HOME/.ddd-workflow-kit/skills/ddd" ]
 assert [ -f "$HOME/.ddd-workflow-kit/manifest.json" ]
 assert [ -f "$HOME/.ddd-workflow-kit/bin/ddd-workflow-kit" ]
-assert [ "$(cat "$HOME/.ddd-workflow-kit/VERSION")" = 0.3.0 ]
+# The injected backup failure above made this update fail, so VERSION must
+# still be the real, pre-update, $ROOT-sourced version -- not SOURCE2's
+# fixed fixture value below, which is only ever reached by a completed update.
+assert [ "$(cat "$HOME/.ddd-workflow-kit/VERSION")" = 0.4.0 ]
 assert [ "$(readlink "$HOME/.pi/agent/skills/ddd")" = "$HOME/.ddd-workflow-kit/skills/ddd" ]
 SIGNAL_BIN="$TMP/signal-mv"
 mkdir -p "$SIGNAL_BIN"

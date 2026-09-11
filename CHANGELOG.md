@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-09-11
+
 ### Added
 
 - A new `implementation`-class package, `ddd-impl-fastapi-hdx`, the suite's first code-writing package: it consumes a ratified `docs/ddd/implementation-handoff.md`, verifies its authorization/authority revisions/required headings, implements one ratified increment as target-project FastAPI/`hdx-domain-kit` domain code and tests, gates migrations/composition-root edits/dependency changes on explicit per-run approval, and owns exactly one target-project artifact, `docs/ddd/implementation/<increment-id>.md`. It is opt-in; the six existing packages remain the default install.
@@ -80,7 +82,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deterministic package validation via `scripts/validate-skills.py` and a recorded suite of 59 evaluation cases (29 phase-0 carried forward, 30 phase-4 live), with documented limitations: static validation covers repository conventions only and live results are model- and host-dependent.
 - A checksum-verified `curl` installer that downloads a release into a versioned cache at `~/.ddd-workflow-kit/skills` and symlinks packages into agent skill directories, a `ddd-workflow-kit` manager with `install`, `update`, and `version` commands, and tag-triggered release automation.
 
-[Unreleased]: https://github.com/dhoaibao/ddd-workflow-kit/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/dhoaibao/ddd-workflow-kit/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/dhoaibao/ddd-workflow-kit/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/dhoaibao/ddd-workflow-kit/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/dhoaibao/ddd-workflow-kit/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/dhoaibao/ddd-workflow-kit/compare/v0.1.1...v0.1.2
